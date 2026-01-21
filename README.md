@@ -63,7 +63,15 @@ statistics_question_bank/
 - **Section Switcher**: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Mobile Optimized**: Responsive design with touch-friendly controls
-- **Math Rendering**: Beautiful mathematical notation using MathJax
+- **Math Rendering**: Beautiful mathematical notation using MathJax with MJXZERO font family
+- **Color-Coded Interface**: Vibrant color scheme for easy visual distinction:
+  - **Headers**: Indigo (`#6366f1`) for main titles, Emerald (`#10b981`) for subtitles
+  - **Meta Controls**: Purple labels (`#8d1bf7`) and green values (`#3dbb0d`)
+  - **Questions**: Teal numbers (`#14b8a6`), purple text (`#b10fec`), green topic badges (`#3dbb0d`)
+  - **Options**: Red text (`#dc0909`) with darker red labels (`#a00606`)
+  - **Tables**: Indigo headers with alternating row colors
+  - **Context**: Amber/orange (`#f59e0b`) for setup paragraphs
+- **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 
 ## 📋 Instructions for Extracting Questions
@@ -95,9 +103,7 @@ You can copy the base HTML structure from an existing year file and modify it.
 </head>
 <body>
 <div class="year-section">
-    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">
-        ISS YYYY: Statistics Paper I - [SECTION NAME HERE]
-    </h2>
+    <h2>ISS YYYY: Statistics Paper I - [SECTION NAME HERE]</h2>
 
     <!-- Question cards go here -->
     
@@ -106,7 +112,9 @@ You can copy the base HTML structure from an existing year file and modify it.
 </html>
 ```
 
-**Note**: The CSS path `../../../styles.css` is relative to the subfolder structure. Since question files are in `extracted_htmls/stats_paper_1/[Section]/`, the path goes up three levels (`[Section]/` → `stats_paper_1/` → `extracted_htmls/` → `statistics_question_bank/`) to reach `styles.css` in the `statistics_question_bank/` directory.
+**Notes**: 
+- The CSS path `../../../styles.css` is relative to the subfolder structure. Since question files are in `extracted_htmls/stats_paper_1/[Section]/`, the path goes up three levels (`[Section]/` → `stats_paper_1/` → `extracted_htmls/` → `statistics_question_bank/`) to reach `styles.css` in the `statistics_question_bank/` directory.
+- The `<h2>` tag styling is handled by CSS class `.year-section h2` - no inline styles needed. The header will automatically have indigo color (`#6366f1`), center alignment, and a bottom border.
 
 ### Step 4: Format Each Question
 
@@ -215,17 +223,19 @@ For **each section file** and each year:
 
 ## 🎨 CSS Classes Reference
 
-- `.question-card`: Container for each question
-- `.q-header`: Header section with question number and topic
-- `.q-number`: Question number styling
-- `.q-topic`: Topic tag styling (blue badge)
-- `.q-text`: Main question text
-- `.q-context`: Context/setup text for multi-part questions
-- `.q-table`: Container for tables within questions (wrap `<table>` in `<div class="q-table">`)
+- `.question-card`: Container for each question with white background and subtle shadow
+- `.q-header`: Header section with question number and topic badge
+- `.q-number`: Question number styling (teal color: `#14b8a6`)
+- `.q-topic`: Topic tag styling (green badge with light gray background: `#3dbb0d`)
+- `.q-text`: Main question text (purple color: `#b10fec`, x-large font size, MJXZERO font family)
+- `.q-context`: Context/setup text for multi-part questions (amber/orange color: `#f59e0b`, larger font size, light amber background)
+- `.q-table`: Enhanced table container with indigo headers, alternating row colors, and rounded corners
 - `.options-grid`: Grid layout for answer options (2 columns on desktop, 1 column on mobile)
-- `.option-item`: Individual option styling
-- `.opt-label`: Option label (a, b, c, d) styling
+- `.option-item`: Individual option styling (red text: `#dc0909`, larger font size)
+- `.opt-label`: Option label (a, b, c, d) styling (darker red: `#a00606`, bold)
 - `.year-section`: Container for all questions of a year
+- `.meta-label`: Section/Year label text (purple: `#8d1bf7`)
+- `.meta-value`: Section/Year value text (green: `#3dbb0d`)
 
 ## 📝 Checklist for Adding a New Year
 
@@ -244,11 +254,17 @@ For **each section file** and each year:
 
 ## 🔧 Technical Details
 
-- **Math Rendering**: MathJax 3.x is used for rendering mathematical notation
+- **Math Rendering**: MathJax 3.x is used for rendering mathematical notation with MJXZERO font family for question text
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
   - Responsive tables with horizontal scroll on mobile
+  - Full-width layout (no max-width constraint) for better screen utilization
+- **Typography**:
+  - Question text: `x-large` font size with MJXZERO font family
+  - Context text: `larger` font size
+  - Option items: `larger` font size for better readability
+- **Color Scheme**: Vibrant, color-coded interface for visual distinction (see Features section above)
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: 
   - Desktop (`file://`): Uses iframe (works natively)
@@ -300,6 +316,7 @@ For **each section file** and each year:
 ### Tables not displaying correctly?
 - Make sure tables are wrapped in `<div class="q-table">` (not on the `<table>` itself)
 - Check that table structure is valid HTML
+- Tables feature enhanced styling with indigo headers (`#6366f1`), alternating row colors, and hover effects
 
 ## 📚 Example Question Structure
 
@@ -347,4 +364,4 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025 - Mobile optimized with hybrid loading system
+**Last Updated**: 2025 - Enhanced color scheme, typography improvements, and styled tables with vibrant visual design

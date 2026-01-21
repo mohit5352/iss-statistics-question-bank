@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="year-section">
-    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2018: Statistics Paper I - Numerical Analysis</h2>
+    <h2>ISS 2018: Statistics Paper I - Numerical Analysis</h2>
 
     <div class="question-card">
         <div class="q-header"><span class="q-number">41.</span><span class="q-topic">[Interpolation]</span></div>
@@ -70,8 +70,10 @@
         <div class="q-header"><span class="q-number">46.</span><span class="q-topic">[Missing Terms]</span></div>
         <div class="q-text">Consider the following table:</div>
         <div class="q-table">
-          {/* Fix: Wrapped LaTeX in strings to avoid JSX parsing issues */}
-          <table><tbody><tr><th>x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>f(x)</th><td>2</td><td>5</td><td>7</td><td>{"\\(\\alpha\\)"}</td><td>32</td></tr></tbody></table>
+          <table>
+            <tr><td>x</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+            <tr><td>f(x)</td><td>2</td><td>5</td><td>7</td><td>\( \alpha \)</td><td>32</td></tr>
+          </table>
         </div>
         <div class="q-text">{"The missing term \\(\\alpha\\) in the above table is"}</div>
         <div class="options-grid">
@@ -119,7 +121,10 @@
         <div class="q-header"><span class="q-number">50.</span><span class="q-topic">[Interpolation]</span></div>
         <div class="q-text">The following table gives the population (in lakhs) of a town in certain years:</div>
         <div class="q-table">
-          <table><tbody><tr><th>Year</th><td>1971</td><td>1981</td><td>1991</td><td>2001</td><td>2011</td></tr><tr><th>Population</th><td>0.9</td><td>1.2</td><td>1.5</td><td>1.9</td><td>2.5</td></tr></tbody></table>
+          <table>
+            <tr><td>Year</td><td>1971</td><td>1981</td><td>1991</td><td>2001</td><td>2011</td></tr>
+            <tr><td>Population</td><td>0.9</td><td>1.2</td><td>1.5</td><td>1.9</td><td>2.5</td></tr>
+          </table>
         </div>
         {/* Fix: Wrapped LaTeX string to prevent JSX errors with curly braces */}
         <div class="q-text">{"The population \\( P_{2006} \\) (in lakhs) in 2006 is estimated by Newton's forward difference formula. Which one of the following is correct?"}</div>
@@ -136,8 +141,10 @@
         <div class="q-header"><span class="q-number">51.</span><span class="q-topic">[Lagrange Interpolation]</span></div>
         <div class="q-text">Consider the following table :</div>
         <div class="q-table">
-          {/* Fix: Wrapped LaTeX in strings */}
-          <table><tbody><tr><th>x</th><td>2</td><td>3</td><td>{"\\(\\alpha\\)"}</td><td>5</td></tr><tr><th>f(x)</th><td>4</td><td>5</td><td>16</td><td>25</td></tr></tbody></table>
+          <table>
+            <tr><td>x</td><td>2</td><td>3</td><td>\( \alpha \)</td><td>5</td></tr>
+            <tr><td>f(x)</td><td>4</td><td>5</td><td>16</td><td>25</td></tr>
+          </table>
         </div>
         <div class="q-text">{"The missing value \\( \\alpha \\) of the argument in the above table is estimated by Lagrange interpolation formula. Which one of the following is correct?"}</div>
         <div class="options-grid">
@@ -236,7 +243,10 @@
         <div class="q-header"><span class="q-number">59.</span><span class="q-topic">[Polynomial Interpolation]</span></div>
         <div class="q-text">A cubic polynomial takes the following values:</div>
         <div class="q-table">
-          <table><tbody><tr><th>x</th><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><th>f(x)</th><td>1</td><td>0</td><td>1</td><td>10</td></tr></tbody></table>
+          <table>
+            <tr><td>x</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+            <tr><td>f(x)</td><td>1</td><td>0</td><td>1</td><td>10</td></tr>
+          </table>
         </div>
         <div class="q-text">Then f(4) equals</div>
         <div class="options-grid">

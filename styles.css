@@ -3,8 +3,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    max-width: 1000px;
-    margin: 0 auto;
     padding: 20px;
     background-color: #f0f2f5;
 }
@@ -35,13 +33,11 @@ body {
 }
 
 .meta-section {
-    background: rgba(37,99,235,0.06);
-    color: #1d4ed8;
+    background: rgba(15,23,42,0.04);
 }
 
 .meta-year {
     background: rgba(15,23,42,0.04);
-    color: #374151;
 }
 
 .meta-label {
@@ -51,12 +47,14 @@ body {
     font-weight: 600;
     opacity: 0.8;
     line-height: 1.2; /* Tighter line height */
+    color: #8d1bf7;
 }
 
 .meta-value {
     font-size: 0.95rem;
     font-weight: 700;
     line-height: 1.2; /* Tighter line height */
+    color: #3dbb0d;
 }
 
 .meta-line select {
@@ -144,11 +142,19 @@ body {
     }
 
     .q-table table {
-        font-size: 0.85rem;
+        font-size: 0.875rem;
     }
 
     .q-table td {
-        padding: 6px 4px;
+        padding: 8px 10px;
+    }
+
+    .q-table tr:first-child td {
+        padding: 10px;
+    }
+
+    .q-table td:first-child {
+        padding: 10px;
     }
 }
 
@@ -207,15 +213,27 @@ body {
     }
 }
 
-h1, h2 {
-    color: #1a3a5a;
+h1 {
+    color: #6366f1;
     text-align: center;
+}
+
+h2 {
+    color: #10b981;
+    text-align: center;
+}
+
+/* Year section headers in question files */
+.year-section h2 {
+    text-align: center;
+    color: #6366f1;
+    border-bottom: 2px solid #6366f1;
 }
 
 .q-topic {
     display: inline-block;
-    background: #e1f5fe;
-    color: #0288d1;
+    background: #ebf1f4;
+    color: #3dbb0d;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -227,7 +245,7 @@ h1, h2 {
 .question-card {
     border: 1px solid #e0e0e0;
     border-radius: 10px;
-    padding: 20px;
+    padding: 24px;
     margin-bottom: 25px;
     background-color: #ffffff;
     transition: transform 0.2s;
@@ -241,21 +259,56 @@ h1, h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    border-bottom: 1px solid #d1fae5;
+    padding: 12px 16px;
     margin-bottom: 15px;
+    background: #f0fdfa;
+    border-radius: 6px;
+    margin-left: -4px;
+    margin-right: -4px;
+    margin-top: -4px;
 }
 
 .q-number {
     font-weight: bold;
-    color: #2c3e50;
+    color: #14b8a6;
     font-size: 1.1rem;
+}
+
+.q-text {
+    color: #b10fec;
+    font-size: x-large;
+    font-family: 'MJXZERO';
+    background: #faf5ff;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.q-context {
+    color: #f59e0b;
+    font-size: larger;
+    line-height: 1.7;
+    padding: 16px;
+    background: #fffbeb;
+    border-left: 3px solid #f59e0b;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.q-context strong {
+    font-weight: 700;
+    color: #d97706;
 }
 
 .q-table {
     overflow-x: auto;
-    margin: 15px 0;
+    margin: 20px 0;
     -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    border: 1px solid #d1fae5;
 }
 
 .q-table table {
@@ -263,13 +316,74 @@ h1, h2 {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
+/* Header row - Teal to match q-number */
+.q-table tr:first-child td {
+    background: #14b8a6;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 14px 12px;
+    text-align: center;
+    border: 1px solid #0d9488;
+    letter-spacing: 0.02em;
+}
+
+/* First column - Light teal to match q-header background */
+.q-table td:first-child {
+    background: #f0fdfa;
+    color: #0d9488;
+    font-weight: 600;
+    padding: 12px;
+    border: 1px solid #d1fae5;
+    text-align: left;
+}
+
+/* Top-left cell - Darker teal for emphasis */
+.q-table tr:first-child td:first-child {
+    background: #0d9488;
+    color: #ffffff;
+    font-weight: 700;
+    border: 1px solid #0d9488;
+}
+
+/* Data cells - Light purple to match q-text/options background */
 .q-table td {
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid #e9d5ff;
     word-wrap: break-word;
+    background: #faf5ff;
+    color: #1e293b;
+}
+
+/* Alternating rows - White for contrast */
+.q-table tr:nth-child(even) td:not(:first-child) {
+    background: #ffffff;
+    border-color: #e9d5ff;
+}
+
+/* Even row first column - Slightly darker teal */
+.q-table tr:nth-child(even) td:first-child {
+    background: #ecfdf5;
+}
+
+/* Hover effect - Subtle highlight */
+.q-table tr:hover td:not(:first-child) {
+    background: #f3e8ff;
+}
+
+.q-table tr:hover td:first-child {
+    background: #d1fae5;
+}
+
+/* Header row hover - Maintain teal */
+.q-table tr:first-child:hover td {
+    background: #0d9488;
+    color: #ffffff;
 }
 
 .options-grid {
@@ -277,6 +391,9 @@ h1, h2 {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
     margin-top: 20px;
+    background: #faf5ff;
+    padding: 16px;
+    border-radius: 6px;
 }
 
 .option-item {
@@ -285,12 +402,14 @@ h1, h2 {
     border-radius: 6px;
     border: 1px solid #dee2e6;
     display: flex;
+    color: #dc0909;
+    font-size: larger;
 }
 
 .opt-label {
     font-weight: bold;
     margin-right: 10px;
-    color: #d35400;
+    color: #a00606;
 }
 
 @media (max-width: 600px) {
