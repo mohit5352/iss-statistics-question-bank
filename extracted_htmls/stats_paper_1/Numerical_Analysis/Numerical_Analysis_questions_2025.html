@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2025: Statistics Paper I - Numerical Analysis</h2>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">21.</span><span class="q-topic">[Topic: Finite Differences]</span></div>
+        <div class="q-text">What is \(\frac{1}{1-E^{2}}(ab^{x})\) equal to, where \(0 < b < 1\)? (take the interval of differencing to be unity)</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(\frac{ab^{x}}{1-b^{2}}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{ab^{x}}{1-a^{2}}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{ab^{x}}{1-a^{4}}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{ab^{x}}{1-b^{4}}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">22.</span><span class="q-topic">[Topic: Finite Differences]</span></div>
+        <div class="q-text">What is the value of \(\Delta^{5}(\frac{1}{x})\) at \(x=2\)? (take the interval of differencing to be unity)</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> -1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(-\frac{1}{21}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(-\frac{1}{42}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">23.</span><span class="q-topic">[Topic: Divided Differences]</span></div>
+        <div class="q-text">If the 9th divided difference of \(f(x)=\frac{1}{x}\) based on points \(x_{i}=ih\), \(1 \le i \le 10\) is \(\alpha\), then what is the \(10^{th}\) divided difference of \(f(x)\) based on points \(x_{i}=ih\), \(1 \le i \le 11\)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(-\frac{\alpha}{11h}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(-\frac{\alpha}{10h}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{\alpha}{11h}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{\alpha}{10h}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">24.</span><span class="q-topic">[Topic: Numerical Integration]</span></div>
+        <div class="q-text">The Simpson's one-third rule applied to \(\int_{0}^{2}f(x)dx\) gives the value 2, where \(f(1)=0\cdot5\). If trapezoidal rule is applied, then what is the value of \(\int_{0}^{2}f(x)dx\)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 8</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">25.</span><span class="q-topic">[Topic: Simpson's Rule]</span></div>
+        <div class="q-text">Consider the following table:
+            <div class="q-table">
+                <table>
+                    <tr><td>X</td><td>0</td><td>1/4</td><td>1/2</td><td>3/4</td><td>1</td></tr>
+                    <tr><td>f(x)</td><td>1</td><td>4/5</td><td>2/3</td><td>4/7</td><td>1/2</td></tr>
+                </table>
+            </div>
+            Simpson's one-third rule with 4 equal intervals is used to approximate the area bounded by the curve f(x) and x-axis from \(x=0\) to \(x=1\). What is the approximate value of the area?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.6951</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.6944</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.6932</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.70</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">26.</span><span class="q-topic">[Topic: Error Analysis]</span></div>
+        <div class="q-text">Trapezoidal rule is used to find the absolute value of error in evaluating \(\int_{a}^{a+h}f(x)dx\). If the absolute value of error is \(\frac{2}{3}f^{\prime\prime}(\xi)\), \(a < \xi < b\), then what is the value of h?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 8</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">27.</span><span class="q-topic">[Topic: Numerical Integration Theory]</span></div>
+        <div class="q-text">Consider the following statements:
+            <br>I. Trapezoidal rule gives exact result for linear polynomial.
+            <br>II. Trapezoidal rule gives exact result for quadratic polynomial.
+            <br>III. Simpson's one-third rule gives exact result for cubic polynomial.
+            <br>IV. Simpson's one-third rule gives exact result for quadratic polynomial.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I, III and IV</div>
+            <div class="option-item"><span class="opt-label">(b)</span> I and IV only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> II, III and IV</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">28.</span><span class="q-topic">[Topic: Euler's Method]</span></div>
+        <div class="q-text">Forward Euler method is used to find numerical solution \(y_{1}\) at \(x=0\cdot2\) with \(h=0.2\) of the initial value problem \(\frac{dy}{dx}=-2xy^{2}\), \(y(0)=1\). What is \(|y(0\cdot2)-y_{1}|\) approximately equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.0215</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.0385</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.9615</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">29.</span><span class="q-topic">[Topic: Picard's Method]</span></div>
+        <div class="q-text">Picard method is used to find approximate solution \(y^{(1)}(x)\) (first iterate) of initial value problem \(\frac{dy}{dx}=-2xy^{2}\), \(y(0)=1\). What is the value of \(|y^{(1)}(x)-y(x)|\) at \(x=0.2\)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.9915</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.9615</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.0015</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.0005</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header"><span class="q-number">30.</span><span class="q-topic">[Topic: Euler's Method]</span></div>
+        <div class="q-text">If \(y(x)\) is the solution of \(\frac{dy}{dx}=1+x+y\), \(y(0) = 1\) for step \(h=0\cdot1\) by Euler's method, then \(y(0\cdot3)\) is equal to:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.963</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.125</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1.693</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1.963</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">61.</span>
+            <span class="q-topic">[Topic: Finite Differences]</span>
+        </div>
+        <div class="q-text">
+            What is the function whose first difference is \(3x^2 + x + 4\)? (take interval of differencing to be unity)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(x^3 - x^2 + 4x + 2\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(x^3 + x + 2\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(x^3 + x^2 + 8x + 2\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(x^3 - x + 4x + 2\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">62.</span>
+            <span class="q-topic">[Topic: Numerical Differentiation]</span>
+        </div>
+        <div class="q-text">
+            What is forward difference approximation for the second order derivative \(f''(x_i)\) at \(x_i\)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(\frac{f_{i+2} - 2f_{i+1} + f_i}{h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{f_{i-1} - 2f_i + f_{i+1}}{h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{f_{i+1} + 2f_i + f_{i-1}}{h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{f_{i+3} - 2f_{i+2} - f_{i+1}}{h^2}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">63.</span>
+            <span class="q-topic">[Topic: Lagrange's Interpolation]</span>
+        </div>
+        <div class="q-text">
+            Suppose \(f\) is a function such that \(y = f(x) \rightarrow x = g(y)\) and \(f(x)\) is given by 
+            \(f(x) = \frac{(x-b)(x-c)}{(a-b)(a-c)}\alpha + \frac{(x-a)(x-c)}{(b-a)(b-c)}\beta + \frac{(x-a)(x-b)}{(c-a)(c-b)}\gamma\) 
+            where \(a < b < c\) and \(\alpha < \beta < \gamma\) are real numbers. What is \(g(\beta)\) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(a\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\alpha\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(b\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\gamma\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">64.</span>
+            <span class="q-topic">[Topic: Polynomial Interpolation]</span>
+        </div>
+        <div class="q-text">
+            Suppose \(f(x) = x + x^3 + x^5\). If \(g(x)\) is a quadratic polynomial determined using Lagrange's interpolation formula using the fact that \(g(f(0)) = 0, g(f(1)) = 1\) and \(g(f(2)) = 2\), then what is \(g(13)\) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(70/19\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(71/21\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(71/20\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(70/21\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">65.</span>
+            <span class="q-topic">[Topic: Picard's Method]</span>
+        </div>
+        <div class="q-text">
+            If \(y_4(x)\) is the 4th iterate of Picard's approximation for the solution of the initial value problem \(\frac{dy}{dx} = 1 + x^2 + y^2; y(1) = 2\), then what is \(y_4(1)\) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">66.</span>
+            <span class="q-topic">[Topic: Operators]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements in respect of forward and backward operators (\(\Delta\) and \(\nabla\)):
+            <br>I. \(\Delta - \nabla = \Delta \nabla\)
+            <br>II. \(\nabla - \Delta = \nabla \Delta\)
+            <br>III. \(\Delta + \nabla = \frac{\Delta}{\nabla} - \frac{\nabla}{\Delta}\)
+            <br>IV. \(\Delta + \nabla = \Delta \nabla\)
+            <br>Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III</div>
+            <div class="option-item"><span class="opt-label">(d)</span> II and IV</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">67.</span>
+            <span class="q-topic">[Topic: Finite Differences]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \(\Delta^{100}(x^{100})\)? (take interval of differencing to be unity)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(100!\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(100! - 99!\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(100! - 1\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(100! - 99! + 1\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">68.</span>
+            <span class="q-topic">[Topic: Central Difference Operator]</span>
+        </div>
+        <div class="q-text">
+            Consider the following data:
+            <table style="width:100%; border-collapse: collapse; text-align: center; margin-top: 10px;">
+                <tr><th style="border: 1px solid #ddd;">x</th><td style="border: 1px solid #ddd;">6.1</td><td style="border: 1px solid #ddd;">6.2</td><td style="border: 1px solid #ddd;">6.3</td><td style="border: 1px solid #ddd;">6.4</td></tr>
+                <tr><th style="border: 1px solid #ddd;">f(x)</th><td style="border: 1px solid #ddd;">-0.1998</td><td style="border: 1px solid #ddd;">-0.2223</td><td style="border: 1px solid #ddd;">-0.2422</td><td style="border: 1px solid #ddd;">-0.2596</td></tr>
+            </table>
+            What is the approximate value of \(f''(6.3)\) with error \(O(h^2)\) obtained using central difference operator?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.27</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.23</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.21</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">69.</span>
+            <span class="q-topic">[Topic: Numerical Integration]</span>
+        </div>
+        <div class="q-text">
+            What is the approximate value of the integral \(\int_{-1}^{1} x^6 dx\), if it is obtained using the quadrature formula which is exact for polynomials of all small degrees as high as possible?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/9</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2/3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2/9</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">70.</span>
+            <span class="q-topic">[Topic: Lagrange's Interpolation]</span>
+        </div>
+        <div class="q-text">
+            It is given that \(f(0) = 8, f(1) = 11, f(4) = 68\) and \(f(5) = 120\). What is the approximate value of \(f(2)\) if it is obtained by applying Lagrange's interpolation formula?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 16.6</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 17.6</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 18.6</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 19.6</div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2020: Statistics Paper I - Numerical Analysis</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">61.</span>
+            <span class="q-topic">[Topic: Interpolation]</span>
+        </div>
+        <div class="q-text">Suppose we apply some formula to find an interpolation value. Later on, if another interpolation value was inserted, then which method is better to handle without recalculating the whole formula?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Lagrange's formula</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Newton's forward formula</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Newton's divided difference formula</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All methods are same</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">62.</span>
+            <span class="q-topic">[Topic: Numerical Integration]</span>
+        </div>
+        <div class="q-text">In order to solve the integral \( \int_0^1 (1+x) dx \) using numerical integration, which one of the following methods is better to apply?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Trapezoidal rule</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Simpson's one-third rule</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Simpson's three-eighth rule</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Weddle's rule</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">63.</span>
+            <span class="q-topic">[Topic: Finite Differences]</span>
+        </div>
+        <div class="q-text">What is \( \delta^2 y_5 \) equal to? (\( \delta \) is the central difference operator)</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( y_6 - y_5 + y_4 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( y_6 - 2y_5 + y_4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( y_6 + y_5 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( y_6 - 4y_2 + y_3 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">64.</span>
+            <span class="q-topic">[Topic: Differential Equations]</span>
+        </div>
+        <div class="q-text">Suppose \( y(x) \) is the solution of the initial value problem \( \frac{dy}{dx} = x + y \), \( y(0) = 0 \). Euler's method is used to estimate \( y(0.5) \) in five steps. Then the estimated value of \( y(0.5) \) belongs to</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (0, 0.1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (0.1, 0.2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (0.2, 0.3) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (0.3, 0.4) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">65.</span>
+            <span class="q-topic">[Topic: Divided Differences]</span>
+        </div>
+        <div class="q-text">Consider the following statements:
+            <ol>
+                <li>The divided differences are symmetrical in their arguments.</li>
+                <li>The \( n^{\text{th}} \) divided differences of a polynomial of \( n^{\text{th}} \) degree are constant.</li>
+                <li>The divided difference operator is linear.</li>
+            </ol>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">66.</span>
+            <span class="q-topic">[Topic: Operator Relations]</span>
+        </div>
+        <div class="q-text">If \( \delta \) and \( \mu \) are central difference and average operators respectively, then \( \mu \delta \) is equal to</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{2}(\Delta + \nabla) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{2}(\Delta - \nabla) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (\Delta + \nabla) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (\Delta - \nabla) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">67.</span>
+            <span class="q-topic">[Topic: Difference Equations]</span>
+        </div>
+        <div class="q-text">What is \( \frac{1}{(E^2 - 9E + 18)} (12 \times 5^x) \) equal to? (Take interval of differencing to be unity)</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( -6 \times 5^x \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 6 \times 5^x \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( -6^{-1} \times 5^x \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 6^{-1} \times 5^x \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">68.</span>
+            <span class="q-topic">[Topic: Factorial Notation]</span>
+        </div>
+        <div class="q-text">The value of \( (3x+8)^{(4)} \) at \( x=2 \) is given by</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 6160</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 12320</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 13440</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 24024</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">69.</span>
+            <span class="q-topic">[Topic: Inverse Interpolation]</span>
+        </div>
+        <div class="q-text">Consider the following values of \( x \) and \( f(x) \):</div>
+        <div class="q-table">
+            <table>
+                <tr><th>\( x \)</th><td>1</td><td>6</td><td>9</td><td>11</td></tr>
+                <tr><th>\( f(x) \)</th><td>12</td><td>13</td><td>14</td><td>16</td></tr>
+            </table>
+        </div>
+        <div class="q-text">The approximate value of \( x \) for which \( f(x) = 15 \) is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 9.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 10.9</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">70.</span>
+            <span class="q-topic">[Topic: First Difference]</span>
+        </div>
+        <div class="q-text">What is the function whose first difference is \( 9x^2 + 11x + 5 \), with \( h = 1 \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( x^3 + x^2 + x + c \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( x^3 + 2x^2 + 2x + c \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 3x^3 + x^2 + 2x + c \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 3x^3 + x^2 + x + c \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">71.</span>
+            <span class="q-topic">[Topic: Polynomial Interpolation]</span>
+        </div>
+        <div class="q-text">The polynomial of the lowest possible degree (using Newton's divided difference formula), which assumes the values 3, 12, 15 and \( -21 \), when \( x \) has the values 3, 2, 1 and \( -1 \) respectively, is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 27x^3 + 2x^2 - 4x \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( x^3 + 2x^2 - 5x - 27 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( x^3 - 9x^2 + 17x + 6 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( x^3 + 2x^2 - 5x + 17 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">72.</span>
+            <span class="q-topic">[Topic: Divided Differences]</span>
+        </div>
+        <div class="q-text">For the following values of divided difference \( f[4] = 48, f[4, 5] = 52, f[4, 5, 7] = 15 \) and \( f[4, 5, 7, 10] = 1 \). What is the value of \( f(8) \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 148</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 248</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 348</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 448</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">73.</span>
+            <span class="q-topic">[Topic: Simpson's Rule]</span>
+        </div>
+        <div class="q-text">Let \( A = \int_0^{10} x^2 dx \). The value of the integral is computed by Simpson's one-third rule by dividing [0, 10] into 10 equal subdivisions. If \( B \) is the value of the integral thus computed, then \( |A - B| \)</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> is greater than 10</div>
+            <div class="option-item"><span class="opt-label">(b)</span> belongs to (5, 10)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> belongs to (0, 5)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> is 0</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">74.</span>
+            <span class="q-topic">[Topic: Interpolation Methods]</span>
+        </div>
+        <div class="q-text">Given \( f(20) = 512, f(30) = 439, f(40) = 346, f(50) = 243 \). Consider the following statements:
+            <ol>
+                <li>The function \( f(x) \) can be approximated by a polynomial of degree \( n \) where \( n < 2 \).</li>
+                <li>The approximate value of \( f(x) \) for \( x = 10 \) and \( x = 60 \) can be obtained by Newton Gregory forward difference and Newton Gregory backward difference interpolation formulae respectively.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">75.</span>
+            <span class="q-topic">[Topic: Operator Logic]</span>
+        </div>
+        <div class="q-text">Which one of the following is correct?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \Delta \nabla \neq \nabla \Delta \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \Delta E \neq E \Delta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \Delta - E \neq I \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( E - \Delta \neq I \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">76.</span>
+            <span class="q-topic">[Topic: Numerical Integration]</span>
+        </div>
+        <div class="q-text">The integral \( \int_0^1 (3x^2 + 25) dx \) is evaluated by Simpson's one-third rule with \( h = 1/4 \). The value of the integral so obtained is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 23</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 24.56</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 25.33</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 26</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">77.</span>
+            <span class="q-topic">[Topic: Integration Order]</span>
+        </div>
+        <div class="q-text">A numerical integration formula is written as \( \int_{-1}^1 f(x) dx = \frac{1}{2} [f(-1) + cf(1/3)] \). The value of \( c \) such that the method is of highest possible order is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(d)</span> -1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">78.</span>
+            <span class="q-topic">[Topic: Polynomial Fitting]</span>
+        </div>
+        <div class="q-text">The unique polynomial \( p(x) \) of degree 2 such that \( p(1) = 1, p(3) = 27, p(4) = 64 \) obtained by using Newton's divided difference formula is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 8x^2 - 12x + 19 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 8x^2 - 19x + 12 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 12x^2 - 8x - 19 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 12x^2 - 19x + 8 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">79.</span>
+            <span class="q-topic">[Topic: Simpson's Rule]</span>
+        </div>
+        <div class="q-text">A curve is drawn to pass through the points given in the following table:</div>
+        <div class="q-table">
+            <table>
+                <tr><th>\( x \)</th><td>1</td><td>1.5</td><td>2</td><td>2.5</td><td>3</td><td>3.5</td><td>4</td></tr>
+                <tr><th>\( y \)</th><td>2</td><td>2.4</td><td>2.7</td><td>2.8</td><td>3</td><td>2.6</td><td>2.1</td></tr>
+            </table>
+        </div>
+        <div class="q-text">The area bounded by the curve, the x-axis and the lines \( x = 1 \) and \( x = 4 \) obtained by using Simpson's one-third rule is</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 7.81</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 7.78</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 7.74</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 7.72</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">80.</span>
+            <span class="q-topic">[Topic: Operators]</span>
+        </div>
+        <div class="q-text">If \( y = a(3)^x + b(-2)^x \) with increment \( h = 1 \), then \( (\Delta^2 + \Delta - 6)y \) is equal to</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 2x \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 4x \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

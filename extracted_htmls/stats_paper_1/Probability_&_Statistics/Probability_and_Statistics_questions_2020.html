@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2020: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Non-Parametric Tests - Kolmogorov-Smirnov]</span>
+        </div>
+        <div class="q-text">
+            The value of the Kolmogorov-Smirnov statistic to test whether the observations 0.32, 0.16, 0.98, 0.16 and 0.08 arise from a U(0, 2) population is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.16</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.52</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.64</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.76</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Descriptive Statistics - Contingency Tables]</span>
+        </div>
+        <div class="q-text">
+            Given the following contingency table:
+            <table style="width:100%; border-collapse: collapse; margin-top:10px; text-align:center;" border="1">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th>Material Number</th>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                        <th>E</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Leaked</th>
+                        <td>36</td>
+                        <td>22</td>
+                        <td>42</td>
+                        <td>\( X_1 \)</td>
+                        <td>\( X_2 \)</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <th>Not leaked</th>
+                        <td>90</td>
+                        <td>Y</td>
+                        <td>46</td>
+                        <td>78</td>
+                        <td>168</td>
+                        <td>400</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            It is known that column total for material C and D are same. Then values of \( X_1, X_2 \) and Y are respectively:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 66, 34, 18</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 34, 66, 18</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 70, 30, 20</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 30, 70, 20</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Statistical Inference - Clinical Trials]</span>
+        </div>
+        <div class="q-text">
+            In a clinical trial, n randomly chosen persons were enrolled to examine whether two different skin creams, A and B, have different effects on the human body. Cream A was applied to one of the randomly chosen arms of each person, cream B to the other arm. Which statistical test is to be used to examine the difference? [Assume that the response measured is a continuous variable]
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Two-sample Kolmogorov - Smirnov test</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Two-sample t-test if normality can be assumed</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Paired t-test if normality can be assumed</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Test for randomness</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Probability Distributions - F Distribution]</span>
+        </div>
+        <div class="q-text">
+            If \( X \sim F(5,10) \) then consider the following statements:<br>
+            1. \( E(X) > 1 \)<br>
+            2. Mode of \( X > 1 \)<br>
+            Which of the above results is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Non-Parametric Tests - Runs Test]</span>
+        </div>
+        <div class="q-text">
+            In 30 tosses of a coin, the following sequence of heads (H) and tails (T) is obtained:<br>
+            <strong>H T T H T H H H T H H T T H T H T H H T H T T H T H H T H T</strong><br>
+            The number of runs is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 30</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 22</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 20</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 28</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Non-Parametric Inference]</span>
+        </div>
+        <div class="q-text">
+            A manufacturer claims that the lifetime of its product is more than 250 hours. To verify its claim based on 24 randomly observed lifetimes, which one of the following tests can be used?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Sign test</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Mann-Whitney U test</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Median test</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Kolmogorov - Smirnov test</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Probability - Order Statistics]</span>
+        </div>
+        <div class="q-text">
+            If \( X_{(r)} \) is the \( r^{th} \) order statistic in a random sample of size n from a distribution with c.d.f. \( F(x) \) which is continuous, then \( F(X_{(r)}) \) is the \( r^{th} \) order statistic in a random sample of size n from the:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Uniform distribution over (-1, +1)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Uniform distribution over (0, 1)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Normal distribution</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Exponential distribution</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Correlation and Regression - Partial Correlation]</span>
+        </div>
+        <div class="q-text">
+            Let \( r_{ij} \) denote the correlation coefficient between \( X_i \) and \( X_j \) variables. If \( r_{12}=\sin^{2}\theta \), \( r_{13}=\cos\theta \), \( r_{23}=\sin\theta \), where \( -\pi \le \theta \le \pi \), then the partial correlation coefficient \( r_{12.3} \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 2 \csc 2\theta \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( -2 \csc 2\theta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \tan\theta - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2 \cot 2\theta \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Rank Correlation]</span>
+        </div>
+        <div class="q-text">
+            When two judges rank two individuals only, Spearman's rank correlation coefficient can assume the values:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 0 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and -1 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0 and 1 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> -1, 0 and 1</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Order Statistics - Median]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, X_4 \) and \( X_5 \) be five independent observations drawn from a continuous distribution with distribution function \( F(x) \) and probability density function \( f(x) \). What is the probability density function of the sample median?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 5[F(x)]^{4}f(x) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 5[1-F(x)]^{4}f(x) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 5[1-F(x)]^{2}[F(x)]^{2}f(x) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 30[1-F(x)]^{2}[F(x)]^{2}f(x) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Descriptive Statistics - Properties of Mean and SD]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:<br>
+            1. If the original scores in a sample are multiplied by a constant, then mean and standard deviation are also multiplied by the same constant.<br>
+            2. If the original scores in a sample are multiplied by a constant, then standard deviation is multiplied by the absolute constant.<br>
+            3. If a constant number is added to each of the original scores then the new standard deviation remains unchanged.<br>
+Which of the above statements are correct?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Theory of Attributes]</span>
+        </div>
+        <div class="q-text">
+            In the usual notations for attributes, consider the following relations:<br>
+            1. \( (AB) > (A) \)<br>
+            2. \( (AB) < (A) + (B) - N \)<br>
+            3. \( (ABC) > (AB) + (AC) + (BC) - (A) - (B) - (C) + N \)<br>
+Which of the above relations are correct for the inconsistency of data?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Correlation and Regression]</span>
+        </div>
+        <div class="q-text">
+If \( D = X - Y \) and \( S_D^2 = S_X^2 + S_Y^2 \), then the correlation coefficient \( r \) between X and Y is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> greater than zero but not equal to one</div>
+            <div class="option-item"><span class="opt-label">(b)</span> less than zero</div>
+            <div class="option-item"><span class="opt-label">(c)</span> equal to zero</div>
+            <div class="option-item"><span class="opt-label">(d)</span> equal to one</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Correlation Coefficient]</span>
+        </div>
+        <div class="q-text">
+            Let X be a random variable with finite variance \( \sigma^2 \). If \( Y = 20 - X \), then the coefficient of correlation between X and (X + Y)X will be:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> -1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/20</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Bivariate Correlation]</span>
+        </div>
+        <div class="q-text">
+            If the coefficient of correlation in a bivariate set-up is noted to be 0.7, then which of the following statements is/are correct?<br>
+            1. The percentage of variation in the dependent variable explained by the independent variable is 49.<br>
+            2. Both the regression coefficients have positive sign.<br>
+            3. Both the regression coefficients have negative sign.<br>
+Select the correct answer using the code given below:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2 only</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Trivariate Distribution - Partial/Multiple Correlation]</span>
+        </div>
+        <div class="q-text">
+In a trivariate distribution if \( r_{12} = r_{23} = r_{31} = \rho \neq 1 \), then the value of \( R_{1.23} \) is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\rho}{\sqrt{1+\rho}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{\sqrt{1+\rho}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{1+\rho} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\sqrt{2}\rho}{\sqrt{1+\rho}} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Distribution of Functions of Random Variables]</span>
+        </div>
+        <div class="q-text">
+            Let X and Y be independent standard normal random variables. Then the distribution of \( U = (\frac{X-Y}{X+Y})^2 \) is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Chi-square with 2 degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Chi-square with 1 degree of freedom</div>
+            <div class="option-item"><span class="opt-label">(c)</span> F with (2, 2) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(d)</span> F with (1, 1) degrees of freedom</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: F-Distribution - Degrees of Freedom]</span>
+        </div>
+        <div class="q-text">
+The degrees of freedom of the F-statistic to test for equality of the variances of two normal populations with unknown means, when independent samples of sizes 20 and 37 are respectively given from the two, are:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 18 and 35</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 19 and 36</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 20 and 37</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 21 and 38</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Non-Parametric Tests - Sign Test]</span>
+        </div>
+        <div class="q-text">
+            To test whether the upper 60th percentile of a continuous distribution equals 25 or less, the sign test is applied based on a random sample of size 10 and the null hypothesis is rejected if the number of observations larger than 25 is 7 or more. The size of the test, given that \( (0.6)^7 \approx 0.028 \), is approximately:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.04</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.05</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.10</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.38</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Probability - Uniform Distribution]</span>
+        </div>
+        <div class="q-text">
+            Ten (10) runners in a race each has finishing time uniformly distributed in the interval (10, 11) in seconds, independently of each other. The expected time of the winner is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 10\frac{1}{11} \) seconds</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 10\frac{1}{10} \) seconds</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 10\frac{1}{9} \) seconds</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 10\frac{1}{2} \) seconds</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Probability - Combinatorics & Sampling]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:<br>
+            1. If ordered samples of size r are drawn from a population of n elements, then there are \( n(n-1)(n-2)...(n-r+1) \) samples without replacement.<br>
+            2. If n distinguishable balls are to be placed in n cells, then the probability that each cell will be occupied is 1.<br>
+Which of the above statements is/are correct?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Conditional Probability]</span>
+        </div>
+        <div class="q-text">
+            A die is loaded in such a way that each odd number is twice as likely to occur as each even number. Let A be the event that the number rolled is greater than 3 and B be the event that the number rolled is a perfect square. Which of the following results is/are correct?<br>
+            1. \( P(B) = 1/3 \)<br>
+            2. \( P(B|A) = 1/2 \)<br>
+Select the correct answer using the code given below:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Probability Mass Functions]</span>
+        </div>
+        <div class="q-text">
+If \( p(x) = kp^x \), \( x = 0, 2, 4, 6, ... \), where \( 0 < p < 1 \) and for which \( p(x) \) is a probability mass function, then what is the value of k?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 - p \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( p \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1 - p^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( p^2 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Normal Distribution - Linear Combinations]</span>
+        </div>
+        <div class="q-text">
+            Two independent random variables X and Y are both normally distributed with means 1 and 2 and standard deviations 3 and 4 respectively. If \( Z = X - Y \), then consider the following statements:<br>
+            1. Median and standard deviation of Z are -1 and 5 respectively.<br>
+            2. \( P(Z+1 < 0) = 0.5 \)<br>
+Which of the above statements is/are correct?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Distribution Properties - Memoryless Property]</span>
+        </div>
+        <div class="q-text">
+The distributions possessing the lack of memory property are:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Gamma distribution and Beta distribution</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Beta distribution and Geometric distribution</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Geometric distribution and Exponential distribution</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Exponential distribution and Cauchy distribution</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Joint Density Functions]</span>
+        </div>
+        <div class="q-text">
+            The random variables X and Y have the joint distribution given by the p.d.f.<br>
+            \( f(x,y) = \begin{cases} 6(1-x-y), & x > 0, y > 0, x+y < 1 \\ 0, & \text{otherwise} \end{cases} \)<br>
+What is \( P(X \ge 0.4) \) equal to?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.216</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.312</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.35</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Expected Value - Continuous Distribution]</span>
+        </div>
+        <div class="q-text">
+            The mean of the probability density function<br>
+\( f(x) = \begin{cases} 12x^2(1-x), & 0 \le x \le 1 \\ 0, & \text{otherwise} \end{cases} \) is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.6</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.7</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.8</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Moment Generating Functions]</span>
+        </div>
+        <div class="q-text">
+            A random variable Y has the probability density function \( f(y) = \begin{cases} e^y, & y < 0 \\ 0, & \text{otherwise} \end{cases} \). The moment generating function \( M_Y(t) \) of Y is:        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( M_Y(t) = \frac{1}{1-t} \) for \( t < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( M_Y(t) = \frac{1}{1-|t|} \) for all t</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( M_Y(t) = \frac{1}{1+t} \) for all \( t > -1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( M_Y(t) = \frac{1}{1+|t|} \) for all t</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Markov Inequality]</span>
+        </div>
+        <div class="q-text">
+            Let X be a non-negative random variable with finite, non-zero expectation \( \mu \). Which one of the following statements is correct for every \( t > 0 \)?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( P(X \ge t\mu) \ge 1/(t\mu) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( P(X \ge t\mu) \le 1/t \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( P(X \le t\mu) \le 1/(t\mu) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( P(X \le t\mu) \ge 1/t \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Indicator Variables & Joint Probability]</span>
+        </div>
+        <div class="q-text">
+            Consider two events A and B such that \( P(A) = 1/4 \), \( P(B|A) = 1/2 \) and \( P(A|B) = 1/4 \). Define random variable X as \( X=1 \) if event A occurs and 0 otherwise. Define random variable Y as \( Y=1 \) if event B occurs and 0 otherwise. Then consider the following statements:<br>
+            1. \( P(X^2 + Y^2 = 1) = 1/4 \)<br>
+            2. \( P(XY = X^2Y^2) = 1 \)<br>
+Which of the above statements is/are correct?        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            A bivariate normal random vector (X, Y) with \( V(X)=2 \), \( V(Y)=3 \), \( Cov(X, Y)=\alpha \) does not possess a density function. Then:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \alpha=0 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \alpha=\pm\sqrt{6} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( |\alpha|<\sqrt{6} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( |\alpha|>6 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Convergence of Random Variables]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( U \sim U(0,1) \). Then the sequence \( X_{n}=\begin{cases}\sqrt{n} & \text{if } 0 < U < \frac{1}{n^{2}}, n \ge 1 \\ 0, & \text{otherwise} \end{cases} \) converges:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> both with probability one and in mean square</div>
+            <div class="option-item"><span class="opt-label">(b)</span> with probability one but not in mean square</div>
+            <div class="option-item"><span class="opt-label">(c)</span> in mean square but not with probability one</div>
+            <div class="option-item"><span class="opt-label">(d)</span> neither with probability one nor in mean square</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Distribution Functions]</span>
+        </div>
+        <div class="q-text">
+            The function \( F(x)=\begin{cases} 0, & x < 0 \\ x, & 0 \le x < 1 \\ 1-\alpha e^{-(x-1)}, & 1 \le x < 2 \\ 1, & x \ge 2 \end{cases} \) is a distribution function if and only if:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 0 < \alpha < \frac{1}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{2} \le \alpha \le 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 0 \le \alpha \le 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \alpha = \frac{1}{2} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Exponential Distribution]</span>
+        </div>
+        <div class="q-text">
+            The maximum possible probability an exponential distribution with an arbitrary parameter can give to the interval [3, 6] is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/4 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2/3 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Poisson Distribution - PGF]</span>
+        </div>
+        <div class="q-text">
+            If the probability generating function of a Poisson distribution has the value \( e^{-1} \) at \( s = 2/3 \), then the mean of the distribution is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2/3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3/2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Distribution Functions]</span>
+        </div>
+        <div class="q-text">
+            The function \( F(x)=\begin{cases} 0, & x < 0 \\ \frac{x}{3}, & 0 \le x < 2 \\ (1-\alpha)x + 3\alpha - 2, & 2 \le x < 3 \\ 1, & x \ge 3 \end{cases} \) is the distribution function of a continuous random variable:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> for all \( \alpha \in (0,1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> for all \( \alpha \in (\frac{2}{3}, 1) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> for all \( \alpha \in [\frac{2}{3}, 1] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> if and only if \( \alpha = \frac{2}{3} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Joint Distribution Functions]</span>
+        </div>
+        <div class="q-text">
+            The function \( F(x,y) = \begin{cases} \alpha & \text{if } x, y > 0; x+y < 1 \\ 1 & \text{if } x, y > 0; x+y \ge 1 \\ 0 & \text{otherwise} \end{cases} \) is the cumulative distribution function of a random vector (X, Y):
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> for no real value of \( \alpha \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> if and only if \( 0 < \alpha < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> if and only if \( 0 \le \alpha < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> if and only if \( 0 < \alpha \le 1 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Functions of Random Vectors - Transformation]</span>
+        </div>
+        <div class="q-text">
+            If the random vector (X, Y, Z) has density \( f \) on \( \mathbb{R}^{3} \), then the random vector \( (\frac{X+Y}{2}, \frac{Y+Z}{2}, \frac{Z+X}{2}) \) has density given by:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( g(u, v, w) = f(u-v+w, u+v-w, -u+v+w) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( g(u, v, w) = 4f(u-v+w, u+v-w, -u+v+w) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( g(u, v, w) = 4f(\frac{u-v+w}{2}, \frac{u+v-w}{2}, \frac{-u+v+w}{2}) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( g(u, v, w) = 8f(\frac{u-v+w}{2}, \frac{u+v-w}{2}, \frac{-u+v+w}{2}) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Binomial Distribution - Expectation]</span>
+        </div>
+        <div class="q-text">
+            If X has binomial distribution with \( n=3 \) and \( p=1/3 \), then what is the value of \( E(\frac{X}{X+1}) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 43/108 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 5/12 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 47/108 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 49/108 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Bayes' Theorem]</span>
+        </div>
+        <div class="q-text">
+            A company produces light bulbs at three factories A, B and C. Factory A produces 40% of the bulbs (2% defective), B produces 35% (4% defective), and C produces 25% (3% defective). If a defective bulb is found, what is the probability it was from factory A?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.20</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.27</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.47</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

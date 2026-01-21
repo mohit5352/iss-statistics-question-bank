@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2017: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Conditional Probability - Bayes' Theorem]</span>
+        </div>
+        <div class="q-text">
+            Leela has appeared in an examination which follows multiple choice questions, each having five possible answers. The probability that she knows an answer is 0.75. If she does not know an answer, she will guess, with the conditional probability of being correct 1/5. The conditional probability that Leela knows the answer, given that she gives the correct answer, is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.25</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.80</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.90</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.94</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Bernoulli Trials - Length of Run]</span>
+        </div>
+        <div class="q-text">
+            Consider a sequence of Bernoulli trials with probability of success \( 1/3 \) for each trial. Let \( X \) denote the length of run of either successes or failures starting with the first trial. Then the value of \( E(X) \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2.5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 3.5</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Probability of Events]</span>
+        </div>
+        <div class="q-text">
+            The probability that a death occurs due to heart failure is 0.45 and the probability that a death occurs due to cancer is 0.22. Consider the following statements:<br>
+            1. The probability that the death is either due to heart failure or due to cancer is 0.67.<br>
+            2. The probability that the death is due to some other cause (but not these two) is 0.55.<br>
+            Which of the statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Continuous Distributions - Uniform]</span>
+        </div>
+        <div class="q-text">
+            Let \( X \), a continuous random variable, follow \( U(0, 1) \) distribution. Then, we assert that<br>
+            1. \( P(X \ge 0.27) = 0.73 \)<br>
+            2. \( P(0.27 < X < 1.27) = 0.73 \)<br>
+            Which of the above assertions is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Conditional Distribution - Poisson]</span>
+        </div>
+        <div class="q-text">
+            Let \( X \) be the number of phone calls received at a call centre during business hours and \( Y \) be the number of calls received outside business hours, on a particular day. Assume that \( X \) and \( Y \) are independent, and follow the Poisson distribution with means \( \lambda_1 \) and \( \lambda_2 \) respectively, where \( \lambda_1 \neq \lambda_2 \). Then the conditional distribution of \( X \), given the total number of calls received that day (i.e., \( X + Y \)), is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Binomial</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Poisson</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Discrete Uniform</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Negative Binomial</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Probability of Combined Events]</span>
+        </div>
+        <div class="q-text">
+            \( A \) and \( B \) are events such that \( P(B) = 1/3 \), \( P(A \cap B) = 1/12 \), and \( P(A \cap \overline{B}) = 1/4 \). Then consider the following:<br>
+            1. \( P(\overline{A} \cap \overline{B}) = 1/2 \)<br>
+            2. \( P(B | \overline{A}) = 1/3 \)<br>
+            3. \( P(A) = 1/4 \)<br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Expected Value - Game Theory]</span>
+        </div>
+        <div class="q-text">
+            Consider a game where the player tosses a six-sided die. If the face that comes up is 6, the player wins ₹36, otherwise he loses \( k^2 \) where \( k \) is the face that comes up (\( k = 1, 2, 3, 4, 5 \)). What amount in rupees can the player expect to win at this game if the die is fair?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 19/6</div>
+            <div class="option-item"><span class="opt-label">(b)</span> -19/6</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3/2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> -3/2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Exponential Distribution - Mean]</span>
+        </div>
+        <div class="q-text">
+            A man buys 10 bulbs, each with independent exponentially distributed lifetimes with the same mean, with the intention of using one bulb at a time and replacing it with another as soon as it fails. The distribution of the total duration of the 10 bulbs taken together is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Exponential</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Normal</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Beta</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Gamma</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Moments of PDF]</span>
+        </div>
+        <div class="q-text">
+            In a continuous distribution, the probability density function is given by \( f(x) = y_0 x(2-x) \) for \( 0 \le x \le 2 \), and 0 otherwise, where \( y_0 \) is a constant. Its first moment about the origin is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Variance of Sum - Uniform]</span>
+        </div>
+        <div class="q-text">
+            Let \( X \) and \( Y \) be independent random variables, each having the uniform distribution on \( [1, 2] \). Then \( \text{Var}(X + Y) \) is equal to
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 3/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5/2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 6</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Normal Distribution - Sum of Variables]</span>
+        </div>
+        <div class="q-text">
+            In an examination, marks obtained by the students in Physics, Mathematics and Statistics denoted by \( X \), \( Y \) and \( Z \) are normally distributed with mean 50, 52 and 48 respectively and with standard deviation 15, 12 and 16 respectively. The distribution of \( (X + Y + Z) \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(350, 53) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(55, 350) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( N(150, 625) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( N(625, 150) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Bernoulli Trials - Drunkard's Walk]</span>
+        </div>
+        <div class="q-text">
+            A drunkard takes a forward step with probability \( p \) and a backward step with probability \( q \). After taking 11 steps, the probability that he is one step away from the starting point is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( p^6 + q^6 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2(p^6 + q^5) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 462 p^6q^5 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 462(pq)^5 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Poisson Distribution Properties]</span>
+        </div>
+        <div class="q-text">
+            Consider \( n \) independent Poisson variables \( X_1, X_2, X_3, \dots, X_n \) with parameters \( \lambda_1, \lambda_2, \lambda_3, \dots, \lambda_n \) respectively and \( S_n = X_1 + X_2 + X_3 + \dots + X_n \). <br>
+            Statement I: \( S_n \) has a Poisson distribution with parameter \( \sum \lambda_j \). <br>
+            Statement II: The mgf of \( S_n \) is \( e^{\sum \lambda_i(e^t - 1)} \). <br>
+            Which one of the following is correct in respect of the above statements?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Both Statement I and Statement II are true and Statement II is the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Both Statement I and Statement II are true but Statement II is not the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Statement I is true but Statement II is false</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Statement I is false but Statement II is true</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Distribution Function and PDF]</span>
+        </div>
+        <div class="q-text">
+            If the distribution function of a random variable \( X \) is given by \( F(x) = \sin x \) where \( 0 < x < \pi/2 \) then the probability density function at \( x = \pi/6 \) has the value
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sqrt{3}/2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/\sqrt{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1/3 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Normal Distribution - Ratios and Sums]</span>
+        </div>
+        <div class="q-text">
+            If \( X \) and \( Y \) are independent identically distributed \( N(0, \sigma^2) \) random variables, then which of the following are correct? <br>
+            1. \( (X^2 + Y^2)/\sigma^2 \) follows a Chi-square distribution with 2 degrees of freedom. <br>
+            2. \( X/Y \) follows a standard Cauchy distribution. <br>
+            3. \( (X + Y)^2/\sigma^2 \) follows a Chi-square distribution with 2 degrees of freedom. <br>
+            4. \( (X - Y) \) and \( (X + Y) \) are independent. <br>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2, 3 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1, 2 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1 and 4 only</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Probability - Successive Changes]</span>
+        </div>
+        <div class="q-text">
+            Player A writes a '+' sign on a magic slate. The slate is then passed on to players B, C and D in succession, each of whom may rub the slate and change the sign to '-' with probability 2/3 before passing the slate to the next person. D hands the slate to the referee. The probability that the referee sees a '+' sign is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 13/27</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 7/27</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10/27</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4/27</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Chebyshev's Inequality]</span>
+        </div>
+        <div class="q-text">
+            For a random variable \( X \), \( P(X = 0) = 1 - 1/k^2 \) and \( P(X = +1) = P(X = -1) = 1/2k^2 \) where \( k \) is a constant greater than 1. Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( P(|X| \ge k\sigma) < 1/k^2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( P(|X| \ge k\sigma) = 1/k^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( P(|X| \ge k\sigma) > 1 - 1/k^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( P(|X - 1| \ge k\sigma) = 1/k^2 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Weak Law of Large Numbers (WLLN)]</span>
+        </div>
+        <div class="q-text">
+            For the sequence \( \{X_k\} \) of independent random variables the following are defined: <br>
+            \( P(X_k = \pm 2^k) = 2^{-(2k+1)} \) and \( P(X_k = 0) = 1 - 2^{-2k} \) <br>
+            Which of the following are not correct? <br>
+            1. Weak law of large numbers holds because \( E(X_k) = 0 \) and \( \lim (B_n/n^2) = 0 \) where \( B_n = \text{Var}(\sum X_i) \). <br>
+            2. Weak law of large numbers holds by Khinchin's theorem because \( E(X_k) \) is finite. <br>
+            3. Weak law of large numbers holds since \( X_k \) are identically distributed. <br>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Variance of Difference]</span>
+        </div>
+        <div class="q-text">
+            Let \( X \) and \( Y \) be two random variables. Which one of the following conditions is sufficient for the relation \( \text{Var}(X - Y) = \text{Var}(X) + \text{Var}(Y) \) to hold?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( X, Y \) are statistically independent</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( X, Y \) are identically distributed</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( X = Y \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> For any \( X \) and \( Y \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Order Statistics - Uniform Distribution]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( U \) and \( V \) are independently and uniformly distributed on the interval \( (0, 1) \). Then the distribution of \( \max(U, V) \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \text{Beta}(1, 1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \text{Beta}(2, 2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \text{Beta}(1, 2) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \text{Beta}(2, 1) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <p><strong>Consider the following for the next three (03) items:</strong></p>
+            <p>The distribution of marks obtained by 500 candidates in a Statistics paper in a certain examination is as follows:</p>
+            <div class="q-table">
+                <table>
+                    <tr>
+                        <th>Marks more than</th>
+                        <th>Number of Candidates</th>
+                    </tr>
+                    <tr><td>0</td><td>500</td></tr>
+                    <tr><td>10</td><td>460</td></tr>
+                    <tr><td>20</td><td>400</td></tr>
+                    <tr><td>30</td><td>200</td></tr>
+                    <tr><td>40</td><td>100</td></tr>
+                    <tr><td>50</td><td>30</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Frequency Distribution - Passing Marks]</span>
+        </div>
+        <div class="q-text">
+            If 60% of the candidates pass the paper, then the minimum marks obtained by a pass candidate is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 20</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 30</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 35</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Measures of Dispersion - Semi-interquartile Range]</span>
+        </div>
+        <div class="q-text">
+            The value of semi-interquartile range is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 4.25</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 8.125</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 16.25</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 32.5</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Measures of Central Tendency - Mode]</span>
+        </div>
+        <div class="q-text">
+            The value of mode of frequency distribution is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 23.13</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 24.43</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 25.83</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 26.13</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Standard Deviation - Discrete Observations]</span>
+        </div>
+        <div class="q-text">
+            In a series of \( 2n \) observations, half of them equal to \( k \) and the remaining half equal to \( -k \). If the standard deviation of the observations is 2, then \( |k| \) is equal to
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sqrt{2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \sqrt{2/n} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1/n \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Correlation Coefficient Formula]</span>
+        </div>
+        <div class="q-text">
+            If \( \sigma_x^2 \), \( \sigma_y^2 \) and \( \sigma_{x-y}^2 \) are the variances of \( X \), \( Y \) and \( X-Y \) respectively, then what is the coefficient of correlation between \( X \) and \( Y \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (\sigma_x^2 + \sigma_y^2 - \sigma_{x+y}^2) / 2\sigma_x\sigma_y \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (\sigma_x^2 + \sigma_y^2 - \sigma_{x-y}^2) / 2\sigma_x\sigma_y \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (\sigma_x^2 + \sigma_y^2) / 2\sigma_x\sigma_y \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (\sigma_x^2 - \sigma_y^2) / 2\sigma_x\sigma_y \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Correction of Mean and Variance]</span>
+        </div>
+        <div class="q-text">
+            For a distribution of 10 observations, calculations showed that the first two moments about the origin are 3 and 46 respectively. It was however discovered that the observation 12 was wrongly written as 22. Then the correct value of mean and variance are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2, 12</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2, 8</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4, 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4, 8</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: F-distribution - Conditions]</span>
+        </div>
+        <div class="q-text">
+            Given that \( x_1 \) and \( x_2 \) are two independent observations drawn from a normal population \( P_1 \) and \( y_1 \) and \( y_2 \) are another two independent observations drawn from a second normal population \( P_2 \). In order that \( Z = (x_1 - x_2)^2 / (y_1 - y_2)^2 \) follows F-distribution with (1, 1) degrees of freedom, which one of the following must be true?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( P_1 \) has \( N(\mu_1, \sigma_1^2) \) and \( P_2 \) has \( N(\mu_1, \sigma_2^2) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( P_1 \) has \( N(0, \sigma_1^2) \) and \( P_2 \) has \( N(\mu_1, \sigma_2^2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( P_1 \) has \( N(\mu_1, \sigma_1^2) \) and \( P_2 \) has \( N(\mu_2, \sigma_2^2) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( P_1 \) has \( N(\mu_1, \sigma^2) \) and \( P_2 \) has \( N(\mu_2, \sigma^2) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Order Statistics - Median Distribution]</span>
+        </div>
+        <div class="q-text">
+            What is the probability that the sample median based on a random sample of size 3, drawn from a distribution with pdf \( f(x) = 2x \) (\( 0 < x < 1 \)), exceeds \( 1/2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 13/32</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 17/32</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 27/32</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 29/32</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Distribution Relationships (F, t, and Chi-square)]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements: <br>
+            1. If \( F(n_1, n_2) \) represents an F variate with \( n_1 \) and \( n_2 \) degrees of freedom, then \( F(n_2, n_1) \) is distributed as \( 1 / F(n_1, n_2) \) variate. <br>
+            2. In \( F(n_1, n_2) \) distribution if \( n_2 \to \infty \) then \( n_1F \) follows t-distribution with \( n_1 \) degrees of freedom. <br>
+            3. If a statistic \( t \) follows Student's t-distribution with \( n \) degrees of freedom, then \( t^2 \) follows F-distribution with (1, n) degrees of freedom. <br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Ratios in Continuous Distributions]</span>
+        </div>
+        <div class="q-text">
+            A continuous random variable \( X \) has the density function \( f(x) = 3x^2 / \theta^3 \) for \( 0 \le x \le \theta \) (for some \( \theta > 0 \)). Then the ratio of the mode to the median for the distribution is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 2^{-1/3} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2^{1/3} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \theta / 2^{1/3} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \theta \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Applications of F-distribution]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements on the use of F-distribution: <br>
+            1. It is used to test the equality of variances of two normal populations. <br>
+            2. It is used to test the equality of variances of several normal populations. <br>
+            3. It is used to test for the equality of means of several normal populations with identical variance. <br>
+            4. It is used to test for the independence of two attributes in a contingency table. <br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 3 and 4 only</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Least Squares - Model Selection]</span>
+        </div>
+        <div class="q-text">
+            Suppose for a given data, the linear, parabolic, power function and exponential models fitted by the principle of least squares respectively are given below: <br>
+            \( M_1: Y = 3.77 + 0.92X \) <br>
+            \( M_2: Y = 1.21 + 0.40X + 0.04X^2 \) <br>
+            \( M_3: Y = 2.58X^{0.5} \) <br>
+            \( M_4: Y = 2.64e^{0.0625X} \) <br>
+            If for any model, \( \hat{Y}_i \) denotes the estimated value of \( Y_i \) and \( \sum(Y_i - \hat{Y}_i)^2 \) computed for the models \( M_1 \), \( M_2 \), \( M_3 \) and \( M_4 \) are 19.37, 5.73, 4.81 and 11.58 respectively, then which one of the following shall be taken as the best possible estimate of \( Y \) for \( X = 16 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 18.49</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 17.85</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10.32</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 7.18</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Correlation Coefficient - Linear Combinations]</span>
+        </div>
+        <div class="q-text">
+            If \( X_1, X_2, X_3 \) and \( X_4 \) are four uncorrelated variables each with variance \( \sigma^2 \), then what is the value of the correlation coefficient between \( U = X_1 + X_2 + X_3 \) and \( V = X_1 + X_2 + X_4 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2/3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Covariance and Regression]</span>
+        </div>
+        <div class="q-text">
+            Given that \( X \), \( Y \) and \( Z = X + 2Y \) are variables such that \( \text{Var}(X) = 4 \), \( \text{Var}(Y) = 3 \) and \( \text{Var}(Z) = 4 \). <br>
+            Consider the following statements in respect of the above: <br>
+            1. The covariance between \( X \) and \( Y \) is -3. <br>
+            2. The correlation between \( X \) and \( Y \) is \( -\sqrt{3}/2 \). <br>
+            3. The regression coefficient of \( Y \) on \( X \) is -3/4. <br>
+            4. The covariance between \( X \) and \( Z \) is -2. <br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1, 3 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2, 3 and 4</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Sampling Distributions - t and F]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( X \), \( Y \) and \( Z \) are independent random variables such that \( X \) follows a standard normal distribution; \( Y \) and \( Z \) follow Chi-square distribution with \( n_1 \) and \( n_2 \) degrees of freedom respectively. <br>
+            Consider the following statements in respect of the above: <br>
+            1. \( X^2 \) follows Chi-square distribution with one degree of freedom. <br>
+            2. \( X / \sqrt{Y/n_1} \) follows Student's t-distribution with \( n_1 \) degrees of freedom. <br>
+            3. \( (Y/n_1) / (Z/n_2) \) follows F-distribution with \( (n_1, n_2) \) degrees of freedom. <br>
+            4. \( Y + Z \) follows Cauchy distribution. <br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2, 3 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2, 3 and 4</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Properties of F-distribution]</span>
+        </div>
+        <div class="q-text">
+            If \( X \) follows \( F(6, 6) \) distribution, then consider the following statements: <br>
+            1. Mean of \( X \) is greater than 1. <br>
+            2. Median of \( X \) is equal to 1. <br>
+            3. Mode of \( X \) lies between 0 and 1. <br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Combined Variance]</span>
+        </div>
+        <div class="q-text">
+            An analysis of monthly wages of workers of two factories A and B belonging to the same group gave the following results: <br>
+            <div class="q-table">
+                <table>
+                    <tr><th>Statistic</th><th>Factory A</th><th>Factory B</th></tr>
+                    <tr><td>Number of workers</td><td>50</td><td>60</td></tr>
+                    <tr><td>Average daily wages</td><td>186</td><td>175</td></tr>
+                    <tr><td>Variance of wages</td><td>81</td><td>100</td></tr>
+                </table>
+            </div>
+            Then the combined variance is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 101.36</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 111.36</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 121.36</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 131.36</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Chi-square Test Applications]</span>
+        </div>
+        <div class="q-text">
+            Chi-square test can be applied to test the <br>
+            1. Goodness of fit <br>
+            2. Equality of two population variances <br>
+            3. Independence of attributes <br>
+            Which of the above are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            Let \( f(x, y) = Ce^{-Q/2} \) where \( Q = 2x^2 + y^2 + 2xy - 22x - 14y + 65 \) be the pdf of a bivariate normal \( BN(\mu_1, \mu_2, \sigma_1, \sigma_2, \rho) \) distribution. Then \( \rho = \text{Corr}(X, Y) \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( -1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( -1/\sqrt{2} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Conditional Expectation - Bivariate Normal]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X, Y) \) be a bivariate normal \( BN(1, 2, 16, 25, 3/4) \), then \( E(X | Y = 7) \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 91/16</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

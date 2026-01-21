@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2021: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items:</strong><br>
+            Let the joint p.d.f. of X and Y be<br>
+            \( f(x,y) = \begin{cases} 6(1-x-y), & x > 0, y > 0, x+y < 1 \\ 0, & \text{otherwise} \end{cases} \)<br><br>
+        </div>
+    </div>
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Joint Probability Density Functions]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( E(XY) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 20</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/10 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1/20 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Covariance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( Cov(X,Y) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1/40 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1/80 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( -1/40 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( -1/80 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Line of Regression]</span>
+        </div>
+        <div class="q-text">
+            What is the equation of line of regression of X on Y?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( X = (3-5Y)/15 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( X = (1-Y)/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( X = (5-3Y)/15 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( X = (1-Y)/5 \)</div>
+        </div>
+    </div>
+
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items:</strong><br>
+            Let the joint density function of X and Y be<br>
+            \( f(x,y) = \begin{cases} 8xy, & 0 < x < y < 1 \\ 0, & \text{otherwise} \end{cases} \)<br><br>
+        </div>
+    </div>
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Conditional Expectation]</span>
+        </div>
+        <div class="q-text">
+            What is \( E[Y|X=x] \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{5}(\frac{1-x^{3}}{1+x^{2}}) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{2}{5}(\frac{1+x^{3}}{1-x^{2}}) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{2}{3}(\frac{1-x^{3}}{1-x^{2}}) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (\frac{1+x^{3}}{1+x^{2}}) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Conditional Variance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( V[Y|X=0.5] \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.525</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.6</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.625</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Chebyshev's Inequality - Sample Size]</span>
+        </div>
+        <div class="q-text">
+            How large a sample must be taken in order that the probability will be at least 0.95 that the sample mean will be within 0.5-neighbourhood of the population mean, provided population standard deviation is 1?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 80</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 79</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 74</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Cannot be determined</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Borel-Cantelli Lemma]</span>
+        </div>
+        <div class="q-text">
+            Let \( A_{1}, A_{2}, A_{3}, \dots \) be a sequence of events and let \( E = \lim \sup A_{n} \). If \( \sum_{n=1}^{\infty} P(A_{n}) < \infty \), then \( P(E) \) is equal to:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/4 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Characteristic Functions]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements in respect of characteristic function of a random variable:<br>
+            1. It always exists.<br>
+            2. It is uniformly continuous on R.<br>
+            3. It is not independent of change of origin and scale.<br>
+            4. If characteristic function of sum of two random variables is same as the product of their individual characteristic functions, then the variables are independent.<br>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1, 2 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1, 3 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2, 3 and 4 only</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: De Moivre-Laplace Theorem]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \lim_{n \to \infty} \sum_{j=n}^{4n} \binom{4n}{j} (\frac{1}{4})^{j} (\frac{3}{4})^{4n-j} \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1/4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 3/4 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Consistency of Estimators]</span>
+        </div>
+        <div class="q-text">
+            For a sequence of Bernoulli trials, the fraction of successes \( f/n \) is a consistent estimator of the probability of success \( p \). This follows from:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Central limit theorem</div>
+            <div class="option-item"><span class="opt-label">(b)</span> De Moivre-Laplace theorem</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Law of large numbers</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Chebyshev's theorem</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Order Statistics]</span>
+        </div>
+        <div class="q-text">
+            Consider a random sample of size 4 from a population having density function<br>
+            \( f(x) = \begin{cases} 2x, & 0 < x < 1 \\ 0, & \text{otherwise} \end{cases} \)<br>
+            If the four ordered observations are \( x_{1} < x_{2} < x_{3} < x_{4} \), then \( P[\frac{1}{2} < x_{3}] \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{15}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{243}{256} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{247}{256} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Consistency of Attributes]</span>
+        </div>
+        <div class="q-text">
+            Consider the following conditions in respect of attributes A and B:<br>
+            1. \( (AB) \le (A) \)<br>
+            2. \( (AB) \le (B) \)<br>
+            3. \( (AB) \ge (A) + (B) - N \)<br>
+            Which of the above conditions are required for the consistency of data on the two attributes A and B?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Measures of Dispersion]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:<br>
+            1. Mean deviation is minimum when the deviations are taken from the median.<br>
+            2. If the units of measurements of variables of two series are not the same, their variabilities can be compared by standard deviations.<br>
+            3. A series with smaller coefficient of variation is more consistent.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 3 only</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution Properties]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:<br>
+            1. (X, Y) possesses a bivariate normal distribution iff every linear combination of X and Y is a normal variate.<br>
+            2. If the marginal of X and Y are normal, then it always implies that (X, Y) is bivariate normal.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Expected Value]</span>
+        </div>
+        <div class="q-text">
+            If \( (X,Y) \sim BVN(0,0,1,1,\rho) \), then what is the value of \( E[\max(X,Y)] \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sqrt{\pi\rho} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sqrt{\frac{\rho}{\pi}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \sqrt{\pi(1-\rho)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \sqrt{\frac{1-\rho}{\pi}} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Joint Expectations]</span>
+        </div>
+        <div class="q-text">
+            Let random variables X and Y have joint p.d.f. \( f(x,y) = \frac{1}{3}(x+y); 0 \le x \le 1, 0 \le y \le 2 \). What is the value of \( E(XY) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 2/3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 5/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 2/9 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 5/9 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Orthogonal Polynomials]</span>
+        </div>
+        <div class="q-text">
+            If x is a standard normal variate, then the third degree orthogonal polynomial is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( x^{3}+x^{2}-1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( x^{3}+3x+4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( x^{3}-3x \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( x^{3}+x^{2}-6 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items:</strong><br>
+            Let (X, Y) follow Bivariate Normal distribution with joint p.d.f.<br>
+            \( f(x,y)=k \exp[-\frac{8}{27}((x-7)^{2}-2(x-7)(y+5)+ 4(y+5)^{2})], (x, y) \in R^{2} \)<br><br>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: BVN - Variance]</span>
+        </div>
+        <div class="q-text">
+            What are the values of \( V(X) \) and \( V(Y) \) respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 9/4 \) and \( 9/16 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 9/16 \) and \( 9/32 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 9/4 \) and \( 9/32 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 9/16 \) and \( 9/16 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: BVN - Constant k]</span>
+        </div>
+        <div class="q-text">
+            What is the approximate value of k?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 0.31/\pi \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 0.41/\pi \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 0.51/\pi \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 0.61/\pi \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: BVN - Regression]</span>
+        </div>
+        <div class="q-text">
+            What is the line of regression of Y on X?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( Y = 6.75X - 0.25 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( Y = 0.25X - 6.75 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( Y = 6.25X + 0.45 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( Y = 6.25X + 6.75 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Borel Zero-One Law]</span>
+        </div>
+        <div class="q-text">
+            If \( \{x_{n}:n \ge 1\} \) is a sequence of independent and identically distributed random variables with mean \( \frac{1}{2} \), then the probability of the event \( \{|x_{n}| > \frac{n}{2}\} \) for infinitely many n:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> is equal to 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> is equal to \( \frac{1}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> lies strictly between \( \frac{1}{2} \) and 1</div>
+            <div class="option-item"><span class="opt-label">(d)</span> is equal to 1</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Conditional Probability]</span>
+        </div>
+        <div class="q-text">
+            Suppose random variable Y is distributed on \( \{-n, -n+1, \dots, n\} \) with the property that for every \( k \in \{1, \dots, n\}, P(Y=k) = 2 P(Y=-k) > 0 \). Then for \( y \in \{1, 4, \dots, n^2\}, E(Y|Y^{2}=y) \) is equal to:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( -\sqrt{\frac{y}{3}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( -\sqrt{\frac{y}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\sqrt{y}}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{y}{2} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Chebyshev's Inequality Calculation]</span>
+        </div>
+        <div class="q-text">
+            Suppose a random variable X has mean 12 and the bound given by Chebychev's inequality for the probability \( P(2 < X < 22) \ge \frac{3}{4} \). Then \( E(X^{2}) \) is equal to:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 17</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 37</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 112</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 169</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Poisson Approximation]</span>
+        </div>
+        <div class="q-text">
+            To find out prevalence in a city of size 1,00,000, 200 citizens were tested returning 8 positive results. The distribution of number of affected persons in a random sample of size 500 can approximately be taken as:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Poisson (40)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Poisson (20)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Poisson (8)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Poisson \( (16/5) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Central Limit Theorem]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( X_{i} \) are i.i.d with finite second moment. If \( P(X_{1}+\dots+X_{n} \le x\sqrt{n}) \to \Phi(2) \) and \( Var(X_{i}) = 4 \), then \( P(X_{1}+\dots+X_{n} \le \frac{1}{x}\sqrt{n}) \):
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> does not converge</div>
+            <div class="option-item"><span class="opt-label">(b)</span> converges to 0</div>
+            <div class="option-item"><span class="opt-label">(c)</span> converges to \( \Phi(1/8) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> converges to \( \Phi(1/2) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Law of Large Numbers/CLT]</span>
+        </div>
+        <div class="q-text">
+            If \( \{X_{n}:n \ge 1\} \) is a sequence of i.i.d. variables with \( E(X_{1}) = 1, E(X_{1}^{4}) < \infty \) and \( \frac{\sum X_{i}^{2} - 5n}{\sqrt{12n}} \xrightarrow{d} N(0,1) \), then \( V(X_{1}) \) equals:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \sqrt{12} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 12</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Probability Integral Transform]</span>
+        </div>
+        <div class="q-text">
+            Statement-1: \( Y = -\log F(X) \) is exponentially distributed.<br>
+            Statement-2: \( F(X) \) is uniformly distributed in [0, 1].<br>
+            Which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Both S-1 and S-2 are true and S-2 is the correct explanation for S-1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Both S-1 and S-2 are true, but S-2 is not the correct explanation for S-1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> S-1 is true, but S-2 is false</div>
+            <div class="option-item"><span class="opt-label">(d)</span> S-1 is false, but S-2 is true</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Variance of Linear Combinations]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y_{1} = 2X_{1}+3X_{2} \) and \( Y_{2} = X_{1}+2X_{2} \) be independent. If \( Var(Y_{1}) = 72 \) and \( Var(Y_{2}) = 25 \), then what is \( Var(\frac{2}{3}X_{1}-4X_{2}) \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 22</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 60</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 68</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Probability - Circular Arrangements]</span>
+        </div>
+        <div class="q-text">
+            16 persons amongst whom are A and B, are seated at a round table. What is the probability that there are 4 persons between A and B?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{11}{240} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{11}{480} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{2}{15} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{15} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Binomial Distribution Parameters]</span>
+        </div>
+        <div class="q-text">
+            X has a Binomial distribution (n, p). If skewness \( \gamma_{1} = 1/6 \) and kurtosis \( \gamma_{2} = -1/12 \), then what are the values of n and p respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 9 and \( 2/3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 18 and \( 1/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 18 and \( 2/3 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 9 and \( 1/3 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Descriptive Statistics - Partition Values]</span>
+        </div>
+        <div class="q-text">
+            Consider the following frequency distribution:
+            <table style="width:100%; border-collapse: collapse; margin-top:10px; text-align:center;" border="1">
+                <thead style="background-color: #f2f2f2;">
+                    <tr><th>Class</th><th>Frequency</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1-5</td><td>10</td></tr>
+                    <tr><td>6-10</td><td>15</td></tr>
+                    <tr><td>11-15</td><td>25</td></tr>
+                    <tr><td>16-20</td><td>25</td></tr>
+                    <tr><td>21-25</td><td>15</td></tr>
+                    <tr><td>26-30</td><td>10</td></tr>
+                </tbody>
+            </table>
+            <br>
+            
+            With reference to the above frequency distribution, match List I with List II and select the correct answer using the code given below:
+            <br><br>
+            <table style="width:100%; border-collapse: collapse; margin-top:10px; text-align:left;" border="1">
+                <thead style="background-color: #f2f2f2;">
+                    <tr>
+                        <th style="padding: 8px; width: 50%;">List I (Characteristics)</th>
+                        <th style="padding: 8px; width: 50%;">List II (Numerical values)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px;">A. First decile</td>
+                        <td style="padding: 8px;">1. 5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">B. First quartile</td>
+                        <td style="padding: 8px;">2. 5.5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">C. Median</td>
+                        <td style="padding: 8px;">3. 10</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">D. Quartile deviation</td>
+                        <td style="padding: 8px;">4. 10.5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"></td>
+                        <td style="padding: 8px;">5. 15</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"></td>
+                        <td style="padding: 8px;">6. 15.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="options-grid" style="margin-top: 20px;">
+            <div class="option-item"><span class="opt-label">(a)</span> A-2, B-4, C-6, D-1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> A-1, B-3, C-5, D-2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> A-2, B-4, C-5, D-3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> A-1, B-3, C-4, D-2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Partial Correlation]</span>
+        </div>
+        <div class="q-text">
+            In the case of three variables \( x_{1}, x_{2} \) and \( x_{3} \) given that every pair-wise simple correlation coefficient equals r, what is the partial correlation coefficient \( r_{12 \cdot 3} \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> r</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{r+1} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{r}{r+1} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{1-r} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Chi-square Distribution Properties]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:<br>
+            1. Mean and variance of chi-square distribution are not same.<br>
+            2. Sum of two chi-square variates is also a chi-square variate.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Correlation Significance Test]</span>
+        </div>
+        <div class="q-text">
+            The correlation coefficient of a sample of size 11 from a BVN population is 0.6. The value of the t-statistic used to test for significance is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.25</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2.8</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 6.75</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 8.44</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Mann-Whitney U Test Calculation]</span>
+        </div>
+        <div class="q-text">
+            Based on samples of sizes 4 (X) and 3 (Y), ordered combined sample is \( x_{3} < x_{2} < y_{1} < y_{2} < x_{4} < y_{3} < x_{1} \). The value of the Mann-Whitney statistic is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 7</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 11</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Mann-Whitney Variance]</span>
+        </div>
+        <div class="q-text">
+            The variance of the Mann-Whitney statistic to test for identicality of two distributions based on independent samples of sizes 15 and 20 respectively, is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 28</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 532</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 875</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 900</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Asymptotic Efficiency]</span>
+        </div>
+        <div class="q-text">
+            In estimating based on a random sample from \( N(\mu, \sigma^{2}) \), the sample mean is more asymptotically efficient than the sample median for all values of:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \mu \) and \( \sigma^{2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sigma^{2} \) if and only if \( \mu = 0 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \mu \), if and only if \( \sigma^{2} = 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \sigma^{2} \), if and only if \( \mu \ne 0 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Mathematical Expectation]</span>
+        </div>
+        <div class="q-text">
+            Let X be a random variable with probabilities as given below:
+            <table style="width:100%; border-collapse: collapse; margin-top:10px; text-align:center;" border="1">
+                <tr>
+                    <th>Value</th>
+                    <td>\( 2^{-2} \)</td>
+                    <td>...</td>
+                    <td>\( (-1)^{i+1} \frac{2^i}{i!} \)</td>
+                </tr>
+                <tr>
+                    <th>Probability</th>
+                    <td>\( (\frac{1}{2})^2 \)</td>
+                    <td>...</td>
+                    <td>\( (\frac{1}{2})^i \)</td>
+                </tr>
+            </table>
+            <br>
+            What is \( E(X) \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( e^{-1} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( e-1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1-e^{-1} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Mean Deviation Properties]</span>
+        </div>
+        <div class="q-text">
+            If the mean deviation of x from its mean is 5, then the mean deviation of \( y = 2x+3 \) from its mean is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 17</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 13</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Runs Test for Randomness]</span>
+        </div>
+        <div class="q-text">
+            Lifetimes in days, in order of observed failures, for a robust component are recorded below:<br>
+            <strong>198, 211, 216, 219, 224, 225, 230, 236, 243, 252, 253, 253, 262, 264, 268, 271, 272, 275, 282, 284, 288, 291, 294, 295</strong><br><br>
+            Consider the following statements:<br>
+            Statement-1: The given sample is random with median lifetime 257.50.<br>
+            Statement-2: Mean number of runs is 13 with standard deviation 1.396.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

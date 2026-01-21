@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2025: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Beta Distribution of First Kind]</span>
+        </div>
+        <div class="q-text">\( X \) follows Beta distribution of first kind \( \text{Beta}(\alpha, \beta) \) with \( \alpha > 1 \) and \( \beta > 1 \). What is the mode?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\alpha-1}{\alpha+\beta-2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\alpha}{\alpha+\beta} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\alpha+1}{\alpha+\beta+1} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\alpha+\beta}{\alpha+\beta-1} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Properties of Beta Distribution]</span>
+        </div>
+        <div class="q-text">For Beta distribution of first kind \( \text{Beta}(\alpha, \beta) \), consider the following statements:
+            <br>I. For \( \alpha > 1, \beta > 1 \); density has unique mode.
+            <br>II. For \( \alpha + \beta = 2 \) such that \( \alpha = \beta = 1 \), all points in [0, 1] are modes.
+        </div>
+        <div class="q-text">Which of the statements given above is/are correct?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Transformation of Random Variables]</span>
+        </div>
+        <div class="q-text">Let \( X \) be a continuous random variable with the following pdf:
+            <br>\[ f(x) = \begin{cases} \frac{1}{8}; & 2 \le x \le 10 \\ 0; & \text{otherwise} \end{cases} \]
+            What is the distribution of \( Y = aX + b \), provided \( a > 0 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( U(8a+b, 12a+b) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( U(2a+b, 10a+b) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Poisson \( (ba^{1/8}) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Mathematical Expectation]</span>
+        </div>
+        <div class="q-text">A player rolls a fair dice and simultaneously tosses a fair coin. If the "head" appears on the coin, then the player wins twice the value that appears on the dice. However if the "tail" appears on the coin, then the player wins half of the value that appears on the dice. What is the player's expected win?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 10.250</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 8.625</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 7.625</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4.375</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Conditional Expectation]</span>
+        </div>
+        <div class="q-text">A miner is trapped in a mine containing 3 doors. The first door leads to a tunnel that will take him to safety after 3 hours of travel. The second door leads to a tunnel that will return him to the mine after 5 hours of travel. The third door leads to a tunnel that will return him to the mine after 7 hours of travel. Assuming that the miner is equally likely to choose any of the doors, what is the expected length of time until he reaches safety?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 15 hours</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 25 hours</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 30 hours</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 35 hours</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Laplace Distribution]</span>
+        </div>
+        <div class="q-text">The distribution function of standard Laplace distribution with the pdf \( f(x) = \frac{1}{2}e^{-|x|} \), \( -\infty < x < \infty \), is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( F_{X}(x) = \begin{cases} \frac{e^x}{2}, & x \le 0 \\ 1 - \frac{e^{-x}}{2}, & x > 0 \end{cases} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( F_{X}(x) = \begin{cases} \frac{e^x}{2}, & x \le 0 \\ \frac{1 - e^{-x}}{2}, & x > 0 \end{cases} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( F_{X}(x) = \begin{cases} \frac{e^{-x}}{2}, & x \le 0 \\ \frac{e^x}{2}, & x > 0 \end{cases} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( F_{X}(x) = \begin{cases} \frac{1 - e^{-x}}{2}, & x \le 0 \\ 1, & x > 0 \end{cases} \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Expectation of Beta Variate]</span>
+        </div>
+        <div class="q-text">Let \( k > 0 \) be a constant such that pdf of \( X \) is given by \( f(x) = \begin{cases} kx(1-x), & 0 < x < 1 \\ 0, & \text{elsewhere} \end{cases} \). What is the value of \( E(X) \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/6</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1/8</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Moment Generating Functions]</span>
+        </div>
+        <div class="q-text">Let \( M_X(t) \) and \( M_Y(t) \) be the moment generating functions of two random variables \( X \) and \( Y \) respectively. If \( E(X) = 1/2 \), \( Var(X) = 1/4 \) and \( M_Y(t) = (0.75 + 0.25e^{2t})M_X(t) \), then what is \( Var(Y) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Bivariate Distributions - Marginal PDF]</span>
+        </div>
+        <div class="q-text">Let \( X_1 \) and \( X_2 \) have the joint pdf given by \( f(x_1, x_2) = \begin{cases} 2, & 0 < x_1 < x_2 < 1 \\ 0, & \text{otherwise} \end{cases} \). What is the marginal distribution of \( X_1 \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( f_1(x_1) = 1, 0 < x_1 < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( f_1(x_1) = 2 - 2x_1, 0 < x_1 < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( f_1(x_1) = 2x_1, 0 < x_1 < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( f_1(x_1) = 3x_1^2, 0 < x_1 < 1 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Asymptotic Properties of Chi-square Distribution]</span>
+        </div>
+        <div class="q-text">Let \( X \) follow Chi-square distribution with \( n \) degrees of freedom. Which of the following statements is/are correct?
+            <br>I. \( \frac{X-n}{\sqrt{2n}} \) is asymptotically normally distributed with mean 0 and variance 1.
+            <br>II. \( \frac{X}{n} \) is asymptotically normal with mean 1 and variance \( \frac{2}{n} \).
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Probability & Contingency Tables]</span>
+        </div>
+        <div class="q-text">The joint probability of the occurrence of two events \( A \) and \( B \) is given by:</div>
+        <div class="q-table">
+            <table>
+                <tr><td></td><td>\( B \)</td><td>\( \bar{B} \)</td></tr>
+                <tr><td>\( A \)</td><td>0.4</td><td>0.1</td></tr>
+                <tr><td>\( \bar{A} \)</td><td>0.2</td><td>0.3</td></tr>
+            </table>
+        </div>
+        <div class="q-text">Consider the following:
+            <br>I. \( A \) and \( B \) are independent events.
+            <br>II. \( P(A|\bar{B}) + P(\bar{A}|B) > 1/2 \)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Moments and Cumulants]</span>
+        </div>
+        <div class="q-text">
+            If \( k_r \) and \( \mu_r' \) denote respectively the \( r^{\text{th}} \) cumulant and the \( r^{\text{th}} \) moment about origin zero of a distribution, then which of the following statements are correct?
+            <br>I. \( k_1 = \mu_1' \)
+            <br>II. \( k_2 = \mu_2' - (\mu_1')^2 \)
+            <br>III. \( k_3 = \mu_3' - 3\mu_2'\mu_1' + 2(\mu_1')^3 \)
+        </div>
+        <div class="q-text">Select the answer using the code given below:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X, Y) \) follow bivariate normal distribution with \( E(X)=E(Y)=2 \), \( V(X)=100 \), \( V(Y)=144 \) and \( \text{Corr}(X, Y)=0.5 \). Which of the following statements is/are correct?
+            <br>I. \( E(Y|X=x) = 3.2 + 0.6x \)
+            <br>II. \( V(Y|X=x) = 108 \)
+        </div>
+        <div class="q-text">Select the answer using the code given below:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Partial Correlation]</span>
+        </div>
+        <div class="q-text">In a trivariate distribution, it is given that \( r_{12}=0.8 \), \( r_{13}=-0.4 \), \( r_{23}=0 \). The value of correlation coefficient between \( X_1 \) and \( X_3 \) after linear effect of \( X_2 \) on each of them is eliminated, is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2/3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> -1/3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> -2/3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Correlation Ratio Properties]</span>
+        </div>
+        <div class="q-text">
+            If \( \eta_{YX} \) is the correlation ratio of \( Y \) on \( X \), then which of the following statements is/are correct?
+            <br>I. \( \eta_{YX}^2 \) is independent of change of origin and scale.
+            <br>II. \( \eta_{YX} = \eta_{XY} \)
+            <br>III. \( \eta_{YX}^2 \ge r^2 \) where \( r \) is the correlation coefficient between \( X \) and \( Y \).
+        </div>
+        <div class="q-text">Select the answer using the code given below:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Joint Probability Mass Function]</span>
+        </div>
+        <div class="q-text">The following is the joint probability mass function of two random variables \( X \) and \( Y \):</div>
+        <div class="q-table">
+            <table>
+                <tr><td>\( X \setminus Y \)</td><td>0</td><td>1</td><td>2</td></tr>
+                <tr><td>0</td><td>3/28</td><td>9/28</td><td>3/28</td></tr>
+                <tr><td>1</td><td>3/14</td><td>3/14</td><td>0</td></tr>
+                <tr><td>2</td><td>1/28</td><td>0</td><td>0</td></tr>
+            </table>
+        </div>
+        <div class="q-text">
+            Which of the following statements is/are correct?
+            <br>I. \( \text{Cov}(X,Y) = 3/4 \)
+            <br>II. \( E(X) = E(Y) \)
+        </div>
+        <div class="q-text">Select the answer using the code given below:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Order Statistics of Geometric Distribution]</span>
+        </div>
+        <div class="q-text">Let \( (X_1, X_2, \dots, X_k) \) be a random sample of size \( k \) from geometric distribution with parameter \( p \) with pmf \( f(x) = pq^{x-1} \); \( x = 1, 2, 3, \dots \). Then \( \min(X_1, X_2, \dots, X_k) \) is distributed geometrically with parameter:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 - p^k \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1 - (1 - p)^k \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1 - p)^k \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Marginal Distributions of Bivariate Normal]</span>
+        </div>
+        <div class="q-text">If the random variables \( X \) and \( Y \) have a bivariate normal distribution with parameters \( \mu_1, \mu_2, \sigma_1^2, \sigma_2^2 \) and \( \rho \), then the marginal distribution of \( X \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(\mu_1, \sigma_1^2) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(\mu_1 + \rho(\sigma_1/\sigma_2)(y - \mu_2), \sigma_1^2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( N(\mu_1, \sigma_1^2(1 - \rho^2)) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( N(\mu_1 + \rho(\sigma_1/\sigma_2)(y - \mu_2), \sigma_1^2(1 - \rho^2)) \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Testing Significance of Correlation Coefficient]</span>
+        </div>
+        <div class="q-text">What would be the lowest value of \( r^2 \) in a sample of 27 pairs of observations which would be significant at 5% level of significance? [\( t_{25}(0.05) = 2.06 \)]</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.1451</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.2451</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.3551</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.4451</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Theory of Attributes - Association]</span>
+        </div>
+        <div class="q-text">The male population in a state is 25 lakh. Among them the number of literates is 2 lakh, the number of criminals is 26000 and the number of literate criminals is 2000. What is the association between literacy and criminality?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> No association</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Negatively associated</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Positively associated</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Association cannot be established</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next four (04) items:</strong><br>
+            Let \( (X_1, X_2, X_3) \) be a random vector with the joint pmf given by:<br>
+            \[ P(X_1=x_1, X_2=x_2, X_3=x_3) = \frac{50!}{x_1!x_2!x_3!(50-x_1-x_2-x_3)!}\left(\frac{1}{4}\right)^{x_1}\left(\frac{1}{4}\right)^{x_2}\left(\frac{1}{4}\right)^{x_3}\left(\frac{1}{4}\right)^{50-x_1-x_2-x_3} \]
+            if \( x_1 + x_2 + x_3 \le 50 \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">41.</span>
+            <span class="q-topic">[Topic: Multinomial Distribution]</span>
+        </div>
+        <div class="q-text">The distribution of \( (50 - X_1) \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Binomial (50, 1/4)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Binomial (50, 3/4)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Trinomial distribution</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">42.</span>
+            <span class="q-topic">[Topic: Correlation in Multinomial]</span>
+        </div>
+        <div class="q-text">The correlation between \( X_1 \) and \( X_2 \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> -1/4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> -1/3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1/3</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">43.</span>
+            <span class="q-topic">[Topic: Conditional Expectation]</span>
+        </div>
+        <div class="q-text">What is \( E(X_1 | X_2 = 5) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 8</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 15</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">44.</span>
+            <span class="q-topic">[Topic: Conditional Variance]</span>
+        </div>
+        <div class="q-text">What is \( V(X_1 | X_2 = 5) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 8</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 15</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items:</strong><br>
+            Let random variables \( X \) and \( Y \) be independently distributed as Poisson \( (\lambda) \) and their moment generating functions together with random variable \( Z \) satisfy the following relation \( M_Z(t) = M_Y(\log M_X(t)) \) for some \( t \in (-h, h); h > 0 \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">45.</span>
+            <span class="q-topic">[Topic: Compound Poisson Distribution]</span>
+        </div>
+        <div class="q-text">What is the value of \( E(Z) \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \lambda + 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \lambda^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \lambda^2 + \lambda \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \lambda^4 + 1 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">46.</span>
+            <span class="q-topic">[Topic: Variance of Compound Random Variables]</span>
+        </div>
+        <div class="q-text">What is the value of \( Var(Z) \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 + \lambda + \lambda^3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1 + \lambda^2 + \lambda^3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \lambda^2 + \lambda^3 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \lambda^2 + \lambda^3 + \lambda^4 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">47.</span>
+            <span class="q-topic">[Topic: MGF of Compound Distributions]</span>
+        </div>
+        <div class="q-text">What is the moment generating function of random variable \( Z \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( e^{\lambda^2(e^t - 1)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( e^{\lambda(e^{te^\lambda} - 1) - 1]} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( e^{\lambda(e^t - 1)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( e^{\lambda[e^{\lambda(e^t - 1)} - 1]} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">48.</span>
+            <span class="q-topic">[Topic: Poisson Approximation]</span>
+        </div>
+        <div class="q-text">Use Poisson distribution to compute the probability of getting the ace of spades at least twice in 104 trials of drawing a single card from a pack of well-shuffled cards with replacement (Given \( e^{-2} = 0.1353 \)). What is the probability?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0·5941</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0·6235</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0·5419</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">49.</span>
+            <span class="q-topic">[Topic: Convergence in Probability]</span>
+        </div>
+        <div class="q-text">Let \( X_1, X_2, \dots \) be iid sequence of random variables with common pdf \( f(x) = \begin{cases} e^{-x+\theta} & \text{if } x \ge \theta \\ 0, & \text{if } x < \theta \end{cases} \). If \( \bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \), then \( \bar{X}_n \) converges in probability to:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 - \theta \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1 + \theta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1 - \theta^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1 + \theta^2 \)</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">50.</span>
+            <span class="q-topic">[Topic: Characteristic Functions]</span>
+        </div>
+        <div class="q-text">The characteristic function of a random variable \( X \) is given by \( \Phi_X(t) = e^{2t(i - t)}, |t| \le 1 \). What is the fourth order central moment of the distribution?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 24</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 36</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 48</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">51.</span>
+            <span class="q-topic">[Topic: Empirical Distribution Function]</span>
+        </div>
+        <div class="q-text">Let \( X_1, X_2, \dots, X_n \) be a random sample from uniform [0, 1] distribution. The asymptotic distribution of empirical cdf distribution function \( F_n(x) \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Normal with mean zero and variance 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Normal with mean zero and variance \( x(1-x)/n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Normal with mean \( x \) and variance \( x(1-x)/n \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">52.</span>
+            <span class="q-topic">[Topic: Transformation of Variables]</span>
+        </div>
+        <div class="q-text">A two dimensional non-negative continuous random variable \( (X, Y) \) has the joint density \( f(x, y) = \begin{cases} 4xye^{-(x^2+y^2)}; & x \ge 0, y \ge 0 \\ 0; & \text{otherwise} \end{cases} \). Let \( T^2 = X^2 + Y^2 \) such that \( 0 \le (x^2 + y^2) < \infty \). The density function of \( T \) is given by:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 2t^3e^{-t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2t^2e^{-t^3} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 3t^2e^{-t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 3te^{-t^3} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">53.</span>
+            <span class="q-topic">[Topic: Theory of Attributes]</span>
+        </div>
+        <div class="q-text">Given that for three distinct attributes \( A \), \( B \) and \( C \) with \( (A) = (\alpha) = (B) = (\beta) = (C) = (\gamma) = N/2 \) such that \( (ABC) = (\alpha\beta\gamma) \). Which of the following statements is/are correct?
+            <br>I. \( (AB) = (\alpha\beta), (A\beta) = (\alpha B) \)
+            <br>II. \( 2(ABC) = (AB) + (AC) + (BC) - N/2 \)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">54.</span>
+            <span class="q-topic">[Topic: Uniform Distribution Properties]</span>
+        </div>
+        <div class="q-text">If \( X \) is uniformly distributed with mean 1 and variance 4/3, then \( P[X < 0] \) equals:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1/8</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">55.</span>
+            <span class="q-topic">[Topic: Normal Distribution Probability]</span>
+        </div>
+        <div class="q-text">If \( X \sim N(\mu, \sigma^2) \), then \( P[a \le X \le b] \) in terms of cdf of the standard normal distribution \( \Phi(\cdot) \) for some constants '\( a \)' and '\( b \)' is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \Phi(\frac{a-\mu}{\sigma}) - \Phi(\frac{b-\mu}{\sigma}) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \Phi(\frac{b-\mu}{\sigma}) - \Phi(\frac{a-\mu}{\sigma}) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \Phi(\frac{a+\mu}{\sigma}) - \Phi(\frac{b+\mu}{\sigma}) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \Phi(\frac{b+\mu}{\sigma}) - \Phi(\frac{a+\mu}{\sigma}) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">56.</span>
+            <span class="q-topic">[Topic: Distribution of Quadratic Forms]</span>
+        </div>
+        <div class="q-text">Let \( (X_1, X_2, \dots, X_{53}) \) be a random sample from \( N(0, 1) \) distribution. If for some \( \alpha \)'s, \( \beta \)'s and \( \gamma \)'s, \( \sum_{i=1}^{53} \alpha_i X_i = 0 \), \( \sum_{i=1}^{53} \beta_i X_i = 0 \) and \( \sum_{i=1}^{53} \gamma_i X_i = 0 \), then the distribution of \( \sum_{i=1}^{53} X_i^2 \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \chi^2_{52} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \chi^2_{50} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \chi^2_{49} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2_{53} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">57.</span>
+            <span class="q-topic">[Topic: Distribution of Order Statistics]</span>
+        </div>
+        <div class="q-text">Let \( M \) be the minimum observation in a random sample of size \( n \) from a distribution that has the pdf \( f(x) = \begin{cases} e^{-(x-\theta)}, & \theta < x < \infty \\ 0, & \text{otherwise} \end{cases} \). What is the distribution of \( 2n(M - \theta) \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \chi^2_{(2n)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Exponential distribution with mean equal to 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Exponential distribution with mean equal to 0·5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2_{(n)} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">58.</span>
+            <span class="q-topic">[Topic: Normal Distribution Probabilities]</span>
+        </div>
+        <div class="q-text">Let \( X \sim N(\mu, \sigma^2) \). If \( \sigma^2 = \mu^2, \mu > 0 \), then the expression of \( P[(X < -\mu) | (X < \mu)] \) in terms of the cdf of \( N(0, 1) \) distribution \( \Phi(\cdot) \) is:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \Phi(-2) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \Phi(2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1 - \Phi(2) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2[1 - \Phi(2)] \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">59.</span>
+            <span class="q-topic">[Topic: Sampling Distributions (t-dist)]</span>
+        </div>
+        <div class="q-text">Suppose that the random variables \( X_1, X_2, X_3, X_4, X_5 \) are independent and each has a standard normal distribution. A constant \( C \) such that the random variable \( \frac{C(X_4 + X_5)}{(X_1^2 + X_2^2 + X_3^2)^{1/2}} \) will have a t-distribution, has value:</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sqrt{\frac{3}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sqrt{3}}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{3}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \sqrt{\frac{2}{3}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">60.</span>
+            <span class="q-topic">[Topic: Yule's Coefficient of Association]</span>
+        </div>
+        <div class="q-text">Consider the following \( 2 \times 2 \) table for two attributes \( A \) and \( B \):
+            <div class="q-table">
+                <table>
+                    <tr><td></td><td>B</td><td>not B</td></tr>
+                    <tr><td>A</td><td>a</td><td>b</td></tr>
+                    <tr><td>not A</td><td>c</td><td>d</td></tr>
+                </table>
+            </div>
+            <br>
+            Given that \( Q = \text{Yule's Coefficient of Association} \) and \( Y = \text{Coefficient of Colligation} \). Which of the following statements are correct?
+            <br>I. \( Q = Y = 1 \) if \( bc = 0 \)
+            <br>II. \( Q = -1 \) if \( ad = 0 \)
+            <br>III. \( Q = 0 \) if \( ad = bc \)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

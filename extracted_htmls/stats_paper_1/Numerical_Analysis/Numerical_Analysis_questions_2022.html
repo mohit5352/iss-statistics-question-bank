@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2022: Statistics Paper I - Numerical Analysis</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Numerical Analysis: Integration Error]</span>
+        </div>
+        <div class="q-text">
+            Suppose \(f\) is a three time differentiable function on \([0, 2]\). The integral \(\int_{0}^{2}f(x)dx\) is computed using trapezoidal rule partitioning \([0, 2]\) into 10 equal sub-intervals. Then the error is given by:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(-\frac{2}{25}f'(t)\) for some \(t \in [0, 2]\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(-\frac{1}{150}f''(t)\) for some \(t \in [0, 2]\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(-\frac{1}{300}f''(t)\) for some \(t \in [0, 2]\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(-\frac{1}{150}f'''(t)\) for some \(t \in [0, 2]\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Numerical Analysis: Euler's Method]</span>
+        </div>
+        <div class="q-text">
+            Euler method is used to solve the initial value problem \(\frac{dy}{dt} = \sin y\), \(y(0) = 1\), \(t \in (0, 7)\). Then the local truncation error is always bounded by:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(\frac{h}{2}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{h^2}{2}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{h^2}{4}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{3h}{2}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Numerical Analysis: Finite Differences]</span>
+        </div>
+        <div class="q-text">
+            What is \((\frac{\Delta^2}{E})e^x \times \frac{Ee^x}{\Delta^2 e^x}\) equal to? (with interval of differencing equal to \(h\))
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(e^{-x}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(e^{2x}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(e^x\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Numerical Analysis: Mixed Quadrature Rules]</span>
+        </div>
+        <div class="q-text">
+            Consider the following data:
+            <br>X: 0, 1.0, 1.5, 2.0
+            <br>f(x): 1.1, 2.4, 5.7, 8.1
+            <br>Let \(I = \int_{0}^{2}f(x)dx\). Application of combination of Trapezoidal rule on \([0, 1]\) and Simpson’s one-third rule on \([1, 2]\) gives the value of I as:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 7.30</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5.55</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3.65</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 3.33</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Numerical Analysis: Operator Calculus]</span>
+        </div>
+        <div class="q-text">
+            What is \(\frac{1}{E-8}(x^2 2^x)\) equal to? (take interval of differencing to be unity)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(-\frac{2^x}{54}(9x^2 - 6x - 1)\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{2^x}{54}(9x^2 - 6x - 1)\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(-\frac{2^x}{54}(9x^2 + 6x + 5)\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{2^x}{54}(9x^2 + 6x + 5)\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Numerical Analysis: Interpolation]</span>
+        </div>
+        <div class="q-text">
+            Bessel’s interpolation formula is most appropriate when \(p = (x-x_0)/h\):
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> lies between \(-0.25\) and \(+0.25\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> lies between \(0.25\) and \(0.75\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> lies between \(0.75\) and \(1\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> is greater than \(1\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Numerical Analysis: Inverse Interpolation]</span>
+        </div>
+        <div class="q-text">
+            Applying Lagrange’s formula inversely, the value of x from the data \(y_1 = 4\), \(y_3 = 12\), \(y_4 = 19\) and \(y_x = 7\) is approximately:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1.86</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.98</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2.16</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2.36</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Numerical Analysis: Finite Differences]</span>
+        </div>
+        <div class="q-text">
+            Central finite difference approximation for second order derivative of \(f(x)\) at \(x_i\) equally spaced points of step length \(h\) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(\frac{f_{i-1} + f_i + f_{i+1}}{h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{f_{i+1} - f_{i-1}}{2h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{f_{i-1} - 2f_i + f_{i+1}}{h^2}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{f_i - 2f_{i-1} + f_{i-2}}{h^2}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Numerical Analysis: Divided Differences]</span>
+        </div>
+        <div class="q-text">
+            If \(f(x) = \frac{1}{x}\), then the value of \(f(x_1, x_2, \dots, x_n)\) is equal to:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \((-1)^n \frac{1}{x_1 x_2 \dots x_n}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \((-1)^{n-1} \frac{1}{x_1 x_2 \dots x_n}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{n}{x_1 x_2 \dots x_n}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Numerical Analysis: Differences of Functions]</span>
+        </div>
+        <div class="q-text">
+            What is \(\Delta^n e^{ax+b}\) equal to? (Step length \(h = 1\))
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(e^{ax+b}(e^a - 1)^{n+1}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(e^{ax+b}e^a(e^a - 1)^n\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(e^{ax+b}(e^a - 1)^n\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(e^{ax+b}e^a(e^a - 1)^{n+1}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">61.</span>
+            <span class="q-topic">[Topic: Finite Difference Operators]</span>
+        </div>
+        <div class="q-text">
+            Consider the following expressions:
+            <br>1. \(E^n x^2 = (Ex)^2\)
+            <br>2. \(E^n = (1 + \Delta)^n\)
+            <br>3. \(E^n E^m f(x) = E^{n+m} f(x)\)
+            <br>4. \(\Delta^n \Delta^m f(x) = \Delta^{n+m} f(x)\)
+            <br>where \(n, m\) are positive integers.
+            <br>How many of the above expressions are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one expression</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two expressions</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only three expressions</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All four expressions</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">62.</span>
+            <span class="q-topic">[Topic: Newton-Gregory Interpolation]</span>
+        </div>
+        <div class="q-text">
+            It is given that \(f(0) = 5\), \(f(1) = 1\), \(f(2) = 9\), \(f(3) = 25\), \(f(4) = 55\). What is the approximate value of \(f(5)\) obtained by using Newton-Gregory forward interpolation?
+        </div>
+        
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 108</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 110</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 112</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 115</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">63.</span>
+            <span class="q-topic">[Topic: Finite Differences]</span>
+        </div>
+        <div class="q-text">
+            If \(y_{10} = 3\), \(y_{11} = 6\), \(y_{12} = 11\), \(y_{13} = 18\) and \(y_{14} = 27\), then what is \(\Delta^2 y_{10}\) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 9</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 27</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">64.</span>
+            <span class="q-topic">[Topic: Operator Relations]</span>
+        </div>
+        <div class="q-text">
+            If \(\Delta\) and \(\nabla\) are the forward and the backward difference operators respectively, then what is \(\Delta - \nabla\) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(\Delta\nabla\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\Delta + \nabla\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(\frac{\Delta}{\nabla}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\nabla^2\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">65.</span>
+            <span class="q-topic">[Topic: Polynomial Fitting]</span>
+        </div>
+        <div class="q-text">
+            Consider the data \(f(1) = 12\), \(f(2) = 40\), \(f(3) = 90\), \(f(4) = 168\), \(f(5) = 280\), and \(f(6) = 432\). The polynomial which conforms to the data is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(f(x) = x^3 + 5x^2 + 5x + 1\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(f(x) = x^3 + 4x^2 + 6x + 1\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(f(x) = x^3 + 5x^2 + 4x + 2\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(f(x) = x^3 + 5x^2 + 6x\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">66.</span>
+            <span class="q-topic">[Topic: Difference Product Rules]</span>
+        </div>
+        <div class="q-text">
+            If \(u = \Delta [f(x-1)\Delta g(x-1)]\), \(v = \nabla [f(x)\Delta g(x)]\) and \(w = \Delta [f(x-1)\nabla g(x)]\) with difference interval equal to 1, then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only \(u = v\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only \(v = w\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only \(u = w\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(u = v = w\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">67.</span>
+            <span class="q-topic">[Topic: Central Difference Operators]</span>
+        </div>
+        <div class="q-text">
+            Consider the following expressions:
+            <br>1. \(\mu = \sqrt{1 + \frac{\delta^2}{4}}\)
+            <br>2. \(\Delta = \frac{\delta^2}{2} + \delta\sqrt{1 + \frac{\delta^2}{4}}\)
+            <br>3. \(\nabla = -\frac{\delta^2}{2} + \delta\sqrt{1 + \frac{\delta^2}{4}}\)
+            <br>How many expressions given above are correct?
+        </div>
+        
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one expression</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two expressions</div>
+            <div class="option-item"><span class="opt-label">(c)</span> All three expressions</div>
+            <div class="option-item"><span class="opt-label">(d)</span> No expression</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">68.</span>
+            <span class="q-topic">[Topic: Forward Difference Approximation]</span>
+        </div>
+        <div class="q-text">
+            For the data \(f(20) = 512\), \(f(30) = 439\), \(f(40) = 346\) and \(f(50) = 243\), consider the following statements:
+            <br>1. The function \(f(x)\) can be approximated by a polynomial of degree 2.
+            <br>2. The value of \(f(25)\) can be obtained as 477 approximately by using Newton-Gregory forward difference interpolation formula.
+            <br>Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">69.</span>
+            <span class="q-topic">[Topic: Exponential Differences]</span>
+        </div>
+        <div class="q-text">
+            What is \(\Delta^2 a^{4x}\) equal to? [with the interval of differencing as 1]
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \((a^4 - 1)^2 a^{4x}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \((a^2 + 1)^2 a^{4x}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \((a^2 - 1)^2 a^{4x}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \((a^2 + 1)^4 a^{4x}\)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">70.</span>
+            <span class="q-topic">[Topic: Numerical Differentiation]</span>
+        </div>
+        <div class="q-text">
+            What is \(\Delta \left( \frac{1}{x} \right)\) at \(x = 1\) equal to? [with the interval of differencing as 1]
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \(-\frac{1}{2}\)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \(\frac{1}{2}\)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \(-\frac{1}{4}\)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \(\frac{1}{4}\)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2023: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Bayes' Theorem]</span>
+        </div>
+        <div class="q-text">
+            The members of a firm rent cars from three rental agencies: 60% from Agency-1, 30% from Agency-2 and 10% from Agency-3. If 9% of cars from Agency-1 need an oil change, 20% of cars from Agency-2 need an oil change and 6% of cars from Agency-3 need an oil change, then what is the probability that a rental car delivered to the firm will need an oil change?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.006</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.054</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.06</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Conditional Expectation]</span>
+        </div>
+        <div class="q-text">
+            If \( X \sim N(0,1) \) and \( Y|X=x \sim U(x-1, x+1) \), then what is the value of \( E(E^2(Y|X)) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Exponential Distribution Properties]</span>
+        </div>
+        <div class="q-text">
+            If \( X \sim \exp(\theta) \), then consider the following statements:
+            <br>1. Variance > Mean if \( 0 < \theta < 1 \)
+            <br>2. Minimum order statistics is chi-square distribution
+            <br>3. Lack of memory property exists only if \( \theta > 1 \)
+            <br>Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Binomial Distribution]</span>
+        </div>
+        <div class="q-text">
+            A random variable X has probability mass function given by \( P(X=x) = \frac{1}{5^{10}} \binom{10}{x} 2^x 3^{10-x} \); \( x=0, 1, 2, ..., 10 \). The mean and variance of X are respectively:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2, 4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2.4, 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4, 2.4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4, 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Log-Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            If \( X \sim \text{log-normal}(\mu, \sigma^2) \) and \( Y = \sigma X^\mu \); \( \sigma > 0 \), \( -\infty < \mu < \infty \), then what is the value of \( \text{Var}\left(\left(\log \frac{Y}{\sigma} - \mu^2\right)^2\right) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 105 \mu^4 \sigma^4 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 15 \mu^4 \sigma^4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 3 \mu^4 \sigma^4 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2 \mu^4 \sigma^4 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Uniform Distribution]</span>
+        </div>
+        <div class="q-text">
+            The pdf of a random variable X is given by \( f(x) = \begin{cases} 0.2, & 0 \le x \le 5 \\ 0, & \text{otherwise} \end{cases} \). Consider the following probabilities:
+            <br>1. \( P(2 \le X \le 3) = 0.2 \)
+            <br>2. \( P(X > 3.5) = 0.3 \)
+            <br>3. \( P(|X| \ge 2) = 0.6 \)
+            <br>4. \( P(X < 4) = 0.8 \)
+            <br>How many of the probabilities given above are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only three</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All four</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            If \( \phi(.) \) is pdf of \( N(0,1) \) distribution and A represents a circle of unit area with centre at origin, then what is the value of \( \iint_A \phi(x)\phi(y) \, dx \, dy \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{2} + e^{-\pi} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1 - e^{-\frac{1}{2\pi}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1 - e^{-2\pi} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1 - e^{-\frac{1}{\sqrt{\pi}}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items that follow:</strong><br>
+            Let joint pdf of two random variables X and Y be \( f(x,y) = \frac{1}{\sqrt{2\pi y}} e^{-\frac{1}{2y}(x-12y)^2} \); \( -\infty < x < \infty, 0 < y < 1 \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Joint Distributions - Expectation]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( E(X) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 6</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Joint Distributions - Variance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \text{Var}(X) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 12.5</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Joint Distributions - Covariance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \text{Cov}(X,Y) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Cumulants]</span>
+        </div>
+        <div class="q-text">
+            If random variable \( X \) follows Binomial distribution with \( n=10 \) and \( p=\frac{1}{4} \), then what is the value of third cumulant of \( Y=10-X \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( -\frac{15}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{15}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{5}{8} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{5}{16} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Gamma Distribution]</span>
+        </div>
+        <div class="q-text">
+            If \( X, Y \) and \( Z \) are iid \( \text{exponential}(1) \) variates, then the distribution of \( (X+Y+Z)/3 \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \text{Exponential} (1/3) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \text{Exponential} (3) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \text{Gamma} (n=3, \lambda=1/3) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \text{Gamma} (n=3, \lambda=3) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Probability Generating Functions]</span>
+        </div>
+        <div class="q-text">
+            If random variable \( X \) assumes non negative integral values and \( P(s)=E(s^X) \), then what is the value of \( \sum_{n=0}^{\infty}s^{2n}P(X \le n) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{P(\sqrt{s})}{1-s^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{P(s)}{1-s^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{P(s^2)}{1-s^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{P(\sqrt{s})}{1-s} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Mathematical Expectation]</span>
+        </div>
+        <div class="q-text">
+            If a random variable assumes non negative integral values and \( E(X)=\mu \), \( \text{Var}(X)=\sigma^2 \), then what is the value of \( 2\sum_{x=0}^{\infty}xP(X>x) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sigma^2 + \mu^2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sigma^2 + \mu^2 - \mu \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (\sigma^2 - \mu)/2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (\sigma^2 + \mu^2 - \mu)/2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items that follow:</strong><br>
+            The joint pmf of two random variables \( X \) and \( Y \) is given below:
+            <table border="1" style="text-align:center; margin: 10px auto; border-collapse: collapse; width: 50%;">
+                <tr><td>\( X \backslash Y \)</td><td>-2</td><td>-1</td><td>0</td><td>1</td><td>2</td></tr>
+                <tr><td>-1</td><td>\( \theta \)</td><td>\( 2\theta \)</td><td>\( 3\theta \)</td><td>0</td><td>\( \theta \)</td></tr>
+                <tr><td>0</td><td>\( 2\theta \)</td><td>\( 3\theta \)</td><td>\( \theta \)</td><td>0</td><td>0</td></tr>
+                <tr><td>1</td><td>\( \theta \)</td><td>\( \theta \)</td><td>\( \theta \)</td><td>\( \theta \)</td><td>\( 2\theta \)</td></tr>
+            </table>
+            where \( 0 < \theta < 1 \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Conditional Distributions]</span>
+        </div>
+        <div class="q-text">
+            What is the moment generating function of \( X|Y=2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{e^{-t} + 2e^t}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1 + e^{-t} + e^t}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{2e^{-t} + e^t}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (1-2t)^{-1} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Conditional Variance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \text{Var}(X|Y=2) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1/3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 8/9 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2/9 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Conditional Expectation]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( E(XY|Y=2) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1/3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 2/3 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 8/9 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items that follow:</strong><br>
+            Let the joint pdf of \( X \) and \( Y \) be<br>
+            \( f(x,y) = \begin{cases} \frac{\lambda x^{12}}{(1+xy)^{20}}; & x > 0, y > 1 \\ 0; & \text{otherwise} \end{cases} \)<br>
+            where \( B(m,n) = \int_{0}^{1} x^{m-1}(1-x)^{n-1} dx \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Joint Distributions - Normalizing Constant]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \lambda \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{B(12, 7)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{19}{B(12, 7)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{7}{B(12, 7)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{84}{B(12, 7)} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Marginal Distributions]</span>
+        </div>
+        <div class="q-text">
+            What is the marginal distribution of \( X \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Beta Type-II distribution with parameters (12, 7)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Beta Type-II distribution with parameters (13, 7)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Beta Type-I distribution with parameters (12, 7)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Beta Type-I distribution with parameters (13, 7)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Marginal Distributions]</span>
+        </div>
+        <div class="q-text">
+            Marginal distribution of \( Y \) has pdf:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{7}{y^8} \); \( y > 1 \) and 0 otherwise</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{11}{y^{12}} \); \( y > 1 \) and 0 otherwise</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{18}{y^{19}} \); \( y > 1 \) and 0 otherwise</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{12}{y^{13}} \); \( y > 1 \) and 0 otherwise</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Data Condensing]</span>
+        </div>
+        <div class="q-text">
+            Which of the following are examples of data condensing?<br>
+            1. Data array<br>
+            2. Frequency distribution<br>
+            3. Histogram<br>
+            4. Ogives
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2, 3 and 4 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2, 3 and 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Variance of Linear Transformation]</span>
+        </div>
+        <div class="q-text">
+            For the variable X, following observations are taken:<br>
+            \( X = 2, 5, 0, 6, 3, 8, 1, 3, 0, 2 \)<br>
+            What is \( \text{Var}(2X+2) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 24.8</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 26.8</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 28.8</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 29.6</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Binomial Distribution - Moments]</span>
+        </div>
+        <div class="q-text">
+            What is the 3rd central moment of Binomial distribution with parameters \( n=10 \) and \( p=1/2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Chi-Square Test for Association]</span>
+        </div>
+        <div class="q-text">
+            Consider the contingency table presenting the number of skilled and unskilled labour against their gender. What is the value of \( \chi^2 \) for testing the association between gender and the nature of work?
+            <table border="1" style="text-align:center; margin: 10px auto; border-collapse: collapse; width: 50%;">
+                <tr><td></td><td>Skilled</td><td>Unskilled</td></tr>
+                <tr><td>Male</td><td>30</td><td>30</td></tr>
+                <tr><td>Female</td><td>20</td><td>20</td></tr>
+            </table>
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 50</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 16.66</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12.07</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Correlation and Variance]</span>
+        </div>
+        <div class="q-text">
+            If \( \text{Var}(X)=4 \), \( \text{Cov}(X, Y)=32 \) and correlation coefficient \( r(X,Y)=0.8 \) for some bivariate data, then what is \( V(Y) \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 400</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 200</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 200\sqrt{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 400\sqrt{2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next five (05) items that follow:</strong><br>
+            The pdf of Bi-variate normal distribution is given by<br>
+            \( f(x,y)=\lambda e^{-(2x^2+3xy+4y^2-7x-11y)} \); where \( \lambda \) is constant.<br>
+            \( -\infty < x < \infty \), \( -\infty < y < \infty \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Expectation]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( E(X)+E(Y)+3 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Variance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( 23(\text{Var}(X)+\text{Var}(Y)) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 8</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 17</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Correlation]</span>
+        </div>
+        <div class="q-text">
+            If \( r \) is the correlation coefficient between X and Y, then what is the value of \( \sqrt{23}r \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( -3/4 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( -1/4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( -1/\sqrt{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( -1/2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Conditional Distribution]</span>
+        </div>
+        <div class="q-text">
+            What is the distribution of \( Y|X=x \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(\frac{11-3x}{8}, \frac{1}{8}) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(1, \frac{1}{8}) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( N(\frac{1+x}{2}, \frac{1}{8}) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( N(\frac{4-3x}{8}, \frac{7}{8}) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - PDF]</span>
+        </div>
+        <div class="q-text">
+            If \( E(X)=\mu_1 \) and \( E(Y)=\mu_2 \), then what is the value of \( 2\pi f(\mu_1, \mu_2) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sqrt{23} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sqrt{6} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 4\sqrt{2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 16\sqrt{2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Moments]</span>
+        </div>
+        <div class="q-text">
+            If \( (X,Y) \sim BVN(0,0,1,1;\rho) \), then what is the value of \( \frac{E((Y-\rho X)^4 | X)}{(1-\rho^2)^2} \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 9</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 81</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Intra-class Correlation]</span>
+        </div>
+        <div class="q-text">
+            For \( h \) families containing equal number \( k \) of members in each family, the range of intra-class correlation coefficient \( \rho \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0 to 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> -1 to 1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( -1/(k-1) \) to 0</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( -1/(k-1) \) to 1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Standard Error of Correlation]</span>
+        </div>
+        <div class="q-text">
+            If the correlation coefficient between heights of fathers and sons from a random sample of 900 is calculated as 0.67, what is the standard error?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.018</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.04</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.18</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1.8</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Confidence Intervals]</span>
+        </div>
+        <div class="q-text">
+            The mean height obtained from a random sample of size 100 is 64 inches. The standard deviation of the height distribution is known to be 3 inches. What is the 95% confidence interval for mean height of the population? (Assume \( Z_{0.025}=2 \))
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> (63.4, 64.6)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> (63.1, 64.1)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> (62.8, 65.8)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> (62, 66)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Standard Error of Proportion]</span>
+        </div>
+        <div class="q-text">
+            In an art school, 380 children out of 800 were found to be singers. If \( E \) is the standard error of proportion of singers, then what is \( 1280000E^2 \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 39.9</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 399</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3990</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 4399</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Sampling Distributions]</span>
+        </div>
+        <div class="q-text">
+            If a sample of size \( n \) is taken from \( N(\mu, \sigma^2) \) and let \( \bar{x} \) and \( s^2 \) be sample mean and sample variance respectively, then distribution of \( \frac{(n-1)s^2}{\sigma^2} \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Chi-square with \( (n-1) \) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Chi-square with \( n \) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Students-t with \( (n-1) \) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Students-t with \( n \) degrees of freedom</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Least Squares Estimation]</span>
+        </div>
+        <div class="q-text">
+            For a bivariate data, using the principles of least-squares, the following models were constructed:<br>
+            E1: \( Y = 3X + 5 \) with \( \Sigma(Y_i - 3X_i - 5)^2 = 15.48 \)<br>
+            E2: \( Y = \tau X^2 + 8X + 2 \) with \( \Sigma(Y_i + X_i^2 - 8X_i - 2)^2 = 13.36 \)<br>
+            What is the estimated value of Y for \( X = 6 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 4.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 14</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 18.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 23</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Sampling Distributions]</span>
+        </div>
+        <div class="q-text">
+            Let \( x_1, x_2, ..., x_n \) be a random sample from a Normal population with mean \( \mu_0 \) and variance \( \sigma^2 \). If \( \overline{X} \) is the sample mean, then the distribution of \( \frac{\overline{X} - \mu_0}{(\sigma / \sqrt{n})} \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(0,1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> t with \( n \) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(c)</span> t with \( (n-1) \) degrees of freedom</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2 \) with \( (n-1) \) degrees of freedom</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items that follow:</strong><br>
+            \( (X,Y) \sim BVN(0,0,1,1;\rho) \)
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - Covariance]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( \text{Cov}(Y-\rho X, X) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> -0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.75</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Bivariate Normal - MGF]</span>
+        </div>
+        <div class="q-text">
+            What is the moment generating function of \( X^2 + Y^2 - 2\rho XY \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (1-2t)^{-1} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (1-2\rho t)^{-1} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1-2t+2\rho^2 t)^{-1} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (1-2t+2\rho t)^{-1} \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

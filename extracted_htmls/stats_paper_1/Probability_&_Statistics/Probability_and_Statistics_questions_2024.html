@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2 style="text-align:center; color:#2c3e50; border-bottom:2px solid #2c3e50;">ISS 2024: Statistics Paper I - Probability & Statistics</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Order Statistics]</span>
+        </div>
+        <div class="q-text">
+            If \( X_{(1)}, X_{(2)}, X_{(3)}, X_{(4)}, X_{(5)} \) are order statistics from a population with pdf \( f(x)=2e^{-2x}, x > 0 \), then what is the density function of \( X_{(1)} \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 10e^{-10x} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1-e^{-2x} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1-e^{-10x} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 10e^{-2x} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items:</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample from \( N(\mu, \sigma^2) \) distribution and 
+            \[ S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \overline{X})^2, \quad \overline{X} = \frac{1}{n}\sum_{i=1}^{n}X_i \]
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Sampling Distributions]</span>
+        </div>
+        <div class="q-text">What is the moment-generating function of \( S^2 \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (1 - \frac{2(n-1)t}{\sigma^2})^{-\frac{n-1}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (1 - \frac{(n-1)t}{\sigma^2})^{-\frac{n-1}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1 - \frac{2\sigma^2 t}{n-1})^{-\frac{n-1}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (1 - \frac{\sigma^2 t}{n-1})^{-\frac{n-1}{2}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Expectation of Sample Variance]</span>
+        </div>
+        <div class="q-text">
+            If \( r = \frac{1}{2}\frac{\Gamma(\frac{n-3}{2})}{\Gamma(\frac{n-1}{2})}; n > 3 \), then what is the value of \( E(\frac{1}{S^2}) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{(n-1)r}{\sigma^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{nr}{\sigma^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{2nr}{\sigma^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{nr}{2\sigma^2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items:</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_n \) be iid \( U(0, 1) \) variates and \( T = -\ln(X_1 X_2 X_3 \dots X_n) \).
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Expectation of Transformed Variables]</span>
+        </div>
+        <div class="q-text">What is \( E(T) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( n \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 4n \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( n/2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Variance of Transformed Variables]</span>
+        </div>
+        <div class="q-text">What is \( \text{Var}(T) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 4n \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 3n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 2n \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( n \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: MGF of Transformed Variables]</span>
+        </div>
+        <div class="q-text">What is the moment-generating function of \( T \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (1 - 2t)^{-2n} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (1 - t)^{-2n} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1 - t)^{-n} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (1 - 2t)^{-n/2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next four (04) items:</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_7 \) be iid random variables, each having the \( N(0, 1) \) distribution.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: t-Distribution]</span>
+        </div>
+        <div class="q-text">
+            What is the distribution of the following?
+            \[ \frac{\sqrt{2}(X_5 - X_6 + X_7)}{\sqrt{(X_1 + X_2 + X_3)^2 + 3X_4^2}} \]
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(0, 1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( t_{(2)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( t_{(3)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( t_{(7)} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Expectation of Chi-square]</span>
+        </div>
+        <div class="q-text">What is \( E\left(\frac{1}{X_1^2 + X_2^2 + X_3^2 + X_4^2}\right) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 1/2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1/9 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Expectation of Independent Ratios]</span>
+        </div>
+        <div class="q-text">What is \( E\left(\frac{X_1 + X_2 + X_3}{X_4^2 + X_5^2 + X_6^2 + X_7^2}\right) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1/2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Cauchy Distribution]</span>
+        </div>
+        <div class="q-text">
+            If 
+            \[ \lambda\left(\frac{X_3 + X_4 + X_5 + X_6 + X_7}{X_1 + X_2}\right) \sim \text{Cauchy}(0, 1) \]
+            then what is the value of \( 5\lambda^2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Quadratic Forms]</span>
+        </div>
+        <div class="q-text">
+            Consider the following pairs:
+            <br>I. \( x_1^2 + 2x_1x_2 + x_2^2 \); \( y_1^2 + 2y_1y_2 + 2y_2^2 \)
+            <br>II. \( x_1^2 - 2x_1x_2 - x_2^2 \); \( 2y_1^2 + y_1y_2 - y_2^2 \)
+            <br>III. \( x_1^2 + 2x_1x_2 - 2x_2^2 \); \( 2y_1^2 + y_1y_2 + 2y_2^2 \)
+            <br>IV. \( x_1^2 + x_1x_2 - x_2^2 \); \( y_1^2 + y_1y_2 - y_2^2 \)
+            <br><br>
+            How many of the above are non-orthogonal pairs?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one pair</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two pairs</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only three pairs</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All four pairs</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( X \) and \( Y \) are zero-mean jointly normally distributed random variables such that \( \sigma_X^2 = 4 \), \( \sigma_Y^2 = \frac{17}{9} \), and \( E(XY) = 2 \).
+            <br>If \( Z = 2X - 3Y \), then what is the pdf of \( Z \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{\sqrt{12\pi}}e^{-\frac{z^2}{12}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{\sqrt{18\pi}}e^{-\frac{z^2}{18}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{\sqrt{6\pi}}e^{-\frac{z^2}{9}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{\sqrt{8\pi}}e^{-\frac{z^2}{8}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Asymptotic Distributions]</span>
+        </div>
+        <div class="q-text">
+            If \( X \) is a normally distributed random variable with \( \mu = 1 \) and \( \sigma^2 = 2 \), then the asymptotic distribution of sample median for \( n = 20 \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(1, 1/10) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(1, \pi/20) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( N(1, \pi/10) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( N(1, \pi/2) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Sampling Distributions]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( X \) and \( Y \) are independent random variables having chi-square distributions with \( m \) and \( n \) degrees of freedom. Which of the following statements is/are correct?
+            <br>I. \( \frac{nX}{mY} \) follows \( F_{m,n} \).
+            <br>II. \( \frac{mY}{nX} \) follows \( F_{n,m} \).
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Regression Analysis]</span>
+        </div>
+        <div class="q-text">
+            It is known that \( 8X - 10Y + 66 = 0 \) and \( 40X - 18Y = 214 \) are two regression equations. Consider the following statements:
+            <br>I. The regression coefficient of \( X \) on \( Y \) is 0.8.
+            <br>II. The correlation coefficient is 0.6.
+            <br>III. The most probable value of \( Y \), when \( X = 30 \), is 30.6.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Moment Generating Functions]</span>
+        </div>
+        <div class="q-text">
+            The moment-generating function of \( X \), when \( X \) follows \( \chi^2(10) \), is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (1-t)^{-5} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (1-t)^{-10} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1-2t)^{-5} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (1-2t)^{-10} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Order Statistics]</span>
+        </div>
+        <div class="q-text">
+            The pdf \( g_n(x) \) of \( X_{(n)} \) in a random sample of size \( n \) from the exponential distribution with pdf \( f(x) = e^{-x}, x \ge 0 \), is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (1-e^{-x})^{n-1} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( n(1-e^{-x})^{n-1}e^{-x} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (1-e^{-x})^n \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( n(1-e^{-x})^{n-1} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Variance Properties]</span>
+        </div>
+        <div class="q-text">
+            If \( 4\sigma_x^2 = 9\sigma_y^2 = 25 \) where \( x \) and \( y \) are independently distributed, then what is the value of \( \text{Var}\left(\frac{2x+3y}{\sqrt{2}}\right) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 25</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 50</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 62.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 75</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Correlation & Variance]</span>
+        </div>
+        <div class="q-text">
+            If \( \text{Cov}(2x, y) = 4 \), \( \text{Var}(x/2) = 1 \) and \( \text{Var}(y/2) = 1 \), then what is the value of \( \left(\frac{1}{r(x,y)}\right)^2 \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 7</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/7</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1/4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Order Statistics (Uniform)]</span>
+        </div>
+        <div class="q-text">
+            If \( X_{(1)}, X_{(2)}, X_{(3)}, X_{(4)}, X_{(5)} \) are order statistics from \( U[0,2] \), then what is the value of the pdf \( f_{X_{(1)}}(1) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/16</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5/16</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/32</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5/32</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Geometrical Probability]</span>
+        </div>
+        <div class="q-text">
+            A point (x, y) is to be selected from the square S containing all points (x, y) such that \( 0 \le x \le 1 \) and \( 0 \le y \le 1 \). What is the probability that the selected point belongs to subset of points such that \( 0.5 < (x+y) < 1.5 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.15</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.45</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.75</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Continuous Distributions]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, ..., X_n) \) be a random sample from \( U(0,1) \) distribution. In X follows:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> gamma distribution</div>
+            <div class="option-item"><span class="opt-label">(b)</span> negative exponential distribution</div>
+            <div class="option-item"><span class="opt-label">(c)</span> half-normal distribution</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Characteristic Functions]</span>
+        </div>
+        <div class="q-text">
+            If X, Y and Z are iid \( N(0,1) \) variates, then the characteristic function of \( \frac{X+YZ}{\sqrt{1+Z^2}} \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( e^{-\frac{t^2}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( e^{-2t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{1+t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{\sqrt{1+t^2}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Characteristic Functions]</span>
+        </div>
+        <div class="q-text">
+            Two random variables X and Y are such that \( P(X = \pm 1) = 0.5 \) and \( Y \sim N(0,1) \). What is the characteristic function of 2XY?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( e^{-\frac{t^2}{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( e^{-2t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{4+t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{\sqrt{4+t^2}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Characteristic Functions]</span>
+        </div>
+        <div class="q-text">
+            If \( X_1 \) and \( X_2 \) are iid \( N(0,1) \) variates, then the characteristic function of \( X_1 X_2 \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( e^{-t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{1+t^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{\sqrt{1+t^2}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( e^{-2|t|} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: MGF Relationships]</span>
+        </div>
+        <div class="q-text">
+            Let \( U(t) \) and \( V(t) \) be the moment-generating functions of two random variables X and Y respectively, and \( V(t) = U(\log U(t)) \). If \( E(X) = 2 \), then what is the value of \( E(Y) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \ln 2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (2) items that follow:</strong><br>
+            Gambles are independent and each one results in the player being equally likely to win or lose 1 unit. Let W denote the net winnings of a gambler whose strategy is to stop gambling immediately after his first win.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Random Walk / Stopping Time]</span>
+        </div>
+        <div class="q-text">
+            If the first win is on trial N, then the winnings is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 2/N \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 2 - N \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 2N \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (2 - N)/N \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Discrete Distribution]</span>
+        </div>
+        <div class="q-text">
+            What is \( P(W < 0) \) equal to?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3/4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (2) items that follow:</strong><br>
+            Suppose that a balanced, six-faced dice is rolled repeatedly until the same number appears on two successive rolls and let X denote the number of rolls that are required.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Successive Events Probability]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( P(X=10) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{5^8}{6^9} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{5^9}{6^{10}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{5^{10}}{6^{10}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{5^{11}}{6^{12}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Expected Value]</span>
+        </div>
+        <div class="q-text">
+            What is the value of \( E(X) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 17</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 7</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 18/35</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 17/25</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Probability Laws]</span>
+        </div>
+        <div class="q-text">
+            Two events A and B are such that \( P(A)=1/3 \), \( P(B)=1/5 \) and \( P(A|B)+P(B|A)=2/3 \). What is the value of \( 12P(\overline{A} \cup \overline{B}) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 23/2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 11</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 7</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Joint Distributions]</span>
+        </div>
+        <div class="q-text">
+            Let the joint distribution of X and Y be given by \( f(x,y) = cxye^{-(x^2+y^2)} \) for \( x > 0, y > 0 \). Consider these statements: <br>
+            I. The value of c for f(x,y) to be a proper pdf is 4. <br>
+            II. The probability \( P(X^2 > 2Y^2) \) is 1/3. <br>
+            III. X and Y are independently distributed.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Joint PMF]</span>
+        </div>
+        <div class="q-text">
+            Let X and Y have joint PMF \( P(X=x, Y=y) = \frac{e^{-2}}{x!(y-x)!} \) for \( x=0,1,...,y \) and \( y=1,2,... \). Consider: <br>
+            I. Y follows Poisson distribution with parameter 1/2. <br>
+            II. \( E(X) = 1 \).
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: PMF Properties]</span>
+        </div>
+        <div class="q-text">
+            \( P(X=n) = 2^{-n} \) for \( n=1,2,3... \). Define \( Y = -1 \) if X is odd and \( Y = +1 \) if X is even. Consider: <br>
+            I. \( P(Y=1) = 2/3 \) <br>
+            II. \( E(Y) = -1/3 \) <br>
+            III. \( V(Y) = 8/9 \)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Marginal Distributions]</span>
+        </div>
+        <div class="q-text">
+            Joint PMF is \( P(x,y) = \frac{1}{2^{y+2}(y+1)} (\frac{2y+1}{2y+2})^x \) for \( x,y=0,1,2... \). Consider: <br>
+            I. Marginal distribution of Y is geometric. <br>
+            II. \( Var(Y) = 1 \).
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both I and II</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither I nor II</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Bivariate Normal Distribution]</span>
+        </div>
+        <div class="q-text">
+            Let X and Y be jointly distributed as \( BN(1, 0, 36, 16, 1/2) \). Consider: <br>
+            I. \( E(Y|X=7) = 2 \) <br>
+            II. \( Cov(X+Y, Y-X) = -20 \) <br>
+            III. \( V(X|Y=1) = 27 \)
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> I and II only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> II and III only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> I and III only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> I, II and III</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: MGF and Joint Probabilities]</span>
+        </div>
+        <div class="q-text">
+            Independent X and Y have MGFs \( M_X(t) = (\frac{3}{4} + \frac{1}{4}e^t)^3 \) and \( M_Y(t) = e^{2(e^t - 1)} \). What is \( P[(X+Y) < 2] \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{27}{64}e^{-2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{27}{16}e^{-2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{81}{32}e^{-2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{27}{32}e^{-2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Exponential Distribution Bounds]</span>
+        </div>
+        <div class="q-text">
+            Sample of size 10 from exponential distribution with mean \( \theta \). The lower bound to the probability \( P(0 < \bar{X} < 2\theta) \) is:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.01</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.09</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.1</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.9</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Transformations of Variates]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( Y = X^2 \) and \( f(x) = 1 \) for \( 0 < x < 1 \). What is the pdf of Y?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sqrt{y}, 0 < y < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sqrt{y}}{2}, 0 < y < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{2\sqrt{y}}, 0 < y < 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( y, 0 < y < 1 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: MGF and Parameters]</span>
+        </div>
+        <div class="q-text">
+            If the moment-generating function of a distribution is \( M_X(t) = \frac{\lambda}{\lambda-t} \) for \( t < \lambda \), then what are the mean and variance of the distribution respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{\lambda}, \frac{1}{\lambda^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \lambda, \lambda^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{\lambda}, \lambda \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1, \lambda^2 \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

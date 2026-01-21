@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>ISS Statistics Paper I Archive</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <div class="paper-container">
+        <h1>ISS Statistics Paper I</h1>
+        <h2>Question Bank</h2>
+        
+        <div class="meta-controls">
+            <div class="meta-line meta-section">
+                <span class="meta-label">Section</span>
+                <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
+                <select id="section-select" onchange="setSection(this.value)">
+                    <option value="prob">Probability &amp; Statistics</option>
+                    <option value="num">Numerical Analysis</option>
+                    <option value="comp">Computer Section</option>
+                </select>
+            </div>
+            <div class="meta-line meta-year">
+                <span class="meta-label">Year</span>
+                <span class="meta-value" id="year-value">2025</span>
+                <select id="year-select" onchange="loadYear(this.value)">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                </select>
+            </div>
+        </div>
+    
+        <!-- Use iframe for desktop, div for mobile -->
+        <iframe id="year-viewer-iframe" width="100%" frameborder="0" style="border: none; display: none;"></iframe>
+        <div id="year-viewer" class="content-viewer" style="display: none;"></div>
+    </div>
+    
+    <script>
+        // Track current selection for full Paper I (three sections)
+        var currentYear = '2025';
+        var currentSection = 'prob'; // 'prob' | 'num' | 'comp'
+        
+        // Detect if we should use iframe (desktop) or fetch (mobile)
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        var isFileProtocol = window.location.protocol === 'file:';
+        var useIframe = !isMobile && isFileProtocol; // Use iframe on desktop with file://, fetch on mobile or http://
+
+        function buildFilename() {
+            var prefix;
+            var basePath = 'extracted_htmls/stats_paper_1/';
+            if (currentSection === 'prob') {
+                // Probability & Statistics files
+                prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
+            } else if (currentSection === 'num') {
+                // Numerical Analysis section
+                prefix = basePath + 'Numerical_Analysis/Numerical_Analysis_questions_';
+            } else if (currentSection === 'comp') {
+                // Computer section
+                prefix = basePath + 'Computer/Computer_questions_';
+            } else {
+                // Fallback to Probability & Statistics
+                prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
+            }
+            return prefix + currentYear + '.html';
+        }
+
+        function updateControlsUI() {
+            var sectionValueEl = document.getElementById('section-value');
+            var yearValueEl = document.getElementById('year-value');
+
+            if (sectionValueEl) {
+                var sectionText = 'Probability & Statistics';
+                if (currentSection === 'num') {
+                    sectionText = 'Numerical Analysis';
+                } else if (currentSection === 'comp') {
+                    sectionText = 'Computer Section';
+                }
+                sectionValueEl.textContent = sectionText;
+            }
+
+            if (yearValueEl) {
+                yearValueEl.textContent = currentYear;
+            }
+        }
+
+        // Load content using iframe (for desktop file://)
+        function loadContentIframe() {
+            var iframe = document.getElementById('year-viewer-iframe');
+            var div = document.getElementById('year-viewer');
+            var filename = buildFilename();
+            
+            iframe.style.display = 'block';
+            div.style.display = 'none';
+            iframe.src = filename;
+            
+            // Adjust iframe height
+            adjustIframeHeight();
+        }
+
+        // Load content using fetch/XHR (for mobile or http://)
+        function loadContentFetch() {
+            var iframe = document.getElementById('year-viewer-iframe');
+            var viewer = document.getElementById('year-viewer');
+            var filename = buildFilename();
+            
+            iframe.style.display = 'none';
+            viewer.style.display = 'block';
+            
+            // Show loading state
+            viewer.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">Loading questions...</div>';
+            
+            // Function to process loaded HTML
+            function processHTML(html) {
+                // Extract body content from the HTML
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var bodyContent = doc.body.innerHTML;
+                
+                // Inject content into viewer
+                viewer.innerHTML = bodyContent;
+                
+                // Re-initialize MathJax for the new content
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([viewer]).catch(function(err) {
+                        console.log('MathJax error:', err);
+                    });
+                }
+            }
+            
+            // Function to show error
+            function showError(error) {
+                console.error('Error loading file:', error);
+                var errorMessage = isFileProtocol 
+                    ? '<div style="text-align:center; padding:40px; color:#d32f2f; max-width:600px; margin:0 auto;">' +
+                      '<p style="font-size:1.2em; font-weight:bold; margin-bottom:15px;">⚠️ Cannot Load Questions</p>' +
+                      '<p style="font-size:0.95em; margin-bottom:15px; color:#333;">' +
+                      'Mobile browsers block loading local files. Use a local web server instead.</p>' +
+                      '<p style="font-size:0.9em; margin-top:20px; padding:15px; background:#e3f2fd; border-radius:8px; color:#1976d2;">' +
+                      '<strong>✅ Solution: Use a Local Web Server</strong><br><br>' +
+                      '1. Open terminal in the <code>temp</code> folder<br>' +
+                      '2. Run: <code>python3 -m http.server 8000</code><br>' +
+                      '3. On your phone, go to: <code>http://YOUR_IP:8000/main.html</code><br><br>' +
+                      'Or double-click <code>start-server.sh</code> for easy setup!' +
+                      '</p>' +
+                      '<p style="font-size:0.85em; margin-top:15px; color:#666;">' +
+                      'File attempted: ' + filename + '</p>' +
+                      '</div>'
+                    : '<div style="text-align:center; padding:40px; color:#d32f2f;">' +
+                      '<p><strong>Error loading questions</strong></p>' +
+                      '<p style="font-size:0.9em; margin-top:10px;">File: ' + filename + '</p>' +
+                      '<p style="font-size:0.85em; margin-top:10px; color:#666;">' +
+                      'Make sure all HTML files are in the same folder.</p>' +
+                      '</div>';
+                viewer.innerHTML = errorMessage;
+            }
+            
+            // Try fetch first (works on most modern browsers)
+            if (typeof fetch !== 'undefined') {
+                fetch(filename)
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('File not found: ' + filename);
+                        }
+                        return response.text();
+                    })
+                    .then(processHTML)
+                    .catch(function(error) {
+                        // Fallback to XMLHttpRequest if fetch fails
+                        tryXHR();
+                    });
+            } else {
+                // Fallback to XMLHttpRequest
+                tryXHR();
+            }
+            
+            // XMLHttpRequest fallback
+            function tryXHR() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 0 || xhr.status === 200) {
+                            processHTML(xhr.responseText);
+                        } else {
+                            showError('HTTP ' + xhr.status);
+                        }
+                    }
+                };
+                xhr.onerror = function() {
+                    showError('Network error');
+                };
+                try {
+                    xhr.send();
+                } catch (e) {
+                    showError(e.message);
+                }
+            }
+        }
+
+        function loadContent() {
+            if (useIframe) {
+                loadContentIframe();
+            } else {
+                loadContentFetch();
+            }
+        }
+        
+        // Dynamically adjust iframe height for mobile
+        function adjustIframeHeight() {
+            if (!useIframe) return;
+            
+            var iframe = document.getElementById('year-viewer-iframe');
+            var header = document.querySelector('.paper-container h1');
+            var container = document.querySelector('.paper-container');
+            
+            // Calculate available height
+            var windowHeight = window.innerHeight;
+            var headerHeight = header ? header.offsetHeight : 60;
+            var metaControlsHeight = document.querySelector('.meta-controls') ? document.querySelector('.meta-controls').offsetHeight : 50;
+            var containerPadding = 20; // Top and bottom padding
+            var margin = 20;
+            
+            // Calculate iframe height
+            var availableHeight = windowHeight - headerHeight - metaControlsHeight - containerPadding - margin;
+            
+            // Set minimum height
+            var minHeight = window.innerWidth <= 480 ? 400 : (window.innerWidth <= 768 ? 500 : 600);
+            var iframeHeight = Math.max(availableHeight, minHeight);
+            
+            iframe.style.height = iframeHeight + 'px';
+        }
+
+        function setSection(sectionKey) {
+            currentSection = sectionKey;
+            updateControlsUI();
+            loadContent();
+        }
+
+        function loadYear(year) {
+            // Year buttons reuse the same naming scheme, based on current section
+            currentYear = year;
+            updateControlsUI();
+            loadContent();
+        }
+        
+        // Load initial content
+        window.addEventListener('load', function () {
+            updateControlsUI();
+            loadContent();
+            if (useIframe) {
+                adjustIframeHeight();
+            }
+        });
+        
+        // Adjust iframe on resize (desktop only)
+        if (useIframe) {
+            window.addEventListener('resize', adjustIframeHeight);
+            window.addEventListener('orientationchange', function() {
+                setTimeout(adjustIframeHeight, 100);
+            });
+        }
+        
+        // Re-render MathJax on orientation change (mobile)
+        if (!useIframe) {
+            window.addEventListener('orientationchange', function() {
+                setTimeout(function() {
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        var viewer = document.getElementById('year-viewer');
+                        window.MathJax.typesetPromise([viewer]).catch(function(err) {
+                            console.log('MathJax error:', err);
+                        });
+                    }
+                }, 300);
+            });
+        }
+    </script>
+
+</body>
+</html>
