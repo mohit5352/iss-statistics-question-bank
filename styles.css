@@ -32,6 +32,10 @@ body {
     transition: box-shadow 0.18s ease, transform 0.12s ease, background-color 0.18s ease;
 }
 
+.meta-paper {
+    background: rgba(15,23,42,0.04);
+}
+
 .meta-section {
     background: rgba(15,23,42,0.04);
 }

@@ -6,18 +6,26 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>ISS Statistics Paper I Archive</title>
-    <link rel="stylesheet" href="styles.css?v=2">
+    <title>ISS Statistics Question Bank</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
     <div class="paper-container">
-        <h1>ISS Statistics Paper I</h1>
+        <h1 id="paper-title">ISS Statistics Paper I</h1>
         <h2>Question Bank</h2>
         
         <div class="meta-controls">
+            <div class="meta-line meta-paper">
+                <span class="meta-label">Paper</span>
+                <span class="meta-value" id="paper-value">Paper I</span>
+                <select id="paper-select" onchange="setPaper(this.value)">
+                    <option value="paper1">Paper I</option>
+                    <option value="paper2">Paper II</option>
+                </select>
+            </div>
             <div class="meta-line meta-section">
                 <span class="meta-label">Section</span>
                 <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
@@ -50,9 +58,10 @@
     </div>
     
     <script>
-        // Track current selection for full Paper I (three sections)
+        // Track current selection
+        var currentPaper = 'paper1'; // 'paper1' | 'paper2'
         var currentYear = '2025';
-        var currentSection = 'prob'; // 'prob' | 'num' | 'comp'
+        var currentSection = 'prob'; // Paper 1: 'prob' | 'num' | 'comp'; Paper 2: 'linear' | 'inference' | 'official'
         
         // Detect if we should use iframe (desktop) or fetch (mobile)
         var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -61,20 +70,34 @@
 
         function buildFilename() {
             var prefix;
-            var basePath = 'extracted_htmls/stats_paper_1/';
-            if (currentSection === 'prob') {
-                // Probability & Statistics files
-                prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
-            } else if (currentSection === 'num') {
-                // Numerical Analysis section
-                prefix = basePath + 'Numerical_Analysis/Numerical_Analysis_questions_';
-            } else if (currentSection === 'comp') {
-                // Computer section
-                prefix = basePath + 'Computer/Computer_questions_';
-            } else {
-                // Fallback to Probability & Statistics
-                prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
+            var basePath;
+            
+            if (currentPaper === 'paper1') {
+                basePath = 'extracted_htmls/stats_paper_1/';
+                if (currentSection === 'prob') {
+                    prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
+                } else if (currentSection === 'num') {
+                    prefix = basePath + 'Numerical_Analysis/Numerical_Analysis_questions_';
+                } else if (currentSection === 'comp') {
+                    prefix = basePath + 'Computer/Computer_questions_';
+                } else {
+                    // Fallback to Probability & Statistics
+                    prefix = basePath + 'Probability_&_Statistics/Probability_and_Statistics_questions_';
+                }
+            } else if (currentPaper === 'paper2') {
+                basePath = 'extracted_htmls/stats_paper_2/';
+                if (currentSection === 'linear') {
+                    prefix = basePath + 'Linear_Models/Linear_Models_questions_';
+                } else if (currentSection === 'inference') {
+                    prefix = basePath + 'Statistical_Inference_and_Hypothesis_Testing/Statistical_Inference_and_Hypothesis_Testing_questions_';
+                } else if (currentSection === 'official') {
+                    prefix = basePath + 'Official_Statistics/Official_Statistics_questions_';
+                } else {
+                    // Fallback to Linear Models
+                    prefix = basePath + 'Linear_Models/Linear_Models_questions_';
+                }
             }
+            
             return prefix + currentYear + '.html';
         }
 
@@ -210,15 +233,59 @@
 
 
         function updateControlsUI() {
+            var paperValueEl = document.getElementById('paper-value');
+            var paperTitleEl = document.getElementById('paper-title');
             var sectionValueEl = document.getElementById('section-value');
+            var sectionSelectEl = document.getElementById('section-select');
             var yearValueEl = document.getElementById('year-value');
 
+            // Update paper display
+            if (paperValueEl) {
+                paperValueEl.textContent = currentPaper === 'paper1' ? 'Paper I' : 'Paper II';
+            }
+            if (paperTitleEl) {
+                paperTitleEl.textContent = currentPaper === 'paper1' ? 'ISS Statistics Paper I' : 'ISS Statistics Paper II';
+            }
+
+            // Update section dropdown based on paper
+            if (sectionSelectEl) {
+                sectionSelectEl.innerHTML = '';
+                if (currentPaper === 'paper1') {
+                    // Paper I sections
+                    sectionSelectEl.innerHTML = 
+                        '<option value="prob">Probability &amp; Statistics</option>' +
+                        '<option value="num">Numerical Analysis</option>' +
+                        '<option value="comp">Computer Section</option>';
+                } else {
+                    // Paper II sections
+                    sectionSelectEl.innerHTML = 
+                        '<option value="linear">Linear Models</option>' +
+                        '<option value="inference">Statistical Inference and Hypothesis Testing</option>' +
+                        '<option value="official">Official Statistics</option>';
+                }
+                // Set the selected option
+                sectionSelectEl.value = currentSection;
+            }
+
+            // Update section display text
             if (sectionValueEl) {
-                var sectionText = 'Probability & Statistics';
-                if (currentSection === 'num') {
-                    sectionText = 'Numerical Analysis';
-                } else if (currentSection === 'comp') {
-                    sectionText = 'Computer Section';
+                var sectionText = '';
+                if (currentPaper === 'paper1') {
+                    if (currentSection === 'prob') {
+                        sectionText = 'Probability & Statistics';
+                    } else if (currentSection === 'num') {
+                        sectionText = 'Numerical Analysis';
+                    } else if (currentSection === 'comp') {
+                        sectionText = 'Computer Section';
+                    }
+                } else {
+                    if (currentSection === 'linear') {
+                        sectionText = 'Linear Models';
+                    } else if (currentSection === 'inference') {
+                        sectionText = 'Statistical Inference and Hypothesis Testing';
+                    } else if (currentSection === 'official') {
+                        sectionText = 'Official Statistics';
+                    }
                 }
                 sectionValueEl.textContent = sectionText;
             }
@@ -226,6 +293,18 @@
             if (yearValueEl) {
                 yearValueEl.textContent = currentYear;
             }
+        }
+
+        function setPaper(paperKey) {
+            currentPaper = paperKey;
+            // Reset section to first section of the selected paper
+            if (currentPaper === 'paper1') {
+                currentSection = 'prob';
+            } else {
+                currentSection = 'linear';
+            }
+            updateControlsUI();
+            loadContent();
         }
 
         // Load content using iframe (for desktop file://)

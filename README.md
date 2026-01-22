@@ -1,28 +1,41 @@
-# ISS Statistics Paper I - Objective Question Bank
+# ISS Statistics Question Bank
 
-This repository contains a web-based archive of objective questions from ISS Statistics Paper I examinations, organised by **year** and by **section**:
+This repository contains a web-based archive of objective questions from ISS Statistics Paper I and Paper II examinations, organised by **paper**, **year**, and **section**:
 
+**Paper I:**
 - Probability & Statistics
 - Numerical Analysis
 - Computer Section
+
+**Paper II:**
+- Linear Models
+- Statistical Inference and Hypothesis Testing
+- Official Statistics
 
 ## 📁 File Structure
 
 ```
 statistics_question_bank/
-├── main.html                                      # Main navigation interface (year + section switcher)
+├── main.html                                      # Main navigation interface (paper + section + year switcher)
 ├── styles.css                                     # Styling for question cards and layout
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
 ├── start-server.bat                               # Quick start script for local server (Windows)
 ├── pdfs/                                          # Source PDFs for all sections
 ├── extracted_htmls/                               # Extracted question HTML files
-│   └── stats_paper_1/
-│       ├── Probability_&_Statistics/
-│       │   └── Probability_and_Statistics_questions_YYYY.html
-│       ├── Numerical_Analysis/
-│       │   └── Numerical_Analysis_questions_YYYY.html
-│       └── Computer/
-│           └── Computer_questions_YYYY.html
+│   ├── stats_paper_1/
+│   │   ├── Probability_&_Statistics/
+│   │   │   └── Probability_and_Statistics_questions_YYYY.html
+│   │   ├── Numerical_Analysis/
+│   │   │   └── Numerical_Analysis_questions_YYYY.html
+│   │   └── Computer/
+│   │       └── Computer_questions_YYYY.html
+│   └── stats_paper_2/
+│       ├── Linear_Models/
+│       │   └── Linear_Models_questions_YYYY.html
+│       ├── Statistical_Inference_and_Hypothesis_Testing/
+│       │   └── Statistical_Inference_and_Hypothesis_Testing_questions_YYYY.html
+│       └── Official_Statistics/
+│           └── Official_Statistics_questions_YYYY.html
 └── README.md                                      # This file
 ```
 
@@ -30,7 +43,7 @@ statistics_question_bank/
 
 ### Desktop Usage (Easiest)
 1. Open `main.html` directly in your web browser (double-click the file)
-2. Select section and year from the dropdowns
+2. Select paper, section, and year from the dropdowns
 3. Questions will load automatically
 
 ### Mobile Usage (Recommended: Local Web Server)
@@ -60,8 +73,12 @@ statistics_question_bank/
 
 ## 🎯 Features
 
-- **Section Switcher**: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
+- **Paper Switcher**: Switch between Paper I and Paper II
+- **Section Switcher**: 
+  - Paper I: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
+  - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
 - **Year Navigation**: Browse questions from 2017 to 2025
+- **Copy Button**: Each question has a copy button to easily copy the question text, topic, and options
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax with MJXZERO font family
 - **Color-Coded Interface**: Vibrant color scheme for easy visual distinction:
@@ -77,15 +94,23 @@ statistics_question_bank/
 ## 📋 Instructions for Extracting Questions
 
 ### Step 1: Obtain the Source Material
-1. Access the ISS Statistics Paper I examination paper for the target year
-2. Locate the relevant section (Probability & Statistics, Numerical Analysis, or Computer)
+1. Access the ISS Statistics examination paper (Paper I or Paper II) for the target year
+2. Locate the relevant section:
+   - **Paper I**: Probability & Statistics, Numerical Analysis, or Computer
+   - **Paper II**: Linear Models, Statistical Inference and Hypothesis Testing, or Official Statistics
 3. Identify questions numbered sequentially
 
 ### Step 2: Create the Year-Specific HTML Files
-For each year `YYYY`, create up to **three** files (one per section) in their respective subfolders:
+
+**For Paper I**, for each year `YYYY`, create up to **three** files (one per section) in their respective subfolders:
 1. `extracted_htmls/stats_paper_1/Probability_&_Statistics/Probability_and_Statistics_questions_YYYY.html`
 2. `extracted_htmls/stats_paper_1/Numerical_Analysis/Numerical_Analysis_questions_YYYY.html`
 3. `extracted_htmls/stats_paper_1/Computer/Computer_questions_YYYY.html`
+
+**For Paper II**, for each year `YYYY`, create up to **three** files (one per section) in their respective subfolders:
+1. `extracted_htmls/stats_paper_2/Linear_Models/Linear_Models_questions_YYYY.html`
+2. `extracted_htmls/stats_paper_2/Statistical_Inference_and_Hypothesis_Testing/Statistical_Inference_and_Hypothesis_Testing_questions_YYYY.html`
+3. `extracted_htmls/stats_paper_2/Official_Statistics/Official_Statistics_questions_YYYY.html`
 
 You can copy the base HTML structure from an existing year file and modify it.
 
@@ -104,6 +129,7 @@ You can copy the base HTML structure from an existing year file and modify it.
 <body>
 <div class="year-section">
     <h2>ISS YYYY: Statistics Paper I - [SECTION NAME HERE]</h2>
+    <!-- For Paper II, use: ISS YYYY: Statistics Paper II - [SECTION NAME HERE] -->
 
     <!-- Question cards go here -->
     
@@ -113,8 +139,9 @@ You can copy the base HTML structure from an existing year file and modify it.
 ```
 
 **Notes**: 
-- The CSS path `../../../styles.css` is relative to the subfolder structure. Since question files are in `extracted_htmls/stats_paper_1/[Section]/`, the path goes up three levels (`[Section]/` → `stats_paper_1/` → `extracted_htmls/` → `statistics_question_bank/`) to reach `styles.css` in the `statistics_question_bank/` directory.
+- The CSS path `../../../styles.css` is relative to the subfolder structure. Since question files are in `extracted_htmls/stats_paper_1/[Section]/` or `extracted_htmls/stats_paper_2/[Section]/`, the path goes up three levels (`[Section]/` → `stats_paper_1/` or `stats_paper_2/` → `extracted_htmls/` → `statistics_question_bank/`) to reach `styles.css` in the `statistics_question_bank/` directory.
 - The `<h2>` tag styling is handled by CSS class `.year-section h2` - no inline styles needed. The header will automatically have indigo color (`#6366f1`), center alignment, and a bottom border.
+- Update the header text to match the paper number (Paper I or Paper II) and section name.
 
 ### Step 4: Format Each Question
 
@@ -208,10 +235,17 @@ To add a new year, add it to the year dropdown in `main.html`:
 <option value="YYYY">YYYY</option>
 ```
 
-The JavaScript automatically loads the correct file based on the naming convention:
+The JavaScript automatically loads the correct file based on the selected paper, section, and year:
+
+**Paper I:**
 - Probability & Statistics → `extracted_htmls/stats_paper_1/Probability_&_Statistics/Probability_and_Statistics_questions_YYYY.html`
 - Numerical Analysis → `extracted_htmls/stats_paper_1/Numerical_Analysis/Numerical_Analysis_questions_YYYY.html`
 - Computer Section → `extracted_htmls/stats_paper_1/Computer/Computer_questions_YYYY.html`
+
+**Paper II:**
+- Linear Models → `extracted_htmls/stats_paper_2/Linear_Models/Linear_Models_questions_YYYY.html`
+- Statistical Inference and Hypothesis Testing → `extracted_htmls/stats_paper_2/Statistical_Inference_and_Hypothesis_Testing/Statistical_Inference_and_Hypothesis_Testing_questions_YYYY.html`
+- Official Statistics → `extracted_htmls/stats_paper_2/Official_Statistics/Official_Statistics_questions_YYYY.html`
 
 ### Step 7: Verify the Questions
 
@@ -223,7 +257,7 @@ For **each section file** and each year:
 
 ## 🎨 CSS Classes Reference
 
-- `.question-card`: Container for each question with white background and subtle shadow
+- `.question-card`: Container for each question with white background and subtle shadow (position: relative for copy button)
 - `.q-header`: Header section with question number and topic badge
 - `.q-number`: Question number styling (teal color: `#14b8a6`)
 - `.q-topic`: Topic tag styling (green badge with light gray background: `#3dbb0d`)
@@ -233,12 +267,14 @@ For **each section file** and each year:
 - `.options-grid`: Grid layout for answer options (2 columns on desktop, 1 column on mobile)
 - `.option-item`: Individual option styling (red text: `#dc0909`, larger font size)
 - `.opt-label`: Option label (a, b, c, d) styling (darker red: `#a00606`, bold)
+- `.q-copy-btn`: Copy button styling (indigo background: `#6366f1`, positioned absolutely on each question card)
 - `.year-section`: Container for all questions of a year
-- `.meta-label`: Section/Year label text (purple: `#8d1bf7`)
-- `.meta-value`: Section/Year value text (green: `#3dbb0d`)
+- `.meta-label`: Paper/Section/Year label text (purple: `#8d1bf7`)
+- `.meta-value`: Paper/Section/Year value text (green: `#3dbb0d`)
 
 ## 📝 Checklist for Adding a New Year
 
+**For Paper I:**
 - [ ] Obtain ISS Statistics Paper I for the target year (PDFs are under `statistics_question_bank/pdfs/`)
 - [ ] Extract all questions for each section
 - [ ] Create `extracted_htmls/stats_paper_1/Probability_&_Statistics/Probability_and_Statistics_questions_YYYY.html`
@@ -248,7 +284,21 @@ For **each section file** and each year:
 - [ ] **Use LaTeX notation** for all mathematical expressions (NOT HTML entities)
 - [ ] Verify questions are numbered sequentially within each section
 - [ ] Check that all questions have 4 options (a, b, c, d)
-- [ ] Add year option to dropdown in `main.html`
+- [ ] Add year option to dropdown in `main.html` (if not already present)
+- [ ] Test that all section files load correctly
+- [ ] Verify MathJax renders all mathematical expressions correctly
+
+**For Paper II:**
+- [ ] Obtain ISS Statistics Paper II for the target year (PDFs are under `statistics_question_bank/pdfs/`)
+- [ ] Extract all questions for each section
+- [ ] Create `extracted_htmls/stats_paper_2/Linear_Models/Linear_Models_questions_YYYY.html`
+- [ ] Create `extracted_htmls/stats_paper_2/Statistical_Inference_and_Hypothesis_Testing/Statistical_Inference_and_Hypothesis_Testing_questions_YYYY.html`
+- [ ] Create `extracted_htmls/stats_paper_2/Official_Statistics/Official_Statistics_questions_YYYY.html`
+- [ ] Format each question using the HTML structure above
+- [ ] **Use LaTeX notation** for all mathematical expressions (NOT HTML entities)
+- [ ] Verify questions are numbered sequentially within each section
+- [ ] Check that all questions have 4 options (a, b, c, d)
+- [ ] Add year option to dropdown in `main.html` (if not already present)
 - [ ] Test that all section files load correctly
 - [ ] Verify MathJax renders all mathematical expressions correctly
 
@@ -298,8 +348,10 @@ For **each section file** and each year:
 ## 🐛 Troubleshooting
 
 ### Questions not loading on desktop?
-- Make sure all HTML files are in their correct subfolders under `extracted_htmls/stats_paper_1/`
-- Verify the file paths match the structure: `extracted_htmls/stats_paper_1/[Section]/[Filename].html`
+- Make sure all HTML files are in their correct subfolders under `extracted_htmls/stats_paper_1/` or `extracted_htmls/stats_paper_2/`
+- Verify the file paths match the structure: `extracted_htmls/stats_paper_1/[Section]/[Filename].html` or `extracted_htmls/stats_paper_2/[Section]/[Filename].html`
+- Check that the paper selector matches the file location (Paper I files in `stats_paper_1/`, Paper II files in `stats_paper_2/`)
+- Verify section names match exactly (including underscores and capitalization)
 - Check browser console for errors
 - Try refreshing the page
 
@@ -364,4 +416,4 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025 - Enhanced color scheme, typography improvements, and styled tables with vibrant visual design
+**Last Updated**: 2025 - Added Paper II support with three sections (Linear Models, Statistical Inference and Hypothesis Testing, Official Statistics), copy button functionality for each question, and enhanced navigation interface
