@@ -411,15 +411,65 @@
                 // Inject content into viewer
                 viewer.innerHTML = bodyContent;
                 
-                // Add copy buttons to all question cards
-                addCopyButtons(viewer);
-                
-                // Re-initialize MathJax for the new content
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    window.MathJax.typesetPromise([viewer]).catch(function(err) {
-                        console.log('MathJax error:', err);
-                    });
+                // Initialize MathJax FIRST, then add copy buttons AFTER MathJax is done
+                // This prevents DOM manipulation from interfering with MathJax processing
+                function initMathJaxInViewer() {
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        // Wait for MathJax to be fully ready using startup promise
+                        var mathJaxReady = Promise.resolve();
+                        if (window.MathJax.startup && window.MathJax.startup.promise) {
+                            mathJaxReady = window.MathJax.startup.promise;
+                        }
+                        
+                        mathJaxReady.then(function() {
+                            // Clear previous MathJax output - use typesetClear if available
+                            if (window.MathJax.typesetClear) {
+                                try {
+                                    window.MathJax.typesetClear([viewer]);
+                                } catch (e) {
+                                    // If typesetClear fails, manually remove MathJax output
+                                    var mathElements = viewer.querySelectorAll('.MathJax, [id^="MathJax"]');
+                                    mathElements.forEach(function(el) {
+                                        try {
+                                            el.remove();
+                                        } catch (e2) {
+                                            // Ignore removal errors
+                                        }
+                                    });
+                                }
+                            } else {
+                                // Fallback: manually remove MathJax output
+                                var mathElements = viewer.querySelectorAll('.MathJax, [id^="MathJax"]');
+                                mathElements.forEach(function(el) {
+                                    try {
+                                        el.remove();
+                                    } catch (e) {
+                                        // Ignore removal errors
+                                    }
+                                });
+                            }
+                            
+                            // Typeset the new content - MathJax will process all math expressions
+                            // Process the entire viewer element to ensure all q-text, q-context, and option-item elements are handled
+                            return window.MathJax.typesetPromise([viewer]);
+                        }).then(function() {
+                            // Add copy buttons AFTER MathJax has finished processing
+                            // This ensures DOM manipulation doesn't interfere with math rendering
+                            addCopyButtons(viewer);
+                        }).catch(function(err) {
+                            console.error('MathJax error:', err);
+                            // Even if MathJax fails, add copy buttons
+                            addCopyButtons(viewer);
+                        });
+                    } else {
+                        // Wait a bit more for MathJax to load
+                        setTimeout(initMathJaxInViewer, 100);
+                    }
                 }
+                
+                // Start MathJax initialization after DOM is ready
+                // Use a delay to ensure content is fully injected and DOM is stable
+                setTimeout(initMathJaxInViewer, 200);
             }
             
             // Function to show error
@@ -450,8 +500,16 @@
             }
             
             // Try fetch first (works on most modern browsers)
+            // Add cache-busting parameter to prevent browser caching
             if (typeof fetch !== 'undefined') {
-                fetch(filename)
+                var cacheBuster = '?t=' + new Date().getTime();
+                fetch(filename + cacheBuster, {
+                    cache: 'no-store',
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache'
+                    }
+                })
                     .then(function(response) {
                         if (!response.ok) {
                             throw new Error('File not found: ' + filename);

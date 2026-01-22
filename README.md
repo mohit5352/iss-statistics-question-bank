@@ -80,14 +80,14 @@ statistics_question_bank/
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Copy Button**: Each question has a copy button to easily copy the question text, topic, and options
 - **Mobile Optimized**: Responsive design with touch-friendly controls
-- **Math Rendering**: Beautiful mathematical notation using MathJax with MJXZERO font family
+- **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Vibrant color scheme for easy visual distinction:
   - **Headers**: Indigo (`#6366f1`) for main titles, Emerald (`#10b981`) for subtitles
   - **Meta Controls**: Purple labels (`#8d1bf7`) and green values (`#3dbb0d`)
   - **Questions**: Teal numbers (`#14b8a6`), purple text (`#b10fec`), green topic badges (`#3dbb0d`)
   - **Options**: Red text (`#dc0909`) with darker red labels (`#a00606`)
   - **Tables**: Indigo headers with alternating row colors
-  - **Context**: Amber/orange (`#f59e0b`) for setup paragraphs
+  - **Context**: Vibrant green (`#03a403`) for setup paragraphs with gradient background
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 
@@ -261,11 +261,11 @@ For **each section file** and each year:
 - `.q-header`: Header section with question number and topic badge
 - `.q-number`: Question number styling (teal color: `#14b8a6`)
 - `.q-topic`: Topic tag styling (green badge with light gray background: `#3dbb0d`)
-- `.q-text`: Main question text (purple color: `#b10fec`, x-large font size, MJXZERO font family)
-- `.q-context`: Context/setup text for multi-part questions (amber/orange color: `#f59e0b`, larger font size, light amber background)
+- `.q-text`: Main question text (purple color: `#b10fec`, `1.125rem` font size on desktop, responsive scaling)
+- `.q-context`: Context/setup text for multi-part questions (vibrant green color: `#03a403`, `1.0625rem` font size, light green gradient background with subtle shadow)
 - `.q-table`: Enhanced table container with indigo headers, alternating row colors, and rounded corners
 - `.options-grid`: Grid layout for answer options (2 columns on desktop, 1 column on mobile)
-- `.option-item`: Individual option styling (red text: `#dc0909`, larger font size)
+- `.option-item`: Individual option styling (red text: `#dc0909`, `1.0625rem` font size on desktop, responsive scaling)
 - `.opt-label`: Option label (a, b, c, d) styling (darker red: `#a00606`, bold)
 - `.q-copy-btn`: Copy button styling (indigo background: `#6366f1`, positioned absolutely on each question card)
 - `.year-section`: Container for all questions of a year
@@ -304,16 +304,17 @@ For **each section file** and each year:
 
 ## 🔧 Technical Details
 
-- **Math Rendering**: MathJax 3.x is used for rendering mathematical notation with MJXZERO font family for question text
+- **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
   - Responsive tables with horizontal scroll on mobile
   - Full-width layout (no max-width constraint) for better screen utilization
-- **Typography**:
-  - Question text: `x-large` font size with MJXZERO font family
-  - Context text: `larger` font size
-  - Option items: `larger` font size for better readability
+- **Typography**: Consistent rem-based font sizes with responsive scaling:
+  - Question text: `1.125rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
+  - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
+  - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
+  - All font sizes use rem units for consistent scaling and accessibility
 - **Color Scheme**: Vibrant, color-coded interface for visual distinction (see Features section above)
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: 
@@ -416,4 +417,4 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025 - Added Paper II support with three sections (Linear Models, Statistical Inference and Hypothesis Testing, Official Statistics), copy button functionality for each question, and enhanced navigation interface
+**Last Updated**: 2025 - Added Paper II support with three sections (Linear Models, Statistical Inference and Hypothesis Testing, Official Statistics), copy button functionality for each question, enhanced navigation interface, fixed MathJax rendering for HTTP/hosted versions, improved typography with consistent rem-based font sizes, and updated color scheme (q-context now uses vibrant green `#03a403` with gradient background)
