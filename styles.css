@@ -249,6 +249,7 @@ h2 {
     margin-bottom: 25px;
     background-color: #ffffff;
     transition: transform 0.2s;
+    /* position: relative; */
 }
 
 .question-card:hover {
@@ -478,5 +479,65 @@ h2 {
     
     #iframe-viewer {
         min-height: 300px;
+    }
+}
+
+/* Copy button styling */
+.q-copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #6366f1;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    z-index: 10;
+}
+
+.q-copy-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+
+.q-copy-btn:active {
+    transform: translateY(0);
+    background: #4338ca;
+}
+
+.q-copy-btn.copied {
+    background: #10b981;
+}
+
+.q-copy-btn.copied:hover {
+    background: #059669;
+}
+
+.q-copy-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+@media (max-width: 768px) {
+    .q-copy-btn {
+        top: 8px;
+        right: 8px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .q-copy-btn svg {
+        width: 14px;
+        height: 14px;
     }
 }
