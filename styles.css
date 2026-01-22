@@ -485,13 +485,13 @@ h2 {
 /* Copy button styling */
 .q-copy-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: -13px;
+    right: 0px;
     background: #6366f1;
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    padding: 8px 12px;
+    padding: 4px 8px;
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 600;
