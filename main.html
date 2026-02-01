@@ -57,6 +57,7 @@
         <div id="year-viewer" class="content-viewer" style="display: none;"></div>
     </div>
     
+    <script src="answers.js"></script>
     <script>
         // Track current selection
         var currentPaper = 'paper1'; // 'paper1' | 'paper2'
@@ -113,8 +114,9 @@
                 // Create copy button
                 var copyBtn = document.createElement('button');
                 copyBtn.className = 'q-copy-btn';
-                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg><span>Copy</span>';
+                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
                 copyBtn.setAttribute('aria-label', 'Copy question');
+                copyBtn.setAttribute('data-tooltip', 'Copy');
                 
                 // Add click handler
                 copyBtn.addEventListener('click', function() {
@@ -205,10 +207,13 @@
         function showCopySuccess(button) {
             var originalHTML = button.innerHTML;
             button.classList.add('copied');
-            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>Copied!</span>';
+            // Same circular checkmark icon as show answer button, but green
+            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#10b981" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+            button.setAttribute('data-tooltip', 'Copied!');
             setTimeout(function() {
                 button.classList.remove('copied');
                 button.innerHTML = originalHTML;
+                button.setAttribute('data-tooltip', 'Copy');
             }, 2000);
         }
 
@@ -626,6 +631,404 @@
                 }, 300);
             });
         }
+    </script>
+
+    <!-- Show Answer Functionality -->
+    <script>
+        // Map section keys to answer file keys
+        var sectionToAnswerKey = {
+            'prob': 'prob',
+            'num': 'num',
+            'comp': 'comp',
+            'linear': 'linear',
+            'inference': 'inference',
+            'official': 'official'
+        };
+
+        // Add show answer buttons and functionality to a container
+        function addShowAnswerButtons(container) {
+            if (!container) return;
+            
+            // Get current answers for this paper/section/year
+            var answers = QUESTION_ANSWERS[currentPaper];
+            if (!answers) return;
+            
+            var sectionKey = sectionToAnswerKey[currentSection];
+            var sectionAnswers = answers[sectionKey];
+            if (!sectionAnswers) return;
+            
+            var yearAnswers = sectionAnswers[currentYear];
+            if (!yearAnswers) return;
+            
+            // Get all question cards
+            var questionCards = container.querySelectorAll('.question-card');
+            
+            questionCards.forEach(function(card) {
+                // Skip if button already exists
+                if (card.querySelector('.q-answer-btn')) {
+                    return;
+                }
+                
+                // Get question number
+                var qNumberEl = card.querySelector('.q-number');
+                if (!qNumberEl) return;
+                
+                var qNumber = qNumberEl.textContent.trim().replace('.', '');
+                var correctAnswer = yearAnswers[qNumber];
+                
+                // Only add button if we have an answer for this question
+                if (!correctAnswer) return;
+                
+                // Create show answer button (eye icon - shown by default)
+                var answerBtn = document.createElement('button');
+                answerBtn.className = 'q-answer-btn';
+                answerBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+                answerBtn.setAttribute('aria-label', 'Show answer for question ' + qNumber);
+                answerBtn.setAttribute('data-tooltip', 'Show Answer');
+                
+                // Add click handler
+                answerBtn.addEventListener('click', function() {
+                    toggleAnswer(card, answerBtn, correctAnswer);
+                });
+                
+                // Ensure options-grid has position relative for absolute positioning
+                var optionsGrid = card.querySelector('.options-grid');
+                if (optionsGrid) {
+                    optionsGrid.style.position = 'relative';
+                    optionsGrid.appendChild(answerBtn);
+                } else {
+                    // Fallback to card if no options grid
+                    card.style.position = 'relative';
+                    card.appendChild(answerBtn);
+                }
+            });
+        }
+
+        // Toggle answer visibility
+        function toggleAnswer(card, button, correctAnswer) {
+            var isShowing = button.classList.contains('showing');
+            var optLabel = correctAnswer.toLowerCase();
+            var options = card.querySelectorAll('.option-item');
+            
+            if (!isShowing) {
+                // Show answer - highlight the correct option
+                options.forEach(function(opt) {
+                    var label = opt.querySelector('.opt-label');
+                    if (label && label.textContent.toLowerCase().includes('(' + optLabel + ')')) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+                button.classList.add('showing');
+                button.classList.remove('hidden');
+                // Change to "eye-off" icon when showing answer
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>';
+                button.setAttribute('data-tooltip', 'Hide Answer');
+            } else {
+                // Hide answer - remove highlight
+                options.forEach(function(opt) {
+                    opt.classList.remove('correct-answer');
+                });
+                button.classList.remove('showing');
+                button.classList.add('hidden');
+                // Change back to "eye" icon
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+                button.setAttribute('data-tooltip', 'Show Answer');
+            }
+        }
+
+        // Override loadContentIframe to add answer buttons after iframe loads
+        var originalLoadContentIframe = loadContentIframe;
+        loadContentIframe = function() {
+            var iframe = document.getElementById('year-viewer-iframe');
+            var div = document.getElementById('year-viewer');
+            var filename = buildFilename();
+            
+            iframe.style.display = 'block';
+            div.style.display = 'none';
+            
+            fetch(filename)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('File not found');
+                    return response.text();
+                })
+                .then(function(html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var bodyContent = doc.body.innerHTML;
+                    
+                    var iframe = document.getElementById('year-viewer-iframe');
+                    var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    var iframeWindow = iframe.contentWindow;
+                    iframeDoc.open();
+                    var basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                    var copyButtonCSS = '<style>.q-copy-btn{position:absolute;top:12px;right:12px;background:#6366f1;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:0.875rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:background-color 0.2s ease,transform 0.1s ease;box-shadow:0 2px 4px rgba(99,102,241,0.2);z-index:10;}.q-copy-btn:hover{background:#4f46e5;transform:translateY(-1px);box-shadow:0 4px 8px rgba(99,102,241,0.3);}.q-copy-btn:active{transform:translateY(0);background:#4338ca;}.q-copy-btn.copied{background:#10b981;}.q-copy-btn.copied:hover{background:#059669;}.q-copy-btn svg{width:16px;height:16px;fill:currentColor;}@media (max-width:768px){.q-copy-btn{top:8px;right:8px;padding:6px 10px;font-size:0.8rem;}.q-copy-btn svg{width:14px;height:14px;}}.question-card{position:relative;}</style>';
+                    var mathJaxScripts = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"><\/script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"><\/script>';
+                    
+                    // Inject answers.js into iframe
+                    var answersScript = '<script src="answers.js"><\/script>';
+                    
+                    iframeDoc.write('<!DOCTYPE html><html><head><base href="' + basePath + '"><link rel="stylesheet" href="styles.css">' + copyButtonCSS + mathJaxScripts + answersScript + '</head><body>' + bodyContent + '</body></html>');
+                    iframeDoc.close();
+                    
+                    // Add copy buttons and answer buttons after iframe content loads
+                    setTimeout(function() {
+                        try {
+                            addCopyButtons(iframeDoc.body);
+                            // Add show answer buttons in iframe
+                            addShowAnswerButtonsInIframe(iframeWindow, iframeDoc.body);
+                            console.log('Copy buttons and answer buttons added to iframe');
+                        } catch (e) {
+                            console.log('Could not add buttons to iframe:', e);
+                        }
+                    }, 200);
+                    
+                    function initMathJaxInIframe() {
+                        if (iframeWindow.MathJax && iframeWindow.MathJax.typesetPromise) {
+                            iframeWindow.MathJax.typesetPromise([iframeDoc.body]).catch(function(err) {
+                                console.log('MathJax error in iframe:', err);
+                            });
+                        } else {
+                            setTimeout(initMathJaxInIframe, 100);
+                        }
+                    }
+                    
+                    setTimeout(initMathJaxInIframe, 300);
+                })
+                .catch(function(error) {
+                    console.error('Error loading file:', error);
+                    var iframe = document.getElementById('year-viewer-iframe');
+                    iframe.src = filename;
+                    iframe.onload = function() {
+                        try {
+                            var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            setTimeout(function() {
+                                addCopyButtons(iframeDoc.body);
+                                addShowAnswerButtonsInIframe(iframe.contentWindow, iframeDoc.body);
+                            }, 100);
+                        } catch (e) {
+                            console.log('Cannot access iframe content:', e);
+                        }
+                    };
+                });
+            
+            adjustIframeHeight();
+        };
+
+        // Add answer buttons in iframe context
+        function addShowAnswerButtonsInIframe(iframeWindow, iframeBody) {
+            if (!iframeWindow.QUESTION_ANSWERS) return;
+            
+            var answers = iframeWindow.QUESTION_ANSWERS[currentPaper];
+            if (!answers) return;
+            
+            var sectionKey = sectionToAnswerKey[currentSection];
+            var sectionAnswers = answers[sectionKey];
+            if (!sectionAnswers) return;
+            
+            var yearAnswers = sectionAnswers[currentYear];
+            if (!yearAnswers) return;
+            
+            var questionCards = iframeBody.querySelectorAll('.question-card');
+            
+            questionCards.forEach(function(card) {
+                if (card.querySelector('.q-answer-btn')) return;
+                
+                var qNumberEl = card.querySelector('.q-number');
+                if (!qNumberEl) return;
+                
+                var qNumber = qNumberEl.textContent.trim().replace('.', '');
+                var correctAnswer = yearAnswers[qNumber];
+                
+                if (!correctAnswer) return;
+                
+                var answerBtn = document.createElement('button');
+                answerBtn.className = 'q-answer-btn';
+                answerBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+                answerBtn.setAttribute('aria-label', 'Show answer for question ' + qNumber);
+                answerBtn.setAttribute('data-tooltip', 'Show Answer');
+                
+                answerBtn.addEventListener('click', function() {
+                    toggleAnswerInIframe(card, answerBtn, correctAnswer, iframeWindow);
+                });
+                
+                // Append to options-grid instead of card
+                var optionsGrid = card.querySelector('.options-grid');
+                if (optionsGrid) {
+                    optionsGrid.style.position = 'relative';
+                    optionsGrid.appendChild(answerBtn);
+                } else {
+                    card.style.position = 'relative';
+                    card.appendChild(answerBtn);
+                }
+            });
+        }
+
+        // Toggle answer in iframe
+        function toggleAnswerInIframe(card, button, correctAnswer, iframeWindow) {
+            var isShowing = button.classList.contains('showing');
+            var optLabel = correctAnswer.toLowerCase();
+            var options = card.querySelectorAll('.option-item');
+            
+            if (!isShowing) {
+                options.forEach(function(opt) {
+                    var label = opt.querySelector('.opt-label');
+                    if (label && label.textContent.toLowerCase().includes('(' + optLabel + ')')) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+                button.classList.add('showing');
+                button.classList.remove('hidden');
+                // Eye-off icon when showing answer
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>';
+                button.setAttribute('data-tooltip', 'Hide Answer');
+            } else {
+                options.forEach(function(opt) {
+                    opt.classList.remove('correct-answer');
+                });
+                button.classList.remove('showing');
+                button.classList.add('hidden');
+                // Eye icon when hiding answer
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+                button.setAttribute('data-tooltip', 'Show Answer');
+            }
+        }
+
+        // Override processHTML in loadContentFetch to add answer buttons
+        var originalLoadContentFetch = loadContentFetch;
+        loadContentFetch = function() {
+            var iframe = document.getElementById('year-viewer-iframe');
+            var viewer = document.getElementById('year-viewer');
+            var filename = buildFilename();
+            
+            iframe.style.display = 'none';
+            viewer.style.display = 'block';
+            
+            viewer.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">Loading questions...</div>';
+            
+            function processHTML(html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var bodyContent = doc.body.innerHTML;
+                
+                viewer.innerHTML = bodyContent;
+                
+                function initMathJaxInViewer() {
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        var mathJaxReady = Promise.resolve();
+                        if (window.MathJax.startup && window.MathJax.startup.promise) {
+                            mathJaxReady = window.MathJax.startup.promise;
+                        }
+                        
+                        mathJaxReady.then(function() {
+                            if (window.MathJax.typesetClear) {
+                                try {
+                                    window.MathJax.typesetClear([viewer]);
+                                } catch (e) {
+                                    var mathElements = viewer.querySelectorAll('.MathJax, [id^="MathJax"]');
+                                    mathElements.forEach(function(el) {
+                                        try {
+                                            el.remove();
+                                        } catch (e2) {}
+                                    });
+                                }
+                            } else {
+                                var mathElements = viewer.querySelectorAll('.MathJax, [id^="MathJax"]');
+                                mathElements.forEach(function(el) {
+                                    try {
+                                        el.remove();
+                                    } catch (e) {}
+                                });
+                            }
+                            
+                            return window.MathJax.typesetPromise([viewer]);
+                        }).then(function() {
+                            // Add copy buttons AND show answer buttons AFTER MathJax
+                            addCopyButtons(viewer);
+                            addShowAnswerButtons(viewer);
+                        }).catch(function(err) {
+                            console.error('MathJax error:', err);
+                            addCopyButtons(viewer);
+                            addShowAnswerButtons(viewer);
+                        });
+                    } else {
+                        setTimeout(initMathJaxInViewer, 100);
+                    }
+                }
+                
+                setTimeout(initMathJaxInViewer, 200);
+            }
+            
+            function showError(error) {
+                console.error('Error loading file:', error);
+                var errorMessage = isFileProtocol 
+                    ? '<div style="text-align:center; padding:40px; color:#d32f2f; max-width:600px; margin:0 auto;">' +
+                      '<p style="font-size:1.2em; font-weight:bold; margin-bottom:15px;">⚠️ Cannot Load Questions</p>' +
+                      '<p style="font-size:0.95em; margin-bottom:15px; color:#333;">' +
+                      'Mobile browsers block loading local files. Use a local web server instead.</p>' +
+                      '<p style="font-size:0.9em; margin-top:20px; padding:15px; background:#e3f2fd; border-radius:8px; color:#1976d2;">' +
+                      '<strong>✅ Solution: Use a Local Web Server</strong><br><br>' +
+                      '1. Open terminal in the <code>temp</code> folder<br>' +
+                      '2. Run: <code>python3 -m http.server 8000</code><br>' +
+                      '3. On your phone, go to: <code>http://YOUR_IP:8000/main.html</code><br><br>' +
+                      'Or double-click <code>start-server.sh</code> for easy setup!' +
+                      '</p>' +
+                      '<p style="font-size:0.85em; margin-top:15px; color:#666;">' +
+                      'File attempted: ' + filename + '</p>' +
+                      '</div>'
+                    : '<div style="text-align:center; padding:40px; color:#d32f2f;">' +
+                      '<p><strong>Error loading questions</strong></p>' +
+                      '<p style="font-size:0.9em; margin-top:10px;">File: ' + filename + '</p>' +
+                      '<p style="font-size:0.85em; margin-top:10px; color:#666;">' +
+                      'Make sure all HTML files are in the same folder.</p>' +
+                      '</div>';
+                viewer.innerHTML = errorMessage;
+            }
+            
+            if (typeof fetch !== 'undefined') {
+                var cacheBuster = '?t=' + new Date().getTime();
+                fetch(filename + cacheBuster, {
+                    cache: 'no-store',
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache'
+                    }
+                })
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('File not found: ' + filename);
+                        }
+                        return response.text();
+                    })
+                    .then(processHTML)
+                    .catch(function(error) {
+                        tryXHR();
+                    });
+            } else {
+                tryXHR();
+            }
+            
+            function tryXHR() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', filename, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 0 || xhr.status === 200) {
+                            processHTML(xhr.responseText);
+                        } else {
+                            showError('HTTP ' + xhr.status);
+                        }
+                    }
+                };
+                xhr.onerror = function() {
+                    showError('Network error');
+                };
+                try {
+                    xhr.send();
+                } catch (e) {
+                    showError(e.message);
+                }
+            }
+        };
     </script>
 
 </body>

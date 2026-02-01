@@ -459,6 +459,7 @@ h2 {
     padding: 16px;
     border-radius: 8px;
     border: none; /* Remove border */
+    position: relative;
 }
 
 .option-item {
@@ -560,64 +561,234 @@ h2 {
     }
 }
 
-/* Copy button styling */
-.q-copy-btn {
+/* ===== Action Buttons (Copy & Show Answer) ===== */
+.q-copy-btn,
+.q-answer-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: #6366f1;
-    color: #ffffff;
+    background: transparent;
+    color: #6366f1;
     border: none;
-    border-radius: 6px;
-    padding: 6px 10px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    justify-content: center;
+    transition: all 0.2s ease;
     z-index: 100;
+    padding: 6px;
 }
 
-.q-copy-btn:hover {
-    background: #4f46e5;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+/* Tooltip on hover */
+.q-copy-btn::after,
+.q-answer-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
 }
 
-.q-copy-btn:active {
-    transform: translateY(0);
-    background: #4338ca;
+.q-copy-btn:hover::after,
+.q-answer-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
-.q-copy-btn.copied {
-    background: #10b981;
+.q-copy-btn:hover,
+.q-answer-btn:hover {
+    color: #4f46e5;
+    transform: scale(1.1);
 }
 
-.q-copy-btn.copied:hover {
-    background: #059669;
+.q-copy-btn:active,
+.q-answer-btn:active {
+    transform: scale(0.95);
+}
+
+/* Copy button - question card top-right */
+.q-copy-btn {
+    top: 10px;
+    right: 10px;
 }
 
 .q-copy-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
 }
 
-@media (max-width: 768px) {
-    .q-copy-btn {
-        top: 10px;
-        right: 10px;
-        padding: 6px 10px;
-        font-size: 0.8rem;
+.q-copy-btn.copied {
+    color: #10b981;
+}
+
+.q-copy-btn.copied:hover {
+    color: #059669;
+}
+
+/* Show Answer button - options grid top-right (overlapping corner) */
+.q-answer-btn {
+    top: -14px;
+    right: -12px;
+    color: #f59e0b;
+}
+
+.q-answer-btn:hover {
+    color: #d97706;
+}
+
+.q-answer-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.q-answer-btn.hidden {
+    color: #9ca3af;
+}
+
+.q-answer-btn.hidden:hover {
+    color: #6b7280;
+}
+
+/* ===== Highlighted Correct Answer ===== */
+.option-item.correct-answer {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    transform: scale(1.02);
+    position: relative;
+}
+
+.option-item.correct-answer::before {
+    content: '✓';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f59e0b;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: translateY(-50%) scale(0);
     }
-    
-    .q-copy-btn svg {
-        width: 14px;
-        height: 14px;
-        fill: currentColor;
-        display: block;
+    70% {
+        transform: translateY(-50%) scale(1.2);
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
     }
 }
+
+.option-item.correct-answer .opt-label {
+    color: #b45309;
+}
+
+.option-item.correct-answer:hover {
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+    transform: scale(1.02);
+}
+
+/* ===== Mobile Responsiveness ===== */
+@media (max-width: 768px) {
+    .q-copy-btn,
+    .q-answer-btn {
+        padding: 5px;
+    }
+    
+    .q-copy-btn {
+        top: 8px;
+        right: 8px;
+    }
+    
+    .q-answer-btn {
+        top: -12px;
+        right: -10px;
+    }
+    
+    .q-copy-btn svg,
+    .q-answer-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .q-copy-btn::after,
+    .q-answer-btn::after {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        bottom: -24px;
+    }
+    
+    .option-item.correct-answer::before {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+        left: -8px;
+    }
+    
+    .options-grid {
+        margin-top: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .q-copy-btn,
+    .q-answer-btn {
+        padding: 4px;
+    }
+    
+    .q-copy-btn {
+        top: 6px;
+        right: 6px;
+    }
+    
+    .q-answer-btn {
+        top: -10px;
+        right: -8px;
+    }
+    
+    .q-copy-btn svg,
+    .q-answer-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .q-copy-btn::after,
+    .q-answer-btn::after {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+        bottom: -22px;
+    }
+    
+    .option-item.correct-answer::before {
+        width: 16px;
+        height: 16px;
+        font-size: 9px;
+        left: -7px;
+    }
+    
+    .options-grid {
+        margin-top: 10px;
+    }
+}
+

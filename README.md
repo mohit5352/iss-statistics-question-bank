@@ -18,6 +18,8 @@ This repository contains a web-based archive of objective questions from ISS Sta
 statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
 ├── styles.css                                     # Styling for question cards and layout
+├── answers.js                                     # Centralized answer keys for Show Answer feature
+├── QUICK_START.md                                 # Quick start guide
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
 ├── start-server.bat                               # Quick start script for local server (Windows)
 ├── pdfs/                                          # Source PDFs for all sections
@@ -78,18 +80,22 @@ statistics_question_bank/
   - Paper I: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
   - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
 - **Year Navigation**: Browse questions from 2017 to 2025
-- **Copy Button**: Each question has a copy button to easily copy the question text, topic, and options
+- **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options
+- **Show Answer Button**: Eye icon (👁) that reveals the correct answer with gold highlighting and animated checkmark (✓)
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
-- **Color-Coded Interface**: Vibrant color scheme for easy visual distinction:
-  - **Headers**: Indigo (`#6366f1`) for main titles, Emerald (`#10b981`) for subtitles
-  - **Meta Controls**: Purple labels (`#8d1bf7`) and green values (`#3dbb0d`)
-  - **Questions**: Teal numbers (`#14b8a6`), purple text (`#b10fec`), green topic badges (`#3dbb0d`)
-  - **Options**: Red text (`#dc0909`) with darker red labels (`#a00606`)
-  - **Tables**: Indigo headers with alternating row colors
-  - **Context**: Vibrant green (`#03a403`) for setup paragraphs with gradient background
+- **Color-Coded Interface**: Modern color scheme for easy visual distinction:
+  - **Headers & Buttons**: Indigo (`#6366f1`) for main titles and copy button
+  - **Meta Controls**: Teal labels (`#059669`) and purple values (`#4f46e5`)
+  - **Questions**: Teal numbers (`#047857`), purple text with subtle tint background
+  - **Topic Badges**: Green (`#059669`) with light background
+  - **Options**: Dark red (`#991b1b`) with darker red labels (`#7f1d1d`)
+  - **Correct Answer**: Golden yellow (`#f59e0b`) background with animated checkmark
+  - **Tables**: Teal headers (`#059669`) with alternating row colors
+  - **Context**: Dark green (`#065f46`) with gradient teal background and decorative border
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
+- **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
 
 ## 📋 Instructions for Extracting Questions
 
@@ -257,20 +263,22 @@ For **each section file** and each year:
 
 ## 🎨 CSS Classes Reference
 
-- `.question-card`: Container for each question with white background and subtle shadow (position: relative for copy button)
+- `.question-card`: Container for each question with white background and subtle shadow (position: relative for action buttons)
 - `.q-header`: Header section with question number and topic badge
-- `.q-number`: Question number styling (teal color: `#14b8a6`)
-- `.q-topic`: Topic tag styling (green badge with light gray background: `#3dbb0d`)
-- `.q-text`: Main question text (purple color: `#b10fec`, `1.125rem` font size on desktop, responsive scaling)
-- `.q-context`: Context/setup text for multi-part questions (vibrant green color: `#03a403`, `1.0625rem` font size, light green gradient background with subtle shadow)
-- `.q-table`: Enhanced table container with indigo headers, alternating row colors, and rounded corners
-- `.options-grid`: Grid layout for answer options (2 columns on desktop, 1 column on mobile)
-- `.option-item`: Individual option styling (red text: `#dc0909`, `1.0625rem` font size on desktop, responsive scaling)
-- `.opt-label`: Option label (a, b, c, d) styling (darker red: `#a00606`, bold)
-- `.q-copy-btn`: Copy button styling (indigo background: `#6366f1`, positioned absolutely on each question card)
+- `.q-number`: Question number styling (teal color: `#047857`)
+- `.q-topic`: Topic tag styling (green badge with light teal background)
+- `.q-text`: Main question text (dark text: `#1a1a1a`, `1.125rem` font size on desktop, responsive scaling, subtle purple tint background)
+- `.q-context`: Context/setup text for multi-part questions (dark green: `#065f46`, `1.0625rem` font size, teal gradient background with left border accent)
+- `.q-table`: Enhanced table container with teal headers (`#059669`), alternating row colors, and rounded corners
+- `.options-grid`: Grid layout for answer options (2 columns on desktop, 1 column on mobile < 600px)
+- `.option-item`: Individual option styling (dark red text: `#991b1b`, `1.0625rem` font size on desktop, responsive scaling)
+- `.opt-label`: Option label (a, b, c, d) styling (darker red: `#7f1d1d`, bold)
+- `.q-copy-btn`: Copy button styling (indigo background: `#6366f1`, white icon, positioned top-right of each question card)
+- `.q-answer-btn`: Show Answer button styling (transparent background, gold/amber icon color: `#f59e0b`, positioned top-right of options grid)
+- `.correct-answer`: Correct answer highlight styling (golden gradient background: `#fef3c7` → `#fde68a`, amber border: `#f59e0b`, animated checkmark badge)
 - `.year-section`: Container for all questions of a year
-- `.meta-label`: Paper/Section/Year label text (purple: `#8d1bf7`)
-- `.meta-value`: Paper/Section/Year value text (green: `#3dbb0d`)
+- `.meta-label`: Paper/Section/Year label text (purple: `#4f46e5`)
+- `.meta-value`: Paper/Section/Year value text (teal: `#059669`)
 
 ## 📝 Checklist for Adding a New Year
 
@@ -285,6 +293,7 @@ For **each section file** and each year:
 - [ ] Verify questions are numbered sequentially within each section
 - [ ] Check that all questions have 4 options (a, b, c, d)
 - [ ] Add year option to dropdown in `main.html` (if not already present)
+- [ ] Add answer keys to `answers.js` (see Show Answer Feature section)
 - [ ] Test that all section files load correctly
 - [ ] Verify MathJax renders all mathematical expressions correctly
 
@@ -299,12 +308,14 @@ For **each section file** and each year:
 - [ ] Verify questions are numbered sequentially within each section
 - [ ] Check that all questions have 4 options (a, b, c, d)
 - [ ] Add year option to dropdown in `main.html` (if not already present)
+- [ ] Add answer keys to `answers.js` (see Show Answer Feature section)
 - [ ] Test that all section files load correctly
 - [ ] Verify MathJax renders all mathematical expressions correctly
 
 ## 🔧 Technical Details
 
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
+- **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality for both iframe (desktop) and fetch (mobile) loading methods.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
@@ -315,11 +326,12 @@ For **each section file** and each year:
   - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
   - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
   - All font sizes use rem units for consistent scaling and accessibility
-- **Color Scheme**: Vibrant, color-coded interface for visual distinction (see Features section above)
+- **Color Scheme**: Modern, high-contrast color scheme for better readability (see Features section above)
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: 
-  - Desktop (`file://`): Uses iframe (works natively)
-  - Mobile/Web Server (`http://`): Uses fetch/XMLHttpRequest for better compatibility
+  - Desktop (`file://`): Uses iframe injection with answers.js loaded inside the iframe
+  - Mobile/Web Server (`http://`): Uses fetch/XMLHttpRequest with answers.js loaded in main context
+- **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
 
 ## 📱 Mobile Features
 
@@ -369,7 +381,19 @@ For **each section file** and each year:
 ### Tables not displaying correctly?
 - Make sure tables are wrapped in `<div class="q-table">` (not on the `<table>` itself)
 - Check that table structure is valid HTML
-- Tables feature enhanced styling with indigo headers (`#6366f1`), alternating row colors, and hover effects
+- Tables feature enhanced styling with teal headers (`#059669`), alternating row colors, and hover effects
+
+### Show Answer button not appearing?
+- Make sure `answers.js` is loaded (check browser console for 404 errors)
+- Verify the question has an answer key in `answers.js` for the current paper/section/year
+- Check browser console for JavaScript errors
+- Make sure the question has a `.q-number` element with a valid question number
+- For desktop: Check that answers.js is loaded inside the iframe
+
+### Answer highlight not working?
+- Verify the correct answer format in `answers.js` (use "a", "b", "c", or "d" - lowercase)
+- Check that the question has a `.options-grid` with `.option-item` elements
+- Make sure option labels are formatted as `(a)`, `(b)`, `(c)`, `(d)`
 
 ## 📚 Example Question Structure
 
@@ -405,6 +429,48 @@ Here's a complete example of a formatted question:
 - The file naming conventions are strict and must be followed exactly
 - Always include viewport meta tag in question HTML files for mobile support
 
+## 🎯 Show Answer Feature
+
+The repository includes a **Show Answer** feature that allows users to reveal correct answers with a single click.
+
+### How It Works:
+1. Answers are stored centrally in `answers.js` (no need to modify individual HTML files)
+2. A "Show Answer" button (👁 eye icon) appears on each question card
+3. Clicking the button highlights the correct answer in **golden yellow** with an animated checkmark (✓)
+4. Clicking again hides the answer
+
+### Adding Answer Keys:
+To add answer keys, edit `answers.js` following this format:
+
+```javascript
+const QUESTION_ANSWERS = {
+    "paper1": {  // Paper I
+        "prob": {  // Probability & Statistics
+            "2025": {
+                "1": "a",  // Question 1 correct answer is (a)
+                "2": "c",
+                // ... more answers
+            }
+        },
+        // ... other sections
+    },
+    "paper2": {  // Paper II
+        "linear": {  // Linear Models
+            "2025": {
+                "51": "a",
+                // ... more answers
+            }
+        },
+        // ... other sections
+    }
+};
+```
+
+### Benefits:
+- **Centralized**: All answers in one file - easy to manage and update
+- **Dynamic**: No need to modify question HTML files
+- **Extensible**: Simply add more answer keys as needed
+
 ## 🔄 Maintenance
 
 When updating or fixing questions:
@@ -417,4 +483,4 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025 - Added Paper II support with three sections (Linear Models, Statistical Inference and Hypothesis Testing, Official Statistics), copy button functionality for each question, enhanced navigation interface, fixed MathJax rendering for HTTP/hosted versions, improved typography with consistent rem-based font sizes, and updated color scheme (q-context now uses vibrant green `#03a403` with gradient background)
+**Last Updated**: 2025 - Added Show Answer feature with centralized answer keys (`answers.js`), eye icon toggle (👁 → 👁❌), golden yellow answer highlighting with animated checkmark, copy button now shows green checkmark when clicked, unified action button styling with tooltips, enhanced mobile responsive design, and improved color scheme with darker, more readable colors.
