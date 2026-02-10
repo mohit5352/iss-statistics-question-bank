@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2022: Statistics Paper II - Linear Models</h2>
+
+    <!-- Question 1 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y = X\beta + \epsilon \), where \( Y \) is \( n \times 1 \) vector of response, \( X \) is \( n \times k \ (n > k) \) matrix of predictors, \( \beta \) is \( k \times 1 \) vector of unknown coefficients to be estimated and \( \epsilon \) is \( n \times 1 \) vector of random errors. Further \( \epsilon \) is \( N(0, \sigma^2 I) \). The distribution of \( \hat{Y} \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(X\beta, \sigma^2) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(X\beta, X(X'X)^{-1}X' \sigma^2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( N(X\beta, (XX')^{-1} \sigma^2) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( N(X\beta, (X'X)^{-1}X \sigma^2) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be any \( n \times m \) matrix with \( A^- \) as any generalized inverse of it. Further, let \( H = AA^- \) and \( T = A^-A \). Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only \( H \) is an idempotent matrix</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only \( T \) is an idempotent matrix</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both \( H \) and \( T \) are idempotent matrices</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither \( H \) nor \( T \) is an idempotent matrix</div>
+        </div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be a matrix of order \( n \times p \) with \( A^- \) as any generalized inverse of it. Let \( (A'A)^- \) be any generalized inverse of \( A'A \), then which of the following are correct?<br>
+            1. \( (A')^- = (A^-)' \)<br>
+            2. \( A^- = (A'A)^- A' \)<br>
+            3. \( Rank(A'A) = rank(AA^-) \)<br>
+            Select the correct answer using the code given below :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Moore-Penrose Inverse]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be any matrix of order \( n \times m \). Consider the following statements for its Moore-Penrose inverse \( A^+ \) :<br>
+            1. \( A^+ = (A'A)^+ A' \)<br>
+            2. \( A^+ \) is unique.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_i, Y_i \) and \( Z_i; i = 1, 2, 3 \) be nine independent observations with common variance \( \sigma^2 \), and \( E(X_i) = \theta_1, E(Y_i) = \theta_2, E(Z_i) = \theta_1 - \theta_2; i = 1, 2, 3 \). If \( \hat{\theta}_1 \) and \( \hat{\theta}_2 \) denote the BLUEs of \( \theta_1 \) and \( \theta_2 \) respectively, then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( V(\hat{\theta}_1) > V(\hat{\theta}_2) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( V(\hat{\theta}_1) = V(\hat{\theta}_2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( V(\hat{\theta}_1) < V(\hat{\theta}_2) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( V(\hat{\theta}_1) \ge V(\hat{\theta}_2) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Consider two-way classified data with 5 levels of factor A, 6 levels of factor B and 4 observations per cell. The degrees of freedom for error are :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 120</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 100</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 96</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 90</div>
+        </div>
+    </div>
+
+    <!-- Question 8 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: Variance Components]</span>
+        </div>
+        <div class="q-text">
+            For a two-way classified random effect model with \( p \) levels of factor A and \( q \) levels of factor B having \( m \) observations per cell, the estimate of variance component \( \hat{\sigma}_A^2 \) is given by :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{MSA - MS(AB)}{qm} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{MSB - MS(AB)}{pm} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{MSA - MSB}{pq} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{MSA + MSB}{pq} \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 9-10 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            The moisture content of three types of cheese made by two methods was recorded. Two pieces of cheese were measured for each type and for each method. Let the method be designated as factor A and type as factor B. The sum of squares for factor A, factor B and error are respectively 0.114075, 25.900117 and 0.661950.
+        </div>
+    </div>
+
+    <!-- Question 9 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The mean squares for method and error are respectively :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.114075 and 0.110325</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.057037 and 0.110325</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.114075 and 0.08274375</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.057037 and 0.08274375</div>
+        </div>
+    </div>
+
+    <!-- Question 10 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The values of F-statistic for factors A and B are respectively :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1.034 and 78.2539</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.51699 and 117.381</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1.034 and 117.381</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.51699 and 78.2539</div>
+        </div>
+    </div>
+
+    <!-- Context for 21-22 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            In general linear model \( Y = X\beta + \epsilon \) where \( Y \) is \( n \times 1 \), \( X \) is \( n \times k \), \( \beta \) is \( k \times 1 \) and \( \epsilon \) is \( n \times 1 \). Further \( \epsilon \) is \( N(0, \sigma^2 I) \). Let \( e \) be an \( n \times 1 \) vector of residuals. Let \( P = X(X'X)^{-1}X' = [p_{ij}] \) where \( p_{ii} = x_i'(X'X)^{-1}x_i \) and \( p_{ij} = x_i'(X'X)^{-1}x_j \); \( x_i' \) is the \( i^{th} \) row of \( X \).
+        </div>
+    </div>
+
+    <!-- Question 21 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">What is the range of \( p_{ii} \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 0 \le p_{ii} \le 2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 0 \le p_{ii} \le 0.5 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( -1 \le p_{ii} \le 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 0 \le p_{ii} \le 1 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 22 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">What is the correlation coefficient between \( e_i \) and \( e_j \)?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{p_{ij}}{\sqrt{(1 - p_{ii})(1 - p_{jj})}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{-p_{ij}}{\sqrt{(1 - p_{ii})(1 - p_{jj})}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{p_{ii}}{\sqrt{(1 - p_{jj})(1 - p_{jj})}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{p_{jj}}{\sqrt{(1 - p_{jj})(1 - p_{ii})}} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 23 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Three methods A, B and C of packing frozen foods were compared. The response variable was ascorbic acid (mg/100 g). The data was collected by taking seven observations for each of the methods. The sum of squares due to treatments and that due to total are 147.3456 and 202.3126 respectively. What is the value of F-statistic?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 24.1256</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 24.0156</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 23.5216</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 23.1256</div>
+        </div>
+    </div>
+
+    <!-- Context for 24-25 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            Let \( X_i, Y_i \) and \( Z_i \) where \( i = 1, 2, 3, 4 \) be twelve independent observations with common variance \( \sigma^2 \), and \( E(X_i) = \theta_1 \), \( E(Y_i) = \theta_2 \) and \( E(Z_i) = \theta_1 + \theta_2 \); \( i = 1, 2, 3, 4 \). Let \( X = \sum_{i=1}^4 X_i \), \( Y = \sum_{i=1}^4 Y_i \) and \( Z = \sum_{i=1}^4 Z_i \).
+        </div>
+    </div>
+
+    <!-- Question 24 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">What is the BLUE of \( \theta_1 \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{12} [2X - Y + Z] \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{12} [X - Y + 2Z] \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{12} [-X + 2Y + Z] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{12} [X - 2Y + Z] \)</div>
+        </div>
+    </div>
+
+    <!-- Question 25 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">What is the BLUE of \( \theta_2 \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{12} [2X - Y + Z] \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{12} [X - Y + 2Z] \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{12} [-X + 2Y + Z] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{12} [X - 2Y + Z] \)</div>
+        </div>
+    </div>
+
+    <!-- Question 26 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Consider a one-way classification model \( Y_{ij} = \mu + \alpha_i + e_{ij} \) where \( i = 1, 2, 3, \dots, k \); \( j = 1, 2, 3, \dots, n_i \). We are testing the hypothesis \( H_0 : \alpha_1 = \alpha_2 = \dots = \alpha_k = \alpha \) (say). Consider the ANOVA table for this classification :<br>
+            <div class="q-table">
+                <table>
+                    <tr><td>Source</td><td>Degrees of freedom</td></tr>
+                    <tr><td>Treatment</td><td>u</td></tr>
+                    <tr><td>Error</td><td>v</td></tr>
+                    <tr><td>Total</td><td>N - 1</td></tr>
+                </table>
+            </div>
+            where \( N = \sum_{i=1}^k n_i \). What are the values of \( u \) and \( v \) respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( k, N - k - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( k - 2, N - k + 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( k - 1, N - k \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( k - 3, N - k + 2 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 27 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Consider a two-way classification with \( r \) observations per cell \( Y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{ij} + e_{ijk} \), where \( i = 1, 2, \dots, p \); \( j = 1, 2, \dots, q \); \( k = 1, 2, \dots, r \). Consider the ANOVA table for this classification :<br>
+            <div class="q-table">
+                <table>
+                    <tr><td>Source</td><td>Degrees of freedom</td></tr>
+                    <tr><td>Due to \( \alpha \)</td><td>t</td></tr>
+                    <tr><td>Due to \( \beta \)</td><td>u</td></tr>
+                    <tr><td>Interaction</td><td>v</td></tr>
+                    <tr><td>Error</td><td>w</td></tr>
+                    <tr><td>Total</td><td>pqr - 1</td></tr>
+                </table>
+            </div>
+            What are the values of \( t, u, v \) and \( w \) respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( p-1, q-1, (p-1)(q-1), pq(r-1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( q-1, p-1, (p-1)(q-1), pq(r-1) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( r-1, q-1, (r-1)(q-1), pq(r-1) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( p-1, r-1, (r-1)(p-1), pq(r-1) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 28 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Design of Experiments]</span>
+        </div>
+        <div class="q-text">
+            In a Randomized Block Design with 4 blocks and 5 treatments having one missing observation, the error degrees of freedom are :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 11</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 10</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 9</div>
+        </div>
+    </div>
+
+    <!-- Context for 29-30 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            Consider the Gauss-Markov linear model<br>
+            \( E(y_1) = \beta_1 - \beta_3 \)<br>
+            \( E(y_2) = 2\beta_1 \)<br>
+            \( E(y_3) = \beta_1 + \beta_2 \)<br>
+            with \( V(y_i) = \sigma^2, Cov(y_i, y_j) = 0 \) for \( i \neq j \).
+        </div>
+    </div>
+
+    <!-- Question 29 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements :<br>
+            1. The best linear unbiased estimator of \( \beta_1 \) is \( \hat{\beta}_1 = \frac{1}{6} (y_1 + 2y_2 + y_3) \).<br>
+            2. The best linear unbiased estimator of \( \beta_2 \) is \( \hat{\beta}_2 = \frac{1}{2} (y_1 + y_3) \).<br>
+            Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 30 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Least Squares]</span>
+        </div>
+        <div class="q-text">The residual sum of squares is given by :</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{3} (y_1 + y_2 + y_3)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{2} (y_1 + y_2 - y_3)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{2} (y_1 - y_2 + y_3)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{3} (y_1 - y_2 + y_3)^2 \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

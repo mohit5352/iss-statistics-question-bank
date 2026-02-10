@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2017: Statistics Paper II - Statistical Inference and Hypothesis Testing</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            The following table gives the observed frequencies for the four blood groups along with expected frequencies according to a model:
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Blood group</th>
+                            <th>O</th>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>AB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Observed</td>
+                            <td>17</td>
+                            <td>22</td>
+                            <td>15</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Expected</td>
+                            <td>14</td>
+                            <td>26</td>
+                            <td>12</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            What is the corrected value of chi-square statistic after applying Yates' correction for continuity?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.4874</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2.2378</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2.5272</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2.7590</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Which of the following are correct for a test of significance?
+            <ol>
+                <li>Size \( = 1 - P (\text{Type-I error}) \)</li>
+                <li>Power \( = 1 - P (\text{Type-II error}) \)</li>
+                <li>Power \( = P (\text{Type-II error}) \)</li>
+                <li>Size \( = P (\text{Type-I error}) \)</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3 and 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2 and 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: MVUE]</span>
+        </div>
+        <div class="q-text">
+            If \( X_1, X_2, X_3, \dots, X_n \) is a random sample from \( N(\mu, \sigma^2) \), where \( \mu \) is known and we define \( T = k \sum_{i=1}^{n} |X_i - \mu| \), then for what value of k will T be an unbiased estimator of \( \sigma \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1.25n \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 0.8n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1.25}{n} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{0.8}{n} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">24.</span>
+            <span class="q-topic">[Topic: Method of Moments]</span>
+        </div>
+        <div class="q-text">
+            The sample values are drawn from a population with p.d.f. \( f(x) = (1+\theta)x^{\theta}; 0 < x < 1, \theta > 0 \), and are 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 and 0.9. The estimate of \( \theta \) by the method of moments is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.6</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.7</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Consider a population with three kinds of individuals labelled 1, 2 and 3 occurring in the Hardy-Weinberg proportions \( p(1, \theta) = \theta^2, p(2, \theta) = 2\theta(1-\theta) \) and \( p(3, \theta) = (1-\theta)^2 \), where \( 0 < \theta < 1 \). If we observe a sample of three individuals and obtain \( x_1=1, x_2=2 \) and \( x_3=1 \), then MLE of \( \theta \) is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{2}{3} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{5}{6} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_i \sim N(\mu, \sigma^2) \), where \( i = 1, 2, 3, \dots, n \) and \( \Theta = \{(\mu, \sigma^2): -\infty < \mu < \infty, \sigma^2 > 0\} \) such that \( \mu \) is known. Then the MLE of \( \sigma^2 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sum_{i=1}^{n} (X_i - \mu)^2}{n} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sum_{i=1}^{n-1} (X_i - \mu)^2}{n-1} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n-1}{n^2} \sum_{i=1}^{n} (X_i - \mu)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n-1}{n} \sum_{i=1}^{n} (X_i - \mu)^2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            <ol>
+                <li>Robustness of a test means relative insensitivity to violation of assumptions.</li>
+                <li>t-test should not be used for sample size 10 if the distribution is clearly skewed.</li>
+                <li>For sample size 100, t-test can be used even if the distribution is non-normal.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            If T is an unbiased estimator for \( \theta \), then \( T^2 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> unbiased estimator for \( \theta^2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> biased estimator for \( \theta^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> unbiased estimator for \( (\theta^2 + 1) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> biased estimator for \( (\theta^2 + 1) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            If \( X_1, X_2, X_3, \dots, X_n \) is a random sample from a normal population \( N(\mu, 1) \), the statistic \( t = \frac{1}{n} \sum_{i=1}^{n} X_i^2 \) is an unbiased estimator of
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \mu^2 + 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \mu + 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \mu \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 2\mu + 1 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            If \( X_1, X_2, X_3, \dots, X_n \) be a random sample from a population with density \( f(x, \theta) = \frac{1}{2} e^{-|x-\theta|}, -\infty < x < \infty \), then the MLE of \( \theta \) is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{X} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> median (\(X_1, X_2, X_3, \dots, X_n\))</div>
+            <div class="option-item"><span class="opt-label">(c)</span> mode (\(X_1, X_2, X_3, \dots, X_n\))</div>
+            <div class="option-item"><span class="opt-label">(d)</span> standard deviation</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            In sampling from a normal population \( N(\theta, 1) \) with \( \bar{X} \) being sample mean, which of the following classes describes all MVB estimators of \( \theta \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> All estimators of the type \( AX + B \), where A and B are given constants</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \bar{X} \) only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> All the estimators of \( f(\bar{X}) \), where \( f \) is a real-valued function</div>
+            <div class="option-item"><span class="opt-label">(d)</span> No estimator attains MVB in this case</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: MVUE]</span>
+        </div>
+        <div class="q-text">
+            Let \( 5, 2, 3, 4, 3, 2, 4, 5, 3, 2 \) be a sample taken from a normal population with mean 0 and variance \( \sigma^2 \). The minimum variance bound estimator for \( \sigma^2 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 33</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3.3</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1.21</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 12.1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Bound]</span>
+        </div>
+        <div class="q-text">
+            A normal distribution with unspecified mean and variance is fitted to the following frequency distribution:
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class interval</th>
+                            <th>Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>10-5-20-5</td><td>3</td></tr>
+                        <tr><td>20-5-30-5</td><td>5</td></tr>
+                        <tr><td>30-5-40-5</td><td>12</td></tr>
+                        <tr><td>40-5-50-5</td><td>25</td></tr>
+                        <tr><td>50-5-60-5</td><td>23</td></tr>
+                        <tr><td>60-5-70-5</td><td>15</td></tr>
+                        <tr><td>70-5-80-5</td><td>7</td></tr>
+                        <tr><td>80-5-90-5</td><td>2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            What are the degrees of freedom for the corresponding chi-square test of goodness of fit?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 6</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Bound]</span>
+        </div>
+        <div class="q-text">
+            The estimate of \( \lambda \) for the exponential distribution \( f(x; \lambda) = \lambda e^{-\lambda x} \) for \( 0 \le x < \infty \) by the method of moments is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{X} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{X} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \bar{X}^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{\sqrt{\bar{X}}} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Let P be the probability that a coin will fall head in a single toss in order to test the hypothesis \( H_0: p = \frac{1}{2} \) against \( H_1: p = \frac{3}{4} \). The coin is tossed 5 times and \( H_0 \) is rejected if more than three heads are obtained. The probability of type-I error is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{3}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{47}{128} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{81}{128} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{13}{16} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            If \( x \ge 1 \) is the critical region for testing \( H_0: \theta = 1 \) against the alternative \( H_1: \theta = 2 \) on the basis of single observation from the population \( f(x, \theta) = \theta e^{-\theta x}, 0 \le x < \infty \), then the values of type-I and type-II errors will be respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{e-1}{e^2} \) and \( \frac{1}{e} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{e^2} \) and \( \frac{e-1}{e} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{e^2 - 1}{e^2} \) and \( \frac{1}{e^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{e^2} \) and \( \frac{e^2 - 1}{e^2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample from a normal population \( N(0, 1) \). It is desired to test the null hypothesis \( H_0: \theta = \theta_0 \) against \( H_1: \theta = \theta_1, (\theta_1 \neq \theta_0) \). Let a test reject when \( \bar{X} > \frac{\theta_0 + \theta_1}{2} \). If \( \alpha \) and \( \beta \) are the type-I and type-II error probabilities of this test, then
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \alpha < \beta \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \alpha = \beta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \alpha \beta > 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \alpha + \beta > 1 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            Statement I: UMVU estimator is always unique, if it exists.
+            Statement II: UMVU estimator is provided by CR lower bound only.
+            Which one of the following is correct in respect of the above statements?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Both Statement I and Statement II are true and Statement II is the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Both Statement I and Statement II are true but Statement II is not the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Statement I is true but Statement II is false</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Statement I is false but Statement II is true</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: SPRT]</span>
+        </div>
+        <div class="q-text">
+            For testing the hypothesis \( H_0: \theta = \theta_0 \) against the alternative \( H_1: \theta = \theta_1 \), \( \alpha \) and \( \beta \) are the probabilities of type-I and type-II errors respectively. Under the SPRT criteria, the values of the constants A and B (\( B < A \)) are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( A = \frac{\alpha}{1-\beta}, B = \frac{\beta}{1-\alpha} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( A = \frac{1-\beta}{\alpha}, B = \frac{\beta}{1-\alpha} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( A = \frac{1-\beta}{\alpha}, B = \frac{\beta}{1-\alpha} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( A = \frac{1-\alpha}{\beta}, B = \frac{1-\beta}{\alpha} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            A test in which decision about \( H_0 \) is taken after each successive observation is known as
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Bayes' test</div>
+            <div class="option-item"><span class="opt-label">(b)</span> likelihood ratio test</div>
+            <div class="option-item"><span class="opt-label">(c)</span> sequential probability ratio test</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Student's ratio test</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">41.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Let there be a population having p.d.f. \( f(x, \theta) = \begin{cases} e^{-(x-\theta)}; & 0 \le x < \infty \\ 0; & \text{otherwise} \end{cases} \). The maximum likelihood estimator of \( \theta \) based on a random sample of size n is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> largest sample observation</div>
+            <div class="option-item"><span class="opt-label">(b)</span> smallest sample observation</div>
+            <div class="option-item"><span class="opt-label">(c)</span> sample median</div>
+            <div class="option-item"><span class="opt-label">(d)</span> sample mode.</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">42.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            If a sufficient statistic t for \( \theta \) exists, then
+            <ol>
+                <li>MLE will be a function of sufficient statistic if it is unique</li>
+                <li>it will have the invariance property</li>
+                <li>\( \phi(t) \) will be MLE for \( \phi(\theta) \), provided \( \phi \) is a continuous function of \( \theta \)</li>
+            </ol>
+            Which of the above are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">43.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Regarding optimum properties of MLE under some regulatory conditions, we can say that
+            <ol>
+                <li>the likelihood equation has a solution which converges in probability to true value \( \theta_0 \)</li>
+                <li>a consistent solution of likelihood equation does not correspond to the maximum of the likelihood</li>
+                <li>the likelihood equation has one and only one consistent solution</li>
+            </ol>
+            Which of the above are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">44.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample of size \( n \) from a distribution with p.d.f. \( f(x, \theta) = \frac{1}{\theta} e^{-x/\theta}; 0 < x < \infty, \theta > 0 \). The maximum likelihood estimate of the median of the distribution is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\bar{X}}{\log_e 2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\log_e 2}{\bar{X}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \bar{X} \log_e 2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \log_e 2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">45.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            The area of critical region depends on the
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> size of type-I error</div>
+            <div class="option-item"><span class="opt-label">(b)</span> size of type-II error</div>
+            <div class="option-item"><span class="opt-label">(c)</span> value of statistic</div>
+            <div class="option-item"><span class="opt-label">(d)</span> number of observations</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">46.</span>
+            <span class="q-topic">[Topic: SPRT]</span>
+        </div>
+        <div class="q-text">
+            In a Sequential Probability Ratio Test (SPRT), \( \lambda_m \) denotes the likelihood ratio at \( m^{th} \) stage of the experiment; \( \alpha \) and \( \beta \) are the probabilities of Type-I and Type-II errors respectively. Which of the following pairs is/are correctly matched?
+            <ol>
+                <li>\( \lambda_m \ge \frac{1-\beta}{\alpha} \): Terminate the process with the rejection of null hypothesis \( H_0 \)</li>
+                <li>\( \frac{\beta}{1-\alpha} < \lambda_m < \frac{1-\beta}{\alpha} \): Terminate the process with the acceptance of \( H_0 \)</li>
+                <li>\( \lambda_m \le \frac{\beta}{1-\alpha} \): Continue sampling by taking an additional observation</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">47.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            If N is stopping time for an SPRT, then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( P[N < \infty] = \frac{1}{4} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( P[N < \infty] = \frac{1}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( P[N < \infty] = 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( P[N < \infty] = \frac{3}{4} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">48.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Let \( \delta(x) \) be an estimator of \( \theta \) and \( L[\theta, \delta(x)] \) be the loss function associated with \( \delta(x) \) at \( \theta \). Then the risk \( R(\theta, \delta) = E[L(\theta, \delta(x))] \) is mean squared error if the associated loss function is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( L[\theta, \delta(x)] = (\theta - \alpha)^3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( L[\theta, \delta(x)] = (\theta - \alpha)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( L[\theta, \delta(x)] = |\theta - \alpha| \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( L[\theta, \delta(x)] = \theta(\theta - \alpha)^2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">49.</span>
+            <span class="q-topic">[Topic: Bayes' Estimation]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \sim N(\mu, 1) \) and let prior distribution of \( \mu \) be \( N(0, 1) \). Let \( L(\mu, \delta) = [\mu - \delta(x)]^2 \). Then the Bayes' risk associated with \( \delta \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sum_{i=1}^{n} x_i}{n+1} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{2}{n+2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{n+1} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\sum_{i=1}^{n} x_i^2}{n} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">50.</span>
+            <span class="q-topic">[Topic: Bayes' Estimation]</span>
+        </div>
+        <div class="q-text">
+            The Bayes' estimator of a parameter under squared error loss function is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> posterior mean</div>
+            <div class="option-item"><span class="opt-label">(b)</span> posterior median</div>
+            <div class="option-item"><span class="opt-label">(c)</span> posterior mode</div>
+            <div class="option-item"><span class="opt-label">(d)</span> posterior variance</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">51.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Which one of the following statements is **not** correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> If any Bayes' solution is unique, it must be admissible.</div>
+            <div class="option-item"><span class="opt-label">(b)</span> A uniformly best decision rule always exists.</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Posterior median is the Bayes' estimator under the absolute error loss function.</div>
+            <div class="option-item"><span class="opt-label">(d)</span> A Bayes' decision rule, whose risk is constant, is also a minimax decision rule.</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">52.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \) denote a random sample from a population with the density \( f(x, \theta) = \theta \sqrt{x}^{\theta-1}, 0 \le x \le 1, \theta > 0 \). The MLE of \( \theta \) is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{n}{\sum_{i=1}^{n} \log x_i} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \left( \frac{n}{\sum_{i=1}^{n} \log x_i} \right)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n}{\sum_{i=1}^{n} \log x_i} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n^2}{\left(\sum_{i=1}^{n} \log x_i\right)^2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">53.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \) be an i.i.d. sequence of random variables (\( n > 2 \)) from the distribution whose density function is \( f(x, \theta) = \theta x^{\theta-1}, 0 < x < 1, \theta > 0 \). If \( Z = -\sum_{i=1}^{n} \log X_i \), then an unbiased estimator of \( \theta \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{n}{Z} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{n-1}{Z} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( nZ \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (n-1)Z \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">54.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            A statistic \( t = t(x_1, x_2, \dots, x_n) \) is sufficient for \( \theta \). Consider the following statements:
+            <ol>
+                <li>It contains all the information about \( \theta \).</li>
+                <li>The likelihood function can be expressed as \( L(x, \theta) = g(t, \theta)h(x_1, x_2, x_3, \dots, x_n) \)</li>
+                <li>The conditional distribution of \( x_1, x_2, x_3, \dots, x_n \) given \( t \) is independent of \( \theta \).</li>
+            </ol>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">55.</span>
+            <span class="q-topic">[Topic: Official Statistics]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \) be a random sample from Rayleigh distribution with the p.d.f. \( f(x, \theta) = \frac{x}{\theta^2} \exp\left(-\frac{x^2}{2\theta^2}\right) \); \( x > 0, \theta > 0 \). The complete sufficient statistic for \( \theta \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \sum_{i=1}^{n} X_i \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \bar{X} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \sum_{i=1}^{n} X_i^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \max(X_1, X_2, X_3, \dots, X_n) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">56.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            A single observation X is drawn from \( B(10, p) \) distribution. Reject \( H_0: p = \frac{1}{2} \) in favour of \( H_1: p = \frac{3}{4} \) if \( X \le 3 \). Then the power of the test is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 369 \left(\frac{3}{4}\right)^{10} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 366 \left(\frac{3}{4}\right)^{10} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 372 \left(\frac{3}{4}\right)^{10} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 375 \left(\frac{3}{4}\right)^{10} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">57.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            For testing \( H_0 \) against \( H_1 \), if \( \phi(x) \) is a UMP, then
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \phi(x) \) is always unbiased</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \phi(x) \) is never unbiased</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \phi(x) \) has power less than its size</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">58.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1 \) and \( X_2 \) be i.i.d. random variables with Poisson. Then \( (X_1 + 2X_2) \) is not sufficient because
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( P(X_1 = 1, X_2 = 1 | T = 3) \) depends on \( \lambda \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (X_1 + 2X_2) \) is Poisson</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (X_1 + 2X_2) \) is not Poisson</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( P(X_1 = 1, X_2 = 1 | T = 3) \) is Poisson with parameter one where \( T = (X_1 + 2X_2) \).</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">59.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Which of the following statements is/are correct?
+            <ol>
+                <li>Cramer-Rao inequality gives an upper bound for the variance of an unbiased statistic.</li>
+                <li>Rao-Blackwellization means conditioning on a sufficient statistic to reduce variance.</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">60.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            <ol>
+                <li>If \( T_n \) is consistent for \( \theta \), then for any function \( f, f(T_n) \) is consistent for \( f(\theta) \).</li>
+                <li>Method of moments gives consistent estimators.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">61.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the testing problem for \( N(0, 1) \):
+            \( P_1: H_0: \theta = \theta_0 \text{ vs. } H_1: \theta > \theta_0 \)
+            \( P_2: H_0: \theta = \theta_0 \text{ vs. } H_1: \theta \neq \theta_0 \)
+            The UMP level \( \alpha \) test exists
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> for \( P_1 \) but not for \( P_2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> for \( P_2 \) but not for \( P_1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> for both \( P_1 \) and \( P_2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> neither for \( P_1 \) nor for \( P_2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">62.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Let \( \frac{X}{2} \) and \( \frac{Y}{6} \) be two independent chi-square variates with 2 and 6 degrees of freedom respectively. An unbiased estimator of \( \frac{\sigma_1^2}{\sigma_2^2} \) is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{X}{Y} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{2X}{Y} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{3X}{Y} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{4X}{Y} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">63.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Let X be a binomial random variable with parameters \( n \) and \( \theta \). Let \( t_n(X) = \frac{X\sqrt{n}}{2\sqrt{n} - \sqrt{n}} \). Then consider the following statements:
+            <ol>
+                <li>\( t_n(X) \) is biased estimator of \( \theta \).</li>
+                <li>\( t_n(X) \) is consistent estimator of \( \theta \).</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">64.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            A sample is drawn from the population \( f(x; \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x}, x \ge 0 \) and the values of first and second order sample moments about origin are 10 and 150 respectively. Then the estimators of \( \alpha \) and \( \beta \) obtained by method of moments are
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \hat{\alpha} = 2 \) and \( \hat{\beta} = \frac{1}{5} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \hat{\alpha} = \frac{1}{2} \) and \( \hat{\beta} = 5 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \hat{\alpha} = 2 \) and \( \hat{\beta} = \frac{1}{5} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \hat{\alpha} = \frac{1}{2} \) and \( \hat{\beta} = 5 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">65.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            Statement I: SPRT sometimes provides a decision.
+            Statement II: Probability of terminating SPRT is one.
+            Which one of the following is correct in respect of the above statements?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Both Statement I and Statement II are true and Statement II is the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Both Statement I and Statement II are true but Statement II is not the correct explanation of Statement I</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Statement I is true but Statement II is false</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Statement I is false but Statement II is true</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

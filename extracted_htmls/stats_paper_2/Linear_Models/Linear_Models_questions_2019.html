@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2019: Statistics Paper II - Linear Models</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            If \( y_1, y_2, y_3 \) and \( y_4 \) are independent with \( E(y_1) = E(y_2) = (\theta_1 + \theta_2) \), \( E(y_3) = E(y_4) = (\theta_1 + \theta_3) \), and \( V(y_i) = \sigma^2 \); \( i = 1, 2, 3 \) and \( 4 \). For estimability of parametric function \( \lambda' = \lambda_1 \theta_1 + \lambda_2 \theta_2 + \lambda_3 \theta_3 \), consider the following conditions:
+            <ol>
+                <li>\( \lambda_1 = \lambda_2 + \lambda_3 \)</li>
+                <li>\( \lambda_2 = \lambda_1 + \lambda_3 \)</li>
+                <li>\( \lambda_3 = \lambda_1 + \lambda_2 \)</li>
+            </ol>
+            Which of the above condition(s) is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let an \( n \times 1 \) vector \( \mathbf{y} \sim N(\mathbf{X}\beta, \sigma^2\mathbf{I}) \) where \( \mathbf{X} \) is an \( n \times p \) matrix. Let \( \mathbf{H} = (\mathbf{h}_{ij}) = \mathbf{X}(\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}' \) be an \( n \times n \) matrix. Let \( \mathbf{e} = \mathbf{y} - \hat{\mathbf{y}} \); \( \hat{\mathbf{y}} = \mathbf{X}\hat{\beta} \) be the \( n \times 1 \) residual vector where \( \hat{\beta} \) is the least squares estimate of \( \beta \). Then which one of the following is not correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Rank(\(\mathbf{H}\)) = p</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 0 < h_{ii} < 1; 1 \le i \le n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( V(\hat{\mathbf{y}}) = \sigma^2 \mathbf{H} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Cov(\(e_i, e_j\)) = \( \sigma^2 h_{ij} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Consider the following ANOVA table :
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source of variation</th>
+                            <th>Degrees of freedom</th>
+                            <th>Sum of squares</th>
+                            <th>Mean SS</th>
+                            <th>Test Statistic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Treatment</td>
+                            <td>w</td>
+                            <td>x</td>
+                            <td>y</td>
+                            <td>5.22</td>
+                        </tr>
+                        <tr>
+                            <td>Error</td>
+                            <td>12</td>
+                            <td>z</td>
+                            <td>25</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>14</td>
+                            <td>561</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            The values of w, x, y and z that complete the above table are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2, 261, 130-5, 300</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2, 300, 150, 261</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2, 250, 125, 311</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2, 311, 155.5, 250</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Estimation]</span>
+        </div>
+        <div class="q-text">
+            Let the random variables \( X_1, X_2, X_3, \dots, X_n \) follow \( U(\theta, \theta+1) \). Then which one of the following statements is **not** correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{X} - \frac{1}{2} \) is an unbiased estimate of \( \theta \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> UMVUE will not exist for \( \theta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Any value of \( \theta \) in the interval \( \left[ X_{(n)} - 1, X_{(1)} \right] \) is an MLE</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( X_{(1)} \) is an MLE which is sufficient for \( \theta \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">21.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            In general linear regression model \( \mathbf{y} = \mathbf{X}\beta + \mathbf{u}; \mathbf{u} \sim N(0, \sigma^2\mathbf{I}) \), \( \mathbf{e} \) is an \( n \times 1 \) residual vector and \( \hat{\mathbf{y}} \) is the estimated value of \( \mathbf{y} \). Define \( \mathbf{H} = \mathbf{X} (\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}' \). Then which of the following statements are correct?
+            <ol>
+                <li>\( V(\mathbf{e}) = V(\mathbf{y}) + V(\hat{\mathbf{y}}) \) where \( V(.) \) represents var-cov matrix</li>
+                <li>\( \text{Cov}(\mathbf{y}, \hat{\mathbf{y}}) = \sigma^2 \mathbf{H} \)</li>
+                <li>\( V(\mathbf{e}) = \sigma^2(\mathbf{I} – \mathbf{H}) \)</li>
+            </ol>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">22.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For the Gauss Markov model \( \mathbf{y} = \mathbf{X}\beta + \mathbf{u}; V(\mathbf{u}) = \sigma^2\mathbf{I} \). Let rank (\(\mathbf{X}\)) = \( r \) and \( \mathbf{l}\beta \) are \( m \) linearly independent estimable functions of \( \beta \) such that \( \mathbf{l}\beta = \zeta_i; i = 1, 2, \dots, m \), where \( \mathbf{l}_i \) and \( \zeta_i \) are known. Define \( \text{RSS}_1 \) as the residual sum of squares subject to the conditions \( \mathbf{l}\beta = \zeta; i = 1, 2, \dots, m \) and RSS as the unconditional residual sum of squares. Then which of the following statements are correct?
+            <ol>
+                <li>\( (\text{RSS}_1 - \text{RSS})/\sigma^2 \) is distributed as a non-central chi square with \( m \) degrees of freedom.</li>
+                <li>\( \text{RSS}_1/\text{RSS} \) is distributed as central F with \( m \) and \( (n - r) \) degrees of freedom.</li>
+                <li>\( (\text{RSS}_1 - \text{RSS}) \) and RSS are independently distributed.</li>
+            </ol>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only.</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2 and 3 only.</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">23.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            If \( \mathbf{A}^- \) is any g-inverse of \( \mathbf{A} \) and \( \mathbf{AA}^- \mathbf{A} = \mathbf{H} \), then consider the following statements:
+            <ol>
+                <li>H is idempotent</li>
+                <li>\( \mathbf{AH} = \mathbf{A} \)</li>
+                <li>rank(\(\mathbf{A}\)) = rank(\(\mathbf{H}\)) = trace(\(\mathbf{H}\))</li>
+            </ol>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">25.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For the linear model \( \mathbf{y} = \mathbf{X}\beta + \mathbf{u}; E(\mathbf{u}) = 0, V(\mathbf{u}) = \sigma^2\mathbf{I}, \hat{\beta} = (\mathbf{X}' \mathbf{X})^{-1} \mathbf{X}'\mathbf{y} \). Which of the following statements are correct?
+            <ol>
+                <li>\( V(\hat{\beta}) = \sigma^2(\mathbf{X}' \mathbf{X})^{-1} \).</li>
+                <li>\( \hat{\beta} \) is the BLUE for \( \beta \).</li>
+                <li>Residual mean square is an unbiased estimator of \( \sigma^2 \).</li>
+            </ol>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Suppose \( (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) \) be \( n \) observations on certain geographical region, related through the model \( y_i = \alpha + \beta x_i + u_i \), \( i = 1, 2, \dots, n \) where \( u_i \)'s are the random errors and both \( x_i \) and \( y_i \) are measured in square metres. Let \( \hat{\alpha} \) and \( \hat{\beta} \) be the least squares estimators of \( \alpha \) and \( \beta \) respectively. If the results are to be reported in square feet then the values of
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \hat{\alpha} \) may change but \( \hat{\beta} \) will not change</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \hat{\beta} \) may change but \( \hat{\alpha} \) will not change</div>
+            <div class="option-item"><span class="opt-label">(c)</span> both \( \hat{\alpha} \) and \( \hat{\beta} \) will change</div>
+            <div class="option-item"><span class="opt-label">(d)</span> both \( \hat{\alpha} \) and \( \hat{\beta} \) will not change</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For the model \( \mathbf{y} = \mathbf{X}\beta + \mathbf{u} \) where \( \mathbf{y} \) is an \( n \times 1 \) vector, \( \mathbf{X} \) is an \( n \times p \) matrix, \( \beta \) is an \( n \times 1 \) vector of unknown coefficients and \( \mathbf{u} \) is the disturbance vector, if \( \hat{\beta} \) is the solution of the equation \( \mathbf{X}'\mathbf{X} \hat{\beta} = \mathbf{X}'\mathbf{y} \), then which of the following statements is/are correct?
+            <ol>
+                <li>If \( \mathbf{C}'\beta \) is estimable, then \( \mathbf{C}\hat{\beta} \) is the BLUE.</li>
+                <li>All linear parametric functions are estimable iff Rank(\(\mathbf{X}\)) > p.</li>
+                <li>The hypothesis \( H_0: \mathbf{L}\beta = \zeta \) where \( \mathbf{L} \) is an \( r \times p \) matrix and \( \zeta \) is an \( r \times 1 \) vector of known constants, may be tested using Snedecor's F statistic.</li>
+            </ol>
+            Select the correct answer using the code given below:
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">28.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For 5 observations from a two variable linear regression model, it is observed that \( \sum x_i = 0, \sum y_i = 5, \sum x_i y_i = 12, \sum x_i^2 = 10, \sum y_i^2 = 20 \). The estimated error variance from the above observations, for the model is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1.0</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">29.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( E(y_1) = 2\beta_1 + \beta_2, E(y_2) = \beta_1 - \beta_2 \) and \( E(y_3) = \beta_1 + \alpha \beta_2 \) with usual assumptions of linear models. The value of \( \alpha \) such that the best linear unbiased estimators of \( \beta_1 \) and \( \beta_2 \) are uncorrelated, is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> -1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> +1</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(d)</span> +2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">30.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For Gauss-Markov Linear (GML) model, \( E(\mathbf{y}) = \alpha_1 \mathbf{1} + \alpha_2 \mathbf{2} + \dots + \alpha_p \mathbf{p} \) where \( i = 1, 2, 3, \dots, n \); \( V(\mathbf{y}_i) = \sigma^2 \mathbf{I}_{i \times i} \) and \( \text{cov}(\mathbf{y}_i, \mathbf{y}_j) = 0 \ (i \neq j) \). Consider the following statements:
+            <ol>
+                <li>If \( \alpha_1, \alpha_2, \dots, \alpha_n \) are linearly independent (\( p \le n \)), then GML model will be of full rank.</li>
+                <li>If all the parameters \( \beta \)'s are fixed constants, then GML model is called a fixed effect model.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2018: Statistics Paper II - Linear Models</h2>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( Y_1 = \beta_1 + \beta_2 + \epsilon_1 \), \( Y_2 = \beta_1 + \beta_3 + \epsilon_2 \), \( Y_3 = \beta_1 + \beta_2 + \epsilon_3 \). Then \( \lambda_1 \beta_1 + \lambda_2 \beta_2 + \lambda_3 \beta_3 \) is estimable if and only if
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \lambda_1 + \lambda_3 = \lambda_2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \lambda_1 + \lambda_2 = \lambda_3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \lambda_2 + \lambda_3 = \lambda_1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \lambda_1 + \lambda_2 + \lambda_3 = C \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( y_i = \beta_0 + \beta_1 x_i + \epsilon_i \) (\( i = 1, 2, 3 \)) where \( x_1 = -1, x_2 = 0 \) and \( x_3 = 1 \). The best linear unbiased estimate of \( \beta_0 \) and \( \beta_1 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \left( \bar{y}, \frac{y_3 - y_1}{2} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \left( \frac{y_2 - y_1}{2}, \frac{y_3 - y_1}{2} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \left( y_1, \frac{y_2 - y_1}{2} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \left( \frac{y_1 + y_2}{2}, \bar{y} \right) \), where \( \bar{y} = \frac{y_1 + y_2 + y_3}{3} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            <ol>
+                <li>If multicollinearity exists, \( (\mathbf{X}'\mathbf{X})^{-1} \) cannot be computed.</li>
+                <li>The method of least squares is a statistical method.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            <ol>
+                <li>The g-inverse of a matrix, if it exists, is unique.</li>
+                <li>The problem of multicollinearity can be tackled by increasing sample size.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            In the context of the linear model \( \mathbf{Y} = \mathbf{X}\beta + \mathbf{\epsilon} \), consider the following statements:
+            <ol>
+                <li>If X is a full rank matrix, then all linear parametric functions are estimable.</li>
+                <li>Each estimable linear parametric function is of the form \( \mathbf{c}'\mathbf{x}\beta \) for some vector c.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            For a two-way ANOVA with 6 rows, 4 columns and 3 observations per cell, the degrees of freedom for interaction and residual are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 15 and 45</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 15 and 48</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 24 and 45</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 24 and 48</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            As the variability due to chance in an analysis of variance decreases, the F-statistic in the ANOVA
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> will always increase</div>
+            <div class="option-item"><span class="opt-label">(b)</span> will always decrease</div>
+            <div class="option-item"><span class="opt-label">(c)</span> will remain constant</div>
+            <div class="option-item"><span class="opt-label">(d)</span> requires additional information to claim any change</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            When k population means in an ANOVA are truly different from each other, it is likely that the average error deviation, for a significant F-statistic,
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> is relatively large compared to the average treatment deviations</div>
+            <div class="option-item"><span class="opt-label">(b)</span> is relatively small compared to the average treatment deviations</div>
+            <div class="option-item"><span class="opt-label">(c)</span> is equal to the average treatment deviations</div>
+            <div class="option-item"><span class="opt-label">(d)</span> differs significantly between at least two of the populations</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Independent observations are drawn from the model \( Y_i = \beta_0 + \beta_1 x_i + \mu_i \); \( i = 1, 2, 3, \dots, 10 \). It is given that the errors in the model are independent with mean 0 and variance unity. It is also given that the sum of regressors in the model equals 50 and their sum of squares is 260. The possible covariance between the least squares estimates of \( \beta_0 \) and \( \beta_1 \) would be
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> -0.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.5</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Multiple Comparisons]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements:
+            <ol>
+                <li>Scheffe's test of multiple comparisons tests all simple and complex contrasts.</li>
+                <li>Bartlett's test of multiple comparisons tests simple contrasts.</li>
+                <li>Tukey's test of multiple comparisons reduces the Type-I error in the test.</li>
+            </ol>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: Multiple Comparisons]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements for multiple comparison tests conducted after a significant result is obtained in ANOVA:
+            <ol>
+                <li>The t-test on all pairwise comparisons inflates Type-I error.</li>
+                <li>Scheffe's test requires equal group sizes for multiple comparisons.</li>
+                <li>Newman-Keuls test reduces the risk of Type-II error.</li>
+            </ol>
+            Which of the above statements are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( E(Y_{ij}) = \mu_i, \text{var}(Y_{ij}) = \sigma^2 \), \( j = 1, 2, 3, \dots, n_i \); \( i = 1, 2, 3, \dots, p \). Which of the following is/are correct?
+            <ol>
+                <li>Any linear parametric function is estimable.</li>
+                <li>\( \hat{\mu}_i = \frac{1}{n_i} \sum_{j=1}^{n_i} Y_{ij} \)</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let A be an \( n \times p \) matrix and \( A^- \) be the generalized inverse of A. Then which of the following statements are correct?
+            <ol>
+                <li>The order of \( A^- \) is \( p \times n \).</li>
+                <li>\( (AA^-) \) and \( (A^-A) \) are symmetric matrices.</li>
+                <li>If the rank of the matrix A is \( n \), then \( A^- = (A'A)^{-1} A' \).</li>
+                <li>If A is non-singular, then \( A^{-1} = A^- \).</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1, 3 and 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1, 2 and 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2, 3 and 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider a two-way classification with \( r \) observations per cell and interaction present \( Y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{ij} + e_{ijk} \); \( i = 1, 2, 3, \dots, p \); \( j = 1, 2, 3, \dots, q \); \( k = 1, 2, 3, \dots, r \). Then the total number of parameters in this model is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1+p+q+ pq \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( p+q+pq \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( pq \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( p+q+1 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            For a sample of unit size from a population with the p.d.f. \( f(x, \alpha) = \frac{2}{\alpha^2}(\alpha-x); 0 < x < \alpha \). Consider the following statements:
+            <ol>
+                <li>\( 2X \) is the maximum likelihood estimator of \( \alpha \).</li>
+                <li>\( 2X \) is the unbiased estimator of \( \alpha \).</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">26.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_i \sim N(\mu, \sigma^2) \), where \( i = 1, 2, 3, \dots, n \) and \( \Theta = \{(\mu, \sigma^2): -\infty < \mu < \infty, \sigma^2 > 0\} \) such that \( \mu \) is known. Then the MLE of \( \sigma^2 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sum_{i=1}^{n} (X_i - \mu)^2}{n} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sum_{i=1}^{n-1} (X_i - \mu)^2}{n-1} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n-1}{n^2} \sum_{i=1}^{n} (X_i - \mu)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n-1}{n} \sum_{i=1}^{n} (X_i - \mu)^2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">27.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \) be a random sample from uniform distribution \( f(x) = \frac{1}{\theta_2 - \theta_1}; \theta_1 < x < \theta_2 \), otherwise 0. Let \( T_1 \) and \( T_2 \) be the estimates of \( \theta_1 \) and \( \theta_2 \) respectively obtained by method of moments. Which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( T_1 = \bar{X} + \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \) and \( T_2 = \bar{X} - \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( T_1 = \bar{X} - \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \) and \( T_2 = \bar{X} + \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( T_1 = \bar{X} + \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \) and \( T_2 = \bar{X} + \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( T_1 = \bar{X} - \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \) and \( T_2 = \bar{X} - \sqrt{\frac{3}{n} \sum|X_i - \bar{X}|^2} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">52.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( (X_1, X_2, X_3, \dots, X_n) \) denote a random sample from a population with the density \( f(x, \theta) = \sqrt{\theta} x^{\theta-1}, 0 \le x \le 1, \theta > 0 \). The MLE of \( \theta \) is given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{n}{\sum_{i=1}^{n} \log x_i} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \left( \frac{n}{\sum_{i=1}^{n} \log x_i} \right)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n}{\sum_{i=1}^{n} \log x_i} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n^2}{\left(\sum_{i=1}^{n} \log x_i\right)^2} \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

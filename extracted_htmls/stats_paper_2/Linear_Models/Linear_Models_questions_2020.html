@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2020: Statistics Paper II - Linear Models</h2>
+
+    <!-- Context for Q41 to Q44 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next four (4) items:</strong><br>
+            An experiment was conducted to test for the difference in the mean weights of a single species of fish caught by fishermen in three different lakes. The significance level for the test is 0.05. The incomplete information is provided in the following ANOVA table:
+            <div class="q-table">
+                <table>
+                    <tr>
+                        <th>Source of variation</th>
+                        <th>Degrees of freedom</th>
+                        <th>Sum of squares</th>
+                        <th>Mean SS</th>
+                        <th>F statistic</th>
+                    </tr>
+                    <tr>
+                        <td>Treatment</td>
+                        <td>—</td>
+                        <td>17.04</td>
+                        <td>—</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Error</td>
+                        <td>9</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>11</td>
+                        <td>35.04</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question 41 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">41.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            The null hypothesis for the analysis is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( H_0 : \mu_1 = \mu_2 = \dots = \mu_9 (= \mu) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( H_0 : \mu_1 = \mu_2 = \mu_3 = 0 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( H_0 : \mu_1 = \mu_2 = \mu_3 (= \mu) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> at least one pair of fish populations have same mean</div>
+        </div>
+    </div>
+
+    <!-- Question 42 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">42.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            If the critical value of F at 5% level of significance is found to be 4.2565, what would be the appropriate interpretation of the test?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Reject the null hypothesis and conclude that all the populations of fish have different mean weights.</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Reject the null hypothesis and conclude that exactly two of the populations of fish have different mean weights.</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Reject the null hypothesis and conclude that the mean weight of at least one fish population differs from others.</div>
+            <div class="option-item"><span class="opt-label">(d)</span> There is insufficient evidence to claim that the mean weights of fish populations differ.</div>
+        </div>
+    </div>
+
+    <!-- Question 43 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">43.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The value of F statistic in the table equals
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.46</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 4.26</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 6.24</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 8.52</div>
+        </div>
+    </div>
+
+    <!-- Question 44 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">44.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            If all the observations from three lakes are pooled into a single group, they would have a standard deviation equal to
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.000</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.414</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4.128</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 5.919</div>
+        </div>
+    </div>
+
+    <!-- Context for Questions 45 to 47 (Page 10) -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items:</strong><br>
+            In order to test the effectiveness of three different teaching methods, three instructors were assigned 12 students each. The students were then randomly assigned to the different teaching methods and were taught exactly the same material. The following ANOVA table was obtained for the grades of students who were given identical tests :
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Degrees of freedom</th>
+                            <th>Sum of squares (SS)</th>
+                            <th>Mean SS</th>
+                            <th>F-ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Methods</td>
+                            <td>—</td>
+                            <td>162</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Instructors</td>
+                            <td>—</td>
+                            <td>90</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Interaction</td>
+                            <td>—</td>
+                            <td>600</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Error</td>
+                            <td>—</td>
+                            <td>900</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            Complete the two-way ANOVA table with interaction and answer the following questions.
+        </div>
+    </div>
+
+    <!-- Question 45 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">45.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The degrees of freedom associated with the methods, instructors, interaction and errors are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2, 2, 95 and 107</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 3, 3, 101 and 107</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 2, 2, 4 and 27</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+
+    <!-- Question 46 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">46.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The mean sum of squares due to methods, instructors, interaction and errors are respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 81, 45, 150, 33.33</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 81, 45, 6.5, 8.41</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 54, 30, 5.94, 8.41</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+
+    <!-- Question 47 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">47.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The F ratios pertaining to methods, instructors and interaction are, respectively
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 9.63, 5.35, 0.77</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2.43, 1.35, 4.50</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 6.42, 3.57, 0.71</div>
+            <div class="option-item"><span class="opt-label">(d)</span> None of the above</div>
+        </div>
+    </div>
+
+    <!-- Question 48 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">48.</span>
+            <span class="q-topic">[Topic: Least Squares]</span>
+        </div>
+        <div class="q-text">
+            Independent observations \( y_1, y_2, \dots, y_n \) have been drawn from \( N(\mu, \sigma^2/x_i^2) \); \( i = 1, 2, \dots, n \); where \( x_i \)'s are not equal, uncorrelated with the errors in the model and \( x_i \neq 0 \), for all \( i \). The least squares estimate of \( \mu \) would be
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sum_{i=1}^{n} x_i^2 y_i}{\sum_{i=1}^{n} x_i^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sum_{i=1}^{n} x_i y_i}{\sum_{i=1}^{n} x_i^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\sum_{i=1}^{n} x_i y_i}{\sum_{i=1}^{n} x_i} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\sum_{i=1}^{n} x_i^2 y_i}{\sum_{i=1}^{n} x_i} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 49 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">49.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Consider a two-way classification with one observation per cell and interaction present \( \mu_{ij} = \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ij} \), \( i = 1, 2, 3, 4, 5 \); \( j = 1, 2, 3, 4 \). Then the degrees of freedom for error SS are
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 12</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+
+    <!-- Question 50 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">50.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            In a linear model \( Y_{n \times 1} = X_{n \times p} P_{p \times 1} + e_{n \times 1} \) with usual assumption, if \( P = X'(XX')^{-1} \), then \( (I_n - P)X \) is equal to
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Null matrix</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Some matrix of order \( n \times n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( X \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( I_n \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

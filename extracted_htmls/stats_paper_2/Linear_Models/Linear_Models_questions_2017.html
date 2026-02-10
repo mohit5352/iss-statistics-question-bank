@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2017: Statistics Paper II - Linear Models</h2>
+    
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: ANOVA/Linear Models]</span>
+        </div>
+        <div class="q-text">
+            The following ANOVA table is obtained for a two-variable linear regression:
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source of variation</th>
+                            <th>Degrees of freedom</th>
+                            <th>Sum of squares</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Regression</td>
+                            <td>1</td>
+                            <td>122.5</td>
+                        </tr>
+                        <tr>
+                            <td>Residual</td>
+                            <td>3</td>
+                            <td>77.5</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>4</td>
+                            <td>200.0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            The correlation between the regressor and the regressand is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0.3875</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 0.6125</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 0.6225</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0.7826</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            In a 2-way ANOVA with 6 rows, 5 columns and 3 observations per cell, what are the degrees of freedom for the sum of squares for interaction and error respectively?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 20 and 60</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 30 and 50</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 20 and 40</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 15 and 65</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            If \( Y_1, Y_2, Y_3 \) and \( Y_4 \) are independent with \( E(Y_1) = E(Y_2) = \mu_1 + \mu_2 \), \( E(Y_3) = E(Y_4) = \mu_1 + \mu_3 \), \( \text{Var}(Y_i) = \sigma^2 \); \( i = 1, 2, 3, 4 \). The condition of estimability of the parametric function \( \lambda_1 \mu_1 + \lambda_2 \mu_2 + \lambda_3 \mu_3 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \lambda_2 = \lambda_3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \lambda_2 = \lambda_1 + \lambda_3 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \lambda_3 = \lambda_1 + \lambda_2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \lambda_1 = \lambda_2 + \lambda_3 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let \( y_i \sim N(\alpha + \beta x_i, \sigma^2) \); \( i = 1, 2, 3, \dots, n \). Let \( (\tilde{\alpha}, \tilde{\beta}) \) and \( (\hat{\alpha}, \hat{\beta}) \) be the least squares and maximum likelihood estimates of \( (\alpha, \beta) \) respectively. Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \tilde{\alpha} = \hat{\alpha}, \tilde{\beta} = \hat{\beta} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \tilde{\alpha} \neq \hat{\alpha}, \tilde{\beta} \neq \hat{\beta} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \tilde{\alpha} = \hat{\alpha}, \tilde{\beta} = \hat{\beta} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \tilde{\alpha} = \hat{\alpha}, \tilde{\beta} = \hat{\beta} \) only when \( \sigma^2 \) is known</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            In a multiple linear regression model with 5 regressors and 25 observations, the sum of squares due to regressors was 360 and the sum of squares due to errors was 128. For this model, consider the following statements:
+            <ol>
+                <li>Almost 74% of the total variation in the model is explained by the regressors.</li>
+                <li>The estimated value of the error variance of the model is 3.2.</li>
+            </ol>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            In the following, the Gauss-Markov model is stated as \( \mathbf{Y} = \mathbf{X}\beta + \mathbf{\epsilon} \) and \( \mathbf{X}^- \) denotes the g-inverse of the matrix \( \mathbf{X} \):
+            <ol>
+                <li>\( \mathbf{XX}^-\mathbf{X} = \mathbf{X} \)</li>
+                <li>If X is non-singular, then \( \mathbf{X}\mathbf{X}^{-1} = \mathbf{I} \)</li>
+                <li>\( \mathbf{X}^- \) is needed when the columns of X are linearly dependent</li>
+            </ol>
+            Which of the above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            In the Gauss-Markov model \( \mathbf{Y} = \mathbf{X}\beta + \mathbf{\epsilon} \), which of the following assumptions are made?
+            <ol>
+                <li>X is a matrix of full rank</li>
+                <li>\( E(\mathbf{\epsilon}) = \mathbf{0} \)</li>
+                <li>\( \text{Var}(\mathbf{\epsilon}) = \sigma^2\mathbf{I} \)</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            An experiment was conducted to study the variation in fuel consumption of diesel vehicles. For this purpose, different types of fuel injectors (A) and different qualities of fuel (B) were assigned randomly to the same type of diesel vehicles. The analysis of variance table of the random effect model is given below:
+            <div class="q-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Degrees of freedom</th>
+                            <th>Sum of squares</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>4</td>
+                            <td>48</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>3</td>
+                            <td>36</td>
+                        </tr>
+                        <tr>
+                            <td>A x B</td>
+                            <td>x</td>
+                            <td>96</td>
+                        </tr>
+                        <tr>
+                            <td>Error</td>
+                            <td>y</td>
+                            <td>z</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>59</td>
+                            <td>380</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            The estimate of component of variance due to interaction (\(\sigma^2_{AB}\)) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.6</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 8</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the following two models with \( E(\epsilon) = 0 \) and \( \text{Var}(\epsilon) = \sigma^2 \mathbf{I} \):
+            Model A: \( \mathbf{Y} = \mathbf{X}_1 \beta_1 + \mathbf{\epsilon} \)
+            Model B: \( \mathbf{Y} = \mathbf{X}_1 \beta_1 + \mathbf{X}_2 \beta_2 + \mathbf{\epsilon} \)
+            Which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( R_A^2 = R_B^2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( R_A^2 \le R_B^2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( R_A^2 \ge R_B^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( R_A^2 = R_B^2 \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider a model \( \mathbf{Y}_{n \times 1} = \mathbf{X}_{n \times p} \beta_{p \times 1} + \mathbf{\epsilon}_{n \times 1} \). Let \( \mathbf{H} = \mathbf{X}(\mathbf{X}'\mathbf{X})^{-1} \mathbf{X}' \). Which of the following are correct?
+            <ol>
+                <li>\( (\mathbf{I}_n - \mathbf{H}) \) is symmetric</li>
+                <li>\( (\mathbf{I}_n - \mathbf{H}) \) is idempotent</li>
+                <li>\( (\mathbf{I}_n - \mathbf{H})\mathbf{X} = \mathbf{0} \)</li>
+                <li>\( (\mathbf{I}_n - \mathbf{H})\mathbf{X} \neq \mathbf{0} \)</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 4</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1, 2 and 3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1 and 3 only</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Multiple Comparisons]</span>
+        </div>
+        <div class="q-text">
+            Let \( n \) independent random variables \( Y_1, Y_2, \dots, Y_n \) be normally distributed with constant and unknown variance \( \sigma^2 \) and \( E(y_i) = \sum_{j=0}^{p} \beta_j x_{ij}; x_{i0} = 1 \) for all \( i = 1, 2, 3, \dots, n \). The distribution of the test statistic for testing the hypothesis \( H_0: \beta_1 = \beta_2 = \dots = \beta_p = 0 \) is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( t_{(n-p)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( F_{(p, n-p-1)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( F_{(p-1, n-p)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( t_{(p-1)} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The following information is given for a two-variable regression model that was run on 22 observations: \( \sum(y_i - \bar{y})^2 = 500, \sum(x_i - \bar{x})^2 = 125, r_{xy} = 0.6 \). The estimate of error variance will be given by
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1.20</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.44</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 9.00</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 16.00</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            The main advantage of having more than one observation per cell in two-way ANOVA is
+            <ol>
+                <li>increased degrees of freedom for error SS</li>
+                <li>testing significance of interaction effect</li>
+            </ol>
+            Which of the above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Let A be an \( n \times p \) matrix and \( A^- \) be the generalized inverse of A. Then which of the following statements are correct?
+            <ol>
+                <li>The order of \( A^- \) is \( p \times n \).</li>
+                <li>\( (AA^-) \) and \( (A^-A) \) are symmetric matrices.</li>
+                <li>If the rank of the matrix A is \( n \), then \( A^- = (A'A)^{-1} A' \).</li>
+                <li>If A is non-singular, then \( A^{-1} = A^- \).</li>
+            </ol>
+            Select the correct answer using the code given below.
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1, 2 and 3</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1, 3 and 4</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1, 2 and 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 2, 3 and 4</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( E(y_i) = 2\beta_1 + \beta_2 \), \( E(y_2) = \beta_1 - \beta_2 \) and \( E(y_3) = \beta_1 + \alpha \beta_2 \) with \( V(y_i) = \sigma^2 \) for all \( i = 1, 2, 3 \) and \( \text{Cov}(y_i, y_j) = 0 \) for all \( i \neq j \). The value of \( \alpha \) so that the best linear unbiased estimators of \( \beta_1 \) and \( \beta_2 \) are uncorrelated is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 0</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> -2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> -1</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            To estimate \( \beta \) in general linear model \( \mathbf{Y}_{n \times 1} = \mathbf{X}_{n \times k} \beta_{k \times 1} + \mathbf{\epsilon}_{n \times 1} \), which one of the following assumptions is essential?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( E(\mathbf{\epsilon}) = \mathbf{0} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( E(\mathbf{\epsilon}\mathbf{\epsilon}') = \sigma^2\mathbf{I}_n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \rho(\mathbf{X}) = k \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \mathbf{\epsilon} \text{ follows } N(\mathbf{0}, \sigma^2\mathbf{I}_n) \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Test for the significance of complete regression is equivalent to
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> test for the significance of individual regression coefficients</div>
+            <div class="option-item"><span class="opt-label">(b)</span> test for the equality between two regression coefficients</div>
+            <div class="option-item"><span class="opt-label">(c)</span> test for the significance of multiple determination</div>
+            <div class="option-item"><span class="opt-label">(d)</span> test for the regression coefficient equal to some given value</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            The included explanatory variable in the linear model is irrelevant if
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> the estimate of the regression coefficient of explanatory variable is less than one</div>
+            <div class="option-item"><span class="opt-label">(b)</span> the estimate of the regression coefficient of explanatory variable is greater than one</div>
+            <div class="option-item"><span class="opt-label">(c)</span> the calculated t-statistic of the regression coefficient of explanatory variable is greater than one</div>
+            <div class="option-item"><span class="opt-label">(d)</span> the calculated t-statistic of the regression coefficient of explanatory variable is less than one</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            The estimate of error variance in two-variable linear model is
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\mathbf{e}'\mathbf{e}}{n-2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\mathbf{e}\mathbf{e}'}{n-2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\mathbf{e}'\mathbf{e}}{2-n} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\mathbf{e}\mathbf{e}'}{2-n} \)</div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            For the linear hypothesis \( H_0: \mathbf{R}_{q \times k} \mathbf{\beta}_{k \times 1} = \mathbf{g}_{q \times 1} \), which one of the following represents coefficients of linear restrictions on parameters involved in the model?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \mathbf{R} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \mathbf{\beta} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \mathbf{F} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \mathbf{k} \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

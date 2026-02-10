@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2022: Statistics Paper II - Statistical Inference and Hypothesis Testing</h2>
+
+    <!-- Question 2 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            An ecologist takes data \( (X_i, Y_i); i = 1, 2, 3, \dots, n \) where \( X_i \) is the size of an area and \( Y_i \) is the number of moss plants in the area. We model the data by \( Y_i \sim \text{Poisson}(\theta x_i) \); \( Y_i \)'s are independent. The least square estimator and the MLE of \( \theta \) are respectively :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sum Y_i}{\sum X_i}, \frac{\sum X_i Y_i}{\sum X_i^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\sum X_i Y_i}{\sum X_i^2}, \frac{\sum Y_i}{\sum X_i} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\bar{Y}}{\bar{X}}, \frac{Cov(X, Y)}{V(X)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{Cov(X, Y)}{V(X)}, \frac{\bar{Y}}{\bar{X}} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 11 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">11.</span>
+            <span class="q-topic">[Topic: Unbiasedness]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y \) represent tensile strength of a cable of diameter \( X \) mm. If \( Y = CX^2 \) for some constant \( C \) and density function of \( X \) is given by \( f(x) = \begin{cases} \frac{1}{\theta}, & 5 < x < 5 + \theta \\ 0, & \text{otherwise} \end{cases} \), what is the unbiased estimate of \( \theta^2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 3\bar{X} - 5 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \bar{X}^2 - 5 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 3(\bar{X} - 5)^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 3(\bar{X}^2 - 5) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 12 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">12.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Which of the following assertions is/are correct?<br>
+            1. Maximum Likelihood Estimate of Poisson mean \( \lambda \) is unbiased, sufficient and consistent estimate for \( \lambda \).<br>
+            2. For \( X \sim U(0, \theta) \), maximum likelihood estimate of \( \theta \) is a biased, consistent and sufficient estimate for \( \theta \).<br>
+            Select the correct answer using the code given below :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 13 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">13.</span>
+            <span class="q-topic">[Topic: Unbiasedness]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements :<br>
+            1. For an exponential random variable with mean \( \theta \), \( \left( \frac{n}{n+1} \right) \bar{X}^2 \) is unbiased for \( \theta^2 \).<br>
+            2. For a Bernoulli random variable with parameter \( p \), \( \frac{(\sum x_i)^2}{n^2} \) is unbiased for \( p^2 \).<br>
+            Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 14 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">14.</span>
+            <span class="q-topic">[Topic: UMVUE]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, \dots, X_n \) be i.i.d. random variables from \( f(x) \), where \( f(x) = (\theta + 1)x^\theta; 0 < x < 1, \theta > -1 \). The UMVUE of \( \theta \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( -\frac{(n-1)}{\sum \ln x_i} - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( -\frac{\sum \ln x_i}{n-1} - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{(n-1)}{\sum \ln x_i} - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{(n-1)}{\sum \ln x_i} + 1 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 15 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">15.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Inequality]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_m \) be i.i.d. random variables with \( B(n, p) \). The CR lower bound for the variance of an unbiased estimator of \( \frac{p}{1+p} \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{pq}{mn} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{pq}{(1+p)^2 m} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{pq}{(1+p)^4 mn} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{pq}{(1+p)^2 m} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 16 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">16.</span>
+            <span class="q-topic">[Topic: Confidence Intervals]</span>
+        </div>
+        <div class="q-text">
+            Suppose waiting time at a vaccination centre queue is modelled by a normal distribution. A random sample of 16 adults showed a mean waiting time of 40 minutes with a standard deviation of 8 minutes. What is the 95% confidence interval for the true waiting time in this queue? [Given that \( t_{15, 0.025} = 2.13 \)]
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> [35.6, 44.4]</div>
+            <div class="option-item"><span class="opt-label">(b)</span> [25.7, 54.3]</div>
+            <div class="option-item"><span class="opt-label">(c)</span> [30.3, 50.7]</div>
+            <div class="option-item"><span class="opt-label">(d)</span> [35.7, 40.3]</div>
+        </div>
+    </div>
+
+    <!-- Question 17 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">17.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Time to failure of an electric tube follows the density function \( f(x) = \begin{cases} \frac{1}{\theta} e^{-\frac{x}{\theta}}, & x > 0 \\ 0, & \text{otherwise} \end{cases} \). For testing \( H_0 : \theta \ge 5 \) against the alternative \( H_1 : \theta < 5 \), what is the power function of the critical region \( C = (\bar{X} \le k) \) for a sample of size 2?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 1 - \left( 1 + \frac{2k}{\theta} \right) e^{-\frac{2k}{\theta}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 1 - (\theta + 2k) e^{-2k\theta} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (\theta - 2k) e^{-2k\theta} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 1 - \left( 1 - \frac{2k}{\theta} \right) e^{-\frac{2k}{\theta}} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 18 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">18.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            The statistics \( T = t(x) \) will be sufficient for parameter \( \theta \) iff the joint density/mass function of the sample values \( x_1, x_2, x_3, \dots, x_n \) can be expressed in the form \( f(x; \theta) = g_\theta[t(x)] \cdot h(x) \) where \( g_\theta[t(x)] \) depends on \( \theta \) and \( t(x_1, x_2, x_3, \dots, x_n) \) and \( h(x) \) is independent of \( \theta \). This theorem is known as :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Neyman-Pearson theorem</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Rao-Blackwell theorem</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Factorization theorem</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Cramer-Rao theorem</div>
+        </div>
+    </div>
+
+    <!-- Question 19 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">19.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider a random sample \( x_1, x_2, x_3, \dots, x_n \) from normal distribution with zero mean and variance \( \sigma^2 \). For testing the null hypothesis \( H_0 : \sigma = \sigma_0 \) against the alternative hypothesis \( H_1 : \sigma = \sigma_1 \ (\sigma_0 > \sigma_1) \), the best critical region will take the form :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( C = \{x : \sqrt{\sum x_i^2} \le a_\alpha\} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( C = \{x : \sqrt{\sum x_i^2} \ge a_\alpha\} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( C = \{x : \sum x_i^2 \le a_\alpha\} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( C = \{x : \sum x_i^2 \ge a_\alpha\} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 20 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">20.</span>
+            <span class="q-topic">[Topic: Confidence Intervals]</span>
+        </div>
+        <div class="q-text">
+            Let \( x_1, x_2, x_3, \dots, x_{100} \) be a random sample of size 100 from the population having pdf \( f(x) = \theta e^{-x\theta}; 0 < x < \infty \). 95% confidence limits for \( \theta \) will be :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{\bar{X}} \pm \frac{1.96}{\bar{X}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{\bar{X}} \pm \frac{0.196}{\bar{X}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{\bar{X}} \pm \frac{196}{\bar{X}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{\bar{X}} \pm \frac{0.0196}{\bar{X}} \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 31-32 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            Let \( X \) have a pdf of the form \( f(x, \theta) = \theta x^{\theta-1}, 0 < x < 1 \).
+        </div>
+    </div>
+
+    <!-- Question 31 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">31.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            What is the significance level of the test to test \( H_0 : \theta = 1 \) against \( H_1 : \theta = 2 \) using a random sample \( X_1, X_2 \) of size 2 by taking the critical region \( w = \{ (x_1, x_2) : \frac{3}{4x_1} \le x_2 \} \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \ln 3 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \ln 3 - \ln 4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \ln 4 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \ln 4 - \ln 3 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 32 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">32.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            What is the power function of the test to test \( H_0 : \theta = 2 \) against \( H_1 : \theta = 3 \) using a random sample \( X_1, X_2 \) of size 2 by taking the critical region \( w = \{ (x_1, x_2) : \frac{3}{4x_1} \le x_2 \} \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{7}{16} + \frac{9}{8} \ln \left( \frac{3}{4} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{7}{16} - \frac{9}{8} \ln \left( \frac{3}{4} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{37}{64} + \frac{81}{64} \ln \left( \frac{3}{4} \right) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{37}{64} - \frac{81}{64} \ln \left( \frac{3}{4} \right) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 33 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">33.</span>
+            <span class="q-topic">[Topic: Consistency]</span>
+        </div>
+        <div class="q-text">
+            Let \( T_1 \) be an MVUE of \( \theta \) and \( T_2 \) be any other unbiased estimator of \( \theta \), such that the correlation coefficient between \( T_1 \) and \( T_2 \) is 0.75. What is the efficiency of \( T_2 \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sqrt{3}}{2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{3}{\sqrt{2}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{16}{9} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{9}{16} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 34 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">34.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Inequality]</span>
+        </div>
+        <div class="q-text">
+            An MVB estimator for a function of parameter \( \theta \), say \( \gamma(\theta) \) exists if and only if :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\partial}{\partial \theta} (\ln L) = \frac{t - \alpha(\theta)}{\gamma(\theta)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{\partial}{\partial \theta} (\ln L) = \frac{1}{\gamma(\theta)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{\partial}{\partial \theta} (\ln L) = \frac{\alpha(\theta)}{t - \gamma(\theta)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> there exists a sufficient estimator for \( \gamma(\theta) \)</div>
+        </div>
+        <div class="q-context">[Here \( \alpha(\theta) \) is any function of \( \theta \)]</div>
+    </div>
+
+    <!-- Question 35 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">35.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Inequality]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample from normal population with mean 0 and variance \( \sigma^2 \). Let \( T = \frac{\sum X_i^2}{n} \). Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( T \) is MLE of \( \sigma^2 \) but does not attain CRLB.</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( T \) is biased estimator of \( \sigma^2 \) but attains CRLB.</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( T \) is MLE of \( \sigma^2 \) and attains CRLB.</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( T \) is biased for \( \sigma^2 \) but not MLE of \( \sigma^2 \).</div>
+        </div>
+    </div>
+
+    <!-- Question 36 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">36.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1 \) and \( X_2 \) be two independent variables. Define \( T_1 = X_1 + 2X_2 \) as statistic for \( \theta \) in Bernoulli \( (\theta) \) distribution, where \( 0 < \theta < 1 \) and \( T_2 = X_1 + 2X_2 \) as statistic for \( \lambda \) in Poisson \( (\lambda) \) distribution, where \( \lambda > 0 \). Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( T_1 \) is sufficient for \( \theta \) and \( T_2 \) is not sufficient for \( \lambda \).</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( T_1 \) is sufficient for \( \theta \) but \( T_2 \) is not sufficient for \( \lambda \).</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( T_1 \) is not sufficient for \( \theta \) but \( T_2 \) is sufficient for \( \lambda \).</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( T_1 \) is not sufficient for \( \theta \) as well as \( T_2 \) is not sufficient for \( \lambda \).</div>
+        </div>
+    </div>
+
+    <!-- Question 37 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">37.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1 \) and \( X_2 \) be two iid random variables having the discrete uniform distribution on \( \{1, 2, 3, \dots, N\} \), where \( N \) is unknown. Let \( T = \max(X_1, X_2) \). Then which one of the following is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( X_1 + X_2 \) is sufficient for \( N \) but \( T \) is not sufficient for \( N \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( T \) is sufficient for \( N \) but \( X_1 + X_2 \) is not sufficient for \( N \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both \( T \) and \( X_1 + X_2 \) are sufficient for \( N \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither \( T \) nor \( X_1 + X_2 \) is sufficient for \( N \)</div>
+        </div>
+    </div>
+
+    <!-- Question 38 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">38.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the problem of testing \( H_0 : \mu = 0 \) against \( H_1 : \mu \neq 0 \), based on random sample of size \( n \) taken from \( N(\mu, \sigma^2) \) normal distribution where \( \sigma^2 \) is unknown. Consider the transformation \( Y = bX, b \neq 0 \). Which one of the following statements is correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Sample space will change and hence UMPU similar test will change and hence does not remain invariant under the transformation.</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Parametric space will change and hence UMPU similar test does not remain invariant under the transformation.</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Sample space will change but parametric space remains unchanged and hence UMPU similar test remains invariant under the transformation.</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Sample space as well as parametric space remain unchanged and UMPU similar test becomes invariant under the transformation.</div>
+        </div>
+    </div>
+
+    <!-- Context for 39-40 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items :</strong><br>
+            Consider the problem of testing \( H_0 : \theta = \theta_0 \) against \( H_1 : \theta = \theta_1 \) for the probability distribution given below :<br>
+            <div class="q-table">
+                <table>
+                    <tr><td>\( X \)</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+                    <tr><td>\( P_{\theta_0}(x) \)</td><td>1/4</td><td>1/4</td><td>1/4</td><td>1/4</td></tr>
+                    <tr><td>\( P_{\theta_1}(x) \)</td><td>0.20</td><td>0.40</td><td>0.25</td><td>0.15</td></tr>
+                </table>
+            </div>
+            The null hypothesis is rejected if \( X = 0 \) is observed. It is further rejected when tossing of two unbiased coins gives both the heads for \( X = 1 \).
+        </div>
+    </div>
+
+    <!-- Question 39 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">39.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">What is the probability of type-I error of the test?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{3}{10} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{5}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{7}{10} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{4} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 40 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">40.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">What is the probability of type-II error of the test?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{3}{10} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{5}{16} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{7}{10} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{4} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 51 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">51.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Let a random variable \( X \) have the following probability distribution under \( H_0 : \theta = \theta_0 \) against \( H_1 : \theta = \theta_1 \) :
+        </div>
+        <div class="q-table">
+            <table>
+                <tr><td>\( X \)</td><td>-1</td><td>1</td><td>2</td></tr>
+                <tr><td>\( P_{\theta_0}(x) \)</td><td>1/3</td><td>1/3</td><td>1/3</td></tr>
+                <tr><td>\( P_{\theta_1}(x) \)</td><td>1/4</td><td>1/4</td><td>1/2</td></tr>
+            </table>
+        </div>
+        <div class="q-text">
+            To test sequentially the hypothesis \( H_0 \) against \( H_1 \), it is decided to continue the procedure as long as \( \frac{n+1}{2} < S_n < \frac{n+2}{2} \), where \( S_n = \sum_{i=1}^n X_i \). Then the probability under \( H_1 \) that the procedure will terminate with the second observation, is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1/9</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1/8</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1/3</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1/2</div>
+        </div>
+    </div>
+
+    <!-- Question 52 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">52.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            A test of level \( \alpha \) is said to be an unbiased test if its power is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> equal to the level of significance</div>
+            <div class="option-item"><span class="opt-label">(b)</span> less than the level of significance</div>
+            <div class="option-item"><span class="opt-label">(c)</span> greater than probability of type-II error</div>
+            <div class="option-item"><span class="opt-label">(d)</span> greater than the level of significance</div>
+        </div>
+    </div>
+
+    <!-- Question 53 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">53.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the following pairs :<br>
+            1. Likelihood ratio test — Construction of tests for a composite hypothesis<br>
+            2. Most powerful test — Test of confirmation of a set of observations to a given distribution<br>
+            3. Chi-square test — Agreement of a set of observed frequencies with corresponding expected frequencies<br>
+            4. Run test — A distribution free test of randomness<br>
+            How many pairs are correctly matched?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one pair</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two pairs</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only three pairs</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All four pairs</div>
+        </div>
+    </div>
+
+    <!-- Question 54 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">54.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the following pairs :<br>
+            1. Power function — Uniformly most powerful test<br>
+            2. Size of the test — Larger of the two types of errors<br>
+            3. Neyman-Pearson Lemma — Maximum power for a fixed level of Type-I error<br>
+            4. Randomized tests — Tests not based on the sample observations<br>
+            How many pairs are <strong>not</strong> correctly matched?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> Only one pair</div>
+            <div class="option-item"><span class="opt-label">(b)</span> Only two pairs</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Only three pairs</div>
+            <div class="option-item"><span class="opt-label">(d)</span> All four pairs</div>
+        </div>
+    </div>
+
+    <!-- Question 55 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">55.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample of size \( n \) from \( N(\mu, \sigma^2) \) where \( \mu \) is unknown. Then the most efficient biased estimator for \( \mu \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{x} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( n\bar{x} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n}{n+1} \bar{x} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n+1}{n} \bar{x} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 56 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">56.</span>
+            <span class="q-topic">[Topic: Statistical Inference]</span>
+        </div>
+        <div class="q-text">
+            Suppose the survival times of patients of a bladder disorder can be modelled by the exponential distribution such that the average time a patient survives is \( \lambda \). Consider the following statements :<br>
+            1. 50% of patients will die by the time \( \lambda \log_e 2 \).<br>
+            2. 25% of patients will die by the time \( \lambda \log_e \left( \frac{4}{3} \right) \).<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 57 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">57.</span>
+            <span class="q-topic">[Topic: MLE]</span>
+        </div>
+        <div class="q-text">
+            Which of the above statements are correct with regard to Maximum Likelihood Estimator :<br>
+            1. It may not be unbiased.<br>
+            2. It may not in general be unique.<br>
+            3. It leads to a consistent estimate which has an asymptotic normal distribution, under some conditions.<br>
+            Select the correct answer using the code given below :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 and 2 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1 and 3 only</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1, 2 and 3</div>
+        </div>
+    </div>
+
+    <!-- Question 58 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">58.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            For independent Poisson random variables with parameter \( \lambda \), which one of the following is sufficient statistic?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (X_1, \prod_{i=2}^n X_i) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{X_1}{X_2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{X_1}{\sum_{i=1}^n X_i} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (X_1, \sum_{i=2}^n X_i) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 59 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">59.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            For independent Bernoulli random variables, which of the following is/are sufficient statistic for \( p \), such that \( P(X_i = 1) = p = 1 - P(X_i = 0); i = 1, 2, 3 \)?<br>
+            1. \( X_1 + X_2 + X_3 \)<br>
+            2. \( X_1 + 2X_2 + X_3 \)<br>
+            Select the correct answer using the code given below :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 60 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">60.</span>
+            <span class="q-topic">[Topic: Confidence Intervals]</span>
+        </div>
+        <div class="q-text">
+            Let \( X \sim N(\mu, \sigma^2) \) where \( \mu \) is known. If a confidence interval for \( \sigma^2 \) is to be determined, then an appropriate pivot is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (n-1) \frac{S^2}{\sigma^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \sum_{i=1}^n \frac{(X_i - \mu)^2}{\sigma^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{(\bar{X} - \mu)\sqrt{n}}{\sigma} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{(\bar{X} - \mu)\sqrt{n}}{S} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 71 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">71.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( x_1, x_2, x_3, \dots, x_n \) be a random sample taken from \( Gamma(\alpha, \beta) \) having p.d.f.
+            \[ f(x; \alpha, \beta) = \frac{e^{-\frac{x}{\beta}} x^{\alpha-1}}{\beta^\alpha \Gamma(\alpha)}; 0 \le x < \infty; \alpha, \beta > 0 \]
+            The jointly sufficient statistic for \( \alpha \) and \( \beta \), are respectively :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( (\sum x_i, \prod x_i) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( (\sum x_i^2, \prod x_i^2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( (\sum x_i^2, \prod x_i) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (\sum x_i, \prod x_i^2) \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 72-73 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items that follow :</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample from uniform distribution \( U(0, \theta) \).<br>
+            Let \( T_1 = \frac{2}{n} \sum_{i=1}^n X_i \) and \( T_2 = \max(X_1, X_2, X_3, \dots, X_n) \).
+        </div>
+    </div>
+
+    <!-- Question 72 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">72.</span>
+            <span class="q-topic">[Topic: Consistency]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements :<br>
+            1. \( T_1 \) and \( T_2 \) are consistent estimators of \( \theta \).<br>
+            2. \( T_1 \) and \( T_2 \) are unbiased estimators of \( \theta \).<br>
+            Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 73 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">73.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements :<br>
+            1. \( T_1 \) is not sufficient but \( T_2 \) is sufficient estimator of \( \theta \).<br>
+            2. \( T_1 \) is the method of moment estimator of \( \theta \).<br>
+            Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Context for 74-75 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items that follow :</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample from \( f(x) = \begin{cases} \frac{1}{b-a}, & a \le x \le b \\ 0, & \text{otherwise} \end{cases} \).
+        </div>
+    </div>
+
+    <!-- Question 74 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">74.</span>
+            <span class="q-topic">[Topic: Method of Moments]</span>
+        </div>
+        <div class="q-text">The estimator for 'a' by method of moments is :</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{X} - \sqrt{\frac{\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \bar{X} - \sqrt{\frac{2\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \bar{X} - \sqrt{\frac{3\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \bar{X} - 2\sqrt{\frac{\sum(X_i - \bar{X})^2}{n}} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 75 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">75.</span>
+            <span class="q-topic">[Topic: Method of Moments]</span>
+        </div>
+        <div class="q-text">The estimator for 'b' by method of moments is :</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \bar{X} + \sqrt{\frac{\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \bar{X} + \sqrt{\frac{2\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \bar{X} + \sqrt{\frac{3\sum(X_i - \bar{X})^2}{n}} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \bar{X} + 2\sqrt{\frac{\sum(X_i - \bar{X})^2}{n}} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 76 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">76.</span>
+            <span class="q-topic">[Topic: Cramer-Rao Inequality]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be iid Bernoulli with parameter \( p \). What is the Cramer-Rao Lower Bound for \( \bar{X} \), where \( E(\bar{X}) = p \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{n}{p} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{n}{p(p-1)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n}{p(1-p)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{p(1-p)}{n} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 77 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">77.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample of size 2 from Bernoulli distribution with pmf \( f(x, \theta) = \begin{cases} \theta^x (1-\theta)^{1-x}; & x = 0, 1 \\ 0; & \text{otherwise} \end{cases} \).<br>
+            What is the sufficient statistic for \( \theta \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( X_1 - X_2 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( X_1 X_2 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( X_1 + X_2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{X_1}{X_2} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 78 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">78.</span>
+            <span class="q-topic">[Topic: Sufficiency]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_1, X_2, X_3, \dots, X_n \) be iid random variables with common pmf \( P[X_i = k] = \frac{1}{N}, k = 1, 2, 3, \dots, N \); where \( N \) is unknown. What is the sufficient statistic for the family of joint pmfs \( P_N \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \min(X_1, X_2, X_3, \dots, X_n) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \max(X_1, X_2, X_3, \dots, X_n) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( [\min(X_1, X_2, X_3, \dots, X_n), \max(X_1, X_2, X_3, \dots, X_n)] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( X_1 + X_2 + X_3 + \dots + X_n \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 79-80 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items that follow :</strong><br>
+            Let \( X_1, X_2, X_3, \dots, X_n \) be a random sample of size \( n \) from \( b(1, \theta), 0 < \theta < 1 \) (Bernoulli) distribution. Let \( Y = \sum X_i \) be complete sufficient statistic for \( \theta \).
+        </div>
+    </div>
+
+    <!-- Question 79 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">79.</span>
+            <span class="q-topic">[Topic: UMVUE]</span>
+        </div>
+        <div class="q-text">UMVUE of \( \theta \) is :</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{Y}{n} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{Y^2}{n} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n}{2Y} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{n}{2n} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 80 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">80.</span>
+            <span class="q-topic">[Topic: UMVUE]</span>
+        </div>
+        <div class="q-text">UMVUE of \( \theta^2 \) is :</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{Y(Y-1)}{n(n+1)} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{Y(Y-1)}{n(n-1)} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{Y(Y+1)}{n(n+1)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{Y(Y+1)}{n(n-1)} \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

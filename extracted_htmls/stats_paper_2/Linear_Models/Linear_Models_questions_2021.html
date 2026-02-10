@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2021: Statistics Paper II - Linear Models</h2>
+
+    <!-- Question 1 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">1.</span>
+            <span class="q-topic">[Topic: Estimability]</span>
+        </div>
+        <div class="q-text">
+            Consider the model \( y_{ij} = \mu + \alpha_i + \beta_j + \epsilon_{ij}; i = 1, 2; j = 1, 2 \). For which one of the following choices of \( \lambda' \), the function \( \lambda'\beta \) where \( \beta' = (\mu, \alpha_1, \alpha_2, \beta_1, \beta_2) \) is <strong>not</strong> estimable?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> (1, 1, 0, 1, 0)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> (0, 0, 0, -1, 1)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> (0, -1, 1, 0, 0)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> (1, 1, 1, 1, 1)</div>
+        </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">2.</span>
+            <span class="q-topic">[Topic: Estimability]</span>
+        </div>
+        <div class="q-text">
+            For the model \( y_{ij} = \mu + \tau_i + \epsilon_{ij}, i = 1, 2; j = 1, 2 \); consider the following statements :<br>
+            1. \( \mu + \tau_1 \) is estimable.<br>
+            2. \( \tau_1 + \tau_2 \) is estimable.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">3.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">
+            Let \( X_i, Y_i \) and \( Z_i; i = 1, 2, 3 \) be nine independent observations with common variance \( \sigma^2 \), and \( E(X_i) = \theta_1 \), \( E(Y_i) = \theta_2 \), \( E(Z_i) = \theta_1 - \theta_2 \); \( i = 1, 2, 3 \). If \( X = \sum_{i=1}^3 x_i \), \( Y = \sum_{i=1}^3 y_i \) and \( Z = \sum_{i=1}^3 z_i \), then the BLUE of \( \theta_1 \) is given by :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{9} [2X + Y - Z] \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{9} [X + 2Y - Z] \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{9} [X + 2Y - 2Z] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{9} [X + 3Y - 2Z] \)</div>
+        </div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">4.</span>
+            <span class="q-topic">[Topic: Regression]</span>
+        </div>
+        <div class="q-text">
+            In general regression model \( Y_{n \times 1} = X_{n \times k} \beta_{k \times 1} + \epsilon_{n \times 1} \). Further \( \epsilon \) is \( N(0, \sigma^2 I) \). The \( n \times 1 \) vector of ordinary residuals is denoted by \( e = Y - \hat{Y} \). The distribution of \( \frac{e'e}{\sigma^2} \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( N(0, \sigma^2 I) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(X\beta, \sigma^2) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \chi^2_{n-k} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2_{n-1} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">5.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Consider a model<br>
+            \( Y_1 = A + B + C + D + e_1 \);<br>
+            \( Y_2 = A + C - B - D + e_2 \);<br>
+            \( Y_3 = A + B - C - D + e_3 \);<br>
+            \( Y_4 = A + D - B - C + e_4 \).<br>
+            If this model is equivalent to \( Y = X\beta + e \), then the matrix \( (X'X)^{-1} \) is equal to :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{3} I_4 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{2} I_4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{5} I_4 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{4} I_4 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">6.</span>
+            <span class="q-topic">[Topic: Hypothesis Testing]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements :<br>
+            1. Tukey's test of multiple comparisons reduces the Type-I error in the test.<br>
+            2. Student-Newman-Keuls test uses stepwise procedure.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">7.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements in respect of a symmetric matrix \( X \) :<br>
+            1. Generalized inverse of \( X \) is not necessarily symmetric.<br>
+            2. Symmetric inverse of \( X \) can always be determined.<br>
+            Which of the above statements is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 8 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">8.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Five methods of packing frozen foods were compared by taking six observations for each of the methods used. The response variable was ascorbic acid (mg/100 g). The degrees of freedom for error sum of squares are :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 26</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 25</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 24</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 20</div>
+        </div>
+    </div>
+
+    <!-- Question 9 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">9.</span>
+            <span class="q-topic">[Topic: Estimability]</span>
+        </div>
+        <div class="q-text">
+            Consider a two-way classification with one observation per cell. The model is \( y_{ij} = \mu + \alpha_i + \beta_j + \epsilon_{ij}; i = 1, 2, 3, \dots, p; j = 1, 2, 3, \dots, q \). Which one of the following parameters is estimable?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \alpha \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \beta \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \alpha_i - \alpha_u; i, u = 1, 2, 3, \dots, p \ (i \neq u) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \alpha_1 + \alpha_2 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 10 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">10.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be matrix of order \( 4 \times 7 \), then any generalized inverse of \( A \) is of order :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( 4 \times 4 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( 7 \times 4 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( 4 \times 7 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( 7 \times 7 \)</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+

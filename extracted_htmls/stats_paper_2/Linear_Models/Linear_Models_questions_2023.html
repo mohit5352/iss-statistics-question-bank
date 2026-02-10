@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="../../../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="year-section">
+    <h2>ISS 2023: Statistics Paper II - Linear Models</h2>
+
+    <!-- Question 51 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">51.</span>
+            <span class="q-topic">[Topic: Linear Models]</span>
+        </div>
+        <div class="q-text">
+            If \( Y \) is \( N_3(\mu, \Sigma) \) where \( \mu' = (3, -2, 1) \) and \( \Sigma = \text{diag}(2, 4, 3) \), then the distribution of \( Y'\Sigma^{-1}Y \) is :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \chi^2(3, 2.9167) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \chi^2(3, 5.8333) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \chi^2(3, 1.45835) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2(3, 1.9445) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 52 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">52.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            Three different methods of analysis are used to determine the amount of a certain constituent in a sample. Five different analysts generate one observation each under each of these methods. Various sum of squares are obtained as<br>
+            TSS = 97.6,<br>
+            SSA (Analysts) = 4.27,<br>
+            SSB (Methods) = 79.6.<br>
+            What is the value of MSE, the Mean Sum of Squares due to error?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 2.89</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 1.96</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 1.72</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 1.53</div>
+        </div>
+    </div>
+
+    <!-- Question 53 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">53.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y = \begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix} \sim N_3(0, I_3) \) and<br>
+            \( A = \frac{1}{3} \begin{pmatrix} 2 & -1 & -1 \\ -1 & 2 & -1 \\ -1 & -1 & 2 \end{pmatrix} \).<br>
+            What is the value of \( Var(Y'AY) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 4</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 6</div>
+        </div>
+    </div>
+
+    <!-- Question 54 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">54.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y = \begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix} \sim N_3(0, I_3) \) and<br>
+            \( A = \begin{pmatrix} 1/3 & 0 & -\sqrt{2}/3 \\ 0 & 0 & 0 \\ -\sqrt{2}/3 & 0 & 2/3 \end{pmatrix} \).<br>
+            What is the distribution of \( (Y'AY) \)?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( Exp(1) \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( N(0, 3) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \chi^2_{(1)} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \chi^2_{(3)} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 55 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">55.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( Y_1, Y_2, \dots, Y_n \) be an iid \( N(0, 1) \) variates and if quadratic forms \( Y'A_1Y \) and \( Y'A_2Y \) are independently Chi-square distributed, then :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( A_1A_2 = I \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( A_1A_2 = 0 \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( A_1A_2 = nI \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( A_1A_2 = n^{-1}I \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 56-57 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next two (02) items that follow :</strong><br>
+            Let \( X_i, Y_i, Z_i \) where \( i = 1, 2, 3 \) be nine independent observations with common variance \( \sigma^2 \), and \( E(X_i) = \theta_1, E(Y_i) = \theta_2 \) and \( E(Z_i) = \theta_1 - \theta_2 \); \( i = 1, 2, 3 \).<br>
+            Let \( \bar{X} = \sum_{i=1}^3 X_i, \bar{Y} = \sum_{i=1}^3 Y_i \) and \( \bar{Z} = \sum_{i=1}^3 Z_i \).
+        </div>
+    </div>
+
+    <!-- Question 56 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">56.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">What is the BLUE of \( \theta_1 \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{9} [2\bar{X} + 3\bar{Y} - \bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{9} [3\bar{X} + \bar{Y} - 2\bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{9} [2\bar{X} + \bar{Y} + \bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{9} [2\bar{X} + \bar{Y} - \bar{Z}] \)</div>
+        </div>
+    </div>
+
+    <!-- Question 57 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">57.</span>
+            <span class="q-topic">[Topic: BLUE]</span>
+        </div>
+        <div class="q-text">What is the BLUE of \( \theta_2 \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{1}{9} [\bar{X} + 3\bar{Y} - 2\bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{1}{9} [3\bar{X} + \bar{Y} - 2\bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{1}{9} [2\bar{X} + \bar{Y} - \bar{Z}] \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{1}{9} [\bar{X} + 2\bar{Y} - \bar{Z}] \)</div>
+        </div>
+    </div>
+
+    <!-- Context for 58-60 -->
+    <div class="question-card">
+        <div class="q-context">
+            <strong>Consider the following for the next three (03) items that follow :</strong><br>
+            In a Simple Linear Regression Model \( y_i = \beta_0 + \beta_1 x_i + \epsilon_i \); \( i = 1, 2, \dots, n \) where \( E(\epsilon_i) = 0 \), \( Var(\epsilon_i) = \sigma^2 \) and \( Cov(\epsilon_i, \epsilon_j) = 0 \), \( i \neq j \).
+        </div>
+    </div>
+
+    <!-- Question 58 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">58.</span>
+            <span class="q-topic">[Topic: Regression]</span>
+        </div>
+        <div class="q-text">What is \( Var(\hat{\beta}_0) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{n\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{n\sigma^2 + \frac{\sigma^2(\bar{x})^2}{\sum_{i=1}^n (x_i - \bar{x})^2}}{n^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \frac{\sigma^2}{n} + \frac{\sigma^2(\bar{x})^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+        </div>
+    </div>
+
+    <!-- Question 59 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">59.</span>
+            <span class="q-topic">[Topic: Regression]</span>
+        </div>
+        <div class="q-text">What is \( Cov(\hat{\beta}_0, \hat{\beta}_1) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\bar{x}\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{-\bar{x}\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \sigma^2 \sum_{i=1}^n (x_i - \bar{x})^2 \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 0</div>
+        </div>
+    </div>
+
+    <!-- Question 60 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">60.</span>
+            <span class="q-topic">[Topic: Regression]</span>
+        </div>
+        <div class="q-text">What is \( Var(\hat{\beta}_1) \) equal to?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( \frac{\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( \frac{n\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( \frac{(n-1)\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2} \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( \sigma^2 \sum_{i=1}^n (x_i - \bar{x})^2 \)</div>
+        </div>
+    </div>
+
+    <!-- Question 61 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">61.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">
+            For a two-way classification with one observation per cell, if \( p \) and \( q \) are the levels of the two factors A and B, then the degrees of freedom for error are :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( pq - 1 \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( p(q - 1) \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( q(p - 1) \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( (p - 1)(q - 1) \)</div>
+        </div>
+    </div>
+
+    <!-- Question 62 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">62.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be a matrix of order \( n \times p \). Then any generalized inverse of \( A \) is of order :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> \( p \times n \)</div>
+            <div class="option-item"><span class="opt-label">(b)</span> \( n \times n \)</div>
+            <div class="option-item"><span class="opt-label">(c)</span> \( n \times p \)</div>
+            <div class="option-item"><span class="opt-label">(d)</span> \( p \times p \)</div>
+        </div>
+    </div>
+
+    <!-- Question 63 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">63.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Consider the following statements in respect of a symmetric matrix \( A \) :<br>
+            1. A generalized inverse of a symmetric matrix is not necessarily symmetric.<br>
+            2. A symmetric generalized inverse of \( A \) can always be found.<br>
+            Which of the statements given above is/are correct?
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 64 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">64.</span>
+            <span class="q-topic">[Topic: Matrix Algebra]</span>
+        </div>
+        <div class="q-text">
+            Let \( A \) be an \( n \times p \) matrix of rank \( r \). Let \( A^- \) be any generalized inverse of \( A \). Which of the statements given below is/are correct?<br>
+            1. \( rank(AA^-) = rank(A^-A) = rank(A) = r \)<br>
+            2. \( (A')^- \) is a generalized inverse of \( A' \)<br>
+            Select the correct answer using the code given below :
+        </div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 1 only</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 2 only</div>
+            <div class="option-item"><span class="opt-label">(c)</span> Both 1 and 2</div>
+            <div class="option-item"><span class="opt-label">(d)</span> Neither 1 nor 2</div>
+        </div>
+    </div>
+
+    <!-- Question 65 -->
+    <div class="question-card">
+        <div class="q-header">
+            <span class="q-number">65.</span>
+            <span class="q-topic">[Topic: ANOVA]</span>
+        </div>
+        <div class="q-text">Consider the following ANOVA table :</div>
+        <div class="q-table">
+            <table>
+                <tr>
+                    <td>Sources of Variation</td>
+                    <td>Degrees of freedom</td>
+                    <td>Sum of squares</td>
+                    <td>Mean sum of squares</td>
+                    <td>Test statistic</td>
+                </tr>
+                <tr>
+                    <td>Treatments</td>
+                    <td>m</td>
+                    <td>p</td>
+                    <td>r</td>
+                    <td>5.22</td>
+                </tr>
+                <tr>
+                    <td>Error</td>
+                    <td>12</td>
+                    <td>q</td>
+                    <td>25</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>14</td>
+                    <td>561</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="q-text">What are the values of \( p \), \( q \) and \( r \) respectively?</div>
+        <div class="options-grid">
+            <div class="option-item"><span class="opt-label">(a)</span> 261, 300, 130.5</div>
+            <div class="option-item"><span class="opt-label">(b)</span> 300, 261, 130.5</div>
+            <div class="option-item"><span class="opt-label">(c)</span> 250, 300, 128.5</div>
+            <div class="option-item"><span class="opt-label">(d)</span> 261, 300, 128.5</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+
