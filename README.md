@@ -1,5 +1,7 @@
 # ISS Statistics Question Bank
 
+> 🌐 **[View Question Bank](https://mohit5352.github.io/iss-statistics-question-bank/main.html)** — Browse ISS Statistics Paper I & II questions by section and year, with MathJax rendering and instant answer reveal.
+
 This repository contains a web-based archive of objective questions from ISS Statistics Paper I and Paper II examinations, organised by **paper**, **year**, and **section**:
 
 **Paper I:**
