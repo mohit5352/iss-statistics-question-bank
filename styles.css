@@ -1,77 +1,202 @@
-/* styles.css - Dark Theme */
-/* Base dark theme with purple/teal accents */
+/* styles.css — Obsidian Dark Theme */
+/*
+   Palette:
+   Background:  #0a0a0e  (near-black body + context + correct-answer bg)
+   Surface 1:   #111117  (sticky header)
+   Surface 2:   rgba(124,58,237,0.05)  (cards + meta-controls — purple-tinted glass)
+   Surface 3:   transparent  (option items — bare, no surface)
+   Border dim:  rgba(255,255,255,0.04)  (hairline separators)
+   Border mid:  rgba(167,139,250,0.1)   (q-header bottom rule)
+   Border hover:rgba(167,139,250,0.18)  (card hover ring)
+
+   Purple  (primary — h1, q-number, q-header, meta, set, buttons, answers):
+           deep  #7c3aed  /  mid  #a78bfa  /  light  #c4b5fd  /  pale  #e0d7ff
+   Cyan    (standalone h2 only — not used elsewhere):  #22d3ee / #67e8f9
+   Rose    (option text + opt-label):                  #fb7185 / #fda4af
+   Emerald (copy-success state):                       #10b981 / #34d399
+   Text:   #f1f0f7 (primary)  /  #b0aac8 (context)  /  #5858a0 (topic / muted)
+*/
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #e2e8f0;
+    color: #f1f0f7;
     padding: 20px;
-    background-color: #0f172a;
+    background-color: #0a0a0e;
 }
 
-/* Sticky Header */
+/* ===== Sticky Header ===== */
 .sticky-header {
     position: sticky;
     top: 0;
-    background: #1e293b;
+    background: #111117;
     z-index: 1000;
     padding-bottom: 15px;
-    border-bottom: 1px solid #334155;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     margin-bottom: 20px;
 }
 
 .paper-container {
-    background: #1e293b;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-    border: 1px solid #334155;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
-/* Section/year meta info under heading */
-.meta-controls {
-    margin: 6px 0 20px 0;
+/* ===== Headings ===== */
+h1 {
+    color: #e0d7ff;
     text-align: center;
-}
-
-.meta-line {
-    position: relative;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    padding: 4px 12px;
-    border-radius: 999px;
-    margin: 2px 6px;
-    cursor: pointer;
-    transition: box-shadow 0.18s ease, transform 0.12s ease, background-color 0.18s ease;
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.35);
-}
-
-.meta-paper {
-    background: rgba(99, 102, 241, 0.12);
-    border-color: rgba(99, 102, 241, 0.35);
-}
-
-.meta-section {
-    background: rgba(99, 102, 241, 0.12);
-    border-color: rgba(99, 102, 241, 0.35);
-}
-
-.meta-year {
-    background: rgba(99, 102, 241, 0.12);
-    border-color: rgba(99, 102, 241, 0.35);
-}
-
-.meta-value {
-    font-size: 1rem;
+    font-size: 2rem;
     font-weight: 700;
+    margin-bottom: 0.5rem;
     line-height: 1.2;
-    color: #c4b5fd;
-    text-shadow: 0 0 8px rgba(196, 181, 253, 0.4);
+    text-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
+    letter-spacing: -0.01em;
 }
 
-.meta-line select {
+h2 {
+    color: #67e8f9;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    text-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
+}
+
+/* Year section headers inside question files */
+.year-section h2 {
+    text-align: center;
+    color: #c4b5fd;
+    border-bottom: none;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 0 rgba(196, 181, 253, 0.2);
+}
+
+/* ===== Set Indicator (divider style) ===== */
+.set-indicator-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 4px 0 8px;
+    padding: 0 8px;
+}
+
+.set-indicator-line {
+    flex: 1;
+    height: 1px;
+}
+
+.set-indicator-left {
+    background: linear-gradient(90deg, transparent 0%, #7c3aed 100%);
+    opacity: 0.55;
+}
+
+.set-indicator-right {
+    background: linear-gradient(90deg, #7c3aed 0%, transparent 100%);
+    opacity: 0.55;
+}
+
+.set-indicator-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #a78bfa;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.set-dot {
+    color: #7c3aed;
+    font-size: 0.5rem;
+    vertical-align: middle;
+    margin: 0 3px;
+    opacity: 0.8;
+}
+
+#set-letter {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #c4b5fd;
+    text-shadow: 0 0 12px rgba(196, 181, 253, 0.55);
+    letter-spacing: 0.06em;
+}
+
+/* ===== Meta Controls (dashboard panel) ===== */
+.meta-controls {
+    display: flex;
+    align-items: stretch;
+    margin: 10px auto 20px;
+    max-width: 680px;
+    border-radius: 12px;
+    background: rgba(124, 58, 237, 0.05);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* Each control zone */
+.meta-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    gap: 3px;
+    min-width: 0;
+}
+
+/* Paper and Year get less flex; Section gets more room for long names */
+.meta-paper { flex: 1; }
+.meta-year  { flex: 0.8; }
+.meta-section { flex: 2; }
+
+.meta-item:hover {
+    background: rgba(124, 58, 237, 0.11);
+}
+
+/* Dim ALL-CAPS label */
+.meta-label {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #3a3a50;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+/* Bold display value */
+.meta-value {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    text-shadow: 0 0 8px rgba(196, 181, 253, 0.2);
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.meta-item:hover .meta-label {
+    color: #606080;
+}
+
+.meta-item:hover .meta-value {
+    color: #e0d7ff;
+    text-shadow: 0 0 16px rgba(196, 181, 253, 0.6);
+}
+
+/* Hidden select overlay — covers the whole item zone */
+.meta-item select {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -85,278 +210,95 @@ body {
     appearance: none;
 }
 
-.meta-line:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    background: rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.5);
+/* Vertical separator between zones */
+.meta-sep-line {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.07);
+    align-self: stretch;
+    margin: 10px 0;
+    flex-shrink: 0;
 }
 
-.meta-line:hover .meta-value {
-    color: #e0e7ff;
-    text-shadow: 0 0 12px rgba(196, 181, 253, 0.6);
-}
-
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-        font-size: 16px;
-        background-color: #0f172a;
-    }
-    
-    .paper-container {
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.3);
-    }
-    
-    .meta-controls {
-        margin-bottom: 16px;
-        flex-wrap: wrap;
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        align-items: center;
-    }
-
-    .meta-line {
-        min-height: 36px;
-        padding: 6px 14px;
-        margin: 4px;
-        align-items: center;
-    }
-
-    h1 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-        padding: 0 10px;
-    }
-
-    .question-card {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .q-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .q-topic {
-        font-size: 0.75rem;
-        padding: 3px 10px;
-    }
-
-    .q-text {
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-    
-    .q-context {
-        font-size: 1rem;
-    }
-
-    .option-item {
-        padding: 14px;
-        min-height: 44px;
-        font-size: 0.9rem;
-    }
-
-    .q-table table {
-        font-size: 0.9375rem;
-    }
-
-    .q-table td {
-        padding: 8px 10px;
-    }
-
-    .q-table tr:first-child td {
-        padding: 10px;
-    }
-
-    .q-table td:first-child {
-        padding: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 5px;
-        font-size: 16px;
-        background-color: #0f172a;
-    }
-    
-    .paper-container {
-        padding: 12px;
-        border-radius: 12px;
-    }
-    
-    h1 {
-        font-size: 1.1rem;
-        margin-bottom: 10px;
-    }
-
-    h2 {
-        font-size: 1rem;
-        padding: 0 5px;
-    }
-
-    .question-card {
-        padding: 12px;
-        margin-bottom: 15px;
-    }
-
-    .q-number {
-        font-size: 1rem;
-    }
-
-    .q-text {
-        font-size: 0.9375rem;
-        line-height: 1.6;
-    }
-    
-    .q-context {
-        font-size: 0.9375rem;
-    }
-
-    .option-item {
-        padding: 12px;
-        font-size: 0.9375rem;
-    }
-    
-    .q-table table {
-        font-size: 0.875rem;
-    }
-
-    .meta-line {
-        min-height: 34px;
-        padding: 5px 14px;
-        align-items: center;
-    }
-
-    .meta-value {
-        font-size: 0.9rem;
-        line-height: 1.2;
-    }
-}
-
-h1 {
-    color: #c4b5fd;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-}
-
-h2 {
-    color: #6ee7b7;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    line-height: 1.3;
-}
-
-/* Year section headers in question files */
-.year-section h2 {
-    text-align: center;
-    color: #c4b5fd;
-    border-bottom: none;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 0 rgba(196, 181, 253, 0.3);
-}
-
-.q-topic {
-    display: inline-block;
-    background: rgba(52, 211, 153, 0.15);
-    color: #34d399;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    border: 1px solid rgba(52, 211, 153, 0.3);
-}
-
+/* ===== Question Card ===== */
 .question-card {
-    border: none;
     border-radius: 12px;
-    padding: 24px;
+    padding: 24px 24px 52px 24px; /* bottom padding reserves space for the icon row */
     margin-bottom: 28px;
-    background-color: #1e293b;
-    transition: all 0.3s ease;
+    background-color: rgba(124, 58, 237, 0.05);
+    transition: all 0.28s ease;
     position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-    border: 1px solid #334155;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .question-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(167, 139, 250, 0.18);
     transform: translateY(-2px);
-    border-color: #475569;
 }
 
+/* ===== Optional: plain card style for content-only cards (no surface) ===== */
+.question-card.no-surface {
+    background: transparent;
+    box-shadow: none;
+    padding: 12px 0;
+    border-radius: 6px;
+}
+
+/* ===== Question Header ===== */
 .q-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: none;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    background: rgba(52, 211, 153, 0.1);
-    border-radius: 8px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    border: 1px solid rgba(52, 211, 153, 0.2);
+    padding: 0 0 14px 0;
+    margin-bottom: 18px;
+    background: transparent;
+    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
 }
 
 .q-number {
     font-weight: 700;
-    color: #34d399;
+    color: #a78bfa;
     font-size: 1.1rem;
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.35);
 }
 
+/* ===== Topic — inline annotation style ===== */
+.q-topic {
+    font-size: 0.78rem;
+    font-weight: 500;
+    font-style: italic;
+    color: #5858a0;
+    padding-left: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    user-select: none;
+}
+
+/* ===== Question Text ===== */
 .q-text {
-    color: #e2e8f0;
+    color: #f1f0f7;
     font-size: 1.125rem;
-    line-height: 1.7;
-    background: rgba(99, 102, 241, 0.08);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    line-height: 1.8;
+    margin-bottom: 18px;
 }
 
-/* MathJax elements inside q-text */
+/* MathJax inside q-text */
 .q-text mjx-container {
     color: #c4b5fd;
 }
 
+/* ===== Context Block — blockquote style ===== */
 .q-context {
-    color: #6ee7b7;
+    color: #b0aac8;
     font-size: 1.0625rem;
-    line-height: 1.7;
-    padding: 16px;
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.08) 0%, rgba(52, 211, 153, 0.12) 100%);
-    border-left: none;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 6px rgba(52, 211, 153, 0.15);
-    transition: box-shadow 0.2s ease;
+    line-height: 1.85;
+    padding: 2px 0 2px 20px;
+    margin-bottom: 20px;
     position: relative;
-    border: 1px solid rgba(52, 211, 153, 0.2);
+    overflow: auto;
+    background: #0a0a0e;
 }
 
+/* Gradient left stripe — the only visual anchor */
 .q-context::before {
     content: '';
     position: absolute;
@@ -364,180 +306,159 @@ h2 {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-    border-radius: 8px 0 0 8px;
-}
-
-.q-context:hover {
-    box-shadow: 0 4px 10px rgba(52, 211, 153, 0.2);
+    border-radius: 3px;
+    background: linear-gradient(180deg, #a78bfa 0%, rgba(124, 58, 237, 0.25) 100%);
 }
 
 .q-context strong {
-    font-weight: 700;
-    color: #34d399;
+    font-weight: 600;
+    color: #c4b5fd;
 }
 
+/* ===== Data Table ===== */
 .q-table {
     overflow-x: auto;
-    margin: 20px 0;
+    margin: 18px 0;
     -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    background: #1e293b;
-    border: 1px solid #334155;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
 .q-table table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
     font-size: 1rem;
-    background: #1e293b;
-    border-radius: 8px;
+    background: transparent;
     overflow: hidden;
+    border-radius: 8px;
 }
 
-/* Header row - Teal to match q-number */
+/* Elegant header: purple → lavender gradient with subtle gloss */
 .q-table tr:first-child td {
-    background: #059669;
-    color: #ffffff;
-    font-weight: 700;
-    padding: 14px 12px;
+    background: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.9));
+    color: #0a0a0e;
+    font-weight: 800;
+    padding: 12px 14px;
     text-align: center;
-    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
     letter-spacing: 0.02em;
 }
 
-/* First column - Light teal to match q-header background */
+/* First column — soft lavender panel */
 .q-table td:first-child {
-    background: rgba(52, 211, 153, 0.1);
-    color: #34d399;
-    font-weight: 600;
+    background: linear-gradient(180deg, rgba(167,139,250,0.04), rgba(124,58,237,0.03));
+    color: #c4b5fd;
+    font-weight: 700;
     padding: 12px;
-    border: none;
     text-align: left;
 }
 
-/* Top-left cell - Darker teal for emphasis */
+/* Top-left corner accent */
 .q-table tr:first-child td:first-child {
-    background: #047857;
+    background: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.95));
     color: #ffffff;
-    font-weight: 700;
-    border: none;
+    font-weight: 800;
 }
 
-/* Data cells - Light purple to match q-text/options background */
+/* Data cells — minimal, with thin separators for readability */ 
 .q-table td {
-    padding: 12px;
-    border: none;
+    padding: 12px 14px;
     word-wrap: break-word;
-    background: rgba(99, 102, 241, 0.05);
-    color: #e2e8f0;
+    background: transparent;
+    color: #e8e6f7;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
 }
 
-/* Alternating rows - Slightly lighter for contrast */
+/* Alternating row warmth */
 .q-table tr:nth-child(even) td:not(:first-child) {
-    background: #1e293b;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
 }
 
-/* Even row first column - Slightly darker teal */
-.q-table tr:nth-child(even) td:first-child {
-    background: rgba(52, 211, 153, 0.15);
+/* Row hover elegant lift */
+.q-table tr:hover td {
+    background: linear-gradient(90deg, rgba(124,58,237,0.03), rgba(167,139,250,0.02));
 }
 
-/* Hover effect - Subtle highlight */
-.q-table tr:hover td:not(:first-child) {
-    background: rgba(99, 102, 241, 0.1);
-}
-
-.q-table tr:hover td:first-child {
-    background: rgba(52, 211, 153, 0.2);
-}
-
-/* Header row hover - Maintain teal */
-.q-table tr:first-child:hover td {
-    background: #047857;
-    color: #ffffff;
-}
-
+/* ===== Options Grid — bare 2-col layout, no surface ===== */
 .options-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-    background: rgba(99, 102, 241, 0.05);
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    gap: 10px;
+    margin-top: 18px;
+    padding: 0;
     position: relative;
+    background: transparent;
 }
 
+/* option items are bare text — no background, border, or box-shadow */
+
 .option-item {
-    background: #1e293b;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #334155;
+    background: transparent;
+    padding: 7px 4px;
+    border-radius: 0;
     display: flex;
-    color: #fca5a5;
+    align-items: flex-start;
+    color: #fda4af;
     font-size: 1.0625rem;
     line-height: 1.6;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
+    transition: color 0.15s ease;
 }
 
 .option-item:hover {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    transform: translateY(-1px);
-    border-color: #475569;
+    color: #fecdd3;
 }
 
+/* Option label — small rose capsule */
 .opt-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 20px;
+    border-radius: 5px;
+    background: rgba(251, 113, 133, 0.12);
+    color: #fb7185;
     font-weight: 700;
+    font-size: 0.7rem;
     margin-right: 10px;
-    color: #f87171;
+    flex-shrink: 0;
+    margin-top: 3px;
+    letter-spacing: 0;
 }
 
 @media (max-width: 600px) {
-    .options-grid { 
-        grid-template-columns: 1fr; 
-        gap: 12px;
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
     }
 }
 
-/* Improve touch targets and prevent text selection issues on mobile */
+/* ===== Touch Devices ===== */
 @media (hover: none) and (pointer: coarse) {
     .question-card:hover {
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
         transform: none;
     }
-    
-    .meta-line:hover {
-        transform: none;
-        box-shadow: 0 2px 6px rgba(99, 102, 241, 0.2);
+    .meta-item:hover {
+        background: rgba(124, 58, 237, 0.08);
     }
-    
     .option-item {
-        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.1);
+        -webkit-tap-highlight-color: rgba(124, 58, 237, 0.08);
     }
-    
     .option-item:hover {
         transform: none;
     }
 }
 
-/* Year section container */
+/* ===== Year Section Container ===== */
 .year-section {
     padding: 10px 0;
 }
 
-@media (max-width: 768px) {
-    .year-section {
-        padding: 5px 0;
-    }
-}
-
-/* Content viewer (for mobile/fetch method) */
+/* ===== Content Viewer ===== */
 .content-viewer {
     width: 100%;
     min-height: 400px;
@@ -545,32 +466,9 @@ h2 {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Iframe (for desktop file:// method) */
 #iframe-viewer {
     width: 100%;
     min-height: 600px;
-}
-
-@media (max-width: 768px) {
-    .content-viewer {
-        min-height: 300px;
-        max-height: calc(100vh - 200px);
-    }
-    
-    #iframe-viewer {
-        min-height: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .content-viewer {
-        min-height: 250px;
-        max-height: calc(100vh - 180px);
-    }
-    
-    #iframe-viewer {
-        min-height: 300px;
-    }
 }
 
 /* ===== Action Buttons (Copy & Show Answer) ===== */
@@ -578,7 +476,7 @@ h2 {
 .q-answer-btn {
     position: absolute;
     background: transparent;
-    color: #a5b4fc;
+    color: #a78bfa;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -590,7 +488,7 @@ h2 {
     padding: 6px;
 }
 
-/* Tooltip on hover */
+/* Tooltip */
 .q-copy-btn::after,
 .q-answer-btn::after {
     content: attr(data-tooltip);
@@ -598,8 +496,8 @@ h2 {
     bottom: -28px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: #ffffff;
+    background: #0a0a0e;
+    color: #f1f0f7;
     padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -608,6 +506,7 @@ h2 {
     visibility: hidden;
     transition: all 0.2s ease;
     pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .q-copy-btn:hover::after,
@@ -618,8 +517,8 @@ h2 {
 
 .q-copy-btn:hover,
 .q-answer-btn:hover {
-    color: #c4b5fd;
-    transform: scale(1.1);
+    color: #e0d7ff;
+    transform: scale(1.12);
 }
 
 .q-copy-btn:active,
@@ -627,182 +526,219 @@ h2 {
     transform: scale(0.95);
 }
 
-/* Copy button - question card top-right */
+/* ===== Icon row at bottom-right of every card ===== */
+/* Both copy and answer buttons sit side by side: [eye] [copy] */
 .q-copy-btn {
-    top: 10px;
-    right: 10px;
+    bottom: 14px;
+    right: 14px;
+    top: auto;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
+    color: #a78bfa;
+    padding: 6px;
+    position: absolute;
+    z-index: 120;
 }
 
 .q-copy-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     fill: currentColor;
 }
 
 .q-copy-btn.copied {
     color: #34d399;
+    box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.3);
 }
 
 .q-copy-btn.copied:hover {
     color: #10b981;
 }
 
-/* Show Answer button - options grid top-right (overlapping corner) */
+/* Answer button — sits 4px to the left of copy */
 .q-answer-btn {
-    top: -14px;
-    right: -12px;
-    color: #fbbf24;
+    bottom: 14px;
+    right: 48px; /* 14px copy right + 18px svg + 12px padding + 4px gap = 48px */
+    top: auto;
+    color: #a78bfa;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
+    position: absolute;
+    z-index: 110;
+    padding: 6px;
+    transition: color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
 }
 
 .q-answer-btn:hover {
-    color: #f59e0b;
+    color: #e0d7ff;
 }
 
 .q-answer-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     fill: currentColor;
 }
 
 .q-answer-btn.hidden {
-    color: #6b7280;
+    color: #3d3d55;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
 }
 
-.q-answer-btn.hidden:hover {
-    color: #9ca3af;
+/* Active state: showing the answer — glows purple */
+.q-answer-btn.showing {
+    color: #c4b5fd;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.4), 0 0 14px rgba(167, 139, 250, 0.15);
 }
 
-/* ===== Highlighted Correct Answer ===== */
+/* ===== Correct Answer Highlight — purple theme ===== */
 .option-item.correct-answer {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.2) 100%);
-    border: 2px solid #f59e0b;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transform: scale(1.02);
+    color: #e0d7ff;
     position: relative;
-    padding-right: 40px; /* Make room for the checkmark on the right */
+    padding-right: 36px;
+    background: #0a0a0e;
 }
 
 .option-item.correct-answer::after {
     content: '✓';
     position: absolute;
-    right: 12px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
-    background: #f59e0b;
-    color: #1e293b;
-    width: 24px;
-    height: 24px;
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    color: #ffffff;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 800;
     animation: popIn 0.3s ease;
     flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(167, 139, 250, 0.5);
 }
 
 @keyframes popIn {
-    0% {
-        transform: translateY(-50%) scale(0);
-    }
-    70% {
-        transform: translateY(-50%) scale(1.2);
-    }
-    100% {
-        transform: translateY(-50%) scale(1);
-    }
+    0%   { transform: translateY(-50%) scale(0); }
+    70%  { transform: translateY(-50%) scale(1.2); }
+    100% { transform: translateY(-50%) scale(1); }
 }
 
 .option-item.correct-answer .opt-label {
-    color: #fbbf24;
+    background: rgba(167, 139, 250, 0.18);
+    color: #c4b5fd;
 }
 
 .option-item.correct-answer:hover {
-    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
-    transform: scale(1.02);
+    color: #e0d7ff;
 }
 
-/* ===== Mobile Responsiveness ===== */
+/* ===== Responsive — 768px ===== */
 @media (max-width: 768px) {
-    .q-copy-btn,
-    .q-answer-btn {
-        padding: 5px;
+    body {
+        padding: 10px;
+        font-size: 16px;
+        background-color: #0a0a0e;
     }
-    
-    .q-copy-btn {
-        top: 8px;
-        right: 8px;
+
+    .meta-controls {
+        margin: 10px;
+        max-width: 100%;
     }
-    
-    .q-answer-btn {
-        top: -12px;
-        right: -10px;
+
+    .meta-item {
+        padding: 8px 10px 10px;
     }
-    
+
+    .meta-value { font-size: 0.82rem; }
+    .meta-label { font-size: 0.54rem; }
+
+    h1 { font-size: 1.3rem; margin-bottom: 15px; }
+
+    .question-card { padding: 15px; margin-bottom: 20px; }
+
+    .q-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .q-topic   { font-size: 0.75rem; padding: 3px 10px; }
+    .q-text    { font-size: 1rem; line-height: 1.7; }
+    .q-context { font-size: 1rem; }
+
+    .option-item { padding: 14px; min-height: 44px; font-size: 0.9rem; }
+
+    .q-table table { font-size: 0.9375rem; }
+    .q-table td { padding: 8px 10px; }
+    .q-table tr:first-child td { padding: 10px; }
+    .q-table td:first-child    { padding: 10px; }
+
+    .year-section { padding: 5px 0; }
+
+    .content-viewer {
+        min-height: 300px;
+        max-height: calc(100vh - 200px);
+    }
+    #iframe-viewer { min-height: 400px; }
+
+    .q-copy-btn, .q-answer-btn { padding: 5px; }
+    .q-copy-btn  { bottom: 12px; right: 12px; top: auto; }
+    .q-answer-btn{ bottom: 12px; right: 44px; top: auto; }
+
     .q-copy-btn svg,
-    .q-answer-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-    
+    .q-answer-btn svg { width: 17px; height: 17px; }
+
     .q-copy-btn::after,
-    .q-answer-btn::after {
-        font-size: 0.7rem;
-        padding: 3px 8px;
-        bottom: -24px;
-    }
-    
-    .option-item.correct-answer::after {
-        width: 22px;
-        height: 22px;
-        font-size: 12px;
-        right: 10px;
-    }
-    
-    .options-grid {
-        margin-top: 12px;
-    }
+    .q-answer-btn::after { font-size: 0.7rem; padding: 3px 8px; bottom: -24px; }
+
+    .option-item.correct-answer::after { width: 20px; height: 20px; font-size: 11px; right: 8px; }
+    .options-grid { margin-top: 14px; padding: 10px; }
 }
 
+/* ===== Responsive — 480px ===== */
 @media (max-width: 480px) {
-    .q-copy-btn,
-    .q-answer-btn {
-        padding: 4px;
+    body {
+        padding: 5px;
+        font-size: 16px;
+        background-color: #0a0a0e;
     }
-    
-    .q-copy-btn {
-        top: 6px;
-        right: 6px;
-    }
-    
-    .q-answer-btn {
-        top: -10px;
-        right: -8px;
-    }
-    
-    .q-copy-btn svg,
-    .q-answer-btn svg {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .q-copy-btn::after,
-    .q-answer-btn::after {
-        font-size: 0.65rem;
-        padding: 3px 6px;
-        bottom: -22px;
-    }
-    
-    .option-item.correct-answer::after {
-        width: 20px;
-        height: 20px;
-        font-size: 11px;
-        right: 8px;
-    }
-    
-    .options-grid {
-        margin-top: 10px;
-    }
-}
 
+    h1 { font-size: 1.1rem; margin-bottom: 10px; }
+
+    .question-card  { padding: 12px 12px 46px 12px; margin-bottom: 15px; }
+    .q-number       { font-size: 1rem; }
+    .q-text         { font-size: 0.9375rem; line-height: 1.6; }
+    .q-context      { font-size: 0.9375rem; }
+    .option-item    { padding: 12px; font-size: 0.9375rem; }
+    .q-table table  { font-size: 0.875rem; }
+
+    .meta-item  { padding: 7px 8px 9px; }
+    .meta-value { font-size: 0.75rem; }
+    .meta-label { font-size: 0.5rem; letter-spacing: 0.15em; }
+
+    .set-indicator-text { font-size: 0.65rem; letter-spacing: 0.18em; }
+    #set-letter { font-size: 0.72rem; }
+
+    .content-viewer {
+        min-height: 250px;
+        max-height: calc(100vh - 180px);
+    }
+    #iframe-viewer { min-height: 300px; }
+
+    .q-copy-btn, .q-answer-btn { padding: 4px; }
+    .q-copy-btn  { bottom: 10px; right: 10px; top: auto; }
+    .q-answer-btn{ bottom: 10px; right: 38px; top: auto; }
+
+    .q-copy-btn svg,
+    .q-answer-btn svg { width: 16px; height: 16px; }
+
+    .q-copy-btn::after,
+    .q-answer-btn::after { font-size: 0.65rem; padding: 3px 6px; bottom: -22px; }
+
+    .option-item.correct-answer::after { width: 18px; height: 18px; font-size: 10px; right: 6px; }
+    .options-grid { margin-top: 12px; padding: 8px; gap: 5px; }
+}

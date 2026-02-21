@@ -17,10 +17,23 @@
         <!-- Sticky Header -->
         <div class="sticky-header">
             <h1 id="paper-title">ISS Statistics Paper I</h1>
-            <h2>Question Bank</h2>
-            
+            <div class="set-indicator-wrap">
+                <span class="set-indicator-line set-indicator-left"></span>
+                <span class="set-indicator-text">Set <span class="set-dot">◆</span> <span id="set-letter">A</span></span>
+                <span class="set-indicator-line set-indicator-right"></span>
+            </div>
             <div class="meta-controls">
-                <div class="meta-line meta-section">
+                <div class="meta-item meta-paper">
+                    <span class="meta-label">Paper</span>
+                    <span class="meta-value" id="paper-value">Paper I</span>
+                    <select id="paper-select" onchange="setPaper(this.value)">
+                        <option value="paper1">Paper I</option>
+                        <option value="paper2">Paper II</option>
+                    </select>
+                </div>
+                <div class="meta-sep-line"></div>
+                <div class="meta-item meta-section">
+                    <span class="meta-label">Section</span>
                     <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
                     <select id="section-select" onchange="setSection(this.value)">
                         <option value="prob">Probability &amp; Statistics</option>
@@ -28,14 +41,9 @@
                         <option value="comp">Computer Section</option>
                     </select>
                 </div>
-                <div class="meta-line meta-paper">
-                    <span class="meta-value" id="paper-value">Paper I</span>
-                    <select id="paper-select" onchange="setPaper(this.value)">
-                        <option value="paper1">Paper I</option>
-                        <option value="paper2">Paper II</option>
-                    </select>
-                </div>
-                <div class="meta-line meta-year">
+                <div class="meta-sep-line"></div>
+                <div class="meta-item meta-year">
+                    <span class="meta-label">Year</span>
                     <span class="meta-value" id="year-value">2025</span>
                     <select id="year-select" onchange="loadYear(this.value)">
                         <option value="2025">2025</option>
@@ -62,6 +70,20 @@
         var currentPaper = 'paper1'; // 'paper1' | 'paper2'
         var currentYear = '2025';
         var currentSection = 'prob'; // Paper 1: 'prob' | 'num' | 'comp'; Paper 2: 'linear' | 'inference' | 'official'
+
+        // Paper sets per year
+        var PAPER_SETS = {
+            paper1: { '2025': 'A', '2024': 'B', '2023': 'A', '2022': 'A', '2021': 'D', '2020': 'B', '2019': 'C', '2018': 'A', '2017': 'A' },
+            paper2: { '2025': 'A', '2024': 'A', '2023': 'A', '2022': 'A', '2021': 'A', '2020': 'D', '2019': 'D', '2018': 'A', '2017': 'A' }
+        };
+
+        function updateSetDisplay() {
+            var setLetterEl = document.getElementById('set-letter');
+            if (!setLetterEl) return;
+            var sets = PAPER_SETS[currentPaper];
+            var letter = sets && sets[currentYear] ? sets[currentYear] : '';
+            setLetterEl.textContent = letter;
+        }
         
         function buildFilename() {
             var prefix;
@@ -292,6 +314,8 @@
             if (yearValueEl) {
                 yearValueEl.textContent = currentYear;
             }
+
+            updateSetDisplay();
         }
 
         function setPaper(paperKey) {
@@ -518,16 +542,9 @@
                     toggleAnswer(card, answerBtn, correctAnswer);
                 });
                 
-                // Ensure options-grid has position relative for absolute positioning
-                var optionsGrid = card.querySelector('.options-grid');
-                if (optionsGrid) {
-                    optionsGrid.style.position = 'relative';
-                    optionsGrid.appendChild(answerBtn);
-                } else {
-                    // Fallback to card if no options grid
-                    card.style.position = 'relative';
-                    card.appendChild(answerBtn);
-                }
+                // Always append to the card so both icons share the same
+                // positioning parent and can sit side-by-side at the bottom.
+                card.appendChild(answerBtn);
             });
         }
 
