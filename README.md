@@ -92,11 +92,11 @@ statistics_question_bank/
   - **Meta Controls (Paper / Section / Year)**: Unified pill panel — purple-glass background, dim ALL-CAPS labels, bold lavender values (`#c4b5fd`); hidden `<select>` overlay makes each zone clickable
   - **Question Cards**: Purple-tinted glass surface (`rgba(124,58,237,0.05)`), subtle depth shadow; hover lifts with a purple ring
   - **Question Number**: Purple (`#a78bfa`) with matching glow
-  - **Question Topic**: Italic, dim purple annotation (`#5858a0`) — no badge, no border
+  - **Question Topic**: Italic rose-pink annotation (`#fda4af`, weight 600) — no badge, no border
   - **Question Text**: Primary near-white (`#f1f0f7`); MathJax expressions render in lavender (`#c4b5fd`)
   - **Context Block**: Muted lavender text (`#b0aac8`) on near-black background; identified only by a purple gradient left stripe — no label
   - **Options**: Bare rose-pink text (`#fda4af`) with small rose capsule labels (`#fb7185`); no borders or backgrounds
-  - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓)
+  - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
   - **Action Buttons (Copy / Show Answer)**: Paired at the bottom-right of every card; purple icons with faint ring; copy turns emerald on success (`#34d399`); answer button glows purple while active
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
@@ -280,18 +280,18 @@ For **each section file** and each year:
 - `.meta-sep-line`: 1 px vertical hairline separator between meta zones
 - `.question-card`: Card container — purple-tinted glass background, depth shadow, bottom padding reserved for the icon row; hover adds a purple ring lift
 - `.question-card.no-surface`: Transparent variant for context-only cards (no bg, no shadow)
-- `.q-header`: Question header row — transparent bg, thin purple-tinted bottom hairline
+- `.q-header`: Question header row — subtle purple → lavender gradient background, rounded (`8px`), thin purple-tinted bottom hairline, white glow shadow with glass-top highlight
 - `.q-number`: Question number — purple (`#a78bfa`) with matching glow
-- `.q-topic`: Topic annotation — italic, dim purple (`#5858a0`), no badge or border; purely inline text
+- `.q-topic`: Topic annotation — italic, rose-pink (`#fda4af`, weight 500), no badge or border; purely inline text
 - `.q-text`: Main question text — near-white (`#f1f0f7`), `1.125rem`, no background or border
-- `.q-context`: Shared context block — muted lavender text (`#b0aac8`) on near-black bg; a purple gradient `::before` stripe is the only visual accent; no "CONTEXT" label
-- `.q-table`: Responsive table wrapper — purple → lavender gradient header row, soft lavender first column, minimal hairline row separators
+- `.q-context`: Shared context block — muted lavender text (`#b0aac8`) on near-black bg (`#0a0a0e`); vertical padding, rounded corners, white glow shadow with glass-top highlight; a purple gradient `::before` stripe is the only visual accent; no "CONTEXT" label
+- `.q-table`: Responsive table wrapper — purple → lavender gradient header row, soft lavender first column, minimal hairline row separators, white glow shadow with glass-top highlight
 - `.options-grid`: 2-column grid (1-column on ≤ 600 px); bare transparent container — no background, no border
 - `.option-item`: Individual option — bare rose-pink text (`#fda4af`), no background or border
 - `.opt-label`: `(a)` / `(b)` / `(c)` / `(d)` capsule badge — rose (`#fb7185`) on translucent rose background
 - `.q-copy-btn`: Copy icon button — bottom-right of every card (`right: 14px`); purple icon, faint ring; turns emerald (`#34d399`) on success
 - `.q-answer-btn`: Show/Hide Answer icon button — sits 4 px left of the copy button (`right: 48px`); purple icon; glows lavender while answer is visible
-- `.correct-answer`: Correct option — lavender text (`#e0d7ff`), near-black background, purple-gradient animated `✓` badge on the right
+- `.correct-answer`: Correct option — lavender text (`#e0d7ff`), near-black background, rounded corners, white glow shadow with glass-top highlight, purple-gradient animated `✓` badge on the right
 - `.year-section`: Wrapper for all questions of a year inside a loaded HTML file
 
 ## 📝 Checklist for Adding a New Year
@@ -501,12 +501,12 @@ When updating or fixing questions:
 - **Set Indicator**: Displays the exam set letter for each paper/year combination, rendered as a centred divider row with converging purple gradient lines
 - **Meta Controls**: Dashboard-style pill panel replacing individual badges — hidden `<select>` overlays, dim ALL-CAPS labels, bold lavender values, vertical hairline separators
 - **Question Cards**: Purple-tinted glass surface, depth shadow, smooth hover lift with purple ring; bottom padding reserved for the icon pair
-- **Question Numbers & Headers**: Purple accent (`#a78bfa`) replacing the old teal; q-header uses a hairline purple-tinted bottom rule
-- **Topic**: Italic inline annotation (`#5858a0`) — no badge, no border
+- **Question Numbers & Headers**: Purple accent (`#a78bfa`); q-header has a subtle purple gradient background, rounded corners, and white glow shadow
+- **Topic**: Italic rose-pink inline annotation (`#fda4af`, weight 500) — no badge, no border
 - **Context Block**: Near-black background with a purple gradient left stripe as the only visual anchor; "CONTEXT" label removed
 - **Options**: Bare rose-pink text — no background, no border, no surface; option label remains a small rose capsule
 - **Action Buttons**: Copy + Show Answer icons paired at the **bottom-right** of every card with a 4 px gap; answer button glows purple while active
-- **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, animated purple-gradient `✓` badge (replaces old golden amber)
+- **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
 - **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`
 
