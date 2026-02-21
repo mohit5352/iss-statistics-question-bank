@@ -404,7 +404,8 @@ h2 {
     background: transparent;
     padding: 7px 4px;
     border-radius: 0;
-    display: block;
+    display: flex;
+    align-items: center;
     color: #f0abfc;
     font-size: 1.0625rem;
     line-height: 1.6;

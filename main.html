@@ -168,6 +168,35 @@
             });
         }
 
+        // Wrap option content nodes into a dedicated container (.opt-content)
+        // so we can apply width and wrapping rules consistently.
+        function wrapOptionContent(container) {
+            var optionItems = container.querySelectorAll('.option-item');
+            optionItems.forEach(function(item) {
+                // Skip if already wrapped
+                if (item.querySelector('.opt-content')) return;
+
+                var label = item.querySelector('.opt-label');
+                var wrapper = document.createElement('div');
+                wrapper.className = 'opt-content';
+
+                // Move all nodes except the label into wrapper
+                var child = item.firstChild;
+                while (child) {
+                    var next = child.nextSibling;
+                    if (label && child === label) {
+                        // keep label in place
+                    } else {
+                        try { wrapper.appendChild(child); } catch (e) {}
+                    }
+                    child = next;
+                }
+
+                // Append wrapper to the item (after label)
+                item.appendChild(wrapper);
+            });
+        }
+
         // Copy button functionality - DRY principle
         function addCopyButtons(container) {
             var questionCards = container.querySelectorAll('.question-card');
@@ -396,6 +425,8 @@
                 // Inject content into viewer
                 viewer.innerHTML = bodyContent;
 
+                // Normalize option markup first, then capture LaTeX source
+                wrapOptionContent(viewer);
                 // Capture LaTeX source text BEFORE MathJax replaces text nodes
                 captureCardCopyText(viewer);
                 
