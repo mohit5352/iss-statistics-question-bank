@@ -118,6 +118,56 @@
             return prefix + currentYear + '.html';
         }
 
+        // ─── Pre-MathJax capture ──────────────────────────────────────────────
+        // This MUST run before MathJax touches the DOM.
+        // At that point \( ... \) / \[ ... \] are still raw text nodes, so
+        // textContent gives us proper LaTeX source rather than garbled SVG text.
+        function captureCardCopyText(container) {
+            var cards = container.querySelectorAll('.question-card');
+            cards.forEach(function(card) {
+                // ── question number ──
+                var qNumberEl = card.querySelector('.q-number');
+                var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
+
+                // ── topic ──
+                var qTopicEl = card.querySelector('.q-topic');
+                var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
+
+                // ── question text (may be multiple .q-text blocks) ──
+                var qText = '';
+                card.querySelectorAll('.q-text').forEach(function(el) {
+                    var t = el.textContent.trim();
+                    if (t) qText += t + '\n';
+                });
+                qText = qText.trim();
+
+                // ── context ──
+                var qContextEl = card.querySelector('.q-context');
+                var qContext = qContextEl ? qContextEl.textContent.trim() + '\n\n' : '';
+
+                // ── options ──
+                var options = [];
+                card.querySelectorAll('.option-item').forEach(function(item) {
+                    var t = item.textContent.trim();
+                    if (t) options.push(t);
+                });
+
+                // ── assemble formatted text ──
+                var out = '';
+                if (qContext) out += qContext;
+                if (qNumber)  out += qNumber + ' ';
+                if (qTopic)   out += qTopic + '\n';
+                if (qText)    out += qText + '\n\n';
+                if (options.length) {
+                    out += 'Options:\n';
+                    options.forEach(function(o) { out += o + '\n'; });
+                }
+
+                // Store on the element — retrieved later by copyQuestionText()
+                card._latexCopyText = out.trim();
+            });
+        }
+
         // Copy button functionality - DRY principle
         function addCopyButtons(container) {
             var questionCards = container.querySelectorAll('.question-card');
@@ -147,63 +197,46 @@
 
         function copyQuestionText(card, button) {
             try {
-                // Extract question number
-                var qNumberEl = card.querySelector('.q-number');
-                var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
-                
-                // Extract topic
-                var qTopicEl = card.querySelector('.q-topic');
-                var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
-                
-                // Extract all question text (handle multiple q-text divs)
-                var qTextEls = card.querySelectorAll('.q-text');
-                var qText = '';
-                qTextEls.forEach(function(el) {
-                    var text = el.textContent.trim();
-                    if (text) {
-                        qText += text + '\n';
-                    }
-                });
-                qText = qText.trim();
-                
-                // Extract context if exists
-                var qContextEl = card.querySelector('.q-context');
-                var qContext = '';
-                if (qContextEl) {
-                    qContext = qContextEl.textContent.trim() + '\n\n';
-                }
-                
-                // Extract options
-                var options = [];
-                var optionItems = card.querySelectorAll('.option-item');
-                optionItems.forEach(function(item) {
-                    var optText = item.textContent.trim();
-                    if (optText) {
-                        options.push(optText);
-                    }
-                });
-                
-                // Build formatted text
-                var formattedText = '';
-                if (qContext) {
-                    formattedText += qContext;
-                }
-                if (qNumber) {
-                    formattedText += qNumber + ' ';
-                }
-                if (qTopic) {
-                    formattedText += qTopic + '\n';
-                }
-                if (qText) {
-                    formattedText += qText + '\n\n';
-                }
-                if (options.length > 0) {
-                    formattedText += 'Options:\n';
-                    options.forEach(function(opt) {
-                        formattedText += opt + '\n';
+                // Prefer the pre-MathJax captured text which preserves LaTeX source
+                // (\( ... \) / \[ ... \] notation intact — readable by AI tools).
+                // Falls back to live DOM extraction if capture was not run.
+                var formattedText = card._latexCopyText || '';
+
+                if (!formattedText) {
+                    // ── Fallback: extract from post-MathJax DOM (no LaTeX, plain text) ──
+                    var qNumberEl = card.querySelector('.q-number');
+                    var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
+
+                    var qTopicEl = card.querySelector('.q-topic');
+                    var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
+
+                    var qText = '';
+                    card.querySelectorAll('.q-text').forEach(function(el) {
+                        var text = el.textContent.trim();
+                        if (text) qText += text + '\n';
                     });
+                    qText = qText.trim();
+
+                    var qContextEl = card.querySelector('.q-context');
+                    var qContext = qContextEl ? qContextEl.textContent.trim() + '\n\n' : '';
+
+                    var options = [];
+                    card.querySelectorAll('.option-item').forEach(function(item) {
+                        var optText = item.textContent.trim();
+                        if (optText) options.push(optText);
+                    });
+
+                    if (qContext) formattedText += qContext;
+                    if (qNumber)  formattedText += qNumber + ' ';
+                    if (qTopic)   formattedText += qTopic + '\n';
+                    if (qText)    formattedText += qText + '\n\n';
+                    if (options.length) {
+                        formattedText += 'Options:\n';
+                        options.forEach(function(opt) { formattedText += opt + '\n'; });
+                    }
+                    formattedText = formattedText.trim();
                 }
-                
+
                 // Copy to clipboard
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(formattedText).then(function() {
@@ -347,6 +380,9 @@
                 
                 // Inject content into viewer
                 viewer.innerHTML = bodyContent;
+
+                // Capture LaTeX source text BEFORE MathJax replaces text nodes
+                captureCardCopyText(viewer);
                 
                 // Initialize MathJax FIRST, then add buttons AFTER MathJax is done
                 function initMathJaxInViewer() {

@@ -403,8 +403,7 @@ h2 {
     background: transparent;
     padding: 7px 4px;
     border-radius: 0;
-    display: flex;
-    align-items: flex-start;
+    display: block;
     color: #fda4af;
     font-size: 1.0625rem;
     line-height: 1.6;
@@ -417,6 +416,7 @@ h2 {
 
 /* Option label — small rose capsule */
 .opt-label {
+    text-transform: uppercase;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -676,7 +676,7 @@ h2 {
     .q-text    { font-size: 1rem; line-height: 1.7; }
     .q-context { font-size: 1rem; }
 
-    .option-item { padding: 14px; min-height: 44px; font-size: 0.9rem; }
+    .option-item { padding: 14px; font-size: 0.9rem; }
 
     .q-table table { font-size: 0.9375rem; }
     .q-table td { padding: 8px 10px; }
