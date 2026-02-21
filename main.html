@@ -369,7 +369,22 @@
             var filename = buildFilename();
             
             // Show loading state
-            viewer.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">Loading questions...</div>';
+            viewer.innerHTML = [
+                '<div class="qb-loader">',
+                '  <div class="qb-loader-ring-wrap">',
+                '    <div class="qb-loader-ring-bg"></div>',
+                '    <div class="qb-loader-ring-mid"></div>',
+                '    <div class="qb-loader-ring"></div>',
+                '    <div class="qb-loader-symbol">&#x3A3;</div>',
+                '  </div>',
+                '  <div class="qb-loader-dots">',
+                '    <div class="qb-loader-dot"></div>',
+                '    <div class="qb-loader-dot"></div>',
+                '    <div class="qb-loader-dot"></div>',
+                '  </div>',
+                '  <div class="qb-loader-label">Loading questions</div>',
+                '</div>'
+            ].join('');
             
             // Function to process loaded HTML
             function processHTML(html) {
