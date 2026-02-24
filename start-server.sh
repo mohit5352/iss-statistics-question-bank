@@ -30,6 +30,6 @@ echo ""
 echo "Starting server..."
 echo ""
 
-# Start server
+# Start server (serves static files + writes corrections to answers.js)
 cd "$(dirname "$0")"
-python3 -m http.server 8000
+python3 server.py 8000

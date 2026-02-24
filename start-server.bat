@@ -28,8 +28,8 @@ echo.
 echo Starting server...
 echo.
 
-REM Start server
+REM Start server (serves static files + writes corrections to answers.js)
 cd /d "%~dp0"
-python -m http.server 8000
+python server.py 8000
 
 pause

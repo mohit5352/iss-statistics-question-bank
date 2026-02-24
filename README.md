@@ -21,6 +21,11 @@ statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
 ├── styles.css                                     # Styling for question cards and layout
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
+├── server.py                                      # Local server with answer correction support (writes to answers.js)
+├── api/
+│   └── correct.js                                 # Vercel serverless API for live answer corrections (updates GitHub)
+├── vercel.json                                    # Vercel config (rewrites / to main.html)
+├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections)
 ├── QUICK_START.md                                 # Quick start guide
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
 ├── start-server.bat                               # Quick start script for local server (Windows)
@@ -54,14 +59,15 @@ statistics_question_bank/
 1. **Start the server** on your computer:
    - **Mac/Linux**: Double-click `start-server.sh` or run:
      ```bash
-     cd "/Users/illusion/Desktop/ISS Extracted PDFs/statistics_question_bank"
-     python3 -m http.server 8000
+     cd "/path/to/statistics_question_bank"
+     python3 server.py 8000
      ```
    - **Windows**: Double-click `start-server.bat` or run:
      ```cmd
      cd "path\to\statistics_question_bank"
-     python -m http.server 8000
+     python server.py 8000
      ```
+   - **Note**: `server.py` serves static files and supports **answer corrections** (writes directly to `answers.js`). For static-only serving, use `python3 -m http.server 8000` instead.
 
 2. **Find your computer's IP address**:
    - Mac: System Preferences → Network → IP Address
@@ -75,6 +81,10 @@ statistics_question_bank/
 
 **Note**: Mobile browsers block loading local files directly. Using a local web server is the most reliable method.
 
+### Live Deployment (Vercel) — Answer Corrections on Production
+
+To deploy so that **answer corrections work on the live site** (updating `answers.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, deploy).
+
 ## 🎯 Features
 
 - **Sticky Header**: Paper/Section/Year controls stay visible at the top while scrolling
@@ -84,7 +94,8 @@ statistics_question_bank/
   - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options
-- **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option; paired with the copy button at the bottom-right of each card
+- **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
+- **Wrong Answer? / Correct Answer**: When the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js` (see [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments)
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
@@ -101,7 +112,7 @@ statistics_question_bank/
   - **Context Block bold text**: Orchid (`#f0abfc`) matching option items; MathJax expressions in lavender (`#c4b5fd`) consistent with question text
   - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
-  - **Action Buttons (Copy / Show Answer)**: Paired at the bottom-right of every card; purple icons with faint ring; copy turns emerald on success (`#34d399`); answer button glows purple while active
+  - **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` on the left; `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns emerald on success (`#34d399`); answer button glows purple while active
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
@@ -281,7 +292,7 @@ For **each section file** and each year:
 - `.meta-label`: Tiny ALL-CAPS dim label (`#3a3a50`) above each value
 - `.meta-value`: Bold lavender display value (`#c4b5fd`) — brightens to `#e0d7ff` on hover
 - `.meta-sep-line`: 1 px vertical hairline separator between meta zones
-- `.question-card`: Card container — purple-tinted glass background, depth shadow, bottom padding reserved for the icon row; hover adds a purple ring lift
+- `.question-card`: Card container — purple-tinted glass background, depth shadow; hover adds a purple ring lift; action row in document flow at bottom
 - `.question-card.no-surface`: Transparent variant for context-only cards (no bg, no shadow)
 - `.q-header`: Question header row — subtle purple → lavender gradient background, rounded (`8px`), thin purple-tinted bottom hairline, white glow shadow with glass-top highlight
 - `.q-number`: Question number — purple (`#a78bfa`) with matching glow
@@ -292,8 +303,14 @@ For **each section file** and each year:
 - `.options-grid`: 2-column grid (1-column on ≤ 600 px); bare transparent container — no background, no border
 - `.option-item`: Individual option — bare orchid text (`#f0abfc`), no background or border
 - `.opt-label`: `(a)` / `(b)` / `(c)` / `(d)` capsule badge — fuchsia (`#d946ef`) on translucent fuchsia background
-- `.q-copy-btn`: Copy icon button — bottom-right of every card (`right: 14px`); purple icon, faint ring; turns emerald (`#34d399`) on success
-- `.q-answer-btn`: Show/Hide Answer icon button — sits 4 px left of the copy button (`right: 48px`); purple icon; glows lavender while answer is visible
+- `.q-actions-row`: Action row at bottom of card — flex layout with separator above; contains left (Wrong Answer?) and right (Show Answer + Copy) sections
+- `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
+- `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns emerald (`#34d399`) on success
+- `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
+- `.wrong-answer-wrap`: Container for Wrong Answer? trigger and picker (visible when answer is shown)
+- `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
+- `.wrong-answer-picker`: Expandable section with "Choose correct answer:" hint and (a)(b)(c)(d) chips
+- `.wrong-answer-chip`: Option chip button — selects correct answer on click
 - `.correct-answer`: Correct option — lavender text (`#e0d7ff`), near-black background, rounded corners, white glow shadow with glass-top highlight, purple-gradient animated `✓` badge on the right
 - `.year-section`: Wrapper for all questions of a year inside a loaded HTML file
 
@@ -334,6 +351,7 @@ For **each section file** and each year:
 - **Sticky Header**: Header with Paper/Section/Year controls stays at the top while scrolling using `position: sticky`
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
+- **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Behaviour depends on deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
@@ -411,6 +429,11 @@ For **each section file** and each year:
 - Check that the question has a `.options-grid` with `.option-item` elements
 - Make sure option labels are formatted as `(a)`, `(b)`, `(c)`, `(d)`
 
+### Corrections not updating answers.js?
+- **GitHub Pages / file://**: Corrections are stored in `localStorage` only — they do not update the file. Deploy to [Vercel](DEPLOYMENT.md) or run `server.py` locally for persistent updates.
+- **Vercel**: Ensure `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` are set in Environment Variables. Redeploy after adding env vars.
+- **Local server**: Use `python3 server.py 8000` (not `python3 -m http.server`) so the `/api/correct` endpoint is available.
+
 ## 📚 Example Question Structure
 
 Here's a complete example of a formatted question:
@@ -445,15 +468,30 @@ Here's a complete example of a formatted question:
 - The file naming conventions are strict and must be followed exactly
 - Always include viewport meta tag in question HTML files for mobile support
 
-## 🎯 Show Answer Feature
+## 🎯 Show Answer & Correct Answer Feature
 
-The repository includes a **Show Answer** feature that allows users to reveal correct answers with a single click.
+The repository includes a **Show Answer** feature and a **Wrong Answer?** flow that lets users suggest corrections when an answer is incorrect.
 
-### How It Works:
+### Show Answer — How It Works:
 1. Answers are stored centrally in `answers.js` (no need to modify individual HTML files)
-2. A **Show Answer** eye-icon button appears at the **bottom-right** of each question card, paired with the copy button
+2. A **Show Answer** eye-icon button appears in the action row at the bottom of each question card
 3. Clicking the button highlights the correct answer in **purple** (lavender text, near-black background) with an animated purple-gradient checkmark badge (✓) on the right side of the option
 4. Clicking again hides the answer and removes the highlight
+
+### Wrong Answer? — How It Works:
+1. When the answer is visible, **Wrong Answer?** appears in the action row (left side)
+2. Click **Wrong Answer?** to expand the inline picker: **Choose correct answer:** followed by (a)(b)(c)(d) chips
+3. Click the correct option chip — the correction is saved according to the deployment scenario (see below)
+4. The displayed answer updates immediately; on supported deployments, `answers.js` is updated in the repo
+
+### Answer Correction Scenarios
+
+| Deployment | Correction behaviour |
+|------------|----------------------|
+| **Local (server.py)** | Corrections are written directly to `answers.js` on your machine. Run `python3 server.py 8000` and open `http://localhost:8000/main.html`. |
+| **Vercel (live)** | Corrections are pushed to GitHub via the `/api/correct` serverless function. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` env vars. See [DEPLOYMENT.md](DEPLOYMENT.md). |
+| **GitHub Pages** | No backend — corrections are stored in `localStorage` only (per browser/device). Toast shows *"Saved (use server to update answers.js)"*. To persist corrections, deploy to Vercel or run the local server. |
+| **Static / file://** | Same as GitHub Pages — corrections go to `localStorage` only. |
 
 ### Adding Answer Keys:
 To add answer keys, edit `answers.js` following this format:
@@ -483,9 +521,10 @@ const QUESTION_ANSWERS = {
 ```
 
 ### Benefits:
-- **Centralized**: All answers in one file - easy to manage and update
+- **Centralized**: All answers in one file — easy to manage and update
 - **Dynamic**: No need to modify question HTML files
 - **Extensible**: Simply add more answer keys as needed
+- **User corrections**: On Vercel or local server, users can submit corrections that update `answers.js` directly
 
 ## 🔄 Maintenance
 
@@ -508,7 +547,7 @@ When updating or fixing questions:
 - **Topic**: Italic orchid inline annotation (`#f0abfc`, weight 500) — no badge, no border
 - **Context Block**: Near-black background with a purple gradient left stripe; bold text in orchid (`#f0abfc`); MathJax expressions in lavender (`#c4b5fd`) consistent with question text; "CONTEXT" label removed
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
-- **Action Buttons**: Copy + Show Answer icons paired at the **bottom-right** of every card with a 4 px gap; answer button glows purple while active
+- **Action Row & Wrong Answer?**: Single row with Wrong Answer? (left), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections
 - **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
 - **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`

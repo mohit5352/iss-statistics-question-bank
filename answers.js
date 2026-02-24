@@ -355,7 +355,7 @@ const QUESTION_ANSWERS = {
                 "3": "b",  // Transformation of Random Variables
                 "4": "d",  // Mathematical Expectation
                 "5": "b",  // Conditional Expectation
-                "6": "b",  // Laplace Distribution
+                "6": "a",  // Laplace Distribution
                 "7": "c",  // Expectation of Beta Variate
                 "8": "c",  // Moment Generating Functions
                 "9": "b",  // Bivariate Distributions - Marginal PDF

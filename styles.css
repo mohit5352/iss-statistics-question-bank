@@ -222,7 +222,7 @@ h2 {
 /* ===== Question Card ===== */
 .question-card {
     border-radius: 12px;
-    padding: 24px 24px 52px 24px; /* bottom padding reserves space for the icon row */
+    padding: 24px;
     margin-bottom: 28px;
     background-color: rgba(124, 58, 237, 0.05);
     transition: all 0.28s ease;
@@ -595,11 +595,44 @@ h2 {
     min-height: 600px;
 }
 
-/* ===== Action Buttons (Copy & Show Answer) ===== */
+/* ===== Action row: [Wrong Answer?] ... [Show Answer] [Copy] ===== */
+.q-actions-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+}
+
+.q-actions-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.15) 15%, rgba(124, 58, 237, 0.25) 50%, rgba(167, 139, 250, 0.15) 85%, transparent 100%);
+}
+
+.q-actions-left {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+}
+
+.q-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
 .q-copy-btn,
 .q-answer-btn {
-    position: absolute;
-    background: transparent;
+    background: rgba(255,255,255,0.04);
     color: #a78bfa;
     border: none;
     border-radius: 50%;
@@ -607,12 +640,11 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    z-index: 100;
     padding: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
 }
 
-/* Tooltip */
 .q-copy-btn::after,
 .q-answer-btn::after {
     content: attr(data-tooltip);
@@ -650,21 +682,6 @@ h2 {
     transform: scale(0.95);
 }
 
-/* ===== Icon row at bottom-right of every card ===== */
-/* Both copy and answer buttons sit side by side: [eye] [copy] */
-.q-copy-btn {
-    bottom: 14px;
-    right: 14px;
-    top: auto;
-    background: rgba(255,255,255,0.04);
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
-    color: #a78bfa;
-    padding: 6px;
-    position: absolute;
-    z-index: 120;
-}
-
 .q-copy-btn svg {
     width: 18px;
     height: 18px;
@@ -676,25 +693,6 @@ h2 {
     box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.3);
 }
 
-.q-copy-btn.copied:hover {
-    color: #10b981;
-}
-
-/* Answer button — sits 4px to the left of copy */
-.q-answer-btn {
-    bottom: 14px;
-    right: 48px; /* 14px copy right + 18px svg + 12px padding + 4px gap = 48px */
-    top: auto;
-    color: #a78bfa;
-    background: rgba(255,255,255,0.04);
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
-    position: absolute;
-    z-index: 110;
-    padding: 6px;
-    transition: color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
-}
-
 .q-answer-btn:hover {
     color: #e0d7ff;
 }
@@ -703,6 +701,11 @@ h2 {
     width: 18px;
     height: 18px;
     fill: currentColor;
+}
+
+.q-copy-btn,
+.q-answer-btn {
+    position: relative;
 }
 
 .q-answer-btn.hidden {
@@ -762,6 +765,105 @@ h2 {
     color: #e0d7ff;
 }
 
+/* ===== Wrong Answer? — in action row left ===== */
+.wrong-answer-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.wrong-answer-trigger {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fb7185;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.wrong-answer-trigger:hover {
+    opacity: 1;
+}
+
+.wrong-answer-picker {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+    border-left: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.wrong-answer-picker.open {
+    display: inline-flex;
+}
+
+.wrong-answer-hint {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(196, 181, 253, 0.75);
+}
+
+.wrong-answer-hint::after {
+    content: ':';
+    margin-left: 2px;
+    opacity: 0.8;
+}
+
+.wrong-answer-chips {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.wrong-answer-chip {
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #b0aac8;
+    background: transparent;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.wrong-answer-chip:hover {
+    color: #c4b5fd;
+    border-color: rgba(167, 139, 250, 0.4);
+}
+
+.wrong-answer-chip.selected {
+    color: #e0d7ff;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+
+.correction-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 24px;
+    background: #111117;
+    color: #34d399;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(52, 211, 153, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.correction-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 /* ===== Responsive — 768px ===== */
 @media (max-width: 768px) {
     body {
@@ -812,9 +914,6 @@ h2 {
     #iframe-viewer { min-height: 400px; }
 
     .q-copy-btn, .q-answer-btn { padding: 5px; }
-    .q-copy-btn  { bottom: 12px; right: 12px; top: auto; }
-    .q-answer-btn{ bottom: 12px; right: 44px; top: auto; }
-    
     .q-copy-btn svg,
     .q-answer-btn svg { width: 17px; height: 17px; }
     
@@ -823,6 +922,30 @@ h2 {
 
     .option-item.correct-answer::after { width: 20px; height: 20px; font-size: 11px; right: 8px; }
     .options-grid { margin-top: 14px; padding: 10px; }
+    .q-actions-row {
+        align-items: flex-start;
+        margin-top: 14px;
+        padding-top: 12px;
+    }
+    /* When picker open: stack "Choose correct answer" + chips below "Wrong Answer?" */
+    .wrong-answer-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .wrong-answer-picker {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding-left: 0;
+        padding-top: 8px;
+        border-left: none;
+        border-top: 1px solid rgba(167, 139, 250, 0.15);
+    }
+    .wrong-answer-chips {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
 }
 
 /* ===== Responsive — 480px ===== */
@@ -835,7 +958,7 @@ h2 {
 
     h1 { font-size: 1.1rem; margin-bottom: 10px; }
 
-    .question-card  { padding: 12px 12px 46px 12px; margin-bottom: 15px; }
+    .question-card  { padding: 12px; margin-bottom: 15px; }
     .q-number       { font-size: 1rem; }
     .q-text         { font-size: 0.9375rem; line-height: 1.6; }
     .q-context      { font-size: 0.9375rem; }
@@ -855,10 +978,8 @@ h2 {
     }
     #iframe-viewer { min-height: 300px; }
 
+    .q-actions-row { align-items: flex-start; margin-top: 12px; padding-top: 10px; }
     .q-copy-btn, .q-answer-btn { padding: 4px; }
-    .q-copy-btn  { bottom: 10px; right: 10px; top: auto; }
-    .q-answer-btn{ bottom: 10px; right: 38px; top: auto; }
-    
     .q-copy-btn svg,
     .q-answer-btn svg { width: 16px; height: 16px; }
     
@@ -867,4 +988,6 @@ h2 {
 
     .option-item.correct-answer::after { width: 18px; height: 18px; font-size: 10px; right: 6px; }
     .options-grid { margin-top: 12px; padding: 8px; gap: 5px; }
+    .wrong-answer-trigger { font-size: 0.68rem; }
+    .wrong-answer-hint { font-size: 0.6rem; letter-spacing: 0.08em; }
 }
