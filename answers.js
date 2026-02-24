@@ -356,7 +356,7 @@ const QUESTION_ANSWERS = {
                 "4": "d",  // Mathematical Expectation
                 "5": "b",  // Conditional Expectation
                 "6": "a",  // Laplace Distribution
-                "7": "c",  // Expectation of Beta Variate
+                "7": "a",  // Expectation of Beta Variate
                 "8": "c",  // Moment Generating Functions
                 "9": "b",  // Bivariate Distributions - Marginal PDF
                 "10": "c", // Asymptotic Properties of Chi-square Distribution
