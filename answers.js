@@ -354,7 +354,7 @@ const QUESTION_ANSWERS = {
                 "2": "c",  // Properties of Beta Distribution
                 "3": "b",  // Transformation of Random Variables
                 "4": "d",  // Mathematical Expectation
-                "5": "b",  // Conditional Expectation
+                "5": "a",  // Conditional Expectation
                 "6": "a",  // Laplace Distribution
                 "7": "a",  // Expectation of Beta Variate
                 "8": "c",  // Moment Generating Functions
@@ -362,13 +362,13 @@ const QUESTION_ANSWERS = {
                 "10": "c", // Asymptotic Properties of Chi-square Distribution
                 "11": "b", // Probability & Contingency Tables
                 "12": "d", // Moments and Cumulants
-                "13": "c", // Bivariate Normal Distribution
+                "13": "b", // Bivariate Normal Distribution
                 "14": "d", // Partial Correlation
                 "15": "c", // Correlation Ratio Properties
                 "16": "d", // Joint Probability Mass Function
                 "17": "b", // Order Statistics of Geometric Distribution
                 "18": "a", // Marginal Distributions of Bivariate Normal
-                "19": "c", // Testing Significance of Correlation Coefficient
+                "19": "a", // Testing Significance of Correlation Coefficient
                 "20": "b", // Theory of Attributes - Association
                 "41": "b", // Multinomial Distribution
                 "42": "b", // Correlation in Multinomial
