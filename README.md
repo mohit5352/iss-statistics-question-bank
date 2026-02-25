@@ -97,7 +97,7 @@ To deploy so that **answer corrections work on the live site** (updating `answer
   - Paper I: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
   - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
 - **Year Navigation**: Browse questions from 2017 to 2025
-- **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options
+- **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables are preserved with proper structure (tab-separated cells, newline-separated rows) so pasted content stays readable.
 - **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
@@ -357,6 +357,7 @@ For **each section file** and each year:
 - **Sticky Header**: Header with Paper/Section/Year controls stays at the top while scrolling using `position: sticky`
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
+- **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted with tab-separated cells and newline-separated rows so pasted content preserves structure.
 - **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Admin Login**: Credentials are validated via `POST /api/auth`; contact email is served via `GET /api/config`. Env vars: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 - **Responsive Design**: The layout adapts to different screen sizes

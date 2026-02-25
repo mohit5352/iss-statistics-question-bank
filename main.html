@@ -155,37 +155,67 @@
         // This MUST run before MathJax touches the DOM.
         // At that point \( ... \) / \[ ... \] are still raw text nodes, so
         // textContent gives us proper LaTeX source rather than garbled SVG text.
+        function formatTableForCopy(tableEl) {
+            if (!tableEl || !tableEl.querySelectorAll) return '';
+            var rows = [];
+            tableEl.querySelectorAll('tr').forEach(function(tr) {
+                var cells = [];
+                tr.querySelectorAll('td, th').forEach(function(cell) {
+                    cells.push(cell.textContent.trim());
+                });
+                if (cells.length) rows.push(cells.join('\t'));
+            });
+            return rows.join('\n');
+        }
+        function extractTextWithTables(el) {
+            var parts = [];
+            function walk(node) {
+                if (!node) return;
+                if (node.nodeType === 3) {
+                    parts.push(node.textContent);
+                    return;
+                }
+                if (node.nodeType === 1) {
+                    if (node.classList && node.classList.contains('q-table')) {
+                        var table = node.querySelector('table');
+                        if (table) parts.push(formatTableForCopy(table));
+                        return;
+                    }
+                    if (node.tagName === 'BR') {
+                        parts.push('\n');
+                        return;
+                    }
+                    for (var i = 0; i < node.childNodes.length; i++) walk(node.childNodes[i]);
+                }
+            }
+            walk(el);
+            return parts.join('').trim();
+        }
         function captureCardCopyText(container) {
             var cards = container.querySelectorAll('.question-card');
             cards.forEach(function(card) {
-                // ── question number ──
                 var qNumberEl = card.querySelector('.q-number');
                 var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
-
-                // ── topic ──
                 var qTopicEl = card.querySelector('.q-topic');
                 var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
-
-                // ── question text (may be multiple .q-text blocks) ──
                 var qText = '';
-                card.querySelectorAll('.q-text').forEach(function(el) {
-                    var t = el.textContent.trim();
-                    if (t) qText += t + '\n';
+                Array.prototype.forEach.call(card.children, function(child) {
+                    if (child.classList && child.classList.contains('q-text')) {
+                        var t = extractTextWithTables(child);
+                        if (t) qText += t + '\n';
+                    } else if (child.classList && child.classList.contains('q-table')) {
+                        var t = formatTableForCopy(child.querySelector('table'));
+                        if (t) qText += t + '\n';
+                    }
                 });
                 qText = qText.trim();
-
-                // ── context ──
                 var qContextEl = card.querySelector('.q-context');
-                var qContext = qContextEl ? qContextEl.textContent.trim() + '\n\n' : '';
-
-                // ── options ──
+                var qContext = qContextEl ? extractTextWithTables(qContextEl) + '\n\n' : '';
                 var options = [];
                 card.querySelectorAll('.option-item').forEach(function(item) {
                     var t = item.textContent.trim();
                     if (t) options.push(t);
                 });
-
-                // ── assemble formatted text ──
                 var out = '';
                 if (qContext) out += qContext;
                 if (qNumber)  out += qNumber + ' ';
@@ -195,8 +225,6 @@
                     out += 'Options:\n';
                     options.forEach(function(o) { out += o + '\n'; });
                 }
-
-                // Store on the element — retrieved later by copyQuestionText()
                 card._latexCopyText = out.trim();
             });
         }
@@ -276,26 +304,26 @@
                     // ── Fallback: extract from post-MathJax DOM (no LaTeX, plain text) ──
                     var qNumberEl = card.querySelector('.q-number');
                     var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
-
                     var qTopicEl = card.querySelector('.q-topic');
                     var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
-
                     var qText = '';
-                    card.querySelectorAll('.q-text').forEach(function(el) {
-                        var text = el.textContent.trim();
-                        if (text) qText += text + '\n';
+                    Array.prototype.forEach.call(card.children, function(child) {
+                        if (child.classList && child.classList.contains('q-text')) {
+                            var text = extractTextWithTables(child);
+                            if (text) qText += text + '\n';
+                        } else if (child.classList && child.classList.contains('q-table')) {
+                            var t = formatTableForCopy(child.querySelector('table'));
+                            if (t) qText += t + '\n';
+                        }
                     });
                     qText = qText.trim();
-
                     var qContextEl = card.querySelector('.q-context');
-                    var qContext = qContextEl ? qContextEl.textContent.trim() + '\n\n' : '';
-
+                    var qContext = qContextEl ? extractTextWithTables(qContextEl) + '\n\n' : '';
                     var options = [];
                     card.querySelectorAll('.option-item').forEach(function(item) {
                         var optText = item.textContent.trim();
                         if (optText) options.push(optText);
                     });
-
                     if (qContext) formattedText += qContext;
                     if (qNumber)  formattedText += qNumber + ' ';
                     if (qTopic)   formattedText += qTopic + '\n';
