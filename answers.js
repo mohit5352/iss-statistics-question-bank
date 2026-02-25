@@ -372,10 +372,10 @@ const QUESTION_ANSWERS = {
                 "20": "b", // Theory of Attributes - Association
                 "41": "b", // Multinomial Distribution
                 "42": "b", // Correlation in Multinomial
-                "43": "c", // Conditional Expectation
-                "44": "d", // Conditional Variance
-                "45": "c", // Compound Poisson Distribution
-                "46": "b", // Variance of Compound Random Variables
+                "43": "d", // Conditional Expectation
+                "44": "b", // Conditional Variance
+                "45": "b", // Compound Poisson Distribution
+                "46": "c", // Variance of Compound Random Variables
                 "47": "d", // MGF of Compound Distributions
                 "48": "a", // Poisson Approximation
                 "49": "b", // Convergence in Probability
