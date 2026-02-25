@@ -83,18 +83,36 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: 'Invalid JSON' });
   }
 
-  const paper = data.paper;
-  const section = data.section;
-  const year = data.year;
-  const q = String(data.q || '');
-  const answer = String(data.answer || '').toLowerCase();
-
-  if (!['a', 'b', 'c', 'd'].includes(answer)) {
-    return res.status(400).json({ ok: false, error: 'Invalid answer' });
+  // Support single { paper, section, year, q, answer } or batch { corrections: [...] }
+  let corrections = [];
+  if (Array.isArray(data.corrections) && data.corrections.length > 0) {
+    corrections = data.corrections;
+  } else if (data.paper && data.section && data.year && data.q != null) {
+    corrections = [{ paper: data.paper, section: data.section, year: data.year, q: data.q, answer: data.answer }];
   }
-  if (!paper || !section || !year || !q) {
+
+  if (corrections.length === 0) {
     return res.status(400).json({ ok: false, error: 'Missing params' });
   }
+
+  // Validate and normalize
+  const valid = [];
+  for (const c of corrections) {
+    const answer = String(c.answer || '').toLowerCase();
+    if (!['a', 'b', 'c', 'd'].includes(answer) || !c.paper || !c.section || !c.year || !String(c.q)) continue;
+    valid.push({ paper: c.paper, section: c.section, year: c.year, q: String(c.q), answer });
+  }
+
+  if (valid.length === 0) {
+    return res.status(400).json({ ok: false, error: 'No valid corrections' });
+  }
+
+  // Dedupe: same question → keep latest
+  const byKey = new Map();
+  for (const c of valid) {
+    byKey.set(`${c.paper}|${c.section}|${c.year}|${c.q}`, c);
+  }
+  const unique = [...byKey.values()];
 
   try {
     // 1. Get current file from GitHub
@@ -114,20 +132,28 @@ export default async function handler(req, res) {
     }
 
     const fileData = await getRes.json();
-    const content = Buffer.from(
+    let content = Buffer.from(
       (fileData.content || '').replace(/\n/g, ''),
       'base64'
     ).toString('utf-8');
-    const sha = fileData.sha;
-    const lines = content.split(/\r?\n/);
+    let sha = fileData.sha;
 
-    // 2. Apply correction
-    const newContent = applyCorrection(lines, paper, section, year, q, answer);
-    if (!newContent) {
-      return res.status(404).json({ ok: false, error: 'Question not found in answers.js' });
+    // 2. Apply all corrections (each uses output of previous)
+    for (const c of unique) {
+      const lines = content.split(/\r?\n/);
+      const newContent = applyCorrection(lines, c.paper, c.section, c.year, c.q, c.answer);
+      if (!newContent) {
+        return res.status(404).json({ ok: false, error: `Question ${c.q} not found in answers.js` });
+      }
+      content = newContent;
     }
 
-    // 3. Push updated file to GitHub
+    // 3. Single commit for all corrections
+    const msgParts = unique.map((c) => `${c.paper}/${c.section}/${c.year} Q${c.q}→${c.answer}`);
+    const message = unique.length === 1
+      ? `Correct answer: ${msgParts[0]}`
+      : `Correct answers (${unique.length}): ${msgParts.join(', ')}`;
+
     const putRes = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/answers.js`,
       {
@@ -138,8 +164,8 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: `Correct answer: ${paper}/${section}/${year} Q${q} → ${answer}`,
-          content: Buffer.from(newContent, 'utf-8').toString('base64'),
+          message,
+          content: Buffer.from(content, 'utf-8').toString('base64'),
           sha,
         }),
       }
@@ -150,7 +176,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ ok: false, error: `GitHub PUT failed: ${err}` });
     }
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, count: unique.length });
   } catch (e) {
     return res.status(500).json({ ok: false, error: String(e.message || e) });
   }

@@ -729,29 +729,71 @@
             if (left) left.innerHTML = '';
         }
 
+        // Batch corrections to minimize GitHub commits (30s debounce)
+        var correctionQueue = [];
+        var correctionTimer = null;
+        var CORRECTION_DEBOUNCE_MS = 15000;
+
+        function persistToLocalStorage(paper, section, year, q, answer) {
+            try {
+                var corrections = JSON.parse(localStorage.getItem('iss_answer_corrections') || '{}');
+                if (!corrections[paper]) corrections[paper] = {};
+                if (!corrections[paper][section]) corrections[paper][section] = {};
+                if (!corrections[paper][section][year]) corrections[paper][section][year] = {};
+                corrections[paper][section][year][q] = answer;
+                localStorage.setItem('iss_answer_corrections', JSON.stringify(corrections));
+            } catch (e) {}
+        }
+
+        function flushCorrectionQueue() {
+            if (correctionTimer) { clearTimeout(correctionTimer); correctionTimer = null; }
+            if (correctionQueue.length === 0) return;
+            var batch = correctionQueue.slice();
+            correctionQueue = [];
+            fetch('/api/correct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ corrections: batch })
+            }).then(function(r) { return r.json(); }).then(function(res) {
+                if (res.ok) {
+                    var n = res.count || batch.length;
+                    showCorrectionToast(n === 1 ? 'Updated answers.js' : n + ' corrections saved to answers.js');
+                } else {
+                    batch.forEach(function(c) { persistToLocalStorage(c.paper, c.section, c.year, c.q, c.answer); });
+                    showCorrectionToast('Save failed — stored locally');
+                }
+            }).catch(function() {
+                batch.forEach(function(c) { persistToLocalStorage(c.paper, c.section, c.year, c.q, c.answer); });
+                showCorrectionToast('Offline — stored locally');
+            });
+        }
+
         function saveCorrection(card, qNumber, answer, secKey, chipsEl) {
+            if (QUESTION_ANSWERS[currentPaper] && QUESTION_ANSWERS[currentPaper][secKey] && QUESTION_ANSWERS[currentPaper][secKey][currentYear]) {
+                QUESTION_ANSWERS[currentPaper][secKey][currentYear][qNumber] = answer;
+            }
+            applyCorrection(card, answer, chipsEl);
+
             var origin = window.location.origin;
             var canUseApi = origin && origin !== 'null' && origin !== 'file://';
             if (canUseApi) {
-                fetch('/api/correct', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ paper: currentPaper, section: secKey, year: currentYear, q: qNumber, answer: answer })
-                }).then(function(r) { return r.json(); }).then(function(res) {
-                    if (res.ok) {
-                        if (QUESTION_ANSWERS[currentPaper] && QUESTION_ANSWERS[currentPaper][secKey] && QUESTION_ANSWERS[currentPaper][secKey][currentYear]) {
-                            QUESTION_ANSWERS[currentPaper][secKey][currentYear][qNumber] = answer;
-                        }
-                        applyCorrection(card, answer, chipsEl);
-                        showCorrectionToast('Updated answers.js');
-                    } else {
-                        saveToLocalStorage(card, qNumber, answer, secKey, chipsEl);
-                    }
-                }).catch(function() { saveToLocalStorage(card, qNumber, answer, secKey, chipsEl); });
+                var key = currentPaper + '|' + secKey + '|' + currentYear + '|' + qNumber;
+                correctionQueue = correctionQueue.filter(function(c) { return c.key !== key; });
+                correctionQueue.push({ paper: currentPaper, section: secKey, year: currentYear, q: qNumber, answer: answer, key: key });
+                showCorrectionToast('Queued — saving in 15s');
+                if (correctionTimer) clearTimeout(correctionTimer);
+                correctionTimer = setTimeout(flushCorrectionQueue, CORRECTION_DEBOUNCE_MS);
             } else {
                 saveToLocalStorage(card, qNumber, answer, secKey, chipsEl);
             }
         }
+
+        window.addEventListener('beforeunload', function() {
+            if (correctionQueue.length > 0 && navigator.sendBeacon) {
+                var blob = new Blob([JSON.stringify({ corrections: correctionQueue })], { type: 'application/json' });
+                navigator.sendBeacon('/api/correct', blob);
+            }
+        });
 
         function saveToLocalStorage(card, qNumber, answer, secKey, chipsEl) {
             try {

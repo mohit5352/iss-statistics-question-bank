@@ -23,7 +23,7 @@ statistics_question_bank/
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
 ├── server.py                                      # Local server with answer correction support (writes to answers.js)
 ├── api/
-│   └── correct.js                                 # Vercel serverless API for live answer corrections (updates GitHub)
+│   └── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
 ├── vercel.json                                    # Vercel config (rewrites / to main.html)
 ├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections)
 ├── QUICK_START.md                                 # Quick start guide
@@ -95,7 +95,7 @@ To deploy so that **answer corrections work on the live site** (updating `answer
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options
 - **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
-- **Wrong Answer? / Correct Answer**: When the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js` (see [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments)
+- **Wrong Answer? / Correct Answer**: When the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
@@ -351,7 +351,7 @@ For **each section file** and each year:
 - **Sticky Header**: Header with Paper/Section/Year controls stays at the top while scrolling using `position: sticky`
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
-- **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Behaviour depends on deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Answer Correction System**: Corrections are submitted via `POST /api/correct`. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
@@ -481,15 +481,15 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 ### Wrong Answer? — How It Works:
 1. When the answer is visible, **Wrong Answer?** appears in the action row (left side)
 2. Click **Wrong Answer?** to expand the inline picker: **Choose correct answer:** followed by (a)(b)(c)(d) chips
-3. Click the correct option chip — the correction is saved according to the deployment scenario (see below)
-4. The displayed answer updates immediately; on supported deployments, `answers.js` is updated in the repo
+3. Click the correct option chip — the displayed answer updates immediately; the correction is queued and saved according to the deployment scenario (see below)
+4. **Batching (Vercel)**: Corrections are queued and sent in a single batch after 15 seconds of inactivity, or when you leave the page (`sendBeacon`), to minimize GitHub commits
 
 ### Answer Correction Scenarios
 
 | Deployment | Correction behaviour |
 |------------|----------------------|
 | **Local (server.py)** | Corrections are written directly to `answers.js` on your machine. Run `python3 server.py 8000` and open `http://localhost:8000/main.html`. |
-| **Vercel (live)** | Corrections are pushed to GitHub via the `/api/correct` serverless function. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` env vars. See [DEPLOYMENT.md](DEPLOYMENT.md). |
+| **Vercel (live)** | Corrections are batched (15s debounce) and pushed to GitHub via `/api/correct`. Multiple corrections in one session become a single commit. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` env vars. See [DEPLOYMENT.md](DEPLOYMENT.md). |
 | **GitHub Pages** | No backend — corrections are stored in `localStorage` only (per browser/device). Toast shows *"Saved (use server to update answers.js)"*. To persist corrections, deploy to Vercel or run the local server. |
 | **Static / file://** | Same as GitHub Pages — corrections go to `localStorage` only. |
 
