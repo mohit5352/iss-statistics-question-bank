@@ -19,13 +19,17 @@ This repository contains a web-based archive of objective questions from ISS Sta
 ```
 statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
+├── login.html                                     # Admin login page (credentials from env)
 ├── styles.css                                     # Styling for question cards and layout
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
-├── server.py                                      # Local server with answer correction support (writes to answers.js)
+├── server.py                                      # Local server with answer correction + auth support (writes to answers.js)
 ├── api/
-│   └── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
-├── vercel.json                                    # Vercel config (rewrites / to main.html)
-├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections)
+│   ├── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
+│   ├── auth.js                                    # Admin login validation (ADMIN_USERNAME, ADMIN_PASSWORD)
+│   └── config.js                                 # Public config (CONTACT_EMAIL for login page)
+├── vercel.json                                    # Vercel config (rewrites / to main.html, /login to login.html)
+├── .env.example                                   # Example env vars (ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, CONTACT_EMAIL)
+├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections + admin login)
 ├── QUICK_START.md                                 # Quick start guide
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
 ├── start-server.bat                               # Quick start script for local server (Windows)
@@ -67,7 +71,7 @@ statistics_question_bank/
      cd "path\to\statistics_question_bank"
      python server.py 8000
      ```
-   - **Note**: `server.py` serves static files and supports **answer corrections** (writes directly to `answers.js`). For static-only serving, use `python3 -m http.server 8000` instead.
+   - **Note**: `server.py` serves static files and supports **answer corrections** (writes directly to `answers.js`) and **admin login**. For static-only serving, use `python3 -m http.server 8000` instead. For local login, create `.env` from `.env.example` and set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 
 2. **Find your computer's IP address**:
    - Mac: System Preferences → Network → IP Address
@@ -83,7 +87,7 @@ statistics_question_bank/
 
 ### Live Deployment (Vercel) — Answer Corrections on Production
 
-To deploy so that **answer corrections work on the live site** (updating `answers.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, deploy).
+To deploy so that **answer corrections work on the live site** (updating `answers.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections, and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
 
 ## 🎯 Features
 
@@ -95,7 +99,8 @@ To deploy so that **answer corrections work on the live site** (updating `answer
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options
 - **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
-- **Wrong Answer? / Correct Answer**: When the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
+- **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
+- **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
@@ -112,7 +117,7 @@ To deploy so that **answer corrections work on the live site** (updating `answer
   - **Context Block bold text**: Orchid (`#f0abfc`) matching option items; MathJax expressions in lavender (`#c4b5fd`) consistent with question text
   - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
-  - **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` on the left; `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns emerald on success (`#34d399`); answer button glows purple while active
+  - **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` on the left (admin only); `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns emerald on success (`#34d399`); answer button glows purple while active
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
@@ -287,6 +292,7 @@ For **each section file** and each year:
 - `.paper-container`: Transparent wrapper — no background, no border, no padding
 - `.set-indicator-wrap`: Flex row containing two converging gradient lines and the `SET ◆ X` text; sits between `h1` and the meta panel
 - `.set-indicator-text` / `#set-letter`: Uppercase set label (`#a78bfa`) with the dynamic set letter rendered brighter (`#c4b5fd`)
+- `.auth-row` / `.auth-wrap` / `.auth-pill`: Admin Login link (or "Admin: [Name]" when logged in) below meta controls
 - `.meta-controls`: Unified pill panel (max-width 680px) for Paper / Section / Year controls — purple-glass background, faint ring shadow
 - `.meta-item`: Individual clickable zone inside the panel (stacked label + value); a hidden `<select>` covers the zone for native dropdown behaviour
 - `.meta-label`: Tiny ALL-CAPS dim label (`#3a3a50`) above each value
@@ -307,7 +313,7 @@ For **each section file** and each year:
 - `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
 - `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns emerald (`#34d399`) on success
 - `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
-- `.wrong-answer-wrap`: Container for Wrong Answer? trigger and picker (visible when answer is shown)
+- `.wrong-answer-wrap`: Container for Wrong Answer? trigger and picker (visible when answer is shown; admin only)
 - `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
 - `.wrong-answer-picker`: Expandable section with "Choose correct answer:" hint and (a)(b)(c)(d) chips
 - `.wrong-answer-chip`: Option chip button — selects correct answer on click
@@ -351,7 +357,8 @@ For **each section file** and each year:
 - **Sticky Header**: Header with Paper/Section/Year controls stays at the top while scrolling using `position: sticky`
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
-- **Answer Correction System**: Corrections are submitted via `POST /api/correct`. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Admin Login**: Credentials are validated via `POST /api/auth`; contact email is served via `GET /api/config`. Env vars: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
   - Touch-friendly controls on mobile (minimum 44px touch targets)
@@ -433,6 +440,7 @@ For **each section file** and each year:
 - **GitHub Pages / file://**: Corrections are stored in `localStorage` only — they do not update the file. Deploy to [Vercel](DEPLOYMENT.md) or run `server.py` locally for persistent updates.
 - **Vercel**: Ensure `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` are set in Environment Variables. Redeploy after adding env vars.
 - **Local server**: Use `python3 server.py 8000` (not `python3 -m http.server`) so the `/api/correct` endpoint is available.
+- **Wrong Answer? not visible?**: You must be logged in as admin. See [Admin Login & Roles](#admin-login--roles). Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` in env vars.
 
 ## 📚 Example Question Structure
 
@@ -470,7 +478,14 @@ Here's a complete example of a formatted question:
 
 ## 🎯 Show Answer & Correct Answer Feature
 
-The repository includes a **Show Answer** feature and a **Wrong Answer?** flow that lets users suggest corrections when an answer is incorrect.
+The repository includes a **Show Answer** feature and a **Wrong Answer?** flow that lets admins suggest corrections when an answer is incorrect.
+
+### Admin Login & Roles
+
+- **Admin**: Only admins can update answers. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
+- **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link).
+- **Login page** (`/login` or `login.html`): Username/password form. Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
+- **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
 ### Show Answer — How It Works:
 1. Answers are stored centrally in `answers.js` (no need to modify individual HTML files)
@@ -479,7 +494,7 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 4. Clicking again hides the answer and removes the highlight
 
 ### Wrong Answer? — How It Works:
-1. When the answer is visible, **Wrong Answer?** appears in the action row (left side)
+1. When logged in as admin and the answer is visible, **Wrong Answer?** appears in the action row (left side)
 2. Click **Wrong Answer?** to expand the inline picker: **Choose correct answer:** followed by (a)(b)(c)(d) chips
 3. Click the correct option chip — the displayed answer updates immediately; the correction is queued and saved according to the deployment scenario (see below)
 4. **Batching (Vercel)**: Corrections are queued and sent in a single batch after 15 seconds of inactivity, or when you leave the page (`sendBeacon`), to minimize GitHub commits
@@ -489,7 +504,7 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 | Deployment | Correction behaviour |
 |------------|----------------------|
 | **Local (server.py)** | Corrections are written directly to `answers.js` on your machine. Run `python3 server.py 8000` and open `http://localhost:8000/main.html`. |
-| **Vercel (live)** | Corrections are batched (15s debounce) and pushed to GitHub via `/api/correct`. Multiple corrections in one session become a single commit. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` env vars. See [DEPLOYMENT.md](DEPLOYMENT.md). |
+| **Vercel (live)** | Corrections are batched (15s debounce) and pushed to GitHub via `/api/correct`. Multiple corrections in one session become a single commit. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections; `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login. See [DEPLOYMENT.md](DEPLOYMENT.md). |
 | **GitHub Pages** | No backend — corrections are stored in `localStorage` only (per browser/device). Toast shows *"Saved (use server to update answers.js)"*. To persist corrections, deploy to Vercel or run the local server. |
 | **Static / file://** | Same as GitHub Pages — corrections go to `localStorage` only. |
 
@@ -524,7 +539,7 @@ const QUESTION_ANSWERS = {
 - **Centralized**: All answers in one file — easy to manage and update
 - **Dynamic**: No need to modify question HTML files
 - **Extensible**: Simply add more answer keys as needed
-- **User corrections**: On Vercel or local server, users can submit corrections that update `answers.js` directly
+- **Admin corrections**: On Vercel or local server, admins (logged in) can submit corrections that update `answers.js` directly
 
 ## 🔄 Maintenance
 
@@ -547,7 +562,8 @@ When updating or fixing questions:
 - **Topic**: Italic orchid inline annotation (`#f0abfc`, weight 500) — no badge, no border
 - **Context Block**: Near-black background with a purple gradient left stripe; bold text in orchid (`#f0abfc`); MathJax expressions in lavender (`#c4b5fd`) consistent with question text; "CONTEXT" label removed
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
-- **Action Row & Wrong Answer?**: Single row with Wrong Answer? (left), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections
+- **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? feature
+- **Action Row & Wrong Answer?**: Single row with Wrong Answer? (left, admin only), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections
 - **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
 - **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`

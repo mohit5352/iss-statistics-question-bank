@@ -37,11 +37,15 @@ This guide walks you through deploying the app to **Vercel** (free) so that **an
 4. Before deploying, expand **Environment Variables**
 5. Add these variables:
 
-   | Name           | Value                    |
-   |----------------|--------------------------|
-   | `GITHUB_TOKEN` | Your PAT from Step 1     |
-   | `GITHUB_OWNER` | Your GitHub username     |
-   | `GITHUB_REPO`  | Your repo name           |
+   | Name              | Value                    |
+   |-------------------|--------------------------|
+   | `GITHUB_TOKEN`    | Your PAT from Step 1     |
+   | `GITHUB_OWNER`    | Your GitHub username     |
+   | `GITHUB_REPO`     | Your repo name           |
+   | `ADMIN_USERNAME`   | Admin login username     |
+   | `ADMIN_PASSWORD`   | Admin login password     |
+   | `ADMIN_NAME`       | Display name when logged in (e.g. `Your Name`) |
+   | `CONTACT_EMAIL` | Contact email for users who need credentials (e.g. `your.email@example.com`) |
 
    Example: If your repo is `https://github.com/mohit5352/iss-statistics-question-bank`, then:
    - `GITHUB_OWNER` = `mohit5352`
@@ -100,6 +104,7 @@ vercel
 
 ### "Server misconfigured"
 - Ensure `GITHUB_TOKEN`, `GITHUB_OWNER`, and `GITHUB_REPO` are set in Vercel **Environment Variables**
+- For admin login: set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, and `CONTACT_EMAIL`
 - Redeploy after adding or changing env vars
 
 ### "GitHub GET failed" or "GitHub PUT failed"
@@ -119,14 +124,17 @@ vercel
 
 ## Local Development
 
-For local development with live corrections:
+For local development with live corrections and admin login:
 
 ```bash
-# Option 1: Python server (writes to local answers.js)
+# Create .env from .env.example and set ADMIN_USERNAME, ADMIN_PASSWORD, CONTACT_EMAIL
+# (server.py loads .env automatically; do not commit .env)
+
+# Option 1: Python server (writes to local answers.js, supports login)
 python3 server.py 8000
 # Open http://localhost:8000/main.html
 
-# Option 2: Static only (corrections go to localStorage)
+# Option 2: Static only (corrections go to localStorage; login requires API)
 python3 -m http.server 8000
 # Open http://localhost:8000/main.html
 ```

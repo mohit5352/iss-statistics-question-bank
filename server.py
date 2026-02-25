@@ -12,6 +12,16 @@ import urllib.parse
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ANSWERS_FILE = os.path.join(SCRIPT_DIR, 'answers.js')
 
+# Load .env for local dev (optional; no extra deps)
+_env_path = os.path.join(SCRIPT_DIR, '.env')
+if os.path.isfile(_env_path):
+    with open(_env_path, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                k, _, v = line.partition('=')
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
 
 def apply_correction(paper, section, year, q_number, new_answer):
     """Update a single answer in answers.js. Returns (success, error_msg)."""
@@ -81,8 +91,31 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
+    def do_GET(self):
+        if self.path == '/api/config':
+            contact = os.environ.get('CONTACT_EMAIL', 'Contact admin for access')
+            self.send_json(200, {'contactDetails': contact})
+        else:
+            super().do_GET()
+
     def do_POST(self):
-        if self.path == '/api/correct':
+        if self.path == '/api/auth':
+            try:
+                length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(length).decode('utf-8')
+                data = json.loads(body)
+                user = (data.get('username') or '').strip()
+                passwd = data.get('password') or ''
+                expected_user = os.environ.get('ADMIN_USERNAME', '')
+                expected_pass = os.environ.get('ADMIN_PASSWORD', '')
+                if expected_user and expected_pass and user == expected_user and passwd == expected_pass:
+                    admin_name = os.environ.get('ADMIN_NAME', expected_user or 'Admin')
+                    self.send_json(200, {'ok': True, 'adminName': admin_name})
+                else:
+                    self.send_json(401, {'ok': False, 'error': 'Invalid username or password'})
+            except Exception as e:
+                self.send_json(500, {'ok': False, 'error': str(e)})
+        elif self.path == '/api/correct':
             try:
                 length = int(self.headers.get('Content-Length', 0))
                 body = self.rfile.read(length).decode('utf-8')
