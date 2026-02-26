@@ -1,8 +1,8 @@
-# ISS Statistics Question Bank
+# UPSC ISS Statistics Question Bank
 
-> 🌐 **[View Question Bank](https://mohit5352.github.io/iss-statistics-question-bank/main.html)** — Browse ISS Statistics Paper I & II questions by section and year, with MathJax rendering and instant answer reveal.
+> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers.
 
-This repository contains a web-based archive of objective questions from ISS Statistics Paper I and Paper II examinations, organised by **paper**, **year**, and **section**:
+This repository contains a web-based archive of **objective MCQs** from UPSC ISS **Statistics Paper I** and **Statistics Paper II**, organised by **paper**, **section**, and **year**. Aligned with the official UPSC ISS syllabus:
 
 **Paper I:**
 - Probability & Statistics
@@ -28,6 +28,8 @@ statistics_question_bank/
 │   ├── auth.js                                    # Admin login validation (ADMIN_USERNAME, ADMIN_PASSWORD)
 │   └── config.js                                 # Public config (CONTACT_EMAIL for login page)
 ├── vercel.json                                    # Vercel config (rewrites / to main.html, /login to login.html)
+├── robots.txt                                     # Search engine crawl rules; points to sitemap
+├── sitemap.xml                                    # Sitemap for search engines and AI crawlers
 ├── .env.example                                   # Example env vars (ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, CONTACT_EMAIL)
 ├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections + admin login)
 ├── QUICK_START.md                                 # Quick start guide
@@ -374,6 +376,7 @@ For **each section file** and each year:
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: Unified fetch/XMLHttpRequest approach works for both desktop and mobile without iframe isolation
 - **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
+- **SEO**: Meta tags aligned with UPSC ISS syllabus (description, keywords: UPSC ISS, Indian Statistical Service, Statistics Paper 1 & 2, probability, numerical analysis, linear models, statistical inference, official statistics), Open Graph, Twitter Card, JSON-LD (WebApplication schema with syllabus topics), `robots.txt`, `sitemap.xml`, canonical URLs (Vercel: https://iss-statistics-question-bank.vercel.app/), and `noscript` fallback for crawlers. Optimised for search engines and AI tools. If using a custom domain, update canonical/og URLs in `main.html`, `login.html`, `robots.txt`, and `sitemap.xml`.
 
 ## 📱 Mobile Features
 

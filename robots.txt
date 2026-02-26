@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap location (Vercel deployment with API; GitHub Pages: https://mohit5352.github.io/iss-statistics-question-bank/)
+Sitemap: https://iss-statistics-question-bank.vercel.app/sitemap.xml

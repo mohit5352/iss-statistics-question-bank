@@ -2,6 +2,8 @@
 
 This guide walks you through deploying the app to **Vercel** (free) so that **answer corrections work on the live site** and update `answers.js` in your GitHub repo.
 
+**Live deployment:** [https://iss-statistics-question-bank.vercel.app/](https://iss-statistics-question-bank.vercel.app/) (with API server)
+
 ---
 
 ## Prerequisites
