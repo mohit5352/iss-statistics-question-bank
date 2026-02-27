@@ -380,14 +380,14 @@ const QUESTION_ANSWERS = {
                 "48": "a", // Poisson Approximation
                 "49": "b", // Convergence in Probability
                 "50": "d", // Characteristic Functions
-                "51": "b", // Empirical Distribution Function
+                "51": "c", // Empirical Distribution Function
                 "52": "a", // Transformation of Variables
                 "53": "c", // Theory of Attributes
-                "54": "b", // Uniform Distribution Properties
+                "54": "c", // Uniform Distribution Properties
                 "55": "b", // Normal Distribution Probability
                 "56": "b", // Distribution of Quadratic Forms
-                "57": "c", // Distribution of Order Statistics
-                "58": "a", // Normal Distribution Probabilities
+                "57": "b", // Distribution of Order Statistics
+                "58": "d", // Normal Distribution Probabilities
                 "59": "a", // Sampling Distributions (t-dist)
                 "60": "d"  // Yule's Coefficient of Association
             }
