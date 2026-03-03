@@ -1,6 +1,6 @@
 # ISS Statistics Question Bank — Deployment Guide
 
-This guide walks you through deploying the app to **Vercel** (free) so that **answer corrections work on the live site** and update `answers.js` in your GitHub repo.
+This guide walks you through deploying the app to **Vercel** (free) so that **answer corrections** and **explanation edits** work on the live site and update `answers.js` and `explanations.js` in your GitHub repo.
 
 **Live deployment:** [https://iss-statistics-question-bank.vercel.app/](https://iss-statistics-question-bank.vercel.app/) (with API server)
 
@@ -83,22 +83,22 @@ vercel
 ## Step 4: Verify It Works
 
 1. Open your live URL (e.g. `https://your-project.vercel.app` or `https://your-project.vercel.app/main.html`)
-2. Select a paper, section, and year
-3. Click **Show Answer** on a question
-4. Click **Wrong Answer?** → choose the correct option (e.g. `(b)`)
-5. You should see: **"Updated answers.js"**
-6. Refresh the page — the correction should persist (it was written to GitHub)
-7. Check your GitHub repo — `answers.js` should have a new commit
+2. Log in as admin (Admin Login link)
+3. Select a paper, section, and year
+4. Click **Show Answer** on a question
+5. **Answer correction**: Click **Wrong Answer?** → choose the correct option (e.g. `(b)`). You should see **"Updated answers.js"**. Refresh — the correction should persist.
+6. **Explanation**: Click **Add Explanation** → type an explanation (LaTeX supported: `\( \)` for inline, `\[ \]` for display) → **Save**. You should see **"Updated explanations.js"** or **"explanations saved to explanations.js"**. Refresh — the explanation should persist.
+7. Check your GitHub repo — `answers.js` and `explanations.js` should have new commits when you make edits
 
 ---
 
 ## How It Works
 
-| Environment      | Correction behavior                                      |
-|------------------|----------------------------------------------------------|
-| **Local (server.py)** | Writes directly to `answers.js` on your machine          |
-| **Vercel (live)**    | API calls GitHub to update `answers.js` in the repo      |
-| **GitHub Pages**     | No API → corrections stored in `localStorage` only      |
+| Environment      | Answer corrections | Explanation edits                                      |
+|------------------|--------------------|--------------------------------------------------------|
+| **Local (server.py)** | Writes to `answers.js` on your machine | Writes to `explanations.js` on your machine          |
+| **Vercel (live)**    | API updates `answers.js` in GitHub | API updates `explanations.js` in GitHub                |
+| **GitHub Pages**     | Stored in `localStorage` only | Stored in `localStorage` only                         |
 
 ---
 
@@ -116,6 +116,9 @@ vercel
 ### "Question not found in answers.js"
 - The question number or path (paper/section/year) may not exist in `answers.js`
 - Check that the question has an entry in the correct section
+
+### "Question not found in explanations.js"
+- The explanations skeleton must mirror `answers.js`. Run `node generate_explanations.js` to regenerate `explanations.js` from `answers.js` if the structure is out of sync.
 
 ### Corrections not persisting
 - Check the browser Network tab for the `/api/correct` request
@@ -147,4 +150,4 @@ python3 -m http.server 8000
 
 1. Create a GitHub PAT with `repo` scope  
 2. Deploy to Vercel and add `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`  
-3. Corrections on the live site will update `answers.js` in your GitHub repo
+3. Answer corrections and explanation edits on the live site will update `answers.js` and `explanations.js` in your GitHub repo

@@ -333,6 +333,8 @@ h2 {
     transition: all 0.28s ease;
     position: relative;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .question-card:hover {
@@ -724,8 +726,10 @@ h2 {
 .q-actions-left {
     flex: 1;
     min-width: 0;
+    max-width: 100%;
     display: flex;
     align-items: center;
+    overflow: hidden;
 }
 
 .q-actions-right {
@@ -806,6 +810,95 @@ h2 {
     width: 18px;
     height: 18px;
     fill: currentColor;
+}
+
+/* ===== Revealed section: [Wrong Answer? | Add/Edit Explanation] same row, explanations full width below, icons sticky right ===== */
+.q-actions-row:has(.revealed-triggers-row) {
+    align-items: flex-start;
+}
+
+.q-actions-right {
+    flex-shrink: 0;
+}
+
+.revealed-triggers-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.revealed-triggers-row .edit-explanation-trigger {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #67e8f9;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: #a0f0ff; }
+
+.notes-wrap {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(6,95,70,0.04), rgba(12,24,36,0.06));
+    border: 1px solid rgba(34,211,238,0.06);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.q-notes-content {
+    width: 100%;
+    color: #dff8fb;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+.q-notes-rich { white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+.q-notes-empty { color: #94a3b8; font-style: italic; text-align: center; }
+
+.note-editor {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.note-editor-text {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 280px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(167,139,250,0.12);
+    background: rgba(0,0,0,0.35);
+    color: #e6fbff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.note-editor-actions { display: flex; gap: 8px; }
+.note-save-btn, .note-cancel-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+.note-save-btn {
+    background: linear-gradient(135deg, #22d3ee 0%, #7c3aed 100%);
+    color: #071018;
+}
+.note-cancel-btn {
+    background: transparent;
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 .q-copy-btn,
@@ -1053,6 +1146,10 @@ h2 {
         gap: 6px;
     }
 
+    .revealed-triggers-row .edit-explanation-trigger { font-size: 0.72rem; }
+    .revealed-triggers-row { gap: 8px; }
+    .notes-wrap { padding: 10px; }
+
     .auth-pill { font-size: 0.75rem; }
     .auth-hint { font-size: 0.68rem; }
 }
@@ -1099,6 +1196,9 @@ h2 {
     .options-grid { margin-top: 12px; padding: 8px; gap: 5px; }
     .wrong-answer-trigger { font-size: 0.68rem; }
     .wrong-answer-hint { font-size: 0.6rem; letter-spacing: 0.08em; }
+
+    .revealed-triggers-row .edit-explanation-trigger { font-size: 0.68rem; }
+    .notes-wrap { padding: 8px; }
 }
 
 /* ===== Login Page ===== */

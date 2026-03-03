@@ -121,6 +121,7 @@
     </div>
     
     <script src="answers.js"></script>
+    <script src="explanations.js"></script>
     <script>
         // Admin role: only admin sees Wrong Answer? (sessionStorage.iss_admin)
         function isAdmin() { return sessionStorage.getItem('iss_admin') === '1'; }
@@ -794,8 +795,8 @@
                 // Change to "eye-off" icon when showing answer
                 button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>';
                 button.setAttribute('data-tooltip', 'Hide Answer');
-                // Show "Wrong Answer?" link (admin only)
-                if (isAdmin()) showWrongAnswerLink(card, qNumber);
+                // Show Wrong Answer? (admin) + Notes section (below it)
+                showRevealedContent(card, qNumber);
             } else {
                 // Hide answer - remove highlight
                 options.forEach(function(opt) {
@@ -811,36 +812,63 @@
             }
         }
 
-        function showWrongAnswerLink(card, qNumber) {
+        // Show Wrong Answer? + Add/Edit Explanation (same row) + explanations section below (full width)
+        function showRevealedContent(card, qNumber) {
+            var row = card.querySelector('.q-actions-row');
             var left = card.querySelector('.q-actions-left');
-            if (!left || left.querySelector('.wrong-answer-trigger')) return;
+            if (!row || !left || left.querySelector('.revealed-triggers-row') || card.querySelector('.notes-wrap')) return;
             var secKey = sectionToAnswerKey[currentSection];
-            var currentAnswer = getEffectiveAnswer(currentPaper, secKey, currentYear, qNumber) || '';
-            var wrap = document.createElement('span');
-            wrap.className = 'wrong-answer-wrap';
-            wrap.innerHTML = '<span class="wrong-answer-trigger">Wrong Answer?</span><span class="wrong-answer-picker"><span class="wrong-answer-hint">Choose correct answer</span><span class="wrong-answer-chips"></span></span>';
-            var pickerEl = wrap.querySelector('.wrong-answer-picker');
-            var chipsEl = wrap.querySelector('.wrong-answer-chips');
-            ['a','b','c','d'].forEach(function(opt) {
-                var chip = document.createElement('button');
-                chip.className = 'wrong-answer-chip' + (opt === currentAnswer ? ' selected' : '');
-                chip.textContent = '(' + opt + ')';
-                chip.setAttribute('data-opt', opt);
-                chip.addEventListener('click', function() {
-                    saveCorrection(card, qNumber, opt, secKey, chipsEl);
+            if (isAdmin()) {
+                var triggersRow = document.createElement('div');
+                triggersRow.className = 'revealed-triggers-row';
+                var currentAnswer = getEffectiveAnswer(currentPaper, secKey, currentYear, qNumber) || '';
+                var wrap = document.createElement('span');
+                wrap.className = 'wrong-answer-wrap';
+                wrap.innerHTML = '<span class="wrong-answer-trigger">Wrong Answer?</span><span class="wrong-answer-picker"><span class="wrong-answer-hint">Choose correct answer</span><span class="wrong-answer-chips"></span></span>';
+                var pickerEl = wrap.querySelector('.wrong-answer-picker');
+                var chipsEl = wrap.querySelector('.wrong-answer-chips');
+                ['a','b','c','d'].forEach(function(opt) {
+                    var chip = document.createElement('button');
+                    chip.className = 'wrong-answer-chip' + (opt === currentAnswer ? ' selected' : '');
+                    chip.textContent = '(' + opt + ')';
+                    chip.setAttribute('data-opt', opt);
+                    chip.addEventListener('click', function() {
+                        saveCorrection(card, qNumber, opt, secKey, chipsEl);
+                    });
+                    chipsEl.appendChild(chip);
                 });
-                chipsEl.appendChild(chip);
-            });
-            wrap.querySelector('.wrong-answer-trigger').addEventListener('click', function() {
-                pickerEl.classList.toggle('open');
-                wrap.classList.toggle('picker-open', pickerEl.classList.contains('open'));
-            });
-            left.appendChild(wrap);
+                wrap.querySelector('.wrong-answer-trigger').addEventListener('click', function() {
+                    pickerEl.classList.toggle('open');
+                    wrap.classList.toggle('picker-open', pickerEl.classList.contains('open'));
+                });
+                triggersRow.appendChild(wrap);
+                var noteText = getEffectiveExplanation(currentPaper, secKey, currentYear, qNumber) || '';
+                var addEditSpan = document.createElement('span');
+                addEditSpan.className = 'edit-explanation-trigger';
+                addEditSpan.textContent = noteText ? 'Edit Explanation' : 'Add Explanation';
+                addEditSpan.addEventListener('click', function() {
+                    var nw = card.querySelector('.notes-wrap');
+                    if (!nw) return;
+                    if (nw.querySelector('.note-editor')) {
+                        showNotesView(card, qNumber, nw);
+                    } else {
+                        showNotesEditor(card, qNumber, nw);
+                    }
+                });
+                triggersRow.appendChild(addEditSpan);
+                left.appendChild(triggersRow);
+            }
+            var notesWrap = document.createElement('div');
+            notesWrap.className = 'notes-wrap';
+            row.insertAdjacentElement('afterend', notesWrap);
+            showNotesView(card, qNumber, notesWrap);
         }
 
         function hideWrongAnswerSection(card) {
             var left = card.querySelector('.q-actions-left');
             if (left) left.innerHTML = '';
+            var notesWrap = card.querySelector('.notes-wrap');
+            if (notesWrap) notesWrap.remove();
         }
 
         // Batch corrections to minimize GitHub commits (30s debounce)
@@ -949,5 +977,143 @@
         }
     </script>
 
+    <!-- Explanations functionality (shown with answer, below Wrong Answer?) -->
+    <script>
+        var sectionToExplanationsKey = sectionToAnswerKey;
+
+        function getEffectiveExplanation(paper, section, year, qNumber) {
+            try {
+                var edits = JSON.parse(localStorage.getItem('iss_explanation_edits') || '{}');
+                if (Object.keys(edits).length === 0) {
+                    var legacy = localStorage.getItem('iss_note_edits');
+                    if (legacy) { localStorage.setItem('iss_explanation_edits', legacy); edits = JSON.parse(legacy); }
+                }
+                var p = edits[paper];
+                if (p && p[section] && p[section][year] && p[section][year][qNumber]) {
+                    return p[section][year][qNumber];
+                }
+            } catch (e) {}
+            if (typeof QUESTION_EXPLANATIONS === 'undefined') return null;
+            var pnotes = QUESTION_EXPLANATIONS[paper];
+            if (!pnotes) return null;
+            var sec = pnotes[section];
+            if (!sec) return null;
+            var yearNotes = sec[year];
+            if (!yearNotes) return null;
+            return yearNotes[qNumber] || null;
+        }
+
+        // Explanations section: view mode (message/content) or edit mode (textarea + buttons). Add/Edit Explanation is in triggers row.
+        function showNotesView(card, qNumber, notesWrap) {
+            var noteText = getEffectiveExplanation(currentPaper, sectionToExplanationsKey[currentSection], currentYear, qNumber) || '';
+            notesWrap.innerHTML = '<div class="q-notes-content">' + renderNoteHtml(noteText) + '</div>';
+            var trigger = card.querySelector('.revealed-triggers-row .edit-explanation-trigger');
+            if (trigger) trigger.textContent = noteText ? 'Edit Explanation' : 'Add Explanation';
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([notesWrap]).catch(function(err) { console.warn('MathJax:', err); });
+            }
+        }
+
+        function renderNoteHtml(text) {
+            if (!text) return '<div class="q-notes-empty">No explanation available</div>';
+            // Inject directly like HTML files — MathJax uses \( \) and \[ \]. Only escape & for entity safety.
+            var s = String(text).replace(/&/g, '&amp;');
+            return '<div class="q-notes-rich">' + s + '</div>';
+        }
+
+        function showNotesEditor(card, qNumber, notesWrap) {
+            notesWrap.innerHTML = '';
+            var editor = document.createElement('div');
+            editor.className = 'note-editor';
+            editor.innerHTML = '<textarea class="note-editor-text" placeholder="Write explanation — LaTeX is OK (use \\(\\) or \\[\\])"></textarea>' +
+                '<div class="note-editor-actions"><button class="note-save-btn">Save</button><button class="note-cancel-btn">Cancel</button></div>';
+            notesWrap.appendChild(editor);
+            var ta = editor.querySelector('.note-editor-text');
+            ta.value = getEffectiveExplanation(currentPaper, sectionToExplanationsKey[currentSection], currentYear, qNumber) || '';
+            editor.querySelector('.note-cancel-btn').addEventListener('click', function() {
+                showNotesView(card, qNumber, notesWrap);
+            });
+            editor.querySelector('.note-save-btn').addEventListener('click', function() {
+                var val = ta.value.trim();
+                saveNoteEdit(card, qNumber, val);
+                showNotesView(card, qNumber, notesWrap);
+            });
+            ta.focus();
+        }
+
+        // Queue & persist flow similar to answers corrections
+        var noteEditQueue = [];
+        var noteEditTimer = null;
+        var NOTE_DEBOUNCE_MS = 15000;
+
+        function persistNoteToLocalStorage(paper, section, year, q, note) {
+            try {
+                var edits = JSON.parse(localStorage.getItem('iss_explanation_edits') || '{}');
+                if (!edits[paper]) edits[paper] = {};
+                if (!edits[paper][section]) edits[paper][section] = {};
+                if (!edits[paper][section][year]) edits[paper][section][year] = {};
+                edits[paper][section][year][q] = note;
+                localStorage.setItem('iss_explanation_edits', JSON.stringify(edits));
+            } catch (e) {}
+        }
+
+        function flushNoteEditQueue() {
+            if (noteEditTimer) { clearTimeout(noteEditTimer); noteEditTimer = null; }
+            if (noteEditQueue.length === 0) return;
+            var batch = noteEditQueue.slice();
+            noteEditQueue = [];
+            fetch('/api/explanations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ edits: batch })
+            }).then(function(r) { return r.json(); }).then(function(res) {
+                if (res.ok) {
+                    showCorrectionToast(res.count === 1 ? 'Updated explanations.js' : (res.count + ' explanations saved to explanations.js'));
+                } else {
+                    batch.forEach(function(c) { persistNoteToLocalStorage(c.paper, c.section, c.year, c.q, c.note); });
+                    showCorrectionToast('Save failed — stored locally');
+                }
+            }).catch(function() {
+                batch.forEach(function(c) { persistNoteToLocalStorage(c.paper, c.section, c.year, c.q, c.note); });
+                showCorrectionToast('Offline — stored locally');
+            });
+        }
+
+        function saveNoteEdit(card, qNumber, noteText) {
+            var secKey = sectionToExplanationsKey[currentSection];
+            try {
+                if (typeof QUESTION_EXPLANATIONS === 'undefined') window.QUESTION_EXPLANATIONS = {};
+                if (!QUESTION_EXPLANATIONS[currentPaper]) QUESTION_EXPLANATIONS[currentPaper] = {};
+                if (!QUESTION_EXPLANATIONS[currentPaper][secKey]) QUESTION_EXPLANATIONS[currentPaper][secKey] = {};
+                if (!QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear]) QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear] = {};
+                QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear][qNumber] = noteText;
+            } catch (e) {}
+            var notesWrap = card.querySelector('.notes-wrap');
+            if (notesWrap) showNotesView(card, qNumber, notesWrap);
+
+            var origin = window.location.origin;
+            var canUseApi = origin && origin !== 'null' && origin !== 'file://';
+            if (canUseApi) {
+                var key = currentPaper + '|' + secKey + '|' + currentYear + '|' + qNumber;
+                noteEditQueue = noteEditQueue.filter(function(c) { return c.key !== key; });
+                noteEditQueue.push({ paper: currentPaper, section: secKey, year: currentYear, q: qNumber, note: noteText, key: key });
+                showCorrectionToast('Queued — saving in 15s');
+                if (noteEditTimer) clearTimeout(noteEditTimer);
+                noteEditTimer = setTimeout(flushNoteEditQueue, NOTE_DEBOUNCE_MS);
+            } else {
+                persistNoteToLocalStorage(currentPaper, secKey, currentYear, qNumber, noteText);
+                showCorrectionToast('Saved locally (use server to update explanations.js)');
+            }
+        }
+
+        // Send pending edits on unload if possible
+        window.addEventListener('beforeunload', function() {
+            if (noteEditQueue.length > 0 && navigator.sendBeacon) {
+                var blob = new Blob([JSON.stringify({ edits: noteEditQueue })], { type: 'application/json' });
+                navigator.sendBeacon('/api/explanations', blob);
+            }
+        });
+
+    </script>
 </body>
 </html>
