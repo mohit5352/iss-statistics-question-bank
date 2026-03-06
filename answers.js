@@ -395,202 +395,202 @@ const QUESTION_ANSWERS = {
         // Numerical Analysis
         "num": {
             "2017": {
-                "41": "b", // Polynomial interpolation degree
-                "42": "b", // Error analysis - Zero
-                "43": "d", // Operators - Δ²/E x²
+                "41": "c", // Polynomial interpolation degree
+                "42": "c", // Error analysis - Zero
+                "43": "b", // Operators - Δ²/E x²
                 "44": "b", // Newton-Raphson convergence - Quadratic
                 "45": "a", // Trapezoidal rule degree 1
-                "46": "b", // Divided differences - Arguments
+                "46": "d", // Divided differences - Arguments
                 "47": "c", // First difference - 3x³ + x² + x + constant
-                "48": "c", // Δ³[(1-x)(1-2x)(1-3x)] = 0
-                "49": "d", // Central difference operator relation
-                "50": "c", // Operator E ≡ e^{hD} - Analytical functions
+                "48": "a", // Δ³[(1-x)(1-2x)(1-3x)] = 0
+                "49": "a", // Central difference operator relation
+                "50": "d", // Operator E ≡ e^{hD} - Analytical functions
                 "51": "b", // Lagrange coefficients sum - 1
-                "52": "b", // Simpson's 1/3 - Even intervals
-                "53": "a", // Forward difference derivative formula
-                "54": "a", // Divided difference f[x₀,x₁] for x²
-                "55": "c", // Milne's method - Predictor-corrector
-                "56": "a", // Newton-Raphson square root formula
+                "52": "a", // Simpson's 1/3 - Even intervals
+                "53": "d", // Forward difference derivative formula
+                "54": "c", // Divided difference f[x₀,x₁] for x²
+                "55": "a", // Milne's method - Predictor-corrector
+                "56": "c", // Newton-Raphson square root formula
                 "57": "c", // Runge-Kutta 4th order error - h^4
                 "58": "c", // Series summation - 509/3
-                "59": "b", // nth difference of degree n polynomial - Constant
+                "59": "d", // nth difference of degree n polynomial - Constant
                 "60": "d"  // Euler's method formula
             },
             "2018": {
-                "41": "d", // Polynomial degree at least 5
-                "42": "c", // Factorial polynomial - 2, 4, 6 and 0
+                "41": "b", // Polynomial degree at least 5
+                "42": "b", // Factorial polynomial - 2, 4, 6 and 0
                 "43": "b", // nth divided difference - Constant
                 "44": "d", // Runge-Kutta order 4 - y(h) = h/6[f(0)+4f(h/2)+f(h)]
                 "45": "d", // Forward difference table hypothesis
-                "46": "c", // Missing term α = 16
+                "46": "a", // Missing term α = 16
                 "47": "c", // E^{3/2}(u₁₀) = 55.75
-                "48": "c", // k value = 6
+                "48": "b", // k value = 6
                 "49": "a", // (E-2)²(x2ˣ) = 0 - Statement 1 only
                 "50": "c", // Population interpolation - 2.1 < P₂₀₀₆ < 2.2
                 "51": "c", // Lagrange interpolation α - 4 < α < 4.2
                 "52": "d", // δ[f(x)g(x)] = μf(x)δg(x) + μg(x)δf(x)
                 "53": "b", // Third divided difference of 1/x - -1/abcd
-                "54": "b", // f(3) by Lagrange - 5.1
+                "54": "c", // f(3) by Lagrange - 5.1
                 "55": "d", // Central difference equivalent - 1, 2 and 3
-                "56": "c", // Picard's method y(0.2) - 0.84
-                "57": "c", // Milne's method - Both prediction and correction
-                "58": "c", // Series summation - 509/3
-                "59": "d", // Cubic polynomial f(4) = 33
+                "56": "a", // Picard's method y(0.2) - 0.84
+                "57": "b", // Milne's method - Both prediction and correction
+                "58": "a", // Series summation - 509/3
+                "59": "c", // Cubic polynomial f(4) = 33
                 "60": "d"  // Euler's method - y_{n+1} = y_n + hf(x_n, y_n)
             },
             "2019": {
-                "51": "c", // k = 62.05
-                "52": "a", // Δ¹⁰[(1-ax)(1-bx²)(1-cx³)(1-dx⁴)] = 0
-                "53": "d", // Δ⁵0³ and Δ³0⁵ = 0 and 96
-                "54": "a", // Sum of second differences = -10
+                "51": "a", // k = 62.05
+                "52": "c", // Δ¹⁰[(1-ax)(1-bx²)(1-cx³)(1-dx⁴)] = 0
+                "53": "c", // Δ⁵0³ and Δ³0⁵ = 0 and 96
+                "54": "b", // Sum of second differences = -10
                 "55": "d", // 1+x+x²+x³ = x³ + 4x² + 3x + 1
-                "56": "b", // m₁ = -10 and m₂ = 21
-                "57": "b", // Gauss forward - even below, odd on central
+                "56": "c", // m₁ = -10 and m₂ = 21
+                "57": "c", // Gauss forward - even below, odd on central
                 "58": "a", // Third divided difference of 2x²+1 over 0,1,3,6 = 0
-                "59": "b", // Slope at x=2 = -8
+                "59": "a", // Slope at x=2 = -8
                 "60": "c", // x for y=3000 - 16.93
                 "71": "b", // Trapezoidal ln2 - 17/24
                 "72": "a", // Simpson's 1/3 - Even number of subintervals
-                "73": "c", // Simpson's 3/8 integral - 46
-                "74": "d", // Euler's y(0.2) - 1.062
-                "75": "b", // Picard's third approximation - 1 + x + x² + x³/6
+                "73": "a", // Simpson's 3/8 integral - 46
+                "74": "c", // Euler's y(0.2) - 1.062
+                "75": "a", // Picard's third approximation - 1 + x + x² + x³/6
                 "76": "a", // Maximum at x=4.5
                 "77": "a", // Linear interpolation f(1.04) - 0.309506
                 "78": "a", // Runge-Kutta y(1.1) - 1.722
-                "79": "d", // Operator expression = Δ + 1
-                "80": "c"  // Third divided difference = 15
+                "79": "c", // Operator expression = Δ + 1
+                "80": "d"  // Third divided difference = 15
             },
             "2020": {
                 "61": "c", // Newton's divided difference for new value
                 "62": "a", // Trapezoidal for (1+x)dx
                 "63": "b", // δ²y₅ = y₆ - 2y₅ + y₄
-                "64": "c", // Euler y(0.5) - (0.2, 0.3)
+                "64": "b", // Euler y(0.5) - (0.2, 0.3)
                 "65": "d", // All 3 statements correct
-                "66": "b", // μδ = 1/2(Δ - ∇)
+                "66": "a", // μδ = 1/2(Δ - ∇)
                 "67": "a", // 1/(E²-9E+18)(12×5ˣ) = -6×5ˣ
-                "68": "c", // (3x+8)⁽⁴⁾ at x=2 = 13440
-                "69": "b", // x for f(x)=15 - 10
-                "70": "b", // Function first difference - x³ + 2x² + 2x + c
+                "68": "a", // (3x+8)⁽⁴⁾ at x=2 = 13440
+                "69": "c", // x for f(x)=15 - 10
+                "70": "d", // Function first difference - x³ + 2x² + 2x + c
                 "71": "c", // Lowest degree polynomial - x³ - 9x² + 17x + 6
-                "72": "b", // f(8) = 248
-                "73": "c", // |A-B| for Simpson - (0, 5)
+                "72": "d", // f(8) = 248
+                "73": "d", // |A-B| for Simpson - (0, 5)
                 "74": "b", // Statement 2 only
                 "75": "c", // Δ - E ≠ I
                 "76": "d", // Simpson's 1/3 integral = 26
                 "77": "b", // Integration formula c = 3
-                "78": "d", // Quadratic polynomial - 12x² - 19x + 8
-                "79": "c", // Simpson's area = 7.74
+                "78": "b", // Quadratic polynomial - 12x² - 19x + 8
+                "79": "b", // Simpson's area = 7.74
                 "80": "b"  // (Δ² + Δ - 6)y = 0
             },
             "2021": {
-                "41": "c", // Newton's divided difference applicable for non-uniform
-                "42": "a", // Runge-Kutta y(0.1) - 1.1103
+                "41": "a", // Newton's divided difference applicable for non-uniform
+                "42": "c", // Runge-Kutta y(0.1) - 1.1103
                 "43": "c", // Δ³y₂ = ∇³y₅
-                "44": "b", // Lagrange degree 3
-                "45": "b", // Simpson's 3/8 multiple of 3
-                "46": "d", // All 3 statements correct
-                "47": "b", // RK4 local error - ch⁵ + O(h⁶)
-                "48": "c", // Interpolating polynomial - x² - x + 2
-                "49": "d", // Second divided difference 1/x - 1/(abc)
-                "50": "a", // Picard's second approximation - 0.8278
+                "44": "a", // Lagrange degree 3
+                "45": "c", // Simpson's 3/8 multiple of 3
+                "46": "b", // All 3 statements correct
+                "47": "a", // RK4 local error - ch⁵ + O(h⁶)
+                "48": "d", // Interpolating polynomial - x² - x + 2
+                "49": "c", // Second divided difference 1/x - 1/(abc)
+                "50": "d", // Picard's second approximation - 0.8278
                 "61": "c", // f[1,2,5] = 5
-                "62": "d", // f(100) = 20
+                "62": "b", // f(100) = 20
                 "63": "a", // Simpson's 3/8 hypothesis only
-                "64": "a", // Students 60-70 - 54
+                "64": "c", // Students 60-70 - 54
                 "65": "c", // Both Lagrange and Newton formulas
-                "66": "b", // f(3) approximation - 102
-                "67": "a", // Δ(6x³+3x²+2x+1) = 18x²+24x+11
+                "66": "c", // f(3) approximation - 102
+                "67": "d", // Δ(6x³+3x²+2x+1) = 18x²+24x+11
                 "68": "c", // Euler's y₄ ≈ 0.009
                 "69": "c", // f(3) by Newton = 10
-                "70": "d"  // Δⁿx⁽ⁿ⁾ = n!hⁿ
+                "70": "b"  // Δⁿx⁽ⁿ⁾ = n!hⁿ
             },
             "2022": {
                 "21": "b", // Trapezoidal error - -1/150 f''(t)
                 "22": "b", // Euler local error - h²/2
                 "23": "d", // Operator expression - eˣ
                 "24": "a", // Mixed quadrature I = 7.30
-                "25": "b", // 1/(E-8)(x²2ˣ) = 2ˣ/54(9x²-6x-1)
+                "25": "c", // 1/(E-8)(x²2ˣ) = 2ˣ/54(9x²-6x-1)
                 "26": "b", // Bessel p between 0.25 and 0.75
-                "27": "b", // Inverse Lagrange x ≈ 1.98
+                "27": "a", // Inverse Lagrange x ≈ 1.98
                 "28": "c", // Central difference f'' - (f_{i-1}-2f_i+f_{i+1})/h²
-                "29": "a", // f(x₁,x₂,...,xₙ) for 1/x = (-1)ⁿ/(x₁x₂...xₙ)
-                "30": "c", // Δⁿe^{ax+b} = e^{ax+b}(eᵃ-1)ⁿ
-                "61": "d", // All 4 expressions correct
+                "29": "b", // f(x₁,x₂,...,xₙ) for 1/x = (-1)ⁿ/(x₁x₂...xₙ)
+                "30": "b", // Δⁿe^{ax+b} = e^{ax+b}(eᵃ-1)ⁿ
+                "61": "c", // All 4 expressions correct
                 "62": "d", // f(5) = 115
-                "63": "b", // Δ²y₁₀ = 4
-                "64": "a", // Δ - ∇ = Δ∇
-                "65": "c", // f(x) = x³+5x²+4x+2
+                "63": "d", // Δ²y₁₀ = 4
+                "64": "b", // Δ - ∇ = Δ∇
+                "65": "d", // f(x) = x³+5x²+4x+2
                 "66": "d", // u = v = w
                 "67": "c", // All 3 expressions correct
-                "68": "c", // Both statements correct
-                "69": "a", // Δ²a^{4x} = (a⁴-1)²a^{4x}
-                "70": "a"  // Δ(1/x) at x=1 = -1/2
+                "68": "d", // Both statements correct
+                "69": "c", // Δ²a^{4x} = (a⁴-1)²a^{4x}
+                "70": "c"  // Δ(1/x) at x=1 = -1/2
             },
             "2023": {
                 "41": "c", // Third divided difference requires 4 arguments
                 "42": "b", // Second divided difference Δ²x³ = x+y+z
                 "43": "d", // U(2) = 16
                 "44": "b", // Expression = h
-                "45": "c", // Coefficient of x⁴ = -10
+                "45": "d", // Coefficient of x⁴ = -10
                 "46": "b", // Linear interpolation error bound - second difference
-                "47": "a", // Trapezoidal error ∫x³dx - h²/12
-                "48": "d", // Quadrature b = 0
+                "47": "c", // Trapezoidal error ∫x³dx - h²/12
+                "48": "b", // Quadrature b = 0
                 "49": "d", // Δ⁶((1-x)(1-3x²)(1-4x³)) = -8640
                 "50": "c", // Expression = y_{x+1}+y_{x-1}
-                "51": "c", // u₂ = 3.3
-                "52": "d", // u₈.₅ ≈ 68.75
-                "53": "d", // No quadrature formula for unequal intervals
+                "51": "b", // u₂ = 3.3
+                "52": "a", // u₈.₅ ≈ 68.75
+                "53": "a", // No quadrature formula for unequal intervals
                 "54": "d", // Trapezoidal or combination
-                "55": "c", // Both statements 1 and 2 correct
-                "56": "b", // Statement 2 only
-                "57": "c", // Euler stable for -1 < λh < 1
+                "55": "d", // Both statements 1 and 2 correct
+                "56": "c", // Statement 2 only
+                "57": "d", // Euler stable for -1 < λh < 1
                 "58": "c", // RK4 result = 1-h+h²/2-h³/6+h⁴/24
                 "59": "b", // Degree of f(x) = 3
-                "60": "b"  // Constant term = 1
+                "60": "a"  // Constant term = 1
             },
             "2024": {
                 "61": "a", // Picard y(3) = 3.0
-                "62": "d", // I, II and III correct
-                "63": "c", // Simpson error = 0.27
+                "62": "b", // I, II and III correct
+                "63": "b", // Simpson error = 0.27
                 "64": "d", // RK4 coefficients - 1/6, 2/3, 1/6
-                "65": "d", // Trapezoidal ∫ = h/2(y₀+y₁+y₂)
-                "66": "b", // Expression = Δy₀ + y₁ + y₂ + y₃
-                "67": "d", // ∇⁵yₙ = Δ⁵yₙ₋₅
+                "65": "b", // Trapezoidal ∫ = h/2(y₀+y₁+y₂)
+                "66": "c", // Expression = Δy₀ + y₁ + y₂ + y₃
+                "67": "c", // ∇⁵yₙ = Δ⁵yₙ₋₅
                 "68": "c", // Simpson 1/3 and Weddle
-                "69": "d", // f(2) = 2
+                "69": "c", // f(2) = 2
                 "70": "a", // Third divided difference - always constant
-                "71": "a", // Δ²(abˣ) = abˣ implies a(b-1)²
+                "71": "d", // Δ²(abˣ) = abˣ implies a(b-1)²
                 "72": "b", // α=6, β=0 for Δ²/E x³
-                "73": "a", // a=1, n=-1/2
-                "74": "d", // h = π/92
-                "75": "b", // Roots - complex with real part zero
-                "76": "b", // Newton error bound = ε
-                "77": "a", // Quadrature α=h/3, β=4h/3, γ=h/3
-                "78": "b", // II and III only - Simpson rules exact
-                "79": "c", // Area = 260 sq m
-                "80": "b"  // Largest h = (0, 1/4)
+                "73": "b", // a=1, n=-1/2
+                "74": "b", // h = π/92
+                "75": "a", // Roots - complex with real part zero
+                "76": "a", // Newton error bound = ε
+                "77": "c", // Quadrature α=h/3, β=4h/3, γ=h/3
+                "78": "c", // II and III only - Simpson rules exact
+                "79": "d", // Area = 260 sq m
+                "80": "d"  // Largest h = (0, 1/4)
             },
             "2025": {
                 "21": "a", // 1/(1-E²)(abˣ) = abˣ/(1-b²)
                 "22": "d", // Δ⁵(1/x) at x=2 = -1/42
                 "23": "a", // 10th divided difference = -α/(11h)
                 "24": "c", // Trapezoidal value = 2
-                "25": "b", // Simpson area = 0.6944
-                "26": "b", // h = 3
-                "27": "b", // I and IV only - Trapezoidal linear, Simpson quadratic
+                "25": "c", // Simpson area = 0.6944
+                "26": "a", // h = 3
+                "27": "a", // I and IV only - Trapezoidal linear, Simpson quadratic
                 "28": "b", // |y(0.2)-y₁| ≈ 0.0385
                 "29": "c", // |y¹(x)-y(x)| at x=0.2 = 0.0015
-                "30": "d", // Euler y(0.3) = 1.963
-                "61": "a", // Function - x³ - x² + 4x + 2
+                "30": "c", // Euler y(0.3) = 1.963
+                "61": "d", // Function - x³ - x² + 4x + 2
                 "62": "a", // Forward difference f''(x_i) = (f_{i+2}-2f_{i+1}+f_i)/h²
                 "63": "c", // g(β) = b
-                "64": "c", // g(13) = 71/20
+                "64": "b", // g(13) = 71/20
                 "65": "b", // y₄(1) = 2
-                "66": "c", // I and III - Δ-∇=Δ∇ and Δ+∇=Δ/∇-∇/Δ
+                "66": "a", // I and III - Δ-∇=Δ∇ and Δ+∇=Δ/∇-∇/Δ
                 "67": "a", // Δ¹⁰⁰(x¹⁰⁰) = 100!
-                "68": "c", // f''(6.3) ≈ 0.23
+                "68": "b", // f''(6.3) ≈ 0.23
                 "69": "d", // Integral ∫x⁶dx = 2/9
-                "70": "b"  // f(2) = 17.6
+                "70": "c"  // f(2) = 17.6
             }
         },
         // Computer Section
@@ -598,41 +598,41 @@ const QUESTION_ANSWERS = {
             "2017": {
                 "61": "a", // Jump control statements - Break and Continue
                 "62": "a", // Problem solving sequence
-                "63": "a", // ROM BIOS
+                "63": "c", // ROM BIOS
                 "64": "d", // FFFE hex = 65534 decimal
-                "65": "b", // Valid C variable name
-                "66": "b", // Octal base = 8
-                "67": "a", // Array - same type
+                "65": "c", // Valid C variable name
+                "66": "c", // Octal base = 8
+                "67": "b", // Array - same type
                 "68": "b", // Cache memory - bridge speed gap
                 "69": "d", // Firewall functions
                 "70": "c", // Machine language - binary language
-                "71": "b", // Program Counter
-                "72": "b", // C code output x++ + ++y
-                "73": "b", // IEEE 754 standard
-                "74": "c", // Semicolon terminates C statement
-                "75": "b", // Multiprogramming
-                "76": "b", // Compilation
+                "71": "a", // Program Counter
+                "72": "a", // C code output x++ + ++y
+                "73": "d", // IEEE 754 standard
+                "74": "b", // Semicolon terminates C statement
+                "75": "c", // Multiprogramming
+                "76": "c", // Compilation
                 "77": "a", // MAR - address of next location
-                "78": "b", // Default return type int
+                "78": "d", // Default return type int
                 "79": "c", // SMTP for email
                 "80": "b"  // Programming structures - 1 and 3
             },
             "2018": {
-                "61": "a", // Jump control statements
-                "62": "a", // Problem solving sequence
-                "63": "c", // OS functions - 1 and 3
-                "64": "d", // FFFE hex = 65534
+                "61": "b", // Jump control statements
+                "62": "b", // Problem solving sequence
+                "63": "b", // OS functions - 1 and 3
+                "64": "b", // FFFE hex = 65534
                 "65": "c", // Both compiler and linker statements
-                "66": "c", // Floating point constant - 1 only
-                "67": "c", // Modem factors - 1 and 3
-                "68": "b", // Memory size - address lines
+                "66": "b", // Floating point constant - 1 only
+                "67": "b", // Modem factors - 1 and 3
+                "68": "d", // Memory size - address lines
                 "69": "d", // Firewall functions - 1, 2, 3
-                "70": "c", // Machine language - directly executed
+                "70": "b", // Machine language - directly executed
                 "71": "c", // GCD algorithm
                 "72": "b", // Array and strings - 1 and 2
                 "73": "d", // BCD and octal - 2 and 4
-                "74": "a", // Max integer 2^n-1
-                "75": "b", // Right to left operators - 1, 2, 4
+                "74": "b", // Max integer 2^n-1
+                "75": "a", // Right to left operators - 1, 2, 4
                 "76": "a", // Grammatical errors only
                 "77": "b", // Firmware
                 "78": "b", // Logical error
@@ -640,7 +640,7 @@ const QUESTION_ANSWERS = {
                 "80": "b"  // Low-level language - machine language
             },
             "2019": {
-                "41": "c", // Data bus
+                "41": "b", // Data bus
                 "42": "d", // BCD only - positional weighted
                 "43": "c", // 217/12 quotient 10010 remainder 0001
                 "44": "c", // Linker
@@ -657,7 +657,7 @@ const QUESTION_ANSWERS = {
                 "65": "c", // Eavesdropping
                 "66": "b", // NICNET
                 "67": "c", // Fiber optic - higher bandwidth
-                "68": "a", // Paging
+                "68": "b", // Paging
                 "69": "d", // OS functions - 1, 2, 3
                 "70": "b"  // Flash memory
             },
@@ -695,10 +695,10 @@ const QUESTION_ANSWERS = {
                 "59": "b", // Output devices - 1, 2, 3
                 "60": "d", // SVG not raster
                 "71": "c", // ARP determines MAC
-                "72": "a", // 2048 locations = 11 address lines
-                "73": "c", // Human problem
-                "74": "b", // Internal memory - 1, 2, 4
-                "75": "a", // Debugging - 1, 2, 4
+                "72": "b", // 2048 locations = 11 address lines
+                "73": "a", // Human problem
+                "74": "c", // Internal memory - 1, 2, 4
+                "75": "c", // Debugging - 1, 2, 4
                 "76": "c", // Gray to binary 11001011
                 "77": "d", // Cache memory first
                 "78": "c", // Hex 6251 octal = CA9
@@ -710,19 +710,19 @@ const QUESTION_ANSWERS = {
                 "32": "b", // Highest digit = base-1
                 "33": "d", // Deadlock - all 3 conditions
                 "34": "d", // Associative memory
-                "35": "c", // 59 in 8-bit = 00111011
+                "35": "b", // 59 in 8-bit = 00111011
                 "36": "a", // Raster - JPEG, GIF, PNG
                 "37": "b", // DES symmetric-key
-                "38": "c", // ISDN
+                "38": "d", // ISDN
                 "39": "c", // Hex 32FC.75 to octal 31374.352
                 "40": "b", // Batch OS - 2 and 3
                 "71": "a", // PROM written once
-                "72": "d", // Process cycle - W->R->E->T
+                "72": "b", // Process cycle - W->R->E->T
                 "73": "b", // Data processing - memory and CPU
                 "74": "d", // Machine cycle - all 3
-                "75": "a", // IPSEC
+                "75": "b", // IPSEC
                 "76": "b", // Non-volatile - EPROM 3 only
-                "77": "c", // Star and Mesh not affected
+                "77": "d", // Star and Mesh not affected
                 "78": "d", // IPC - message passing and shared memory
                 "79": "d", // OS goals - all 3
                 "80": "a"  // ACID - 1, 2, 3
@@ -730,11 +730,11 @@ const QUESTION_ANSWERS = {
             "2023": {
                 "61": "a", // CISC variable, RISC parallel - 1 and 2
                 "62": "b", // Audio - MPEG, WAV, WMA
-                "63": "a", // Paging
+                "63": "b", // Paging
                 "64": "a", // Application layer - SMTP, FTP, DHCP
                 "65": "b", // Cache - 2 and 3
                 "66": "c", // Real-time OS
-                "67": "b", // Gray code statement only
+                "67": "c", // Gray code statement only
                 "68": "c", // Structural language
                 "69": "c", // Linux open source
                 "70": "a", // TCP/IP and NIC - 1 and 2
@@ -745,7 +745,7 @@ const QUESTION_ANSWERS = {
                 "75": "a", // OCR device
                 "76": "a", // RISC - 1 and 2
                 "77": "c", // Stable sort - bubble, merge, insertion
-                "78": "b", // Library linking - 2 only
+                "78": "c", // Library linking - 2 only
                 "79": "d", // Octal 6251 hex = CA9
                 "80": "d"  // Firewall terminology - all 3
             },
@@ -763,11 +763,11 @@ const QUESTION_ANSWERS = {
                 "51": "d", // BIOS - all 3 functions
                 "52": "a", // IPSEC tunneling
                 "53": "b", // Distributed IPC - message passing
-                "54": "c", // Both statements correct
+                "54": "a", // Both statements correct
                 "55": "d", // Network layer - NMP only
                 "56": "a", // Network devices - repeater, bridge, hub
                 "57": "d", // DBMS - all 3 statements
-                "58": "d", // Input devices - all 3 statements
+                "58": "a", // Input devices - all 3 statements
                 "59": "d", // Looping - while, for, do-while
                 "60": "c"  // Hierarchical model
             },
@@ -781,7 +781,7 @@ const QUESTION_ANSWERS = {
                 "37": "b", // Space complexity
                 "38": "c", // Runtime environment
                 "39": "a", // Breakpoints
-                "40": "c", // Server in client-server DBMS
+                "40": "d", // Server in client-server DBMS
                 "71": "d", // Flowcharts - diagrammatic representation
                 "72": "d", // Linker combines object files
                 "73": "d", // VR characteristics - all 3
