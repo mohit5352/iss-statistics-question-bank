@@ -16,14 +16,14 @@ const QUESTION_ANSWERS = {
             "2017": {
                 "1": "d",  // Bayes' Theorem - Leela's examination problem
                 "2": "b",  // Bernoulli Trials - Length of run
-                "3": "b",  // Probability of Events - death causes
-                "4": "a",  // Uniform Distribution - assertions
+                "3": "a",  // Probability of Events - death causes
+                "4": "c",  // Uniform Distribution - assertions
                 "5": "a",  // Conditional Distribution - Poisson
-                "6": "a",  // Probability of Combined Events
+                "6": "b",  // Probability of Combined Events
                 "7": "b",  // Expected Value - Game Theory
                 "8": "d",  // Exponential Distribution - bulbs
                 "9": "a",  // Moments of PDF
-                "10": "c", // Variance of Sum - Uniform
+                "10": "a", // Variance of Sum - Uniform
                 "11": "c", // Normal Distribution - Sum of Variables
                 "12": "d", // Bernoulli Trials - Drunkard's Walk
                 "13": "a", // Poisson Distribution Properties
@@ -39,21 +39,21 @@ const QUESTION_ANSWERS = {
                 "23": "c", // Mode of frequency distribution
                 "24": "b", // Standard Deviation - Discrete Observations
                 "25": "b", // Correlation Coefficient Formula
-                "26": "d", // Correction of Mean and Variance
+                "26": "b", // Correction of Mean and Variance
                 "27": "d", // F-distribution - Conditions
-                "28": "b", // Order Statistics - Median Distribution
-                "29": "d", // Distribution Relationships
+                "28": "c", // Order Statistics - Median Distribution
+                "29": "c", // Distribution Relationships
                 "30": "b", // Ratios in Continuous Distributions
                 "31": "a", // Applications of F-distribution
-                "32": "a", // Least Squares - Model Selection
+                "32": "c", // Least Squares - Model Selection
                 "33": "c", // Correlation Coefficient - Linear Combinations
                 "34": "d", // Covariance and Regression
                 "35": "a", // Sampling Distributions - t and F
                 "36": "d", // Properties of F-distribution
-                "37": "b", // Combined Variance
-                "38": "d", // Chi-square Test Applications
-                "39": "c", // Bivariate Normal Distribution
-                "40": "b"  // Conditional Expectation - Bivariate Normal
+                "37": "c", // Combined Variance
+                "38": "c", // Chi-square Test Applications
+                "39": "d", // Bivariate Normal Distribution
+                "40": "c"  // Conditional Expectation - Bivariate Normal
             },
             "2018": {
                 "1": "c",  // Probability of Union of Independent Events
@@ -62,31 +62,31 @@ const QUESTION_ANSWERS = {
                 "4": "c",  // Bayes' Theorem - Urns
                 "5": "d",  // Bivariate Independence
                 "6": "b",  // Existence of Moments
-                "7": "a",  // Binomial Distribution - Mode and Skewness
-                "8": "b",  // Transformation of Normal Variates
+                "7": "d",  // Binomial Distribution - Mode and Skewness
+                "8": "c",  // Transformation of Normal Variates
                 "9": "b",  // Conditional Gamma Distribution
                 "10": "d", // Exponential Distribution Properties
-                "11": "b", // Uniform Distribution - Breaking a Rod
-                "12": "d", // Joint Distribution - Probability Calculation
+                "11": "c", // Uniform Distribution - Breaking a Rod
+                "12": "a", // Joint Distribution - Probability Calculation
                 "13": "a", // Joint Density - Probability of Inequality
                 "14": "c", // Joint PDF - Expectation
                 "15": "b", // Discrete Joint Distribution - Independence and Covariance
                 "16": "a", // Transformation - Independence and Covariance
-                "17": "d", // MGF of Linear Combination of Normals
+                "17": "c", // MGF of Linear Combination of Normals
                 "18": "b", // PGF of Geometric-like Waiting Time
                 "19": "c", // Chebyshev's Inequality
                 "20": "a", // Beta Distribution of the First Kind
                 "21": "c", // Measurement Scales and Data Types
                 "22": "d", // Regression - Minimum Variance
-                "23": "a", // Skewness and Standard Deviation
+                "23": "b", // Skewness and Standard Deviation
                 "24": "b", // Yule's Coefficient of Association
                 "25": "b", // Theory of Attributes
                 "26": "a", // Regression Equation from Joint PDF
                 "27": "d", // Bivariate Normal Distribution Properties
                 "28": "b", // Properties of Correlation Coefficient
-                "29": "a", // Multiple Correlation
+                "29": "b", // Multiple Correlation
                 "30": "a", // Distribution of Correlation Coefficient
-                "31": "a", // Partial Correlation
+                "31": "c", // Partial Correlation
                 "32": "d", // Correlation Coefficient - Linear Combinations
                 "33": "b", // Large Sample Distribution - Uniform
                 "34": "a", // Normal Distribution - Sample Mean Probability
@@ -98,70 +98,70 @@ const QUESTION_ANSWERS = {
                 "40": "a"  // Order Statistics - Range
             },
             "2019": {
-                "1": "d",  // Scales of Measurement & Data Representation
+                "1": "b",  // Scales of Measurement & Data Representation
                 "2": "d",  // Joint Discrete Distributions
-                "3": "c",  // Coefficient of Variation
+                "3": "b",  // Coefficient of Variation
                 "4": "b",  // Theory of Attributes
-                "5": "a",  // Linear Regression Properties
+                "5": "d",  // Linear Regression Properties
                 "6": "a",  // Regression Coefficients & Correlation
                 "7": "b",  // Bivariate Normal Distribution
                 "8": "d",  // Fisher's Z-Transformation
-                "9": "c",  // Correlation Coefficient Analysis
-                "10": "c", // Covariance & Correlation Relationships
+                "9": "a",  // Correlation Coefficient Analysis
+                "10": "d", // Covariance & Correlation Relationships
                 "11": "c", // Buffon's Needle Problem
                 "12": "b", // Bayes' Theorem - Cannons
                 "13": "b", // Probability - Recovery Rates
                 "14": "d", // Discrete Random Variables - Expectation
-                "15": "c", // Negative Binomial Distribution Context
+                "15": "a", // Negative Binomial Distribution Context
                 "16": "a", // Transformation of Poisson Variates
                 "17": "a", // Geometric Distribution - Expectation
-                "18": "d", // Binomial Distribution Properties
-                "19": "c", // Correlation Coefficient - Transformation
+                "18": "c", // Binomial Distribution Properties
+                "19": "d", // Correlation Coefficient - Transformation
                 "20": "b", // Marginal Distributions
-                "21": "c", // Statistical Measures & Distributions
-                "22": "d", // Hypothesis Testing - Type I Error
+                "21": "a", // Statistical Measures & Distributions
+                "22": "c", // Hypothesis Testing - Type I Error
                 "23": "d", // Standard Error of Difference
-                "24": "a", // Testing Equality of Proportions
-                "25": "b", // Normal Distribution - Sampling Moments
+                "24": "b", // Testing Equality of Proportions
+                "25": "c", // Normal Distribution - Sampling Moments
                 "26": "b", // Coefficient of Contingency
                 "27": "b", // Chi-square Test Validity
-                "28": "c", // Distribution of Functions of Random Variables
-                "29": "a", // F-distribution Expectations
-                "30": "b", // Order Statistics - Median Distribution
+                "28": "b", // Distribution of Functions of Random Variables
+                "29": "c", // F-distribution Expectations
+                "30": "c", // Order Statistics - Median Distribution
                 "31": "d", // Transformation of Variables
                 "32": "b", // Sampling without Replacement
                 "33": "c", // Chebyshev's Inequality - Application
                 "34": "b", // Chebyshev's Inequality - k-value
                 "35": "c", // Central Limit Theorem - Error Analysis
-                "36": "a", // Expectation of Order Statistics
-                "37": "a", // Finding Constant in PDF
-                "38": "d", // Normal Distribution - Mean and Variance
+                "36": "b", // Expectation of Order Statistics
+                "37": "b", // Finding Constant in PDF
+                "38": "c", // Normal Distribution - Mean and Variance
                 "39": "d", // Expectation and Variance of Absolute Value
                 "40": "c"  // Distribution of Difference - Exponential
             },
             "2020": {
-                "1": "d",  // Non-Parametric Tests - Kolmogorov-Smirnov
+                "1": "c",  // Non-Parametric Tests - Kolmogorov-Smirnov
                 "2": "a",  // Descriptive Statistics - Contingency Tables
                 "3": "c",  // Statistical Inference - Clinical Trials
-                "4": "c",  // Probability Distributions - F Distribution
+                "4": "a",  // Probability Distributions - F Distribution
                 "5": "b",  // Non-Parametric Tests - Runs Test
                 "6": "a",  // Non-Parametric Inference
                 "7": "b",  // Probability - Order Statistics
-                "8": "d",  // Correlation and Regression - Partial Correlation
-                "9": "d",  // Rank Correlation
-                "10": "c", // Order Statistics - Median
+                "8": "c",  // Correlation and Regression - Partial Correlation
+                "9": "b",  // Rank Correlation
+                "10": "d", // Order Statistics - Median
                 "11": "b", // Descriptive Statistics - Properties of Mean and SD
-                "12": "a", // Theory of Attributes
+                "12": "d", // Theory of Attributes
                 "13": "c", // Correlation and Regression
-                "14": "a", // Correlation Coefficient
+                "14": "d", // Correlation Coefficient
                 "15": "b", // Bivariate Correlation
                 "16": "d", // Trivariate Distribution - Partial/Multiple Correlation
                 "17": "d", // Distribution of Functions of Random Variables
                 "18": "b", // F-Distribution - Degrees of Freedom
-                "19": "a", // Non-Parametric Tests - Sign Test
-                "20": "c", // Probability - Uniform Distribution
-                "21": "c", // Probability - Combinatorics & Sampling
-                "22": "c", // Conditional Probability
+                "19": "d", // Non-Parametric Tests - Sign Test
+                "20": "a", // Probability - Uniform Distribution
+                "21": "a", // Probability - Combinatorics & Sampling
+                "22": "a", // Conditional Probability
                 "23": "c", // Probability Mass Functions
                 "24": "c", // Normal Distribution - Linear Combinations
                 "25": "c", // Distribution Properties - Memoryless Property
@@ -169,91 +169,91 @@ const QUESTION_ANSWERS = {
                 "27": "b", // Expected Value - Continuous Distribution
                 "28": "c", // Moment Generating Functions
                 "29": "b", // Markov Inequality
-                "30": "a", // Indicator Variables & Joint Probability
+                "30": "b", // Indicator Variables & Joint Probability
                 "31": "b", // Bivariate Normal Distribution
-                "32": "d", // Convergence of Random Variables
+                "32": "a", // Convergence of Random Variables
                 "33": "b", // Distribution Functions
-                "34": "b", // Exponential Distribution
-                "35": "c", // Poisson Distribution - PGF
-                "36": "c", // Distribution Functions
+                "34": "c", // Exponential Distribution
+                "35": "d", // Poisson Distribution - PGF
+                "36": "d", // Distribution Functions
                 "37": "a", // Joint Distribution Functions
-                "38": "d", // Functions of Random Vectors - Transformation
+                "38": "b", // Functions of Random Vectors - Transformation
                 "39": "a", // Binomial Distribution - Expectation
                 "40": "c"  // Bayes' Theorem
             },
             "2021": {
                 "1": "d",  // Joint Probability Density Functions
-                "2": "c",  // Covariance
-                "3": "a",  // Line of Regression
+                "2": "d",  // Covariance
+                "3": "b",  // Line of Regression
                 "4": "c",  // Conditional Expectation
                 "5": "d",  // Conditional Variance
-                "6": "d",  // Chebyshev's Inequality - Sample Size
+                "6": "a",  // Chebyshev's Inequality - Sample Size
                 "7": "d",  // Borel-Cantelli Lemma
-                "8": "b",  // Characteristic Functions
-                "9": "a",  // De Moivre-Laplace Theorem
+                "8": "a",  // Characteristic Functions
+                "9": "c",  // De Moivre-Laplace Theorem
                 "10": "c", // Consistency of Estimators
                 "11": "b", // Order Statistics
                 "12": "d", // Consistency of Attributes
                 "13": "c", // Measures of Dispersion
                 "14": "a", // Bivariate Normal Distribution Properties
-                "15": "c", // Bivariate Normal - Expected Value
-                "16": "d", // Joint Expectations
+                "15": "d", // Bivariate Normal - Expected Value
+                "16": "a", // Joint Expectations
                 "17": "c", // Orthogonal Polynomials
                 "18": "a", // BVN - Variance
                 "19": "c", // BVN - Constant k
                 "20": "b", // BVN - Regression
                 "21": "a", // Borel Zero-One Law
-                "22": "b", // Conditional Probability
-                "23": "c", // Chebyshev's Inequality Calculation
-                "24": "d", // Poisson Approximation
-                "25": "b", // Central Limit Theorem
-                "26": "c", // Law of Large Numbers/CLT
+                "22": "c", // Conditional Probability
+                "23": "d", // Chebyshev's Inequality Calculation
+                "24": "b", // Poisson Approximation
+                "25": "d", // Central Limit Theorem
+                "26": "a", // Law of Large Numbers/CLT
                 "27": "a", // Probability Integral Transform
                 "28": "d", // Variance of Linear Combinations
                 "29": "c", // Probability - Circular Arrangements
-                "30": "d", // Binomial Distribution Parameters
+                "30": "b", // Binomial Distribution Parameters
                 "31": "a", // Descriptive Statistics - Partition Values
                 "32": "c", // Partial Correlation
                 "33": "a", // Chi-square Distribution Properties
                 "34": "a", // Correlation Significance Test
-                "35": "b", // Mann-Whitney U Test Calculation
-                "36": "c", // Mann-Whitney Variance
+                "35": "a", // Mann-Whitney U Test Calculation
+                "36": "d", // Mann-Whitney Variance
                 "37": "a", // Asymptotic Efficiency
-                "38": "c", // Mathematical Expectation
+                "38": "d", // Mathematical Expectation
                 "39": "c", // Mean Deviation Properties
-                "40": "b"  // Runs Test for Randomness
+                "40": "a"  // Runs Test for Randomness
             },
             "2022": {
                 "1": "b",  // Binomial Distribution - Properties
                 "2": "b",  // Covariance - Multinomial
-                "3": "c",  // Convergence in Probability
+                "3": "a",  // Convergence in Probability
                 "4": "d",  // Multinomial Probability
                 "5": "c",  // Poisson Distribution - Parameters
-                "6": "c",  // Binomial Distribution - Moments
-                "7": "d",  // Joint PMF - Probability
+                "6": "b",  // Binomial Distribution - Moments
+                "7": "c",  // Joint PMF - Probability
                 "8": "b",  // Combinatorial Probability
                 "9": "a",  // Conditional Expectation
-                "10": "d", // Regression Equation
+                "10": "a", // Regression Equation
                 "11": "a", // Correlation Coefficient
                 "12": "c", // Sampling Distributions - Normal
-                "13": "d", // Bivariate Normal - Expectation
-                "14": "b", // Regression Estimation
+                "13": "b", // Bivariate Normal - Expectation
+                "14": "d", // Regression Estimation
                 "15": "d", // Bivariate Normal - Product Moments
-                "16": "a", // Multiple Correlation
+                "16": "b", // Multiple Correlation
                 "17": "b", // Distributions - Transformation
                 "18": "d", // Bivariate Normal - Properties
                 "19": "b", // Distribution of Correlation
-                "20": "a", // Multiple Correlation Properties
-                "41": "c", // Strong Law of Large Numbers
-                "42": "b", // Polya's Urn Scheme
-                "43": "c", // Double Exponential Distribution
+                "20": "c", // Multiple Correlation Properties
+                "41": "a", // Strong Law of Large Numbers
+                "42": "a", // Polya's Urn Scheme
+                "43": "a", // Double Exponential Distribution
                 "44": "d", // Bayes' Theorem
-                "45": "a", // Limiting Distributions
+                "45": "d", // Limiting Distributions
                 "46": "a", // Borel-Cantelli Lemma
-                "47": "b", // Beta Distribution of Second Kind
+                "47": "d", // Beta Distribution of Second Kind
                 "48": "a", // Beta Distribution of First Kind
                 "49": "b", // Joint Distributions
-                "50": "c", // Probability Calculation
+                "50": "d", // Probability Calculation
                 "51": "d", // Measures of Central Tendency
                 "52": "b", // Order Statistics
                 "53": "b", // Non-parametric Tests
@@ -262,90 +262,90 @@ const QUESTION_ANSWERS = {
                 "56": "b", // Statistical Association
                 "57": "b", // Non-parametric Methods
                 "58": "b", // Chi-square Test
-                "59": "a", // Confidence Intervals
-                "60": "c"  // Distribution Transformations
+                "59": "b", // Confidence Intervals
+                "60": "d"  // Distribution Transformations
             },
             "2023": {
-                "1": "c",  // Bayes' Theorem
-                "2": "b",  // Conditional Expectation
-                "3": "b",  // Exponential Distribution Properties
+                "1": "d",  // Bayes' Theorem
+                "2": "a",  // Conditional Expectation
+                "3": "a",  // Exponential Distribution Properties
                 "4": "c",  // Binomial Distribution
                 "5": "d",  // Log-Normal Distribution
                 "6": "d",  // Uniform Distribution
-                "7": "c",  // Bivariate Normal Distribution
+                "7": "d",  // Bivariate Normal Distribution
                 "8": "d",  // Joint Distributions - Expectation
                 "9": "d",  // Joint Distributions - Variance
-                "10": "d", // Joint Distributions - Covariance
-                "11": "d", // Cumulants
-                "12": "c", // Gamma Distribution
+                "10": "a", // Joint Distributions - Covariance
+                "11": "a", // Cumulants
+                "12": "d", // Gamma Distribution
                 "13": "c", // Probability Generating Functions
-                "14": "c", // Mathematical Expectation
+                "14": "b", // Mathematical Expectation
                 "15": "a", // Conditional Distributions
                 "16": "c", // Conditional Variance
                 "17": "c", // Conditional Expectation
-                "18": "a", // Joint Distributions - Normalizing Constant
+                "18": "b", // Joint Distributions - Normalizing Constant
                 "19": "a", // Marginal Distributions
                 "20": "d", // Marginal Distributions
                 "21": "c", // Data Condensing
-                "22": "b", // Variance of Linear Transformation
+                "22": "a", // Variance of Linear Transformation
                 "23": "d", // Binomial Distribution - Moments
                 "24": "d", // Chi-Square Test for Association
                 "25": "a", // Correlation and Variance
-                "26": "c", // Bivariate Normal - Expectation
-                "27": "d", // Bivariate Normal - Variance
-                "28": "d", // Bivariate Normal - Correlation
+                "26": "d", // Bivariate Normal - Expectation
+                "27": "c", // Bivariate Normal - Variance
+                "28": "a", // Bivariate Normal - Correlation
                 "29": "a", // Bivariate Normal - Conditional Distribution
                 "30": "a", // Bivariate Normal - PDF
                 "31": "b", // Bivariate Normal - Moments
                 "32": "d", // Intra-class Correlation
-                "33": "b", // Standard Error of Correlation
+                "33": "a", // Standard Error of Correlation
                 "34": "a", // Confidence Intervals
                 "35": "b", // Standard Error of Proportion
                 "36": "a", // Sampling Distributions
-                "37": "c", // Least Squares Estimation
+                "37": "b", // Least Squares Estimation
                 "38": "a", // Sampling Distributions
                 "39": "a", // Bivariate Normal - Covariance
-                "40": "a"  // Bivariate Normal - MGF
+                "40": "c"  // Bivariate Normal - MGF
             },
             "2024": {
                 "1": "a",  // Order Statistics
-                "2": "a",  // Sampling Distributions
-                "3": "c",  // Expectation of Sample Variance
+                "2": "c",  // Sampling Distributions
+                "3": "a",  // Expectation of Sample Variance
                 "4": "a",  // Expectation of Transformed Variables
                 "5": "d",  // Variance of Transformed Variables
                 "6": "c",  // MGF of Transformed Variables
-                "7": "c",  // t-Distribution
+                "7": "b",  // t-Distribution
                 "8": "c",  // Expectation of Chi-square
                 "9": "a",  // Expectation of Independent Ratios
                 "10": "b", // Cauchy Distribution
-                "11": "d", // Quadratic Forms
+                "11": "c", // Quadratic Forms
                 "12": "b", // Bivariate Normal Distribution
-                "13": "a", // Asymptotic Distributions
+                "13": "b", // Asymptotic Distributions
                 "14": "c", // Sampling Distributions
-                "15": "d", // Regression Analysis
-                "16": "d", // Moment Generating Functions
+                "15": "b", // Regression Analysis
+                "16": "c", // Moment Generating Functions
                 "17": "b", // Order Statistics
-                "18": "c", // Variance Properties
-                "19": "a", // Correlation & Variance
+                "18": "a", // Variance Properties
+                "19": "b", // Correlation & Variance
                 "20": "d", // Order Statistics (Uniform)
                 "21": "d", // Geometrical Probability
                 "22": "d", // Continuous Distributions
                 "23": "a", // Characteristic Functions
-                "24": "a", // Characteristic Functions
-                "25": "b", // Characteristic Functions
+                "24": "b", // Characteristic Functions
+                "25": "c", // Characteristic Functions
                 "26": "c", // MGF Relationships
-                "27": "d", // Random Walk / Stopping Time
-                "28": "c", // Discrete Distribution
-                "29": "b", // Successive Events Probability
+                "27": "b", // Random Walk / Stopping Time
+                "28": "b", // Discrete Distribution
+                "29": "a", // Successive Events Probability
                 "30": "b", // Expected Value
-                "31": "c", // Probability Laws
+                "31": "b", // Probability Laws
                 "32": "d", // Joint Distributions
-                "33": "d", // Joint PMF
-                "34": "d", // PMF Properties
-                "35": "b", // Marginal Distributions
-                "36": "b", // Bivariate Normal Distribution
-                "37": "d", // MGF and Joint Probabilities
-                "38": "c", // Exponential Distribution Bounds
+                "33": "b", // Joint PMF
+                "34": "b", // PMF Properties
+                "35": "a", // Marginal Distributions
+                "36": "d", // Bivariate Normal Distribution
+                "37": "b", // MGF and Joint Probabilities
+                "38": "d", // Exponential Distribution Bounds
                 "39": "c", // Transformations of Variates
                 "40": "b"  // MGF and Parameters
             },
