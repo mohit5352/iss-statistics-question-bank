@@ -81,7 +81,8 @@ function applyExplanationUpdate(lines, paper, section, year, qNumber, newNote) {
           // Preserve trailing comma or comment after the value
           const trailingMatch = rest.match(/^(["'`]?.*?["'`]?)(\s*(,|\}|\/\/.*)*)$/);
           const remainder = trailingMatch ? trailingMatch[2] : '';
-          const escaped = String(newNote).replace(/`/g, '\\`');
+          // escape backslashes first so file contains double-backslashes (\\)
+          const escaped = String(newNote).replace(/\\/g, '\\\\').replace(/`/g, '\\`');
           resultLines.push(indent + '"' + qNumber + '": `' + escaped + '`' + remainder);
           replaced = true;
           continue;

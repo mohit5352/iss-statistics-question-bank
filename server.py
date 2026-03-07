@@ -112,7 +112,7 @@ def apply_explanation_update(paper, section, year, q_number, new_note):
                 if last3 == target_path:
                     indent = q_match.group(1)
                     rest = q_match.group(3)
-                    escaped = str(new_note).replace('`', '\\`')
+                    escaped = str(new_note).replace('\\', '\\\\').replace('`', '\\`')
 
                     if rest.strip().startswith('`'):
                         # Template literal: find closing backtick (not escaped); skip opener on first line
