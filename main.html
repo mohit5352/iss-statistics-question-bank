@@ -1016,8 +1016,28 @@
 
         function renderNoteHtml(text) {
             if (!text) return '<div class="q-notes-empty">No explanation available</div>';
-            // Inject directly like HTML files — MathJax uses \( \) and \[ \]. Only escape & for entity safety.
+            
             var s = String(text).replace(/&/g, '&amp;');
+            
+            // 1. Protect MathJax LaTeX snippets by replacing them with placeholders
+            var placeholders = [];
+            s = s.replace(/\\\\\(.*?\\\\\)|\\\\\[.*?\\\\\]/g, function(match) {
+                var id = '%%LATEX_' + placeholders.length + '%%';
+                placeholders.push(match);
+                return id;
+            });
+
+            // 2. Simple Markdown parsing
+            // Bold: **text**
+            s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Inline Code: `text`
+            s = s.replace(/`(.*?)`/g, '<code>$1</code>');
+
+            // 3. Restore MathJax LaTeX snippets
+            for (var i = 0; i < placeholders.length; i++) {
+                s = s.replace('%%LATEX_' + i + '%%', placeholders[i]);
+            }
+
             return '<div class="q-notes-rich">' + s + '</div>';
         }
 
