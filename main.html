@@ -195,17 +195,38 @@
                 return;
             }
 
+            // Decorative separator (before / between / after sections)
+            // Thicker lines and a clearer math-themed marker (sigma) centered.
+            var sepHtml = `<div class="note-sep" style="display:flex;align-items:center;gap:16px;margin:28px 0;">
+                    <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg,transparent, rgba(124,58,237,0.95));opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
+                    <svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:0 0 auto;">
+                      <defs>
+                        <linearGradient id="sepGrad" x1="0" x2="1">
+                          <stop offset="0" stop-color="#c4b5fd" stop-opacity="1"/>
+                          <stop offset="1" stop-color="#7c3aed" stop-opacity="1"/>
+                        </linearGradient>
+                      </defs>
+                      <!-- subtle rounded capsule as marker -->
+                      <rect x="2" y="6" width="36" height="16" rx="8" fill="url(#sepGrad)" opacity="0.98" />
+                      <!-- math sigma symbol centered -->
+                      <text x="20" y="18" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" fill="#071018" font-weight="700">∑</text>
+                    </svg>
+                    <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg, rgba(124,58,237,0.95),transparent);opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
+                </div>`;
+
             let html = `<div class="notes-container">
                 <div class="notes-header">
                     <h1>${data.title}</h1>
-                </div>
-                
-                <div class="notes-toc">
-                    <div class="toc-syllabus">
-                        <span class="syllabus-badge">SYLLABUS</span>
-                    </div>
+                </div>`;
 
-                    <div class="toc-links">`;
+            html += `${sepHtml}`;
+                
+            html += `<div class="notes-toc">
+                        <div class="toc-topic-list">
+                            <span class="topic-badge">KEY TOPICS</span>
+                        </div>
+
+                        <div class="toc-links">`;
 
             // Table of contents
             data.sections.forEach(sec => {
@@ -215,22 +236,7 @@
             html += `</div></div>`;
 
             // Sections
-            // Decorative separator (before / between / after sections)
-            var sepHtml = `<div class="note-sep" style="display:flex;align-items:center;gap:12px;margin:32px 0 0 0;">
-                    <span style="flex:1;height:1px;border-radius:3px;background:linear-gradient(90deg,transparent, rgba(124,58,237,0.85));opacity:0.65;"></span>
-                    <svg width="28" height="10" viewBox="0 0 28 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:0 0 auto;">
-                      <defs>
-                        <linearGradient id="g1" x1="0" x2="1">
-                          <stop offset="0" stop-color="#a78bfa" stop-opacity="0.95"/>
-                          <stop offset="1" stop-color="#7c3aed" stop-opacity="0.95"/>
-                        </linearGradient>
-                      </defs>
-                      <g transform="translate(14,5) rotate(0)">
-                        <rect x="-6" y="-2" width="12" height="4" rx="1.5" fill="url(#g1)" transform="rotate(25)"/>
-                      </g>
-                    </svg>
-                    <span style="flex:1;height:1px;border-radius:3px;background:linear-gradient(90deg, rgba(124,58,237,0.85),transparent);opacity:0.65;"></span>
-                </div>`;
+            
 
             // Top separator
             html += sepHtml;
