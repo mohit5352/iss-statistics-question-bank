@@ -69,6 +69,10 @@
     <div class="paper-container">
         <!-- Sticky Header -->
         <div class="sticky-header">
+            <div class="mode-toggle-wrap">
+                <button class="mode-btn active" id="mode-q" onclick="setAppMode('questions')">Questions</button>
+                <button class="mode-btn" id="mode-n" onclick="setAppMode('notes')">Revision Notes</button>
+            </div>
             <h1 id="paper-title">ISS Statistics Paper I</h1>
             <div class="set-indicator-wrap">
                 <span class="set-indicator-line set-indicator-left"></span>
@@ -120,6 +124,7 @@
         <div id="year-viewer" class="content-viewer"></div>
     </div>
     
+    <script src="notes.js"></script>
     <script src="answers.js"></script>
     <script src="explanations.js"></script>
     <script>
@@ -157,6 +162,103 @@
         var currentPaper = 'paper1'; // 'paper1' | 'paper2'
         var currentYear = '2025';
         var currentSection = 'prob'; // Paper 1: 'prob' | 'num' | 'comp'; Paper 2: 'linear' | 'inference' | 'official'
+        var appMode = 'questions'; // 'questions' | 'notes'
+
+        function setAppMode(mode) {
+            appMode = mode;
+            document.getElementById('mode-q').classList.toggle('active', mode === 'questions');
+            document.getElementById('mode-n').classList.toggle('active', mode === 'notes');
+            
+            // Hide/Show year selector and set indicator based on mode
+            var yearMeta = document.querySelector('.meta-year');
+            var setIndicator = document.querySelector('.set-indicator-wrap');
+            var lastSep = document.querySelector('.meta-sep-line:last-of-type');
+            
+            if (yearMeta) yearMeta.style.display = (mode === 'notes') ? 'none' : 'flex';
+            if (setIndicator) setIndicator.style.display = (mode === 'notes') ? 'none' : 'flex';
+            if (lastSep) lastSep.style.display = (mode === 'notes') ? 'none' : 'block';
+
+            updateControlsUI();
+            if (mode === 'questions') {
+                loadContent(); // Loads the HTML files
+            } else {
+                renderRevisionNotes(); // Renders from notes.js
+            }
+        }
+
+        function renderRevisionNotes() {
+            const viewer = document.getElementById('year-viewer');
+            const data = REVISION_NOTES[currentPaper][currentSection];
+
+            if (!data || !data.sections || data.sections.length === 0) {
+                viewer.innerHTML = '<div class="notes-container"><div class="q-notes-empty">Notes for this section coming soon...</div></div>';
+                return;
+            }
+
+            let html = `<div class="notes-container">
+                <div class="notes-header">
+                    <h1>${data.title}</h1>
+                </div>
+                
+                <div class="notes-toc">
+                    <div class="toc-syllabus">
+                        <span class="syllabus-badge">SYLLABUS</span>
+                    </div>
+
+                    <div class="toc-links">`;
+
+            // Table of contents
+            data.sections.forEach(sec => {
+                html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
+            });
+
+            html += `</div></div>`;
+
+            // Sections
+            // Decorative separator (before / between / after sections)
+            var sepHtml = `<div class="note-sep" style="display:flex;align-items:center;gap:12px;margin:32px 0 0 0;">
+                    <span style="flex:1;height:1px;border-radius:3px;background:linear-gradient(90deg,transparent, rgba(124,58,237,0.85));opacity:0.65;"></span>
+                    <svg width="28" height="10" viewBox="0 0 28 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:0 0 auto;">
+                      <defs>
+                        <linearGradient id="g1" x1="0" x2="1">
+                          <stop offset="0" stop-color="#a78bfa" stop-opacity="0.95"/>
+                          <stop offset="1" stop-color="#7c3aed" stop-opacity="0.95"/>
+                        </linearGradient>
+                      </defs>
+                      <g transform="translate(14,5) rotate(0)">
+                        <rect x="-6" y="-2" width="12" height="4" rx="1.5" fill="url(#g1)" transform="rotate(25)"/>
+                      </g>
+                    </svg>
+                    <span style="flex:1;height:1px;border-radius:3px;background:linear-gradient(90deg, rgba(124,58,237,0.85),transparent);opacity:0.65;"></span>
+                </div>`;
+
+            // Top separator
+            html += sepHtml;
+            data.sections.forEach(sec => {
+                html += `<section id="${sec.id}" class="note-section">
+                    <h2 class="section-title">${sec.label}</h2>
+                    <div class="note-section-content">${renderNoteHtml(sec.content)}</div>
+                </section>`;
+                // Separator after each section
+                html += sepHtml;
+            });
+
+            // Final Tip Callout
+            if (data.tips) {
+                html += `<div class="note-callout tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-content"><strong>Revision Tip:</strong> ${renderNoteHtml(data.tips)}</div>
+                </div>`;
+            }
+
+            html += `</div>`;
+            viewer.innerHTML = html;
+
+            // Trigger MathJax
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([viewer]);
+            }
+        }
 
         // Paper sets per year
         var PAPER_SETS = {
@@ -512,11 +614,16 @@
                 currentSection = 'linear';
             }
             updateControlsUI();
-            loadContent();
+            if (appMode === 'questions') {
+                loadContent();
+            } else {
+                renderRevisionNotes();
+            }
         }
 
         // Load content using fetch (works on both desktop and mobile)
         function loadContent() {
+            if (appMode === 'notes') return;
             var viewer = document.getElementById('year-viewer');
             var filename = buildFilename();
             
@@ -660,7 +767,11 @@
         function setSection(sectionKey) {
             currentSection = sectionKey;
             updateControlsUI();
-            loadContent();
+            if (appMode === 'questions') {
+                loadContent();
+            } else {
+                renderRevisionNotes();
+            }
         }
 
         function loadYear(year) {
@@ -1015,30 +1126,100 @@
         }
 
         function renderNoteHtml(text) {
-            if (!text) return '<div class="q-notes-empty">No explanation available</div>';
+            if (!text) return '<div class="q-notes-empty">No content available</div>';
             
-            var s = String(text).replace(/&/g, '&amp;');
-            
-            // 1. Protect MathJax LaTeX snippets by replacing them with placeholders
+            // 1. Protect MathJax LaTeX snippets
             var placeholders = [];
-            s = s.replace(/\\\\\(.*?\\\\\)|\\\\\[.*?\\\\\]/g, function(match) {
+            var s = text.replace(/\\\[[\s\S]*?\\\]|\\\(.*?\\\)/g, function(match) {
                 var id = '%%LATEX_' + placeholders.length + '%%';
                 placeholders.push(match);
                 return id;
             });
 
             // 2. Simple Markdown parsing
-            // Bold: **text**
-            s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Inline Code: `text`
-            s = s.replace(/`(.*?)`/g, '<code>$1</code>');
+            var lines = s.split('\n');
+            var resultHtml = '';
+            var inUl = false;
+            var inOl = false;
+            var inTable = false;
+            var tableRows = [];
+
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                
+                // Handle Tables
+                if (line.startsWith('|') && line.endsWith('|')) {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                    if (line.indexOf('---') === -1) {
+                        var cells = line.split('|').slice(1, -1);
+                        tableRows.push(cells.map(c => c.trim()));
+                    }
+                    inTable = true;
+                    continue;
+                } else if (inTable) {
+                    resultHtml += '<div class="q-table"><table>';
+                    tableRows.forEach((row, idx) => {
+                        resultHtml += '<tr>';
+                        row.forEach(cell => {
+                            var tag = (idx === 0) ? 'th' : 'td';
+                            resultHtml += `<${tag}>${parseInline(cell)}</${tag}>`;
+                        });
+                        resultHtml += '</tr>';
+                    });
+                    resultHtml += '</table></div>';
+                    tableRows = [];
+                    inTable = false;
+                }
+
+                // Handle Headers
+                if (line.startsWith('###')) {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                    resultHtml += `<h3 class="note-h3">${parseInline(line.replace('###', ''))}</h3>`;
+                } else if (line.startsWith('##')) {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                    resultHtml += `<h2 class="note-h2">${parseInline(line.replace('##', ''))}</h2>`;
+                } 
+                // Handle Unordered Lists
+                else if (line.startsWith('- ') || line.startsWith('* ')) {
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                    if (!inUl) { resultHtml += '<ul class="note-list">'; inUl = true; }
+                    resultHtml += `<li>${parseInline(line.substring(2))}</li>`;
+                }
+                // Handle Ordered Lists (1. )
+                else if (/^\d+\.\s/.test(line)) {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (!inOl) { resultHtml += '<ol class="note-list note-ol">'; inOl = true; }
+                    resultHtml += `<li>${parseInline(line.replace(/^\d+\.\s/, ''))}</li>`;
+                }
+                // Handle Paragraphs
+                else if (line.length > 0) {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                    resultHtml += `<p class="note-p">${parseInline(line)}</p>`;
+                } else {
+                    if (inUl) { resultHtml += '</ul>'; inUl = false; }
+                    if (inOl) { resultHtml += '</ol>'; inOl = false; }
+                }
+            }
+            if (inUl) resultHtml += '</ul>';
+            if (inOl) resultHtml += '</ol>';
+
+            function parseInline(txt) {
+                var t = txt.replace(/&/g, '&amp;')
+                           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                           .replace(/`(.*?)`/g, '<code>$1</code>');
+                return t;
+            }
 
             // 3. Restore MathJax LaTeX snippets
             for (var i = 0; i < placeholders.length; i++) {
-                s = s.replace('%%LATEX_' + i + '%%', placeholders[i]);
+                resultHtml = resultHtml.replace('%%LATEX_' + i + '%%', placeholders[i]);
             }
 
-            return '<div class="q-notes-rich">' + s + '</div>';
+            return resultHtml;
         }
 
         function showNotesEditor(card, qNumber, notesWrap) {
