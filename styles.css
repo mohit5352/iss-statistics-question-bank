@@ -43,10 +43,6 @@ body {
     box-shadow: none;
 }
 
-h1#paper-title {
-    padding-top: 10px;
-}
-
 /* ===== Headings ===== */
 h1 {
     color: #e0d7ff;
@@ -1500,9 +1496,8 @@ h2 {
 }
 
 .notes-header h1 {
-    text-align: left !important;
     margin: 0 0 15px 0;
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #e0d7ff;
     text-shadow: none;
 }
@@ -1522,7 +1517,6 @@ h2 {
     display: flex;
     gap: 16px;
     flex-direction: column;
-    background: rgba(124, 58, 237, 0.03);
 }
 
 .toc-links {
@@ -1594,7 +1588,7 @@ h2 {
     position: relative;
     list-style: none;
     color: #f1f0f7;
-    line-height: 1.6;
+    line-height: 2.25;
 }
 
 .note-list:not(.note-ol) li::before {
