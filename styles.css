@@ -1589,6 +1589,8 @@ h2 {
     line-height: 1.8;
     color: #b0aac8;
     font-size: 1.05rem;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 .note-list li {
     margin-bottom: 10px;
