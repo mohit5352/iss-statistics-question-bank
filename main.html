@@ -1046,7 +1046,7 @@
             var editor = document.createElement('div');
             editor.className = 'note-editor';
             editor.innerHTML = '<textarea class="note-editor-text" placeholder="Write explanation — LaTeX is OK (use \\(\\) or \\[\\])"></textarea>' +
-                '<div class="note-editor-actions"><button class="note-save-btn">Save</button><button class="note-cancel-btn">Cancel</button></div>';
+                '<div class="note-editor-actions"><button class="note-cancel-btn">Cancel</button><button class="note-save-btn">Save</button></div>';
             notesWrap.appendChild(editor);
             var ta = editor.querySelector('.note-editor-text');
             ta.value = getEffectiveExplanation(currentPaper, sectionToExplanationsKey[currentSection], currentYear, qNumber) || '';
