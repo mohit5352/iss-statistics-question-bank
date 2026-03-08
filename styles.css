@@ -43,7 +43,7 @@ body {
     box-shadow: none;
 }
 
-.paper-title {
+h1#paper-title {
     padding-top: 10px;
 }
 
@@ -907,6 +907,7 @@ h2 {
     white-space: pre-wrap; 
     word-break: break-word; 
     overflow-x: auto; 
+    overflow-y: hidden;
 }
 
 .q-notes-rich code {
