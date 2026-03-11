@@ -1544,9 +1544,6 @@ h2 {
     transform: translateY(-1px);
 }
 
-.note-section { 
-}
-
 .section-title {
     color: #c4b5fd !important;
     font-size: 1.8rem !important;
@@ -1606,6 +1603,18 @@ h2 {
 .note-ol li::marker {
     color: #7c3aed;
     font-weight: bold;
+}
+
+/* Support for nested lists */
+.note-list .note-list {
+    margin-left: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Ensure nested list items also have the arrow if they are unordered */
+.note-list .note-list:not(.note-ol) li::before {
+    content: '→';
 }
 
 /* Formula blocks in notes */
