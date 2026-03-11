@@ -47,12 +47,47 @@ const REVISION_NOTES = {
             ],
             "tips": "ISS Paper I Focus: \n1. Memorize standard error (SE) formulas for all large sample tests. \n2. Relationships between \\( \\chi^2, t, \\) and \\( F \\) are high-yield. \n3. In non-parametric tests, know the 'Null Hypothesis' for each (e.g., Run test is for randomness). \n4. Remember: Partial correlation is ALWAYS between -1 and 1, but Multiple correlation is ALWAYS between 0 and 1. \n5. Jacobian is a must for transformation problems!"
         },
-        "num": { "title": "Numerical Analysis", "sections": [], "tips": "" },
-        "comp": { "title": "Computer Section", "sections": [], "tips": "" }
+        "num": {
+            "title": "Numerical Analysis",
+            "sections": [
+                {
+                    "id": "hello",
+                    "label": "Hello",
+                    "content": "# Main Section Title\n\nThis is a paragraph with **bold text**, *italic text*, and `inline code`.\n\n## Subsection\n\n### Level 3 Header\n\nSome content here with **bold** and *italic* combined.\n\n#### Level 4 Header\n\n- Unordered list item one\n- Unordered list item two\n  - Nested item\n\n1. First ordered item\n2. Second ordered item\n\n---\n\n> This is a blockquote. Important definitions often go here.\n\n### Another Section\n\n| Col A | Col B |\n| --- | --- |\n| One | Two |\n| Three | Four |\n\n---\n\n# Final Header\n\n`ISS Trick:` Remember to check units in your final answer.\n\n```\ntesting code\n```"
+                }
+            ],
+            "tips": ""
+        },
+        "comp": {
+            "title": "Computer Section",
+            "sections": [
+                {
+                    "id": "testtt",
+                    "label": "testtt",
+                    "content": "### Detailed Non-parametric Formulas\n- **Sign Test**: Under \\( H_0, S \\sim B(n, 0.5) \\).\n- **Median Test**: 2x2 contingency table using Chi-square/Fisher's exact.\n- **Run Test**: Total runs \\( R \\). Under \\( H_0 \\):\n  - \\( E(R) = \\frac{2n_1 n_2}{n_1+n_2} + 1 \\)\n  - \\( Var(R) = \\frac{2n_1 n_2(2n_1 n_2 - n_1 - n_2)}{(n_1+n_2)^2(n_1+n_2-1)} \\)\n- **Wilcoxon Signed Rank**: Sum of ranks \\( W \\).\n  - \\( E(W) = \\frac{n(n+1)}{4} \\)\n  - \\( Var(W) = \\frac{n(n+1)(2n+1)}{24} \\)\n- **Mann-Whitney U**: Sum of ranks \\( U \\).\n  - \\( E(U) = \\frac{n_1 n_2}{2} \\)\n  - \\( Var(U) = \\frac{n_1 n_2(n_1+n_2+1)}{12} \\)\n- **Wald-Wolfowitz**: Runs on ordered combined samples.\n- **Kolmogorov-Smirnov (K-S)**:\n  - **One-Sample**: \\( D_n = \\sup_x |F_n(x) - F_0(x)| \\).\n  - **Two-Sample**: \\( D_{m,n} = \\sup_x |F_m(x) - G_n(x)| \\)."
+                }
+            ],
+            "tips": ""
+        },
     },
     "paper2": {
-        "linear": { "title": "Linear Models", "sections": [], "tips": "" },
-        "inference": { "title": "Statistical Inference", "sections": [], "tips": "" },
-        "official": { "title": "Official Statistics", "sections": [], "tips": "" }
+        "linear": {
+            "title": "Linear Models",
+            "sections": [
+            ],
+            "tips": ""
+        },
+        "inference": {
+            "title": "Statistical Inference",
+            "sections": [
+            ],
+            "tips": ""
+        },
+        "official": {
+            "title": "Official Statistics",
+            "sections": [
+            ],
+            "tips": ""
+        },
     }
 };

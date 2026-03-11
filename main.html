@@ -188,15 +188,9 @@
 
         function renderRevisionNotes() {
             const viewer = document.getElementById('year-viewer');
-            const data = REVISION_NOTES[currentPaper][currentSection];
+            const paperData = REVISION_NOTES[currentPaper] || {};
+            const data = paperData[currentSection] || { title: currentSection, sections: [], tips: "" };
 
-            if (!data || !data.sections || data.sections.length === 0) {
-                viewer.innerHTML = '<div class="notes-container"><div class="q-notes-empty">Notes for this section coming soon...</div></div>';
-                return;
-            }
-
-            // Decorative separator (before / between / after sections)
-            // Thicker lines and a clearer math-themed marker (sigma) centered.
             var sepHtml = `<div class="note-sep" style="display:flex;align-items:center;gap:2px;margin:28px 0;">
                     <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg,transparent, rgba(124,58,237,0.95));opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
                     <svg width="48" height="28" viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:0 0 auto;">
@@ -206,42 +200,12 @@
                             <stop offset="1" stop-color="#7c3aed"/>
                             </linearGradient>
                         </defs>
-
-                        <!-- left symbol (mean) -->
-                        <text x="10" y="18"
-                                text-anchor="middle"
-                                font-size="12"
-                                font-weight="600"
-                                fill="url(#sepGrad)"
-                                style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">
-                                μ
-                        </text>
-
-                        <!-- center sigma -->
-                        <text x="24" y="19"
-                                text-anchor="middle"
-                                font-size="16"
-                                font-weight="700"
-                                fill="url(#sepGrad)"
-                                style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">
-                                ∑
-                        </text>
-
-                        <!-- right symbol (integral) -->
-                        <text x="38" y="18"
-                                text-anchor="middle"
-                                font-size="13"
-                                font-weight="600"
-                                fill="url(#sepGrad)"
-                                style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">
-                                ∫
-                        </text>
-
-                        <!-- subtle connector dots -->
+                        <text x="10" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">μ</text>
+                        <text x="24" y="19" text-anchor="middle" font-size="16" font-weight="700" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">Σ</text>
+                        <text x="38" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">∫</text>
                         <circle cx="16.5" cy="14" r="1.2" fill="url(#sepGrad)" opacity="0.7"/>
                         <circle cx="31.5" cy="14" r="1.2" fill="url(#sepGrad)" opacity="0.7"/>
-
-                        </svg>
+                    </svg>
                     <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg, rgba(124,58,237,0.95),transparent);opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
                 </div>`;
 
@@ -251,47 +215,73 @@
                 </div>`;
 
             html += `${sepHtml}`;
-                
-            html += `<div class="notes-toc">
-                        <div class="toc-topic-list">
-                            <span class="topic-badge">KEY TOPICS</span>
-                        </div>
-
-                        <div class="toc-links">`;
-
-            // Table of contents
-            data.sections.forEach(sec => {
-                html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
-            });
-
-            html += `</div></div>`;
-
-            // Sections
             
+            if (!data.sections || data.sections.length === 0) {
+                html += `
+                    <div class="q-notes-empty">
+                        <p>No notes available for this section yet.</p>
+                        ${isAdmin() ? `<button class="note-add-btn" onclick="showAddSectionForm()">+ Add First Section</button>` : ''}
+                    </div>
+                `;
+            } else {
+                html += `<div class="notes-toc">
+                            <div class="toc-topic-list" style="display:flex; justify-content:space-between; align-items:center;">
+                                <span class="topic-badge">KEY TOPICS</span>
+                                ${isAdmin() ? `<button class="note-add-btn" onclick="showAddSectionForm()" style="margin-bottom:10px;">+ Add Section</button>` : ''}
+                            </div>
+                            <div class="toc-links" id="toc-links">`;
 
-            // Top separator
-            html += sepHtml;
-            data.sections.forEach(sec => {
-                html += `<section id="${sec.id}" class="note-section">
-                    <h2 class="section-title">${sec.label}</h2>
-                    <div class="note-section-content">${renderNoteHtml(sec.content)}</div>
-                </section>`;
-                // Separator after each section
+                data.sections.forEach(sec => {
+                    html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
+                });
+
+                html += `</div></div>`;
+
+                // Sections
                 html += sepHtml;
-            });
+                data.sections.forEach(sec => {
+                    html += `<section id="${sec.id}" class="note-section">
+                        <div class="note-section-header" style="display:flex; justify-content:space-between; align-items:center;">
+                            <h2 class="section-title" id="note-label-${sec.id}">${sec.label}</h2>
+                            <div class="note-section-actions" style="display:flex; gap:8px;">
+                                ${isAdmin() ? `
+                                    <button class="note-edit-btn" onclick="showNoteSectionEditor('${sec.id}')">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M3 17.25V21h4.25L17.81 9.94l-4.25-4.25L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 4.25 4.25 1.83-1.83z"/></svg>
+                                        Edit
+                                    </button>
+                                    <button class="note-edit-btn" style="color:#ef4444; background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.2);" onclick="deleteNoteSection('${sec.id}')">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                        Delete
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="note-section-content" id="note-content-${sec.id}">${renderNoteHtml(sec.content)}</div>
+                    </section>`;
+                    html += sepHtml;
+                });
 
-            // Final Tip Callout
-            if (data.tips) {
-                html += `<div class="note-callout tip">
-                    <div class="callout-icon">💡</div>
-                    <div class="callout-content"><strong>Revision Tip:</strong> ${renderNoteHtml(data.tips)}</div>
-                </div>`;
+                // Final Tip Callout
+                if (data.tips || isAdmin()) {
+                    html += `<div class="note-callout tip" id="note-tips-container" style="width:100%; box-sizing:border-box;">
+                        <div class="callout-icon">💡</div>
+                        <div class="callout-content" style="width:100%;">
+                            <div class="note-section-header" style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
+                                <strong style="color:#34d399; font-size:1.1rem;">Revision Tip</strong>
+                                ${isAdmin() ? `<button class="note-edit-btn" onclick="showTipsEditor()">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M3 17.25V21h4.25L17.81 9.94l-4.25-4.25L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 4.25 4.25 1.83-1.83z"/></svg>
+                                    Edit
+                                </button>` : ''}
+                            </div>
+                            <div id="note-tips-content" style="width:100%;">${data.tips ? renderNoteHtml(data.tips) : '<div class="q-notes-empty">No tips available yet</div>'}</div>
+                        </div>
+                    </div>`;
+                }
             }
 
             html += `</div>`;
             viewer.innerHTML = html;
 
-            // Trigger MathJax
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([viewer]);
             }
@@ -1165,13 +1155,13 @@
         function renderNoteHtml(text) {
             if (!text) return '<div class="q-notes-empty">No content available</div>';
             
-            // 1. Protect MathJax LaTeX snippets
+            // 1. Protect MathJax LaTeX snippets (\[...\], \(...\), $$...$$, $...$)
             var placeholders = [];
-            var s = text.replace(/\\\[[\s\S]*?\\\]|\\\(.*?\\\)/g, function(match) {
-                var id = '%%LATEX_' + placeholders.length + '%%';
-                placeholders.push(match);
-                return id;
-            });
+            var s = text
+                .replace(/\$\$[\s\S]*?\$\$/g, function(m) { var id = '%%LATEX_' + placeholders.length + '%%'; placeholders.push(m); return id; })
+                .replace(/\\\[[\s\S]*?\\\]/g, function(m) { var id = '%%LATEX_' + placeholders.length + '%%'; placeholders.push(m); return id; })
+                .replace(/\\\([\s\S]*?\\\)/g, function(m) { var id = '%%LATEX_' + placeholders.length + '%%'; placeholders.push(m); return id; })
+                .replace(/\$[^$\n]+?\$/g, function(m) { var id = '%%LATEX_' + placeholders.length + '%%'; placeholders.push(m); return id; });
 
             // 2. Simple Markdown parsing
             var lines = s.split('\n');
@@ -1208,14 +1198,38 @@
                 if (!txt) return '';
                 var t = txt.replace(/&/g, '&amp;')
                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                           .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                           .replace(/\*([^*]+)\*/g, '<em>$1</em>')
                            .replace(/`(.*?)`/g, '<code>$1</code>');
                 return t;
             }
+
+            var inCodeBlock = false;
+            var codeBlockLines = [];
 
             for (var i = 0; i < lines.length; i++) {
                 var rawLine = lines[i];
                 var line = rawLine.trim();
                 
+                // Handle Fenced Code Block (```)
+                if (/^```(\w*)\s*$/.test(line)) {
+                    if (inCodeBlock) {
+                        closeLists(0);
+                        var codeContent = codeBlockLines.join('\n').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        resultHtml += '<pre class="note-code-block"><code>' + codeContent + '</code></pre>';
+                        inCodeBlock = false;
+                        codeBlockLines = [];
+                    } else {
+                        closeLists(0);
+                        inCodeBlock = true;
+                    }
+                    continue;
+                }
+                if (inCodeBlock) {
+                    codeBlockLines.push(rawLine);
+                    continue;
+                }
+
                 // Handle Tables
                 if (line.startsWith('|') && line.endsWith('|')) {
                     closeLists(0);
@@ -1234,14 +1248,28 @@
                     continue;
                 }
 
-                // Handle Headers
-                if (line.startsWith('###')) {
+                // Handle Horizontal Rule (---, ***, ___)
+                if (/^(---|\*\*\*|___)\s*$/.test(line)) {
                     closeLists(0);
-                    resultHtml += `<h3 class="note-h3">${parseInline(line.replace('###', ''))}</h3>`;
+                    resultHtml += '<hr class="note-hr">';
                     continue;
-                } else if (line.startsWith('##')) {
+                }
+
+                // Handle Headers (# through ######) — check most # first
+                var hMatch = line.match(/^(#{1,6})\s+(.*)$/);
+                if (hMatch) {
                     closeLists(0);
-                    resultHtml += `<h2 class="note-h2">${parseInline(line.replace('##', ''))}</h2>`;
+                    var level = Math.min(hMatch[1].length, 6);
+                    var hClass = 'note-h' + level;
+                    resultHtml += `<h${level} class="${hClass}">${parseInline(hMatch[2].trim())}</h${level}>`;
+                    continue;
+                }
+
+                // Handle Blockquote
+                if (line.startsWith('>')) {
+                    closeLists(0);
+                    var bqContent = line.replace(/^>\s?/, '');
+                    resultHtml += `<blockquote class="note-blockquote">${parseInline(bqContent)}</blockquote>`;
                     continue;
                 }
 
@@ -1284,6 +1312,10 @@
             
             closeLists(0);
             if (inTable) renderTable();
+            if (inCodeBlock && codeBlockLines.length > 0) {
+                var codeContent = codeBlockLines.join('\n').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                resultHtml += '<pre class="note-code-block"><code>' + codeContent + '</code></pre>';
+            }
 
             // 3. Restore MathJax LaTeX snippets
             for (var i = 0; i < placeholders.length; i++) {
@@ -1293,11 +1325,21 @@
             return resultHtml;
         }
 
+        var NOTE_FORMAT_HINT = '<details class="note-format-hint"><summary>Formatting help</summary><div class="note-format-hint-body">' +
+            '<strong>Headers:</strong> <code>#</code> <code>##</code> <code>###</code> …<br>' +
+            '<strong>Bold:</strong> <code>**text**</code> &nbsp; <strong>Italic:</strong> <code>*text*</code> &nbsp; <strong>Inline code:</strong> <code>`code`</code><br>' +
+            '<strong>Code block:</strong> <code>```</code> on own line, code, <code>```</code><br>' +
+            '<strong>Lists:</strong> <code>- item</code> or <code>1. item</code><br>' +
+            '<strong>Table:</strong> <code>| A | B |</code> header, <code>| --- | --- |</code> separator, <code>| 1 | 2 |</code> rows<br>' +
+            '<strong>Blockquote:</strong> <code>&gt; quote</code> &nbsp; <strong>Rule:</strong> <code>---</code><br>' +
+            '<strong>LaTeX:</strong> inline <code>\\( E = mc^2 \\)</code> &nbsp; block <code>\\[ ... \\]</code></div></details>';
+
         function showNotesEditor(card, qNumber, notesWrap) {
             notesWrap.innerHTML = '';
             var editor = document.createElement('div');
             editor.className = 'note-editor';
             editor.innerHTML = '<textarea class="note-editor-text" placeholder="Write explanation — LaTeX is OK (use \\(\\) or \\[\\])"></textarea>' +
+                NOTE_FORMAT_HINT +
                 '<div class="note-editor-actions"><button class="note-cancel-btn">Cancel</button><button class="note-save-btn">Save</button></div>';
             notesWrap.appendChild(editor);
             var ta = editor.querySelector('.note-editor-text');
@@ -1383,6 +1425,324 @@
             if (noteEditQueue.length > 0 && navigator.sendBeacon) {
                 var blob = new Blob([JSON.stringify({ edits: noteEditQueue })], { type: 'application/json' });
                 navigator.sendBeacon('/api/explanations', blob);
+            }
+        });
+
+        // ─── Revision Notes Editor ──────────────────────────────────────────
+        var revisionNoteQueue = [];
+        var revisionNoteTimer = null;
+        var REVISION_NOTE_DEBOUNCE_MS = 15000;
+
+        function showAddSectionForm() {
+            const viewer = document.getElementById('year-viewer');
+            const paperData = REVISION_NOTES[currentPaper] || {};
+            const data = paperData[currentSection] || { title: currentSection, sections: [] };
+            
+            // Create a modal-like overlay for adding a section
+            const modal = document.createElement('div');
+            modal.className = 'note-modal-overlay';
+            modal.innerHTML = `
+                <div class="note-modal-card">
+                    <h3>Add New Revision Section</h3>
+                    <div class="note-field">
+                        <label>Section Label (Display Name)</label>
+                        <input type="text" id="new-section-label" placeholder="e.g. Standard Discrete Distributions">
+                    </div>
+                    <div class="note-field">
+                        <label>Section ID (URL Fragment)</label>
+                        <input type="text" id="new-section-id" placeholder="e.g. discrete-dist">
+                    </div>
+                    <div class="note-editor-actions">
+                        <button class="note-cancel-btn" onclick="this.closest('.note-modal-overlay').remove()">Cancel</button>
+                        <button class="note-save-btn" onclick="createNewSection()">Create Section</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            const labelInput = document.getElementById('new-section-label');
+            const idInput = document.getElementById('new-section-id');
+            
+            labelInput.addEventListener('input', () => {
+                if (!idInput._manuallyEdited) {
+                    idInput.value = labelInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                }
+            });
+            idInput.addEventListener('input', () => { idInput._manuallyEdited = true; });
+            labelInput.focus();
+        }
+
+        function createNewSection() {
+            const label = document.getElementById('new-section-label').value.trim();
+            const id = document.getElementById('new-section-id').value.trim();
+            
+            if (!label || !id) {
+                alert('Both Label and ID are required.');
+                return;
+            }
+
+            if (!REVISION_NOTES[currentPaper]) REVISION_NOTES[currentPaper] = {};
+            if (!REVISION_NOTES[currentPaper][currentSection]) {
+                REVISION_NOTES[currentPaper][currentSection] = {
+                    title: currentSection.charAt(0).toUpperCase() + currentSection.slice(1),
+                    sections: [],
+                    tips: ""
+                };
+            }
+            
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            if (data.sections.find(s => s.id === id)) {
+                alert('A section with this ID already exists.');
+                return;
+            }
+
+            const newSec = { id, label, content: "New section content..." };
+            data.sections.push(newSec);
+            
+            // Remove modal
+            document.querySelector('.note-modal-overlay').remove();
+            
+            // Re-render and open editor
+            renderRevisionNotes();
+            showNoteSectionEditor(id);
+            
+            // Queue empty update to server to create the entry
+            queueNoteUpdate(currentPaper, currentSection, id, newSec.content, label);
+        }
+
+        function showNoteSectionEditor(sectionId) {
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            const section = data.sections.find(s => s.id === sectionId);
+            if (!section) return;
+
+            const container = document.getElementById(`note-content-${sectionId}`);
+            const titleEl = document.getElementById(`note-label-${sectionId}`);
+            
+            // Save current state for cancel functionality
+            const currentContent = section.content;
+            const currentLabel = section.label;
+
+            // Make title editable - Full width container for title + buttons
+            titleEl.parentNode.style.flexDirection = 'column';
+            titleEl.parentNode.style.alignItems = 'flex-start';
+            titleEl.parentNode.style.gap = '12px';
+            
+            titleEl.innerHTML = `<input type="text" id="edit-label-${sectionId}" value="${currentLabel.replace(/"/g, '&quot;')}" style="font-size: 1.2rem; font-weight: bold; background: rgba(0,0,0,0.3); border: 1px solid rgba(167, 139, 250, 0.3); color: white; width: 100%; border-radius: 8px; padding: 10px 15px; outline: none; box-sizing: border-box;">`;
+
+            // Move the Edit/Delete buttons to a separate row during editing
+            const headerRow = titleEl.parentNode;
+            const originalActions = headerRow.querySelector('.note-section-actions');
+            if (originalActions) originalActions.style.display = 'none';
+
+            container.innerHTML = `
+                <div class="note-editor-wrap">
+                    <textarea class="note-editor-textarea" id="edit-area-${sectionId}"></textarea>
+                    ${NOTE_FORMAT_HINT}
+                    <div class="note-editor-actions">
+                        <button class="note-cancel-btn" id="cancel-${sectionId}">Cancel</button>
+                        <button class="note-save-btn" onclick="saveNoteSection('${sectionId}')">Save Changes</button>
+                    </div>
+                </div>
+            `;
+            
+            const textarea = container.querySelector('textarea');
+            textarea.value = currentContent;
+            
+            container.querySelector(`#cancel-${sectionId}`).onclick = () => {
+                if (originalActions) originalActions.style.display = 'flex';
+                headerRow.style.flexDirection = 'row';
+                headerRow.style.alignItems = 'center';
+                cancelNoteEdit(sectionId, currentContent, currentLabel);
+            };
+            
+            textarea.focus();
+        }
+
+        function cancelNoteEdit(sectionId, originalContent, originalLabel) {
+            const container = document.getElementById(`note-content-${sectionId}`);
+            const titleEl = document.getElementById(`note-label-${sectionId}`);
+            
+            if (titleEl) {
+                titleEl.textContent = originalLabel;
+                const headerRow = titleEl.parentNode;
+                headerRow.style.flexDirection = 'row';
+                headerRow.style.alignItems = 'center';
+                const actions = headerRow.querySelector('.note-section-actions');
+                if (actions) actions.style.display = 'flex';
+            }
+            
+            if (container) {
+                container.innerHTML = renderNoteHtml(originalContent);
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([container]);
+                }
+            }
+        }
+
+        function saveNoteSection(sectionId) {
+            const textarea = document.getElementById(`edit-area-${sectionId}`);
+            const labelInput = document.getElementById(`edit-label-${sectionId}`);
+            if (!textarea || !labelInput) return;
+            
+            const newContent = textarea.value;
+            const newLabel = labelInput.value.trim() || sectionId;
+            
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            const section = data.sections.find(s => s.id === sectionId);
+            
+            if (section) {
+                section.content = newContent;
+                section.label = newLabel;
+                
+                // Update UI
+                const container = document.getElementById(`note-content-${sectionId}`);
+                const titleEl = document.getElementById(`note-label-${sectionId}`);
+                const headerRow = titleEl.parentNode;
+                
+                headerRow.style.flexDirection = 'row';
+                headerRow.style.alignItems = 'center';
+                const actions = headerRow.querySelector('.note-section-actions');
+                if (actions) actions.style.display = 'flex';
+                
+                titleEl.textContent = newLabel;
+                container.innerHTML = renderNoteHtml(newContent);
+                
+                // Refresh TOC if label changed
+                updateTOC();
+
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([container]);
+                }
+                
+                queueNoteUpdate(currentPaper, currentSection, sectionId, newContent, newLabel);
+            }
+        }
+
+        function deleteNoteSection(sectionId) {
+            if (!confirm(`Are you sure you want to delete the section "${sectionId}"? This cannot be undone.`)) return;
+            
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            const index = data.sections.findIndex(s => s.id === sectionId);
+            
+            if (index !== -1) {
+                data.sections.splice(index, 1);
+                
+                // Queue deletion (content=null or delete flag)
+                queueNoteUpdate(currentPaper, currentSection, sectionId, null, null, true);
+                
+                // Re-render the whole notes view to reflect removal from TOC and sections
+                renderRevisionNotes();
+            }
+        }
+
+        function updateTOC() {
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            const tocLinks = document.getElementById('toc-links');
+            if (!tocLinks || !data.sections) return;
+            
+            let html = '';
+            data.sections.forEach(sec => {
+                html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
+            });
+            tocLinks.innerHTML = html;
+        }
+
+        function showTipsEditor() {
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            const container = document.getElementById('note-tips-content');
+            const originalTips = data.tips;
+
+            container.innerHTML = `
+                <div class="note-editor-wrap">
+                    <textarea class="note-editor-textarea" id="edit-tips-area"></textarea>
+                    ${NOTE_FORMAT_HINT}
+                    <div class="note-editor-actions">
+                        <button class="note-cancel-btn" id="cancel-tips">Cancel</button>
+                        <button class="note-save-btn" onclick="saveTips()">Save Tips</button>
+                    </div>
+                </div>
+            `;
+            
+            const textarea = container.querySelector('textarea');
+            textarea.value = originalTips;
+            
+            container.querySelector('#cancel-tips').onclick = () => {
+                cancelTipsEdit(originalTips);
+            };
+            
+            textarea.focus();
+        }
+
+        function cancelTipsEdit(originalTips) {
+            const container = document.getElementById('note-tips-content');
+            container.innerHTML = renderNoteHtml(originalTips);
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([container]);
+            }
+        }
+
+        function saveTips() {
+            const textarea = document.getElementById('edit-tips-area');
+            if (!textarea) return;
+            const newTips = textarea.value;
+            const data = REVISION_NOTES[currentPaper][currentSection];
+            
+            data.tips = newTips;
+            const container = document.getElementById('note-tips-content');
+            container.innerHTML = renderNoteHtml(newTips);
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([container]);
+            }
+            queueNoteUpdate(currentPaper, currentSection, 'TIPS_PROPERTY', newTips);
+        }
+
+        function queueNoteUpdate(paper, section, sectionId, content, label = null, isDelete = false) {
+            const key = `${paper}|${section}|${sectionId}`;
+            revisionNoteQueue = revisionNoteQueue.filter(item => item.key !== key);
+            revisionNoteQueue.push({ paper, section, sectionId, content, label, delete: isDelete, key });
+
+            showCorrectionToast(isDelete ? 'Section deletion queued' : 'Note edit queued — saving in 15s');
+            if (revisionNoteTimer) clearTimeout(revisionNoteTimer);
+            revisionNoteTimer = setTimeout(flushNoteUpdateQueue, REVISION_NOTE_DEBOUNCE_MS);
+        }
+
+        function flushNoteUpdateQueue() {
+            if (revisionNoteTimer) { clearTimeout(revisionNoteTimer); revisionNoteTimer = null; }
+            if (revisionNoteQueue.length === 0) return;
+
+            const batch = revisionNoteQueue.map(item => ({
+                paper: item.paper,
+                section: item.section,
+                sectionId: item.sectionId,
+                content: item.content,
+                label: item.label,
+                delete: item.delete
+            }));
+            revisionNoteQueue = [];
+
+            fetch('/api/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ edits: batch })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.ok) {
+                    showCorrectionToast(res.count === 1 ? 'Updated notes.js' : `${res.count} changes saved to notes.js`);
+                } else {
+                    showCorrectionToast('Note save failed: ' + (res.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Note save error:', err);
+                showCorrectionToast('Offline — changes not saved to server');
+            });
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (revisionNoteQueue.length > 0 && navigator.sendBeacon) {
+                const blob = new Blob([JSON.stringify({ edits: revisionNoteQueue })], { type: 'application/json' });
+                navigator.sendBeacon('/api/notes', blob);
             }
         });
 

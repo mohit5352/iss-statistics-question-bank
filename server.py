@@ -12,6 +12,7 @@ import urllib.parse
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ANSWERS_FILE = os.path.join(SCRIPT_DIR, 'answers.js')
 EXPLANATIONS_FILE = os.path.join(SCRIPT_DIR, 'explanations.js')
+NOTES_FILE = os.path.join(SCRIPT_DIR, 'notes.js')
 
 # Load .env for local dev (optional; no extra deps)
 _env_path = os.path.join(SCRIPT_DIR, '.env')
@@ -276,6 +277,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.send_json(400, {'ok': False, 'error': 'Invalid JSON'})
             except Exception as e:
                 self.send_json(500, {'ok': False, 'error': str(e)})
+        elif self.path == '/api/notes':
+            try:
+                length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(length).decode('utf-8')
+                data = json.loads(body)
+                edits = data.get('edits', [])
+                if not edits:
+                    self.send_json(400, {'ok': False, 'error': 'Missing edits'})
+                    return
+                
+                count = 0
+                for e in edits:
+                    paper = e.get('paper')
+                    section = e.get('section')
+                    section_id = e.get('sectionId')
+                    content = e.get('content')
+                    label = e.get('label')
+                    delete = e.get('delete', False)
+                    if paper and section and section_id:
+                        # For delete, content can be None
+                        target_content = None if delete else content
+                        ok, err = apply_note_update(paper, section, section_id, target_content, label)
+                        if not ok:
+                            self.send_json(404, {'ok': False, 'error': err or 'Section not found'})
+                            return
+                        count += 1
+                self.send_json(200, {'ok': True, 'count': count})
+            except Exception as e:
+                self.send_json(500, {'ok': False, 'error': str(e)})
         else:
             self.send_error(404)
 
@@ -284,6 +314,246 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
         self.wfile.write(json.dumps(obj).encode('utf-8'))
+
+
+def apply_note_update(paper, section, section_id, new_content, label=None):
+    """Update, append, or delete a section content in notes.js. Returns (success, error_msg)."""
+    try:
+        with open(NOTES_FILE, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+
+        replaced = False
+        # Pre-pass: add first section to empty topic - format EXACTLY like prob (multi-line, each key on own line)
+        if not (new_content is None) and label:
+            for idx, l in enumerate(lines):
+                # Match "sections": [] (handles both inline and multi-line format)
+                if '"sections": []' not in l:
+                    continue
+                # Inline: "comp": { "title": "...", "sections": [], "tips": "" }
+                if f'"{section}"' in l and '"sections": []' in l:
+                    m = re.match(r'^(\s*)', l)
+                    base = m.group(1) if m else ''
+                    title_m = re.search(r'"title"\s*:\s*"([^"]*)"', l)
+                    tips_m = re.search(r'"tips"\s*:\s*"([^"]*)"', l)
+                    title = title_m.group(1) if title_m else section.replace('-', ' ').title()
+                    tips_val = tips_m.group(1) if tips_m else ''
+                    json_content = json.dumps(new_content)
+                    block = (
+                        base + f'"{section}": {{\n'
+                        + base + '    "title": ' + json.dumps(title) + ',\n'
+                        + base + '    "sections": [\n'
+                        + base + '        {\n'
+                        + base + '            "id": "' + section_id + '",\n'
+                        + base + '            "label": ' + json.dumps(label) + ',\n'
+                        + base + '            "content": ' + json_content + '\n'
+                        + base + '        }\n'
+                        + base + '    ],\n'
+                        + base + '    "tips": ' + json.dumps(tips_val) + '\n'
+                        + base + '},\n'
+                    )
+                    lines[idx] = block
+                    replaced = True
+                    break
+                # Multi-line: "sections": [] on its own line; find parent topic by looking backwards
+                sect_indent = len(re.match(r'^(\s*)', l).group(1)) if re.match(r'^(\s*)', l) else 0
+                for j in range(idx - 1, -1, -1):
+                    prev = lines[j]
+                    prev_indent = len(re.match(r'^(\s*)', prev).group(1)) if re.match(r'^(\s*)', prev) else 0
+                    key_m = re.match(r'^(\s*)"([^"]+)"\s*:\s*\{', prev)
+                    if key_m and prev_indent < sect_indent:
+                        found_key = key_m.group(2)
+                        if found_key == section:
+                            base = key_m.group(1)
+                            # Extract title and tips from the block (lines between start and idx)
+                            title = section.replace('-', ' ').title()
+                            tips_val = ''
+                            for k in range(j + 1, idx):
+                                tm = re.search(r'"title"\s*:\s*"([^"]*)"', lines[k])
+                                if tm:
+                                    title = tm.group(1)
+                                tpm = re.search(r'"tips"\s*:\s*"([^"]*)"', lines[k])
+                                if tpm:
+                                    tips_val = tpm.group(1)
+                            json_content = json.dumps(new_content)
+                            block = (
+                                base + f'"{section}": {{\n'
+                                + base + '    "title": ' + json.dumps(title) + ',\n'
+                                + base + '    "sections": [\n'
+                                + base + '        {\n'
+                                + base + '            "id": "' + section_id + '",\n'
+                                + base + '            "label": ' + json.dumps(label) + ',\n'
+                                + base + '            "content": ' + json_content + '\n'
+                                + base + '        }\n'
+                                + base + '    ],\n'
+                                + base + '    "tips": ' + json.dumps(tips_val) + '\n'
+                                + base + '},\n'
+                            )
+                            # Find end of block: }, at same indent
+                            end_idx = idx
+                            for k in range(idx + 1, len(lines)):
+                                if re.match(r'^\s*\},?\s*$', lines[k]) and len(re.match(r'^(\s*)', lines[k]).group(1)) == len(base):
+                                    end_idx = k
+                                    break
+                            lines[j:end_idx + 1] = block.splitlines(keepends=True)
+                            replaced = True
+                        break
+                    if prev_indent < sect_indent and prev.strip() and not key_m:
+                        break  # crossed into a different block
+                if replaced:
+                    break
+
+        target_path = [paper, section]
+        path_stack = [] # list of (indent, key)
+        result_lines = []
+        inside_sections_array = False
+        inside_target_id = False
+        sections_indent = ""
+        
+        is_delete = (new_content is None)
+        
+        # Helpful aliases
+        target_paper = paper
+        target_section = section
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            indent_match = re.match(r'^(\s*)', line)
+            current_indent = len(indent_match.group(1)) if indent_match else 0
+
+            # Pop from stack only when dedenting. Skip pop on: closing brace/bracket, or empty lines
+            # (empty lines have indent 0 and would incorrectly pop everything).
+            if line.strip() and not re.match(r'^\s*[\}\]]', line):
+                while path_stack and path_stack[-1][0] >= current_indent:
+                    path_stack.pop()
+
+            # (old single-line expansion removed; handled after key detection)
+
+            # Standard path tracking
+            key_match = re.match(r'^(\s*)"([^"]+)"\s*:\s*([\{\[])', line)
+            if key_match:
+                indent, key, bracket = len(key_match.group(1)), key_match.group(2), key_match.group(3)
+                path_stack.append((indent, key))
+                pk = [p[1] for p in path_stack]
+
+                if key == "sections":
+                    pk = [p[1] for p in path_stack]
+                    if len(pk) >= 3 and pk[-3:-1] == target_path:
+                        inside_sections_array = True
+                        sections_indent = key_match.group(1)
+
+            # Match start of a section object: {
+            if inside_sections_array and re.match(r'^\s*\{', line) and not replaced:
+                j = i + 1
+                found_id = None
+                while j < len(lines) and not re.match(r'^\s*[\}\]]', lines[j]):
+                    m = re.search(r'"id"\s*:\s*"([^"]+)"', lines[j])
+                    if m:
+                        found_id = m.group(1)
+                        break
+                    j += 1
+                
+                if found_id == section_id:
+                    if is_delete:
+                        while i < len(lines) and not re.match(r'^\s*\}', lines[i]): i += 1
+                        i += 1 # closing brace
+                        if i < len(lines) and re.match(r'^\s*,', lines[i]): i += 1
+                        replaced = True
+                        continue
+                    else:
+                        inside_target_id = True
+
+            # Match "id": "section_id"
+            id_match = re.search(r'"id"\s*:\s*"([^"]+)"', line)
+            if id_match:
+                pk = [p[1] for p in path_stack]
+                if len(pk) >= 3 and pk[-3:] == [paper, section, "sections"] and id_match.group(1) == section_id:
+                    inside_target_id = True
+                else:
+                    if len(pk) >= 3 and pk[-3:] == [paper, section, "sections"]:
+                        inside_target_id = False
+
+            # Match "label": ...
+            label_match = re.match(r'^(\s*)"label"\s*:\s*(.*)$', line)
+            if inside_target_id and label_match and label:
+                indent = label_match.group(1)
+                result_lines.append(f'{indent}"label": "{label}",\n')
+                i += 1
+                continue
+
+            # Match "content": ... or "tips": ...
+            content_match = re.match(r'^(\s*)"(content|tips)"\s*:\s*(.*)$', line)
+            if content_match:
+                match_type = content_match.group(2)
+                is_target = False
+                if match_type == "content" and inside_target_id:
+                    is_target = True
+                elif match_type == "tips" and section_id == "TIPS_PROPERTY":
+                    pk = [p[1] for p in path_stack]
+                    if len(pk) >= 2 and pk[-2:] == [paper, section]:
+                        is_target = True
+
+                if is_target:
+                    indent = content_match.group(1)
+                    rest = content_match.group(3)
+                    json_content = json.dumps(new_content)
+                    
+                    if rest.strip().startswith('`'):
+                        # Multi-line backtick: find end
+                        while i < len(lines) and '`' not in lines[i][lines[i].find('`')+1 if i==i else 0:]:
+                            i += 1
+                        l = lines[i]
+                        end_pos = l.find('`', l.find('`')+1 if i==i else 0)
+                        remainder = l[end_pos+1:] if end_pos != -1 else ""
+                        result_lines.append(f'{indent}"{match_type}": {json_content}{remainder}')
+                    else:
+                        trail = re.search(r'([,\]\}]?\s*)$', rest)
+                        remainder = trail.group(1) if trail else ''
+                        result_lines.append(f'{indent}"{match_type}": {json_content}{remainder}\n')
+                    
+                    replaced = True
+                    inside_target_id = False
+                    i += 1
+                    continue
+
+            # Handle appending new section at end of sections array
+            if inside_sections_array and re.match(r'^\s*\]', line) and not replaced and label:
+                if result_lines:
+                    k = len(result_lines) - 1
+                    while k >= 0 and not result_lines[k].strip(): k -= 1
+                    if k >= 0 and "}" in result_lines[k] and "," not in result_lines[k]:
+                        result_lines[k] = result_lines[k].replace("}", "},")
+                
+                indent = sections_indent + "    "
+                json_content = json.dumps(new_content)
+                new_section_block = [
+                    indent + "{\n",
+                    indent + f'    "id": "{section_id}",\n',
+                    indent + f'    "label": "{label}",\n',
+                    indent + f'    "content": {json_content}\n',
+                    indent + "}\n"
+                ]
+                result_lines.extend(new_section_block)
+                replaced = True
+
+            # Pop on closing brace or bracket - only pop when we've dedented to that block's level
+            if re.match(r'^\s*[\}\]]', line):
+                if path_stack and current_indent <= path_stack[-1][0]:
+                    path_stack.pop()
+                if re.match(r'^\s*\]', line):
+                    inside_sections_array = False
+                inside_target_id = False
+
+            result_lines.append(line)
+            i += 1
+
+        if not replaced and not is_delete:
+            return False, f'Section ID "{section_id}" not found in {paper}/{section}'
+
+        with open(NOTES_FILE, 'w', encoding='utf-8') as f:
+            f.writelines(result_lines)
+        return True, None
+    except Exception as e:
+        return False, str(e)
 
 
 def run(port=8000):
