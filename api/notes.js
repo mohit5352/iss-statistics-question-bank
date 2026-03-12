@@ -146,7 +146,7 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       if (foundId === sectionId) {
         if (isDelete) {
           while (i < lines.length && !/^\s*\}/.test(lines[i])) i++;
-          i++;
+          i++; // closing brace
           if (i < lines.length && /^\s*,/.test(lines[i])) i++;
           replaced = true;
           continue mainLoop;
@@ -155,13 +155,13 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
+    // FIX: Unified id match — set insideTargetId based solely on whether this id
+    // matches our target, within the correct sections array. No more spurious resets.
     const idMatch = line.match(/"id"\s*:\s*"([^"]+)"/);
     if (idMatch) {
       const pk = pathStack.map(p => p[1]);
-      if (pk.length >= 3 && pk.slice(-3).join(',') === [paper, section, 'sections'].join(',') && idMatch[1] === sectionId) {
-        insideTargetId = true;
-      } else if (pk.length >= 3 && pk.slice(-3).join(',') === [paper, section, 'sections'].join(',')) {
-        insideTargetId = false;
+      if (pk.length >= 3 && pk.slice(-3).join(',') === [paper, section, 'sections'].join(',')) {
+        insideTargetId = idMatch[1] === sectionId;
       }
     }
 
