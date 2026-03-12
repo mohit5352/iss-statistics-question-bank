@@ -209,13 +209,42 @@
                     <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg, rgba(124,58,237,0.95),transparent);opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
                 </div>`;
 
-            let html = `<div class="notes-container">
-                <div class="notes-header">
-                    <h1>${data.title}</h1>
-                </div>`;
+            // New Layout Structure: Sidebar + Main Content
+            let html = `
+                <div class="notes-layout" id="notes-layout">
+                    <aside class="notes-sidebar" id="notes-sidebar">
+                        <div class="sidebar-header">
+                            <span class="topic-badge">KEY TOPICS</span>
+                            <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            </button>
+                        </div>
+                        <div class="toc-links" id="toc-links">`;
 
-            html += `${sepHtml}`;
-            
+            if (data.sections && data.sections.length > 0) {
+                data.sections.forEach(sec => {
+                    html += `<a href="#${sec.id}" class="toc-link" onclick="handleTocClick(event, '${sec.id}')">${sec.label}</a>`;
+                });
+            } else {
+                html += `<p class="q-notes-empty" style="padding: 10px;">No topics yet.</p>`;
+            }
+
+            html += `   </div>
+                        ${isAdmin() ? `<button class="sidebar-add-btn" onclick="showAddSectionForm()">+ Add Section</button>` : ''}
+                    </aside>
+                    
+                    <button class="sidebar-open-btn" id="sidebar-open-btn" onclick="toggleSidebar()" aria-label="Open Sidebar">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                        <span>Topics</span>
+                    </button>
+
+                    <main class="notes-main-content">
+                        <div class="notes-container">
+                            <div class="notes-header">
+                                <h1>${data.title}</h1>
+                            </div>
+                            ${sepHtml}`;
+
             if (!data.sections || data.sections.length === 0) {
                 html += `
                     <div class="q-notes-empty">
@@ -224,21 +253,7 @@
                     </div>
                 `;
             } else {
-                html += `<div class="notes-toc">
-                            <div class="toc-topic-list" style="display:flex; justify-content:space-between; align-items:center;">
-                                <span class="topic-badge">KEY TOPICS</span>
-                                ${isAdmin() ? `<button class="note-add-btn" onclick="showAddSectionForm()" style="margin-bottom:10px;">+ Add Section</button>` : ''}
-                            </div>
-                            <div class="toc-links" id="toc-links">`;
-
-                data.sections.forEach(sec => {
-                    html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
-                });
-
-                html += `</div></div>`;
-
                 // Sections
-                html += sepHtml;
                 data.sections.forEach(sec => {
                     html += `<section id="${sec.id}" class="note-section">
                         <div class="note-section-header" style="display:flex; justify-content:space-between; align-items:center;">
@@ -279,11 +294,31 @@
                 }
             }
 
-            html += `</div>`;
+            html += `</div></main></div>`;
             viewer.innerHTML = html;
+
+            // Initialize sidebar state from localStorage
+            if (localStorage.getItem('iss_sidebar_collapsed') === 'true') {
+                document.getElementById('notes-layout').classList.add('sidebar-collapsed');
+            }
 
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([viewer]);
+            }
+        }
+
+        function toggleSidebar() {
+            const layout = document.getElementById('notes-layout');
+            if (!layout) return;
+            const isCollapsed = layout.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('iss_sidebar_collapsed', isCollapsed);
+        }
+
+        function handleTocClick(e, id) {
+            // On mobile, close sidebar after clicking a link
+            if (window.innerWidth <= 1024) {
+                const layout = document.getElementById('notes-layout');
+                if (layout) layout.classList.add('sidebar-collapsed');
             }
         }
 
@@ -1642,7 +1677,7 @@
             
             let html = '';
             data.sections.forEach(sec => {
-                html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
+                html += `<a href="#${sec.id}" class="toc-link" onclick="handleTocClick(event, '${sec.id}')">${sec.label}</a>`;
             });
             tocLinks.innerHTML = html;
         }
