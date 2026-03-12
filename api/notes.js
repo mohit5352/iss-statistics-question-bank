@@ -15,8 +15,6 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
   let sectionsIndent = '';
   const isDelete = newContent === null;
 
-  // Section exists = we are editing (replace only). Section missing = we are adding (append).
-  // Append must NOT run when editing, or we get duplication (original + appended copy).
   const sectionExists = lines.some(l => {
     const m = l.match(/"id"\s*:\s*"([^"]+)"/);
     return m && m[1] === sectionId;
@@ -28,7 +26,6 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       const l = lines[idx];
       if (!l.includes('"sections": []')) continue;
 
-      // Inline: "comp": { "title": "...", "sections": [], "tips": "" }
       if (l.includes(`"${section}"`) && l.includes('"sections": []')) {
         const baseMatch = l.match(/^(\s*)/);
         const base = baseMatch ? baseMatch[1] : '';
@@ -54,7 +51,6 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
         break;
       }
 
-      // Multi-line: find parent topic by looking backwards
       const sectIndentMatch = l.match(/^(\s*)/);
       const sectIndent = sectIndentMatch ? sectIndentMatch[1].length : 0;
       for (let j = idx - 1; j >= 0; j--) {
@@ -107,7 +103,6 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
     }
   }
 
-  // Main pass: path tracking and content replacement
   let i = 0;
   mainLoop: while (i < lines.length) {
     const line = lines[i];
@@ -120,7 +115,8 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
-    const keyMatch = line.match(/^(\s*)"([^"]+)"\s*:\s*([\{\[])/);
+    // FIX 1: 'm' flag so $ matches before trailing \n on each line
+    const keyMatch = line.match(/^(\s*)"([^"]+)"\s*:\s*([\{\[])/m);
     if (keyMatch) {
       const indent = keyMatch[1].length;
       const key = keyMatch[2];
@@ -132,21 +128,31 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
+    // FIX 2: bracket-aware lookahead — skips nested arrays/objects so it never
+    // stops at a closing ] inside a "content": [...] value before finding "id"
     if (insideSectionsArray && /^\s*\{/.test(line) && !replaced) {
       let j = i + 1;
       let foundId = null;
-      while (j < lines.length && !/^\s*[\}\]]/.test(lines[j])) {
-        const m = lines[j].match(/"id"\s*:\s*"([^"]+)"/);
-        if (m) {
-          foundId = m[1];
-          break;
+      let depth = 0;
+      while (j < lines.length) {
+        const jLine = lines[j];
+        let hitEnd = false;
+        for (const ch of jLine) {
+          if (ch === '[' || ch === '{') depth++;
+          if (ch === ']' || ch === '}') {
+            if (depth === 0) { hitEnd = true; break; }
+            depth--;
+          }
         }
+        if (hitEnd) break;
+        const m = jLine.match(/"id"\s*:\s*"([^"]+)"/);
+        if (m) { foundId = m[1]; break; }
         j++;
       }
       if (foundId === sectionId) {
         if (isDelete) {
           while (i < lines.length && !/^\s*\}/.test(lines[i])) i++;
-          i++; // closing brace
+          i++;
           if (i < lines.length && /^\s*,/.test(lines[i])) i++;
           replaced = true;
           continue mainLoop;
@@ -155,8 +161,7 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
-    // FIX: Unified id match — set insideTargetId based solely on whether this id
-    // matches our target, within the correct sections array. No more spurious resets.
+    // FIX 3: unified idMatch — single assignment, no spurious reset from old else branch
     const idMatch = line.match(/"id"\s*:\s*"([^"]+)"/);
     if (idMatch) {
       const pk = pathStack.map(p => p[1]);
@@ -165,14 +170,16 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
-    const labelMatch = line.match(/^(\s*)"label"\s*:\s*(.*)$/);
+    // FIX 1 applied: 'm' flag on labelMatch
+    const labelMatch = line.match(/^(\s*)"label"\s*:\s*(.*)$/m);
     if (insideTargetId && labelMatch && label) {
       resultLines.push(labelMatch[1] + '"label": ' + JSON.stringify(label) + ',\n');
       i++;
       continue mainLoop;
     }
 
-    const contentMatch = line.match(/^(\s*)"(content|tips)"\s*:\s*(.*)$/);
+    // FIX 1 applied: 'm' flag on contentMatch
+    const contentMatch = line.match(/^(\s*)"(content|tips)"\s*:\s*(.*)$/m);
     if (contentMatch) {
       const matchType = contentMatch[2];
       let isTarget = false;
@@ -183,15 +190,16 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
       if (isTarget) {
         const indent = contentMatch[1];
-        const rest = contentMatch[3];
+        const rest = contentMatch[3].replace(/\n$/, '');
         const jsonContent = JSON.stringify(newContent);
         if (rest.trim().startsWith('`')) {
+          // Backtick template literal
           while (i < lines.length) {
             const firstBacktick = lines[i].indexOf('`');
             const idx = firstBacktick >= 0 ? lines[i].indexOf('`', firstBacktick + 1) : -1;
             if (idx !== -1) {
-              const remainder = lines[i].slice(idx + 1);
-              resultLines.push(indent + '"' + matchType + '": ' + jsonContent + remainder);
+              const remainder = lines[i].slice(idx + 1).replace(/\n$/, '');
+              resultLines.push(indent + '"' + matchType + '": ' + jsonContent + remainder + '\n');
               i++;
               replaced = true;
               insideTargetId = false;
@@ -199,15 +207,40 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
             }
             i++;
           }
+        } else if (
+          (rest.trim().startsWith('[') || rest.trim().startsWith('{')) &&
+          !rest.trim().endsWith(']') && !rest.trim().endsWith('}') &&
+          !rest.trim().endsWith('],') && !rest.trim().endsWith('},')
+        ) {
+          // FIX 4: multiline array/object value — consume all lines until depth=0,
+          // then write one replacement line. Previously this fell through to single-line
+          // handling which left the remaining array lines as corrupt output.
+          let depth = 0;
+          let trailingComma = false;
+          while (i < lines.length) {
+            for (const ch of lines[i]) {
+              if (ch === '[' || ch === '{') depth++;
+              if (ch === ']' || ch === '}') depth--;
+            }
+            const trimmed = lines[i].trimEnd();
+            if (trimmed.endsWith('],') || trimmed.endsWith('},')) trailingComma = true;
+            i++;
+            if (depth <= 0) break;
+          }
+          resultLines.push(indent + '"' + matchType + '": ' + jsonContent + (trailingComma ? ',' : '') + '\n');
+          replaced = true;
+          insideTargetId = false;
+          continue mainLoop;
         } else {
+          // Single-line value
           const trail = rest.match(/([,\]\}]?\s*)$/);
-          const remainder = trail ? trail[1] : '';
+          const remainder = trail ? trail[1].trimEnd() : '';
           resultLines.push(indent + '"' + matchType + '": ' + jsonContent + remainder + '\n');
+          replaced = true;
+          insideTargetId = false;
+          i++;
+          continue mainLoop;
         }
-        replaced = true;
-        insideTargetId = false;
-        i++;
-        continue mainLoop;
       }
     }
 
@@ -334,4 +367,5 @@ export default async function handler(req, res) {
   } catch (e) {
     return res.status(500).json({ ok: false, error: String(e.message || e) });
   }
-}
+            }
+
