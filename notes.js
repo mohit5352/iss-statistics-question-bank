@@ -63,11 +63,6 @@ const REVISION_NOTES = {
                 {
                     "id": "test",
                     "label": "test",
-                    "content": "New section content...testinf"
-                },
-                {
-                    "id": "test",
-                    "label": "test",
                     "content": "New section content...testinf 123"
                 },
                 {
@@ -111,6 +106,7 @@ const REVISION_NOTES = {
         },
     }
 };
+
 
 
 
