@@ -38,6 +38,7 @@ const REVISION_NOTES = {
             "id": "descriptive-stats",
             "label": "Descriptive Statistics & Data Presentation",
             "content": "## Descriptive Statistics & Data Presentation\n\n### Measures of Location\n\n| Measure | Formula / Property |\n|---|---|\n| Mean | \\(\\bar{x} = \\sum x_i/n\\); minimises \\(\\sum(x_i-a)^2\\) |\n| Median | Middle value; minimises \\(\\sum|x_i-a|\\) |\n| Mode | Most frequent value; minimises 0-1 loss |\n| **Empirical relation** | \\(\\text{Mode} \\approx 3\\,\\text{Median} - 2\\,\\text{Mean}\\) |\n\n### Measures of Dispersion\n\n\\[\n\\text{Variance} = \\frac{1}{n}\\sum(x_i-\\bar{x})^2, \\quad \\text{SD} = \\sqrt{\\text{Var}}, \\quad \\text{CV} = \\frac{\\sigma}{\\bar{x}}\\times 100\n\\]\n\n**Range** = Max − Min; **IQR** = Q3 − Q1; **Mean Deviation** = \\(\\frac{1}{n}\\sum|x_i - \\text{median}|\\) (minimum)\n\n### Skewness & Kurtosis\n\n\\[\n\\gamma_1 = \\frac{\\mu_3}{\\sigma^3} \\quad (\\text{Karl Pearson's } \\beta_1 = \\gamma_1^2)\n\\]\n\\[\n\\beta_2 = \\frac{\\mu_4}{\\sigma^4}: \\quad \\beta_2 = 3 \\text{ (Mesokurtic)}, \\; >3 \\text{ (Leptokurtic)}, \\; <3 \\text{ (Platykurtic)}\n\\]\n\\[\n\\gamma_2 = \\beta_2 - 3 \\quad (\\text{excess kurtosis})\n\\]\n\n**P
+        }
     },
 "num": {
     "title": "Numerical Analysis",
