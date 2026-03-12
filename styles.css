@@ -9,9 +9,8 @@
    Border mid:  rgba(167,139,250,0.1)   (q-header bottom rule)
    Border hover:rgba(167,139,250,0.18)  (card hover ring)
 
-   Purple  (primary — h1, q-number, q-header, meta, set, buttons, answers):
+   Purple  (primary — h1, q-number, q-header, meta, set, buttons, answers, notes):
            deep  #7c3aed  /  mid  #a78bfa  /  light  #c4b5fd  /  pale  #e0d7ff
-   Cyan    (standalone h2 only — not used elsewhere):  #22d3ee / #67e8f9
    Rose    (option text + opt-label):                  #fb7185 / #fda4af
    Emerald (copy-success state):                       #10b981 / #34d399
    Text:   #f1f0f7 (primary)  /  #b0aac8 (context)  /  #5858a0 (topic / muted)
@@ -56,13 +55,13 @@ h1 {
 }
 
 h2 {
-    color: #67e8f9;
+    color: #a78bfa;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.3;
-    text-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
+    text-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
 }
 
 /* Year section headers inside question files */
@@ -836,13 +835,13 @@ h2 {
 .revealed-triggers-row .edit-explanation-trigger {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #67e8f9;
+    color: #a78bfa;
     cursor: pointer;
     letter-spacing: 0.02em;
     opacity: 0.95;
     transition: opacity 0.2s ease, color 0.2s ease;
 }
-.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: #a0f0ff; }
+.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: #c4b5fd; }
 
 .notes-wrap {
     width: 100%;
@@ -947,7 +946,7 @@ h2 {
     border-radius: 10px;
     border: 1px solid rgba(167,139,250,0.12);
     background: rgba(0,0,0,0.35);
-    color: #e6fbff;
+    color: #f1f0f7;
     font-family: inherit;
     font-size: 0.95rem;
     resize: vertical;
@@ -962,15 +961,15 @@ h2 {
     font-weight: 700;
 }
 .note-save-btn {
-    background: linear-gradient(135deg, #22d3ee 0%, #7c3aed 100%);
-    color: #071018;
-    border: 1px solid rgba(34,211,238,0.14);
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+    color: #fff;
+    border: 1px solid rgba(167,139,250,0.2);
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);
     transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
 }
 .note-save-btn:hover {
-    background: linear-gradient(135deg, #1dd3f0 0%, #8b5cf6 100%);
-    color: #071018;
+    background: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 100%);
+    color: #fff;
     transform: translateY(-1px);
     box-shadow: 0 8px 26px rgba(124,58,237,0.12);
     border-color: rgba(139,92,246,0.22);
@@ -1548,115 +1547,130 @@ h2 {
 
 .section-title {
     color: #c4b5fd !important;
-    font-size: 1.8rem !important;
-    margin-bottom: 25px !important;
-    text-align: left !important;
+    font-size: 1.55rem !important;
     font-weight: 700 !important;
+    margin: 0 0 20px 0 !important;
+    padding-bottom: 14px !important;
+    text-align: left !important;
     text-shadow: none !important;
+    border-bottom: 1px solid rgba(167, 139, 250, 0.2) !important;
+    letter-spacing: -0.01em;
 }
 
-/* Note headers — systematic hierarchy, theme-consistent. Use block layout so MathJax renders correctly. */
+/* Note headers — strict visual hierarchy matching Obsidian theme palette */
 .note-h1, .note-h2, .note-h3, .note-h4, .note-h5, .note-h6 {
     display: block;
-    font-weight: 600;
+    font-weight: 700;
     margin-left: 0;
     text-align: left;
+    line-height: 1.3;
 }
 
+/* h1 — pale lavender, full underline. Largest, rarely used inside sections. */
 .note-h1 {
-    color: #c4b5fd;
-    font-size: 1.6rem;
-    margin: 0 0 20px 0;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(167, 139, 250, 0.25);
+    color: #e0d7ff;
+    font-size: 1.5rem;
+    margin: 0 0 18px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(196, 181, 253, 0.25);
+    letter-spacing: -0.01em;
 }
 
+/* h2 — mid-purple, distinct from section-title (#c4b5fd) and h3 (#f0abfc).
+   Wide dash marker clearly wider than h3's left-bar to show rank. */
 .note-h2 {
-    color: #c4b5fd;
-    font-size: 1.45rem;
-    margin: 36px 0 14px 0;
+    color: #a78bfa;
+    font-size: 1.35rem;
+    margin: 32px 0 12px 0;
+    text-shadow: 0 0 18px rgba(167, 139, 250, 0.2);
 }
 
 .note-h2::before {
     content: '';
     display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: #a78bfa;
-    border-radius: 50%;
+    width: 18px;
+    height: 3px;
+    background: linear-gradient(90deg, #a78bfa, rgba(167, 139, 250, 0.5));
+    border-radius: 2px;
     margin-right: 10px;
     vertical-align: middle;
 }
 
+/* h3 — fuchsia, left border bar. Most common heading inside note sections. */
 .note-h3 {
     color: #f0abfc;
-    font-size: 1.3rem;
-    margin: 30px 0 12px 0;
+    font-size: 1.18rem;
+    margin: 26px 0 10px 0;
+    padding-left: 12px;
+    border-left: 3px solid rgba(240, 171, 252, 0.5);
 }
 
 .note-h3::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: #7c3aed;
-    border-radius: 2px;
-    transform: rotate(45deg);
-    margin-right: 10px;
-    vertical-align: middle;
+    content: none;
 }
 
+/* h4 — mid-lavender, filled triangle. One step below h3. */
 .note-h4 {
-    color: #f0abfc;
-    font-size: 1.15rem;
-    margin: 24px 0 10px 0;
+    color: #c4b5fd;
+    font-size: 1.05rem;
+    margin: 20px 0 8px 0;
 }
 
 .note-h4::before {
     content: '▸';
-    color: #7c3aed;
-    font-size: 0.85em;
-    margin-right: 8px;
+    color: #a78bfa;
+    font-size: 0.78em;
+    margin-right: 7px;
+    vertical-align: middle;
 }
 
+/* h5 — muted purple, ALL-CAPS label style. Clearly a sub-label, not a heading. */
 .note-h5 {
-    color: #e0d7ff;
-    font-size: 1.05rem;
-    margin: 18px 0 8px 0;
+    color: #a78bfa;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 16px 0 6px 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
+/* h6 — dim, smallest. Fine-grain annotation only. */
 .note-h6 {
-    color: #b0aac8;
-    font-size: 0.98rem;
-    margin: 14px 0 6px 0;
+    color: #5858a0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 12px 0 4px 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 /* Horizontal rule in notes */
 .note-hr {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.35), transparent);
-    margin: 28px 0;
+    background: linear-gradient(90deg, transparent 5%, rgba(167, 139, 250, 0.4) 45%, rgba(167, 139, 250, 0.4) 55%, transparent 95%);
+    margin: 24px 0;
 }
 
-/* Blockquote in notes */
+/* Blockquote in notes — ISS tips. font-style on wrapper skews MathJax, use span instead. */
 .note-blockquote {
-    margin: 18px 0;
-    padding: 12px 18px;
+    margin: 20px 0;
+    padding: 14px 20px;
     border-left: 4px solid #7c3aed;
-    background: rgba(124, 58, 237, 0.06);
-    border-radius: 0 8px 8px 0;
-    color: #b0aac8;
-    font-style: italic;
+    background: rgba(124, 58, 237, 0.07);
+    border-radius: 0 10px 10px 0;
+    color: #c4b5fd;
+    font-style: normal;
 }
 
 .note-blockquote strong {
     color: #f0abfc;
+    font-style: normal;
 }
 
-/* Ensure MathJax inside blockquote isn't skewed by italic */
 .note-blockquote mjx-container {
     font-style: normal !important;
+    color: #c4b5fd !important;
 }
 
 /* Inline markdown in notes — strong, em, code */
@@ -1710,58 +1724,67 @@ h2 {
 }
 
 .note-p {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     line-height: 1.8;
-    color: #b0aac8;
-    font-size: 1.05rem;
+    color: #d4d0e8;
+    font-size: 1.02rem;
     overflow-x: auto;
     overflow-y: hidden;
 }
 .note-list li {
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     position: relative;
     list-style: none;
-    color: #f1f0f7;
-    line-height: 2.25;
+    color: #d4d0e8;
+    line-height: 1.75;
+    padding-left: 2px;
 }
 
+/* Top-level bullet — mid-purple chevron */
 .note-list:not(.note-ol) li::before {
-    content: '→';
+    content: '›';
     position: absolute;
-    left: -20px;
-    color: #7c3aed;
-    font-weight: bold;
+    left: -18px;
+    color: #a78bfa;
+    font-weight: 700;
+    font-size: 1.1em;
+    line-height: 1.75;
 }
 
 .note-ol li {
     list-style: decimal;
+    padding-left: 2px;
 }
 
 .note-ol li::marker {
-    color: #7c3aed;
-    font-weight: bold;
+    color: #a78bfa;
+    font-weight: 700;
 }
 
-/* Support for nested lists */
+/* Nested lists — tighter, dim marker to visually de-emphasise */
 .note-list .note-list {
-    margin-left: 25px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-left: 22px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-/* Ensure nested list items also have the arrow if they are unordered */
 .note-list .note-list:not(.note-ol) li::before {
-    content: '→';
+    content: '·';
+    color: #5858a0;
+    font-size: 1.4em;
+    left: -16px;
+    line-height: 1.6;
 }
 
 /* Formula blocks in notes */
 .note-section-content mjx-container[display="true"] {
-    background: rgba(0, 0, 0, 0.3) !important;
-    padding: 25px !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(124, 58, 237, 0.1) !important;
-    margin: 25px 0 !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5) !important;
+    background: rgba(0, 0, 0, 0.28) !important;
+    padding: 18px 22px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(124, 58, 237, 0.15) !important;
+    border-left: 3px solid rgba(167, 139, 250, 0.5) !important;
+    margin: 18px 0 !important;
+    box-shadow: inset 0 1px 8px rgba(0,0,0,0.45) !important;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -1848,13 +1871,13 @@ h2 {
     box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1), inset 0 2px 10px rgba(0,0,0,0.5);
 }
 
-/* Formatting help hint in note editors */
+/* Formatting help — above editor, compact reference bar */
 .note-format-hint {
-    margin: 8px 0;
+    margin: 0 0 12px 0;
     padding: 10px 14px;
-    background: rgba(124, 58, 237, 0.06);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(167, 139, 250, 0.04) 100%);
     border: 1px solid rgba(167, 139, 250, 0.15);
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 0.8rem;
     color: #b0aac8;
 }
@@ -1864,15 +1887,31 @@ h2 {
     font-weight: 600;
     color: #a78bfa;
     user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
+
+.note-format-hint summary::-webkit-details-marker { display: none; }
+.note-format-hint summary::marker { display: none; }
+
+.note-format-hint summary::before {
+    content: '▸';
+    font-size: 0.7em;
+    transition: transform 0.2s ease;
+}
+.note-format-hint[open] summary::before { transform: rotate(90deg); }
 
 .note-format-hint summary:hover {
     color: #c4b5fd;
 }
 
 .note-format-hint-body {
-    margin-top: 10px;
-    line-height: 1.9;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(167, 139, 250, 0.12);
+    line-height: 1.85;
 }
 
 .note-format-hint code {

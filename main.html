@@ -1325,7 +1325,7 @@
             return resultHtml;
         }
 
-        var NOTE_FORMAT_HINT = '<details class="note-format-hint"><summary>Formatting help</summary><div class="note-format-hint-body">' +
+        var NOTE_FORMAT_HINT = '<details class="note-format-hint" open><summary>Formatting help</summary><div class="note-format-hint-body">' +
             '<strong>Headers:</strong> <code>#</code> <code>##</code> <code>###</code> …<br>' +
             '<strong>Bold:</strong> <code>**text**</code> &nbsp; <strong>Italic:</strong> <code>*text*</code> &nbsp; <strong>Inline code:</strong> <code>`code`</code><br>' +
             '<strong>Code block:</strong> <code>```</code> on own line, code, <code>```</code><br>' +
@@ -1338,8 +1338,8 @@
             notesWrap.innerHTML = '';
             var editor = document.createElement('div');
             editor.className = 'note-editor';
-            editor.innerHTML = '<textarea class="note-editor-text" placeholder="Write explanation — LaTeX is OK (use \\(\\) or \\[\\])"></textarea>' +
-                NOTE_FORMAT_HINT +
+            editor.innerHTML = NOTE_FORMAT_HINT +
+                '<textarea class="note-editor-text" placeholder="Write explanation — LaTeX is OK (use \\(\\) or \\[\\])"></textarea>' +
                 '<div class="note-editor-actions"><button class="note-cancel-btn">Cancel</button><button class="note-save-btn">Save</button></div>';
             notesWrap.appendChild(editor);
             var ta = editor.querySelector('.note-editor-text');
@@ -1536,8 +1536,8 @@
 
             container.innerHTML = `
                 <div class="note-editor-wrap">
-                    <textarea class="note-editor-textarea" id="edit-area-${sectionId}"></textarea>
                     ${NOTE_FORMAT_HINT}
+                    <textarea class="note-editor-textarea" id="edit-area-${sectionId}"></textarea>
                     <div class="note-editor-actions">
                         <button class="note-cancel-btn" id="cancel-${sectionId}">Cancel</button>
                         <button class="note-save-btn" onclick="saveNoteSection('${sectionId}')">Save Changes</button>
@@ -1654,8 +1654,8 @@
 
             container.innerHTML = `
                 <div class="note-editor-wrap">
-                    <textarea class="note-editor-textarea" id="edit-tips-area"></textarea>
                     ${NOTE_FORMAT_HINT}
+                    <textarea class="note-editor-textarea" id="edit-tips-area"></textarea>
                     <div class="note-editor-actions">
                         <button class="note-cancel-btn" id="cancel-tips">Cancel</button>
                         <button class="note-save-btn" onclick="saveTips()">Save Tips</button>
