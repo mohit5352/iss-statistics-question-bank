@@ -1,6 +1,6 @@
 # ISS Statistics Question Bank — Deployment Guide
 
-This guide walks you through deploying the app to **Vercel** (free) so that **answer corrections** and **explanation edits** work on the live site and update `answers.js` and `explanations.js` in your GitHub repo.
+This guide walks you through deploying the app to **Vercel** (free) so that **answer corrections**, **explanation edits**, and **Revision Notes** work on the live site and update `answers.js`, `explanations.js`, and `notes.js` in your GitHub repo.
 
 **Live deployment:** [https://iss-statistics-question-bank.vercel.app/](https://iss-statistics-question-bank.vercel.app/) (with API server)
 
@@ -87,18 +87,19 @@ vercel
 3. Select a paper, section, and year
 4. Click **Show Answer** on a question
 5. **Answer correction**: Click **Wrong Answer?** → choose the correct option (e.g. `(b)`). You should see **"Updated answers.js"**. Refresh — the correction should persist.
-6. **Explanation**: Click **Add Explanation** → type an explanation (LaTeX supported: `\( \)` for inline, `\[ \]` for display) → **Save**. You should see **"Updated explanations.js"** or **"explanations saved to explanations.js"**. Refresh — the explanation should persist.
-7. Check your GitHub repo — `answers.js` and `explanations.js` should have new commits when you make edits
+6. **Explanation**: Click **Add Explanation** → type an explanation (LaTeX supported: `\( \)` for inline, `\[ \]` for display) → **Save**. You should see **"Updated explanations.js"**. Refresh — the explanation should persist.
+7. **Revision Notes**: Switch to **Revision Notes** mode → edit a section or add a new one → **Save**. You should see **"Updated notes.js"**. Refresh — the notes should persist.
+8. Check your GitHub repo — `answers.js`, `explanations.js`, and `notes.js` should have new commits when you make edits
 
 ---
 
 ## How It Works
 
-| Environment      | Answer corrections | Explanation edits                                      |
-|------------------|--------------------|--------------------------------------------------------|
-| **Local (server.py)** | Writes to `answers.js` on your machine | Writes to `explanations.js` on your machine          |
-| **Vercel (live)**    | API updates `answers.js` in GitHub | API updates `explanations.js` in GitHub                |
-| **GitHub Pages**     | Stored in `localStorage` only | Stored in `localStorage` only                         |
+| Environment      | Answer corrections | Explanation edits | Revision Notes (notes.js) |
+|------------------|--------------------|-------------------|---------------------------|
+| **Local (server.py)** | Writes to `answers.js` on your machine | Writes to `explanations.js` on your machine | Writes to `notes.js` on your machine |
+| **Vercel (live)**    | API updates `answers.js` in GitHub | API updates `explanations.js` in GitHub | API updates `notes.js` in GitHub |
+| **GitHub Pages**     | Stored in `localStorage` only | Stored in `localStorage` only | Not available |
 
 ---
 
@@ -125,21 +126,26 @@ vercel
 - If it returns 200 and `{ ok: true }`, the update was successful
 - A new commit should appear in your GitHub repo
 
+### Notes (notes.js) not updating on Vercel
+- Ensure `api/notes.js` exists and is deployed (Vercel creates `/api/notes` from it)
+- Same `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` env vars are used for notes
+- Check Network tab for `/api/notes` — 404 means the serverless function is missing
+
 ---
 
 ## Local Development
 
-For local development with live corrections and admin login:
+For local development with live corrections, explanations, notes, and admin login:
 
 ```bash
-# Create .env from .env.example and set ADMIN_USERNAME, ADMIN_PASSWORD, CONTACT_EMAIL
+# Create .env from .env.example and set ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, CONTACT_EMAIL
 # (server.py loads .env automatically; do not commit .env)
 
-# Option 1: Python server (writes to local answers.js, supports login)
+# Option 1: Python server (writes to answers.js, explanations.js, notes.js; supports login)
 python3 server.py 8000
 # Open http://localhost:8000/main.html
 
-# Option 2: Static only (corrections go to localStorage; login requires API)
+# Option 2: Static only (corrections/explanations go to localStorage; notes not persisted; login requires API)
 python3 -m http.server 8000
 # Open http://localhost:8000/main.html
 ```
@@ -150,4 +156,5 @@ python3 -m http.server 8000
 
 1. Create a GitHub PAT with `repo` scope  
 2. Deploy to Vercel and add `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`  
-3. Answer corrections and explanation edits on the live site will update `answers.js` and `explanations.js` in your GitHub repo
+3. Add `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login  
+4. Answer corrections, explanation edits, and Revision Notes on the live site will update `answers.js`, `explanations.js`, and `notes.js` in your GitHub repo

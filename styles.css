@@ -907,12 +907,14 @@ h2 {
 }
 
 .q-notes-rich code {
-    background: rgba(124, 58, 237, 0.15);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
     color: #f0abfc;
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9em;
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .q-notes-rich strong {
@@ -1675,31 +1677,36 @@ h2 {
 .q-notes-content code, .note-section-content code,
 .q-notes-content .note-p code, .note-section-content .note-p code,
 .note-list code {
-    background: rgba(124, 58, 237, 0.15);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
     color: #f0abfc;
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9em;
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Fenced code block in notes */
 .note-code-block {
     margin: 18px 0;
     padding: 16px 18px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(124, 58, 237, 0.2);
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.12) 0%, #0a0a0e 35%, rgba(10, 10, 14, 0.98) 100%);
+    border: 1px solid rgba(167, 139, 250, 0.3);
     border-radius: 8px;
     overflow-x: auto;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9rem;
     line-height: 1.6;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .note-code-block code {
     background: none;
     padding: 0;
     color: #e0d7ff;
+    border: none;
+    box-shadow: none;
 }
 
 .note-p {

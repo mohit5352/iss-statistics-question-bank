@@ -1,6 +1,6 @@
 # UPSC ISS Statistics Question Bank
 
-> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers.
+> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers, **Revision Notes** with markdown.
 
 This repository contains a web-based archive of **objective MCQs** from UPSC ISS **Statistics Paper I** and **Statistics Paper II**, organised by **paper**, **section**, and **year**. Aligned with the official UPSC ISS syllabus:
 
@@ -23,17 +23,19 @@ statistics_question_bank/
 ├── styles.css                                     # Styling for question cards and layout
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
 ├── explanations.js                                # Explanations for each question (skeleton mirrors answers.js; empty template literals)
-├── server.py                                      # Local server with answer correction + explanation + auth support (writes to answers.js, explanations.js)
+├── notes.js                                       # Revision Notes per paper/section (sections, tips; markdown + LaTeX)
+├── server.py                                      # Local server with answer correction + explanation + notes + auth (writes to answers.js, explanations.js, notes.js)
 ├── api/
 │   ├── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
 │   ├── explanations.js                            # Vercel serverless API for live explanation edits (updates explanations.js in GitHub)
+│   ├── notes.js                                   # Vercel serverless API for Revision Notes edits (updates notes.js in GitHub)
 │   ├── auth.js                                    # Admin login validation (ADMIN_USERNAME, ADMIN_PASSWORD)
 │   └── config.js                                 # Public config (CONTACT_EMAIL for login page)
 ├── vercel.json                                    # Vercel config (rewrites / to main.html, /login to login.html)
 ├── robots.txt                                     # Search engine crawl rules; points to sitemap
 ├── sitemap.xml                                    # Sitemap for search engines and AI crawlers
 ├── .env.example                                   # Example env vars (ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, CONTACT_EMAIL)
-├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections + admin login)
+├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections, explanations, notes + admin login)
 ├── QUICK_START.md                                 # Quick start guide
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
 ├── start-server.bat                               # Quick start script for local server (Windows)
@@ -75,7 +77,7 @@ statistics_question_bank/
      cd "path\to\statistics_question_bank"
      python server.py 8000
      ```
-   - **Note**: `server.py` serves static files and supports **answer corrections** (writes directly to `answers.js`) and **admin login**. For static-only serving, use `python3 -m http.server 8000` instead. For local login, create `.env` from `.env.example` and set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
+   - **Note**: `server.py` serves static files and supports **answer corrections** (writes to `answers.js`), **explanation edits** (writes to `explanations.js`), **Revision Notes** (writes to `notes.js`), and **admin login**. For static-only serving, use `python3 -m http.server 8000` instead. For local login, create `.env` from `.env.example` and set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 
 2. **Find your computer's IP address**:
    - Mac: System Preferences → Network → IP Address
@@ -89,9 +91,9 @@ statistics_question_bank/
 
 **Note**: Mobile browsers block loading local files directly. Using a local web server is the most reliable method.
 
-### Live Deployment (Vercel) — Answer Corrections & Explanations on Production
+### Live Deployment (Vercel) — Answer Corrections, Explanations & Revision Notes on Production
 
-To deploy so that **answer corrections** and **explanation edits** work on the live site (updating `answers.js` and `explanations.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections and explanations, and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
+To deploy so that **answer corrections**, **explanation edits**, and **Revision Notes** work on the live site (updating `answers.js`, `explanations.js`, and `notes.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections, explanations, and notes; and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
 
 ## 🎯 Features
 
@@ -106,6 +108,7 @@ To deploy so that **answer corrections** and **explanation edits** work on the l
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Add Explanation** or **Edit Explanation** link appears in the action row. Click it to add or edit a step-by-step explanation for the question (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
+- **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Each section has multiple subsections with titles and content. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Formatting help** (collapsible) is available in all note editors.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
@@ -150,7 +153,7 @@ To deploy so that **answer corrections** and **explanation edits** work on the l
 
 You can copy the base HTML structure from an existing year file and modify it.
 
-### Step 3: HTML File Structure statistics_question_banklate
+### Step 3: HTML File Structure Template
 
 ```html
 <!DOCTYPE html>
@@ -340,6 +343,7 @@ For **each section file** and each year:
 - [ ] Add year option to dropdown in `main.html` (if not already present)
 - [ ] Add answer keys to `answers.js` (see Show Answer Feature section)
 - [ ] (Optional) Add explanations to `explanations.js` or use Add/Edit Explanation in the UI
+- [ ] (Optional) Add or edit Revision Notes in `notes.js` via the Revision Notes mode in the UI
 - [ ] Test that all section files load correctly
 - [ ] Verify MathJax renders all mathematical expressions correctly
 
@@ -356,6 +360,7 @@ For **each section file** and each year:
 - [ ] Add year option to dropdown in `main.html` (if not already present)
 - [ ] Add answer keys to `answers.js` (see Show Answer Feature section)
 - [ ] (Optional) Add explanations to `explanations.js` or use Add/Edit Explanation in the UI
+- [ ] (Optional) Add or edit Revision Notes in `notes.js` via the Revision Notes mode in the UI
 - [ ] Test that all section files load correctly
 - [ ] Verify MathJax renders all mathematical expressions correctly
 
@@ -367,6 +372,7 @@ For **each section file** and each year:
 - **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted with tab-separated cells and newline-separated rows so pasted content preserves structure.
 - **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Explanation System**: Explanations are stored in `explanations.js` (skeleton mirrors `answers.js`; values are empty template literals). Admins can add or edit explanations via **Add/Edit Explanation** when the answer is visible. Edits are submitted via `POST /api/explanations`. Behaviour by deployment: **Local** (`server.py`) writes to `explanations.js`; **Vercel** (`api/explanations.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Revision Notes System**: Notes are stored in `notes.js` (structure: `paper`, `section`, `sections[]` with `id`, `label`, `content`, plus `tips` per topic). **Markdown** supports: headers (`#`–`######`), **bold** (`**text**`), *italic* (`*text*`), `inline code`, fenced code blocks (` ``` `), lists (`-` or `1.`), blockquote (`>`), horizontal rule (`---`), tables (`| col | col |`). **LaTeX**: inline `\( ... \)`, block `\[ ... \]`, or `$...$` / `$$...$$`. A collapsible **Formatting help** appears in all note editors. Edits are submitted via `POST /api/notes`. **Local** writes to `notes.js`; **Vercel** (`api/notes.js`) pushes to GitHub; **GitHub Pages** / static: not available.
 - **Admin Login**: Credentials are validated via `POST /api/auth`; contact email is served via `GET /api/config`. Env vars: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
@@ -458,6 +464,11 @@ For **each section file** and each year:
 - **Local server**: Use `python3 server.py 8000` so the `/api/explanations` endpoint is available.
 - **Add/Edit Explanation not visible?**: You must be logged in as admin. Run `node generate_explanations.js` if `explanations.js` structure is out of sync with `answers.js`.
 
+### Revision Notes (notes.js) not updating?
+- **GitHub Pages / file://**: Revision Notes edits are not persisted on static hosting. Deploy to [Vercel](DEPLOYMENT.md) or run `server.py` locally.
+- **Vercel**: Ensure `api/notes.js` is deployed (Vercel creates `/api/notes` from it). Same env vars: `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`. Check Network tab for 404 on `/api/notes`.
+- **Local server**: Use `python3 server.py 8000` so the `/api/notes` endpoint is available.
+
 ## 📚 Example Question Structure
 
 Here's a complete example of a formatted question:
@@ -519,10 +530,10 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 | Deployment | Correction behaviour |
 |------------|----------------------|
-| **Local (server.py)** | Corrections and explanations are written directly to `answers.js` and `explanations.js` on your machine. Run `python3 server.py 8000` and open `http://localhost:8000/main.html`. |
-| **Vercel (live)** | Corrections and explanations are batched (15s debounce) and pushed to GitHub via `/api/correct` and `/api/explanations`. Multiple edits in one session become a single commit. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`; `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login. See [DEPLOYMENT.md](DEPLOYMENT.md). |
-| **GitHub Pages** | No backend — corrections and explanations are stored in `localStorage` only (per browser/device). Toast shows *"Saved (use server to update answers.js)"* or *"Saved (use server to update explanations.js)"*. To persist edits, deploy to Vercel or run the local server. |
-| **Static / file://** | Same as GitHub Pages — corrections and explanations go to `localStorage` only. |
+| **Local (server.py)** | Corrections, explanations, and Revision Notes are written directly to `answers.js`, `explanations.js`, and `notes.js` on your machine. Run `python3 server.py 8000` and open `http://localhost:8000/main.html`. |
+| **Vercel (live)** | Corrections and explanations are batched (15s debounce) and pushed to GitHub via `/api/correct` and `/api/explanations`. Revision Notes are pushed via `/api/notes`. Multiple edits in one session become a single commit. Requires `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`; `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login. See [DEPLOYMENT.md](DEPLOYMENT.md). |
+| **GitHub Pages** | No backend — corrections and explanations are stored in `localStorage` only (per browser/device). Revision Notes are not persisted. Toast shows *"Saved (use server to update answers.js)"* or *"Saved (use server to update explanations.js)"*. To persist edits, deploy to Vercel or run the local server. |
+| **Static / file://** | Same as GitHub Pages — corrections and explanations go to `localStorage` only; Revision Notes are not persisted. |
 
 ### Adding Answer Keys:
 To add answer keys, edit `answers.js` following this format:
@@ -557,6 +568,26 @@ const QUESTION_ANSWERS = {
 - **Extensible**: Simply add more answer keys as needed
 - **Admin corrections**: On Vercel or local server, admins (logged in) can submit corrections that update `answers.js` directly
 
+## 📒 Revision Notes & Markdown Formatting
+
+Revision Notes are stored in `notes.js` and organised by paper and section. Each topic (e.g. Probability & Statistics) has multiple subsections with titles and content. Use **Markdown** and **LaTeX** when editing:
+
+| Syntax | Example |
+|--------|---------|
+| **Headers** | `#` `##` `###` … `######` |
+| **Bold** | `**text**` |
+| **Italic** | `*text*` |
+| **Inline code** | `` `code` `` |
+| **Code block** | ` ``` ` on its own line, code, ` ``` ` |
+| **Lists** | `- item` or `1. item` |
+| **Blockquote** | `> quote` |
+| **Horizontal rule** | `---` |
+| **Table** | `| A | B |` header, `| --- | --- |` separator, `| 1 | 2 |` rows |
+| **LaTeX inline** | `\( E = mc^2 \)` or `$...$` |
+| **LaTeX block** | `\[ ... \]` or `$$...$$` |
+
+A collapsible **Formatting help** appears in all note editors (question explanation, section content, tips). Use `*text*` for italics (avoid `_text_` as it can conflict with LaTeX subscripts).
+
 ## 🔄 Maintenance
 
 When updating or fixing questions:
@@ -569,7 +600,7 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025/2026 — Full **Obsidian Dark / Purple Theme** redesign:
+**Last Updated**: 2025/2026 — **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
 - **Sticky Header** with paper title, set indicator divider (`SET ◆ X`), and a unified meta-controls pill panel (Paper / Section / Year)
 - **Set Indicator**: Displays the exam set letter for each paper/year combination, rendered as a centred divider row with converging purple gradient lines
 - **Meta Controls**: Dashboard-style pill panel replacing individual badges — hidden `<select>` overlays, dim ALL-CAPS labels, bold lavender values, vertical hairline separators
@@ -580,6 +611,7 @@ When updating or fixing questions:
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
 - **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? and Add/Edit Explanation features
 - **Action Row & Wrong Answer? & Add/Edit Explanation**: Single row with Wrong Answer? and Add/Edit Explanation (left, admin only), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections; Add/Edit Explanation toggles an inline editor for explanations (supports LaTeX)
+- **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
 - **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
 - **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`
