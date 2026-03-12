@@ -52,30 +52,15 @@ const REVISION_NOTES = {
             "sections": [
                 {
                     "id": "hello",
-                    "label": "Hello",
-                    "content": "# Main Section Title\n\nThis is a paragraph with **bold text**, *italic text*, and `inline code`.\n\n## Subsection\n\n### Level 3 Header\n\nSome content here with **bold** and *italic* combined.\n\n#### Level 4 Header\n\n- Unordered list item one\n- Unordered list item two\n  - Nested item\n\n1. First ordered item\n2. Second ordered item\n\n---\n\n> This is a blockquote. Important definitions often go here.\n\n### Another Section\n\n| Col A | Col B |\n| --- | --- |\n| One | Two |\n| Three | Four |\n\n---\n\n# Final Header\n\n`ISS Trick:` Remember to check units in your final answer.\n\n```\ntesting code\n```"
+                    "label": "hello",
+                    "content": null
                 },
-                {
-                    "id": "hello",
-                    "label": "Hello",
-                    "content": "# Main Section Title\n\nThis is a paragraph with **bold text**, *italic text*, and `inline code`.\n\n## Subsection\n\n### Level 3 Header\n\nSome content here with **bold** and *italic* combined.\n\n#### Level 4 Header\n\n- Unordered list item one\n- Unordered list item two\n  - Nested item\n\n1. First ordered item\n2. Second ordered item\n\n---\n\n> This is a blockquote. Important definitions often go here.\n\n### Another Section\n\n| Col A | Col B |\n| --- | --- |\n| One | Two |\n| Three | Four |\n\n---\n\n# Final Header\n\n`ISS Trick:` Remember to check units in your final answer.\n\n```\ntesting code\n```\n\n### Axiomatic & Classical Definitions\n- **Axioms:** \\( P(A) \\ge 0 \\), \\( P(S) = 1 \\), and for disjoint \\( A_i \\), \\( P(\\cup A_i) = \\sum P(A_i) \\).\n- **Bayes' Theorem:** Posterior calculation \\( P(B_k|A) = \\frac{P(A|B_k)P(B_k)}{\\sum P(A|B_i)P(B_i)} \\).\n\n### Random Variables & Moments\n- **Moments:** \n  - Raw: \\( \\mu'_r = E(X^r) \\). Central: \\( \\mu_r = E(X-\\mu)^r \\).\n  - Relation: \\( \\mu_2 = \\mu'_2 - (\\mu'_1)^2 \\), \\( \\mu_3 = \\mu'_3 - 3\\mu'_2\\mu'_1 + 2(\\mu'_1)^3 \\).\n- **Expectation:** \\( E(X) = E[E(X|Y)] \\). \\( Var(X) = E[Var(X|Y)] + Var[E(X|Y)] \\).\n\n`ISS Trick:` If \\( X, Y \\) are i.i.d. \\( N(0, 1) \\), then \\( X+Y \\) and \\( X-Y \\) are independent (Basu's Theorem context)."
-                },
-                {
-                    "id": "aba-sv",
-                    "label": "Aba sv",
-                    "content": "New section content...test"
-                }
             ],
             "tips": ""
         },
         "comp": {
             "title": "Computer Section",
             "sections": [
-                {
-                    "id": "testtt",
-                    "label": "testtt",
-                    "content": "### Detailed Non-parametric Formulas\n- **Sign Test**: Under \\( H_0, S \\sim B(n, 0.5) \\).\n- **Median Test**: 2x2 contingency table using Chi-square/Fisher's exact.\n- **Run Test**: Total runs \\( R \\). Under \\( H_0 \\):\n  - \\( E(R) = \\frac{2n_1 n_2}{n_1+n_2} + 1 \\)\n  - \\( Var(R) = \\frac{2n_1 n_2(2n_1 n_2 - n_1 - n_2)}{(n_1+n_2)^2(n_1+n_2-1)} \\)\n- **Wilcoxon Signed Rank**: Sum of ranks \\( W \\).\n  - \\( E(W) = \\frac{n(n+1)}{4} \\)\n  - \\( Var(W) = \\frac{n(n+1)(2n+1)}{24} \\)\n- **Mann-Whitney U**: Sum of ranks \\( U \\).\n  - \\( E(U) = \\frac{n_1 n_2}{2} \\)\n  - \\( Var(U) = \\frac{n_1 n_2(n_1+n_2+1)}{12} \\)\n- **Wald-Wolfowitz**: Runs on ordered combined samples.\n- **Kolmogorov-Smirnov (K-S)**:\n  - **One-Sample**: \\( D_n = \\sup_x |F_n(x) - F_0(x)| \\).\n  - **Two-Sample**: \\( D_{m,n} = \\sup_x |F_m(x) - G_n(x)| \\)."
-                }
             ],
             "tips": ""
         },
@@ -101,6 +86,9 @@ const REVISION_NOTES = {
         },
     }
 };
+
+
+
 
 
 
