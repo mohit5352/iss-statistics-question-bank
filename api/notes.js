@@ -15,6 +15,13 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
   let sectionsIndent = '';
   const isDelete = newContent === null;
 
+  // Section exists = we are editing (replace only). Section missing = we are adding (append).
+  // Append must NOT run when editing, or we get duplication (original + appended copy).
+  const sectionExists = lines.some(l => {
+    const m = l.match(/"id"\s*:\s*"([^"]+)"/);
+    return m && m[1] === sectionId;
+  });
+
   // Pre-pass: add first section to empty topic
   if (newContent !== null && label) {
     for (let idx = 0; idx < lines.length; idx++) {
@@ -204,7 +211,7 @@ function applyNoteUpdate(lines, paper, section, sectionId, newContent, label) {
       }
     }
 
-    if (insideSectionsArray && /^\s*\]/.test(line) && !replaced && label) {
+    if (insideSectionsArray && /^\s*\]/.test(line) && !replaced && label && !sectionExists) {
       if (resultLines.length) {
         let k = resultLines.length - 1;
         while (k >= 0 && !resultLines[k].trim()) k--;
