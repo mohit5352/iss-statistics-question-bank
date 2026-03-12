@@ -50,11 +50,6 @@ const REVISION_NOTES = {
         "num": {
             "title": "Numerical Analysis",
             "sections": [
-                {
-                    "id": "hello",
-                    "label": "hello",
-                    "content": null
-                },
             ],
             "tips": ""
         },
@@ -86,6 +81,7 @@ const REVISION_NOTES = {
         },
     }
 };
+
 
 
 
