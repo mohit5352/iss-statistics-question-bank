@@ -61,11 +61,6 @@ const REVISION_NOTES = {
                     "content": "# Main Section Title\n\nThis is a paragraph with **bold text**, *italic text*, and `inline code`.\n\n## Subsection\n\n### Level 3 Header\n\nSome content here with **bold** and *italic* combined.\n\n#### Level 4 Header\n\n- Unordered list item one\n- Unordered list item two\n  - Nested item\n\n1. First ordered item\n2. Second ordered item\n\n---\n\n> This is a blockquote. Important definitions often go here.\n\n### Another Section\n\n| Col A | Col B |\n| --- | --- |\n| One | Two |\n| Three | Four |\n\n---\n\n# Final Header\n\n`ISS Trick:` Remember to check units in your final answer.\n\n```\ntesting code\n```\n\n### Axiomatic & Classical Definitions\n- **Axioms:** \\( P(A) \\ge 0 \\), \\( P(S) = 1 \\), and for disjoint \\( A_i \\), \\( P(\\cup A_i) = \\sum P(A_i) \\).\n- **Bayes' Theorem:** Posterior calculation \\( P(B_k|A) = \\frac{P(A|B_k)P(B_k)}{\\sum P(A|B_i)P(B_i)} \\).\n\n### Random Variables & Moments\n- **Moments:** \n  - Raw: \\( \\mu'_r = E(X^r) \\). Central: \\( \\mu_r = E(X-\\mu)^r \\).\n  - Relation: \\( \\mu_2 = \\mu'_2 - (\\mu'_1)^2 \\), \\( \\mu_3 = \\mu'_3 - 3\\mu'_2\\mu'_1 + 2(\\mu'_1)^3 \\).\n- **Expectation:** \\( E(X) = E[E(X|Y)] \\). \\( Var(X) = E[Var(X|Y)] + Var[E(X|Y)] \\).\n\n`ISS Trick:` If \\( X, Y \\) are i.i.d. \\( N(0, 1) \\), then \\( X+Y \\) and \\( X-Y \\) are independent (Basu's Theorem context)."
                 },
                 {
-                    "id": "test",
-                    "label": "test",
-                    "content": "New section content...testinf 123"
-                },
-                {
                     "id": "aba-sv",
                     "label": "Aba sv",
                     "content": "New section content..."
@@ -106,6 +101,7 @@ const REVISION_NOTES = {
         },
     }
 };
+
 
 
 
