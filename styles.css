@@ -1937,6 +1937,9 @@ h2 {
     overflow-x: auto;
     overflow-y: hidden;
 }
+.note-list {
+    overflow: auto;
+}
 .note-list li {
     margin-bottom: 6px;
     position: relative;
