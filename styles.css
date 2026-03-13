@@ -12,7 +12,7 @@
    Purple  (primary — h1, q-number, q-header, meta, set, buttons, answers, notes):
            deep  #7c3aed  /  mid  #a78bfa  /  light  #c4b5fd  /  pale  #e0d7ff
    Rose    (option text + opt-label):                  #fb7185 / #fda4af
-   Emerald (copy-success state):                       #10b981 / #34d399
+   Copy-success (accent):                              #7c3aed / #a78bfa
    Text:   #f1f0f7 (primary)  /  #b0aac8 (context)  /  #5858a0 (topic / muted)
 */
 
@@ -390,7 +390,7 @@ h2 {
 
 /* MathJax inside q-text and q-context — consistent lavender */
 .q-text mjx-container,
-.q-context mjx-container, .q-notes-content mjx-container, .note-section-content mjx-container {
+.q-context mjx-container, .q-notes-content mjx-container, .note-section-content mjx-container, .callout-content mjx-container {
     color: #c4b5fd;
 }
 
@@ -802,8 +802,8 @@ h2 {
 }
 
 .q-copy-btn.copied {
-    color: #34d399;
-    box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.3);
+    color: #a78bfa;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
 }
 
 .q-answer-btn:hover {
@@ -1149,11 +1149,11 @@ h2 {
     transform: translateX(-50%) translateY(20px);
     padding: 12px 24px;
     background: #111117;
-    color: #34d399;
+    color: #a78bfa;
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(52, 211, 153, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(167, 139, 250, 0.12);
     z-index: 9999;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1505,7 +1505,7 @@ h2 {
 
 .topic-badge {
     background: linear-gradient(90deg, #7c3aed, #a78bfa);
-    color: #0a0a0e;
+    color: white;
     font-size: 0.65rem;
     font-weight: 800;
     padding: 4px 12px;
@@ -1654,12 +1654,12 @@ h2 {
 .notes-sidebar .toc-link {
     display: block;
     text-align: left;
-    background: rgba(255, 255, 255, 0.02);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
     border-radius: 10px;
     padding: 12px;
     font-size: 1rem;
-    color: #6a5473;
+    color: #c4b5fd;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(167, 139, 250, 0.1);
     text-decoration: none;
@@ -1675,6 +1675,19 @@ h2 {
     transform: translateX(4px);
     border-color: rgba(167, 139, 250, 0.4);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.notes-sidebar .toc-link.active {
+    background: linear-gradient(90deg, rgba(124, 58, 237, 0.32), rgba(167, 139, 250, 0.18));
+    color: #ffffff;
+    font-weight: 700;
+    transform: translateX(2px);
+    border-color: rgba(167, 139, 250, 0.55);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.notes-sidebar .toc-link.active::before {
+    transform: scaleY(1);
 }
 
 .notes-sidebar .toc-link::before {
@@ -1812,32 +1825,65 @@ h2 {
     margin: 24px 0;
 }
 
-/* Blockquote in notes — ISS tips. font-style on wrapper skews MathJax, use span instead. */
+/* Blockquote in notes — ISS tips. 
+   Using a brighter dark gradient that feels "deep" but readable.
+   Font styling improved for emphasis while preserving MathJax rendering. */
 .note-blockquote {
-    margin: 20px 0;
-    padding: 14px 20px;
-    border-left: 4px solid #7c3aed;
-    background: rgba(124, 58, 237, 0.07);
-    border-radius: 0 10px 10px 0;
-    color: #c4b5fd;
-    font-style: normal;
+    margin: 28px 0;
+    padding: 22px 28px;
+    border-left: 5px solid #a78bfa;
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(17, 17, 23, 0.98) 100%);
+    border-radius: 0 16px 16px 0;
+    color: #e0d7ff;
+    font-style: italic; /* Keep normal on wrapper for MathJax */
+    font-weight: 600;
+    line-height: 1.8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Variant for "ISS tip" blockquotes — consistent with Revision Priorities */
+.note-blockquote.tip-style {
+    border-left-color: #7c3aed;
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(10, 10, 14, 0.98) 100%);
+}
+
+/* Style the text inside for emphasis without affecting MathJax symbols */
+.note-blockquote p, .note-blockquote span {
+    font-style: italic;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+}
+
+/* Quote mark icon for blockquotes */
+.note-blockquote::before {
+    content: '“';
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    font-size: 6rem;
+    color: rgba(167, 139, 250, 0.08);
+    font-family: serif;
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .note-blockquote strong {
     color: #f0abfc;
     font-style: normal;
-}
-
-.note-blockquote mjx-container {
-    font-style: normal !important;
-    color: #c4b5fd !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(240, 171, 252, 0.3);
 }
 
 /* Inline markdown in notes — strong, em, code */
 .q-notes-content strong, .note-section-content strong,
 .q-notes-content .note-p strong, .note-section-content .note-p strong,
 .note-list strong {
-    color: #c4b5fd;
+    color: #f0abfc; /* Orchid — distinguishable from MathJax #c4b5fd */
     font-weight: 700;
 }
 
@@ -1949,33 +1995,59 @@ h2 {
     overflow-y: hidden;
 }
 
-/* Tip Callout */
+/* Tip Callout — Revision Priorities */
 .note-callout.tip {
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.05), transparent);
-    border-left: 4px solid #10b981;
-    padding: 20px;
-    border-radius: 12px;
+    margin: 32px 0 40px 0;
+    padding: 24px 28px;
+    border-left: 5px solid #7c3aed;
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.15) 0%, rgba(10, 10, 14, 0.98) 100%);
+    border-radius: 0 16px 16px 0;
     display: flex;
-    gap: 15px;
+    gap: 18px;
     align-items: flex-start;
-    margin-top: 32px;
     width: 100%;
     box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
-.callout-icon {
-    font-size: 2rem;
+/* Add a subtle decorative icon in the background */
+.note-callout.tip::before {
+    content: '★';
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    font-size: 8rem;
+    color: rgba(124, 58, 237, 0.06);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.note-callout.tip .callout-icon {
+    font-size: 1.75rem;
     flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.35));
+    z-index: 1;
 }
 
-.callout-content {
+.note-callout.tip .callout-content {
     flex: 1;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #f1f0f7;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #e0d7ff;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
+    z-index: 1;
+}
+
+.note-callout.tip .tip-label {
+    display: block;
+    color: #a78bfa;
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
 /* ===== Note Editor Styles ===== */

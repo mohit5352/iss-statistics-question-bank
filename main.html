@@ -225,6 +225,9 @@
                 data.sections.forEach(sec => {
                     html += `<a href="#${sec.id}" class="toc-link" onclick="handleTocClick(event, '${sec.id}')">${sec.label}</a>`;
                 });
+                if (data.tips || isAdmin()) {
+                    html += `<a href="#note-tips-container" class="toc-link" onclick="handleTocClick(event, 'note-tips-container')">Revision Tips</a>`;
+                }
             } else {
                 html += `<p class="q-notes-empty" style="padding: 10px;">No topics yet.</p>`;
             }
@@ -281,8 +284,8 @@
                     html += `<div class="note-callout tip" id="note-tips-container" style="width:100%; box-sizing:border-box;">
                         <div class="callout-icon">💡</div>
                         <div class="callout-content" style="width:100%;">
-                            <div class="note-section-header" style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:12px;">
-                                <strong style="color:#34d399; font-size:1.1rem;">Revision Tip</strong>
+                            <div class="note-section-header" style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:8px;">
+                                <span class="tip-label">Revision Priorities & Tips</span>
                                 ${isAdmin() ? `<button class="note-edit-btn" onclick="showTipsEditor()">
                                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M3 17.25V21h4.25L17.81 9.94l-4.25-4.25L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 4.25 4.25 1.83-1.83z"/></svg>
                                     Edit
@@ -302,9 +305,78 @@
                 document.getElementById('notes-layout').classList.add('sidebar-collapsed');
             }
 
+            // Setup TOC highlighting and outside-click-to-close
+            if (data.sections && data.sections.length > 0) {
+                initNotesSidebar();
+            }
+
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([viewer]);
             }
+        }
+
+        function initNotesSidebar() {
+            const layout = document.getElementById('notes-layout');
+            const sidebar = document.getElementById('notes-sidebar');
+            const tocLinks = document.getElementById('toc-links');
+            const mainContent = layout && layout.querySelector('.notes-main-content');
+            if (!layout || !sidebar || !tocLinks || !mainContent) return;
+
+            const data = REVISION_NOTES[currentPaper] && REVISION_NOTES[currentPaper][currentSection];
+            if (!data || !data.sections) return;
+
+            // Set data-section on each TOC link and attach click handler
+            tocLinks.querySelectorAll('.toc-link').forEach(function(a) {
+                const id = (a.getAttribute('href') || '').replace('#', '');
+                if (id) a.dataset.section = id;
+                a.addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    handleTocClick(ev, id);
+                });
+            });
+
+            // Set initial active item (first section or from hash)
+            const initial = (location.hash && location.hash.slice(1)) || (data.sections[0] && data.sections[0].id);
+            if (initial) setActiveToc(initial);
+
+            // Scroll-based active section: listen to both year-viewer and window (desktop may scroll body)
+            const scrollRoot = document.getElementById('year-viewer');
+            var sections = Array.from(document.querySelectorAll('.note-section'));
+            var tipsEl = document.getElementById('note-tips-container');
+            if (tipsEl) sections.push(tipsEl);
+            if (sections.length) {
+                function updateActiveFromScroll() {
+                    var refTop = 120;
+                    var best = null;
+                    var bestTop = -Infinity;
+                    sections.forEach(function(s) {
+                        var top = s.getBoundingClientRect().top;
+                        if (top <= refTop + 60) {
+                            if (top > bestTop) { best = s; bestTop = top; }
+                        }
+                    });
+                    if (!best && sections[0]) best = sections[0];
+                    if (best && best.id) {
+                        setActiveToc(best.id);
+                        try { history.replaceState(null, '', '#' + best.id); } catch (e) {}
+                    }
+                }
+                var onScroll = throttle(updateActiveFromScroll, 80);
+                if (scrollRoot) scrollRoot.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('scroll', onScroll, { passive: true });
+                updateActiveFromScroll();
+            }
+
+            // Outside click: close sidebar when clicking outside it
+            function closeSidebarIfOpen(ev) {
+                if (!layout.parentNode) return;
+                if (layout.classList.contains('sidebar-collapsed')) return;
+                if (sidebar.contains(ev.target)) return;
+                if (ev.target.closest && ev.target.closest('.sidebar-open-btn')) return;
+                layout.classList.add('sidebar-collapsed');
+                localStorage.setItem('iss_sidebar_collapsed', 'true');
+            }
+            document.addEventListener('click', closeSidebarIfOpen);
         }
 
         function toggleSidebar() {
@@ -315,6 +387,14 @@
         }
 
         function handleTocClick(e, id) {
+            if (e && e.preventDefault) e.preventDefault();
+            // Scroll to the section smoothly and highlight the TOC item
+            const target = document.getElementById(id);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setActiveToc(id);
+                try { history.replaceState(null, '', '#' + id); } catch (err) {}
+            }
             // On mobile, close sidebar after clicking a link
             if (window.innerWidth <= 1024) {
                 const layout = document.getElementById('notes-layout');
@@ -573,7 +653,7 @@
             var originalHTML = button.innerHTML;
             button.classList.add('copied');
             // Same circular checkmark icon as show answer button, but green
-            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#10b981" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#7c3aed" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
             button.setAttribute('data-tooltip', 'Copied!');
             setTimeout(function() {
                 button.classList.remove('copied');
@@ -1304,7 +1384,11 @@
                 if (line.startsWith('>')) {
                     closeLists(0);
                     var bqContent = line.replace(/^>\s?/, '');
-                    resultHtml += `<blockquote class="note-blockquote">${parseInline(bqContent)}</blockquote>`;
+                    var bqClass = 'note-blockquote';
+                    if (bqContent.includes('ISS tip:')) {
+                        bqClass += ' tip-style';
+                    }
+                    resultHtml += `<blockquote class="${bqClass}">${parseInline(bqContent)}</blockquote>`;
                     continue;
                 }
 
@@ -1677,9 +1761,51 @@
             
             let html = '';
             data.sections.forEach(sec => {
-                html += `<a href="#${sec.id}" class="toc-link" onclick="handleTocClick(event, '${sec.id}')">${sec.label}</a>`;
+                html += `<a href="#${sec.id}" class="toc-link">${sec.label}</a>`;
             });
+            if (data.tips || isAdmin()) {
+                html += `<a href="#note-tips-container" class="toc-link">Revision Tips</a>`;
+            }
             tocLinks.innerHTML = html;
+            
+            // Re-attach listeners and data-section (scroll listener already set by initNotesSidebar)
+            setupTocLinksOnly();
+        }
+
+        function setupTocLinksOnly() {
+            const data = REVISION_NOTES[currentPaper] && REVISION_NOTES[currentPaper][currentSection];
+            const tocLinks = document.getElementById('toc-links');
+            if (!tocLinks || !data || !data.sections) return;
+            tocLinks.querySelectorAll('.toc-link').forEach(function(a) {
+                const id = (a.getAttribute('href') || '').replace('#', '');
+                if (id) a.dataset.section = id;
+                a.addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    handleTocClick(ev, id);
+                });
+            });
+            const initial = (location.hash && location.hash.slice(1)) || (data.sections[0] && data.sections[0].id);
+            if (initial) setActiveToc(initial);
+        }
+
+        // Highlight the TOC item matching `id`
+        function setActiveToc(id) {
+            if (!id) return;
+            document.querySelectorAll('.notes-sidebar .toc-link').forEach(function(a) {
+                a.classList.toggle('active', a.dataset.section === id);
+            });
+        }
+
+        // Simple throttle
+        function throttle(fn, wait) {
+            let last = 0;
+            return function() {
+                const now = Date.now();
+                if (now - last >= wait) {
+                    last = now;
+                    fn.apply(this, arguments);
+                }
+            };
         }
 
         function showTipsEditor() {

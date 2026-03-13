@@ -108,7 +108,8 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Add Explanation** or **Edit Explanation** link appears in the action row. Click it to add or edit a step-by-step explanation for the question (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
-- **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Each section has multiple subsections with titles and content. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Formatting help** (collapsible) is available in all note editors.
+- **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Formatting help** (collapsible) is available in all note editors.
+- **Sidebar Navigation**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical purple accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
 - **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
@@ -125,7 +126,7 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
   - **Context Block bold text**: Orchid (`#f0abfc`) matching option items; MathJax expressions in lavender (`#c4b5fd`) consistent with question text
   - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
-  - **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` and `[Add/Edit Explanation]` on the left (admin only); `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns emerald on success (`#34d399`); answer button glows purple while active
+- **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` and `[Add/Edit Explanation]` on the left (admin only); `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
@@ -319,13 +320,16 @@ For **each section file** and each year:
 - `.opt-label`: `(a)` / `(b)` / `(c)` / `(d)` capsule badge — fuchsia (`#d946ef`) on translucent fuchsia background
 - `.q-actions-row`: Action row at bottom of card — flex layout with separator above; contains left (Wrong Answer?) and right (Show Answer + Copy) sections
 - `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
-- `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns emerald (`#34d399`) on success
+- `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns purple (`#a78bfa`) on success
 - `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
 - `.wrong-answer-wrap`: Container for Wrong Answer? trigger and picker (visible when answer is shown; admin only)
 - `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
 - `.wrong-answer-picker`: Expandable section with "Choose correct answer:" hint and (a)(b)(c)(d) chips
 - `.wrong-answer-chip`: Option chip button — selects correct answer on click
 - `.correct-answer`: Correct option — lavender text (`#e0d7ff`), near-black background, rounded corners, white glow shadow with glass-top highlight, purple-gradient animated `✓` badge on the right
+- `.notes-layout` / `.notes-sidebar` / `.notes-main-content`: Layout structure for Revision Notes; supports fixed positioning, unified transitions, and collapsible states
+- `.toc-link` / `.toc-link.active`: Sidebar navigation links with interactive hover states, pure white text highlight, and vertical purple accent indicators; `.active` highlights the current section based on scroll position
+- `.sidebar-open-btn` / `.sidebar-close-btn`: Floating and inline toggle buttons for the sidebar with modern easing and shadow effects
 - `.year-section`: Wrapper for all questions of a year inside a loaded HTML file
 
 ## 📝 Checklist for Adding a New Year
@@ -372,7 +376,7 @@ For **each section file** and each year:
 - **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted with tab-separated cells and newline-separated rows so pasted content preserves structure.
 - **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Explanation System**: Explanations are stored in `explanations.js` (skeleton mirrors `answers.js`; values are empty template literals). Admins can add or edit explanations via **Add/Edit Explanation** when the answer is visible. Edits are submitted via `POST /api/explanations`. Behaviour by deployment: **Local** (`server.py`) writes to `explanations.js`; **Vercel** (`api/explanations.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
-- **Revision Notes System**: Notes are stored in `notes.js` (structure: `paper`, `section`, `sections[]` with `id`, `label`, `content`, plus `tips` per topic). **Markdown** supports: headers (`#`–`######`), **bold** (`**text**`), *italic* (`*text*`), `inline code`, fenced code blocks (` ``` `), lists (`-` or `1.`), blockquote (`>`), horizontal rule (`---`), tables (`| col | col |`). **LaTeX**: inline `\( ... \)`, block `\[ ... \]`, or `$...$` / `$$...$$`. A collapsible **Formatting help** appears in all note editors. Edits are submitted via `POST /api/notes`. **Local** writes to `notes.js`; **Vercel** (`api/notes.js`) pushes to GitHub; **GitHub Pages** / static: not available.
+- **Revision Notes System**: Notes are stored in `notes.js` (structure: `paper`, `section`, `sections[]` with `id`, `label`, `content`, plus `tips` per topic). **Markdown** supports: headers (`#`–`######`), **bold** (`**text**`), *italic* (`*text*`), `inline code`, fenced code blocks (` ``` `), lists (`-` or `1.`), blockquote (`>`), horizontal rule (`---`), tables (`| col | col |`). **LaTeX**: inline `\( ... \)`, block `\[ ... \]`, or `$...$` / `$$...$$`. A collapsible **Formatting help** appears in all note editors. Edits are submitted via `POST /api/notes`. **Local** writes to `notes.js`; **Vercel** (`api/notes.js`) pushes to GitHub; **GitHub Pages** / static: not available. **Sidebar TOC** highlights the active section on scroll (listens to both content-viewer and window scroll); outside click closes the sidebar.
 - **Admin Login**: Credentials are validated via `POST /api/auth`; contact email is served via `GET /api/config`. Env vars: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 - **Responsive Design**: The layout adapts to different screen sizes
   - Options grid: 2 columns on desktop, 1 column on mobile (< 600px)
@@ -384,7 +388,7 @@ For **each section file** and each year:
   - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
   - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
   - All font sizes use rem units for consistent scaling and accessibility
-- **Color Scheme**: **Obsidian Dark / Purple Theme** — near-black background (`#0a0a0e`), purple-glass card surfaces (`rgba(124,58,237,0.05)`), violet accent hierarchy (`#7c3aed` → `#a78bfa` → `#c4b5fd` → `#e0d7ff`), orchid/fuchsia option text (`#f0abfc` / `#d946ef`), emerald copy-success state (`#34d399`)
+- **Color Scheme**: **Obsidian Dark / Purple Theme** — near-black background (`#0a0a0e`), purple-glass card surfaces (`rgba(124,58,237,0.05)`), violet accent hierarchy (`#7c3aed` → `#a78bfa` → `#c4b5fd` → `#e0d7ff`), orchid/fuchsia option text (`#f0abfc` / `#d946ef`), purple copy-success state (`#a78bfa`)
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: Unified fetch/XMLHttpRequest approach works for both desktop and mobile without iframe isolation
 - **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
@@ -611,7 +615,8 @@ When updating or fixing questions:
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
 - **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? and Add/Edit Explanation features
 - **Action Row & Wrong Answer? & Add/Edit Explanation**: Single row with Wrong Answer? and Add/Edit Explanation (left, admin only), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections; Add/Edit Explanation toggles an inline editor for explanations (supports LaTeX)
-- **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
+- **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; **collapsible sidebar** for navigation; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
+- **Sidebar & Floating Button**: Interactive navigation sidebar with hover effects and accent indicators; state-persisted (localStorage) collapsible design; floating "Topics" button for mobile/collapsed viewing; **scroll-synced TOC highlighting** (active section updates on scroll for mobile and desktop); **outside click** closes sidebar
 - **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
 - **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`
