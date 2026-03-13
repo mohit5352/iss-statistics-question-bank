@@ -1937,9 +1937,6 @@ h2 {
     overflow-x: auto;
     overflow-y: hidden;
 }
-.note-list {
-    overflow: auto;
-}
 .note-list li {
     margin-bottom: 6px;
     position: relative;
@@ -1975,6 +1972,8 @@ h2 {
     margin-left: 22px;
     margin-top: 5px;
     margin-bottom: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .note-list .note-list:not(.note-ol) li::before {
