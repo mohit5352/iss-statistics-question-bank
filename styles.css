@@ -1,6 +1,6 @@
-/* styles.css — Obsidian Dark Theme */
+/* styles.css — Obsidian Dark Theme (default) + Light Theme */
 /*
-   Palette:
+   Dark Theme Palette:
    Background:  #0a0a0e  (near-black body + context + correct-answer bg)
    Surface 1:   #111117  (sticky header)
    Surface 2:   rgba(124,58,237,0.05)  (cards + meta-controls — purple-tinted glass)
@@ -16,23 +16,295 @@
    Text:   #f1f0f7 (primary)  /  #b0aac8 (context)  /  #5858a0 (topic / muted)
 */
 
+:root {
+    /* Dark Theme (Default) */
+    --bg-color: #0a0a0e;
+    --surface-1: #111117;
+    --surface-2: rgba(124, 58, 237, 0.05);
+    --surface-3: transparent;
+    --border-dim: rgba(255, 255, 255, 0.04);
+    --border-mid: rgba(167, 139, 250, 0.1);
+    --border-hover: rgba(167, 139, 250, 0.18);
+    
+    --purple-deep: #7c3aed;
+    --purple-mid: #a78bfa;
+    --purple-light: #c4b5fd;
+    --purple-pale: #e0d7ff;
+    
+    --rose-text: #fb7185;
+    --rose-light: #fda4af;
+    
+    --text-primary: #f1f0f7;
+    --text-context: #b0aac8;
+    --text-muted: #5858a0;
+    --text-strong: #f0abfc;
+    
+    --shadow-main: 0 8px 18px -10px rgba(0, 0, 0, 0.5);
+    --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    --sidebar-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
+    --pill-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.12);
+    --glow-shadow: 0px 4px 10px rgba(255, 255, 255, 0.25);
+    
+    --modal-bg: rgba(0, 0, 0, 0.85);
+    --glass-bg: rgba(17, 17, 23, 0.8);
+    --selection-bg: rgba(124, 58, 237, 0.3);
+    --green-mid: #4ade80;
+    --green-deep: #22c55e;
+    --light-glow: rgba(255, 255, 255, 0.4);
+
+    /* Note/panel semantics — each has light-theme equivalent */
+    --text-body: #d4d0e8;
+    --surface-panel: rgba(10, 10, 14, 0.98);
+    --surface-panel-alt: rgba(17, 17, 23, 0.98);
+    --panel-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --notes-wrap-shadow: 0 4px 12px rgba(255, 255, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    --blockquote-accent: rgba(167, 139, 250, 0.08);
+    --blockquote-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(17, 17, 23, 0.98) 100%);
+    --blockquote-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(10, 10, 14, 0.98) 100%);
+    --blockquote-border: var(--purple-mid);
+    --blockquote-tip-border: var(--purple-deep);
+    --blockquote-text: var(--purple-pale);
+    --blockquote-strong-decoration: rgba(240, 171, 252, 0.3);
+    --callout-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.15) 0%, var(--surface-panel) 100%);
+    --callout-tip-accent: rgba(124, 58, 237, 0.06);
+    --option-text: var(--text-strong);
+    --option-hover: #f5c6fe;
+    --opt-label-bg: rgba(217, 70, 239, 0.1);
+    --opt-label-color: #d946ef;
+    --note-h3-border: rgba(240, 171, 252, 0.5);
+    --section-title-border: rgba(167, 139, 250, 0.15);
+    --note-h1-border: rgba(196, 181, 253, 0.25);
+    --inline-code-bg: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
+    --inline-code-border: rgba(167, 139, 250, 0.25);
+    --code-block-border: rgba(167, 139, 250, 0.3);
+    --code-block-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    --formula-bg: rgba(0, 0, 0, 0.28);
+    --formula-border: rgba(124, 58, 237, 0.15);
+    --formula-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
+
+    /* Headings & MathJax */
+    --heading-1-color: #e0d7ff;
+    --heading-1-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
+    --heading-2-color: #a78bfa;
+    --heading-2-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+    --mathjax-color: #c4b5fd;
+
+    /* Theme toggle icons (display) */
+    --theme-icon-sun: none;
+    --theme-icon-moon: block;
+
+    /* Table */
+    --table-header-text: var(--bg-color);
+    --table-header-bg: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.9));
+    --table-header-corner-bg: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.95));
+    --table-header-corner-text: #ffffff;
+    --table-header-border: rgba(255,255,255,0.04);
+    --table-first-col-bg: linear-gradient(180deg, rgba(167,139,250,0.04), rgba(124,58,237,0.03));
+    --table-cell-text: #e8e6f7;
+    --table-cell-border: rgba(255,255,255,0.03);
+    --table-alt-row-bg: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+    --table-hover-bg: linear-gradient(90deg, rgba(124,58,237,0.03), rgba(167,139,250,0.02));
+
+    /* TOC items (notes sidebar) */
+    --toc-item-bg: rgba(0, 0, 0, 0.28);
+    --toc-item-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
+    --toc-item-border: rgba(167, 139, 250, 0.1);
+    --toc-item-hover-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.18), rgba(167, 139, 250, 0.08));
+    --toc-item-hover-border: rgba(167, 139, 250, 0.4);
+    --toc-item-active-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.32), rgba(167, 139, 250, 0.18));
+    --toc-item-active-border: rgba(167, 139, 250, 0.55);
+    --toc-item-active-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    --toc-link-color: var(--purple-light);
+    --toc-link-hover-color: #ffffff;
+    --toc-link-active-color: #ffffff;
+
+    /* Editor textareas (explanation + notes) */
+    --editor-textarea-bg: rgba(0, 0, 0, 0.35);
+    --editor-textarea-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+    --editor-textarea-focus-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1), inset 0 2px 10px rgba(0, 0, 0, 0.5);
+
+    /* Login page */
+    --login-card-bg: rgba(124, 58, 237, 0.04);
+    --login-card-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 32px rgba(0, 0, 0, 0.3);
+    --login-input-bg: rgba(17, 17, 23, 0.8);
+    --login-input-border: rgba(167, 139, 250, 0.2);
+    --login-contact-border: rgba(255, 255, 255, 0.06);
+}
+
+.light-theme {
+    /* Light theme — exact equivalents for each dark variable (same semantic role) */
+    --bg-color: #f7f8fc;
+    --surface-1: #ffffff;
+    --surface-2: rgba(124, 58, 237, 0.04);
+    --surface-3: transparent;
+    --border-dim: rgba(0, 0, 0, 0.06);
+    --border-mid: rgba(124, 58, 237, 0.15);
+    --border-hover: rgba(124, 58, 237, 0.25);
+
+    --purple-deep: #6d28d9;
+    --purple-mid: #7c3aed;
+    --purple-light: #8b5cf6;
+    --purple-pale: #4c4363;
+
+    --rose-text: #e11d48;
+    --rose-light: #f43f5e;
+
+    --text-primary: #1e1b4b;
+    --text-context: #475569;
+    --text-muted: #64748b;
+    --text-strong: #c026d3;
+
+    --shadow-main: 0 4px 15px -5px rgba(0, 0, 0, 0.08);
+    --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    --sidebar-shadow: 10px 0 40px rgba(0, 0, 0, 0.06);
+    --pill-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 0 0 1px rgba(124, 58, 237, 0.1);
+    --glow-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+    --modal-bg: rgba(15, 23, 42, 0.35);
+    --glass-bg: rgba(255, 255, 255, 0.96);
+    --selection-bg: rgba(124, 58, 237, 0.15);
+    --green-mid: #16a34a;
+    --green-deep: #15803d;
+    --light-glow: rgba(124, 58, 237, 0.08);
+
+    --text-body: #1e1b4b;
+    --surface-panel: rgba(255, 255, 255, 0.98);
+    --surface-panel-alt: rgba(255, 255, 255, 0.98);
+    --panel-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --notes-wrap-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --blockquote-accent: rgba(124, 58, 237, 0.12);
+    --blockquote-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, var(--surface-panel) 100%);
+    --blockquote-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.2) 0%, var(--surface-panel) 100%);
+    --blockquote-border: var(--purple-mid);
+    --blockquote-tip-border: var(--purple-deep);
+    --blockquote-text: var(--purple-pale);
+    --blockquote-strong-decoration: rgba(192, 38, 211, 0.4);
+    --callout-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.1) 0%, var(--surface-panel) 100%);
+    --callout-tip-accent: rgba(124, 58, 237, 0.1);
+    --option-text: var(--text-strong);
+    --option-hover: #e879f9;
+    --opt-label-bg: rgba(192, 38, 211, 0.12);
+    --opt-label-color: #c026d3;
+    --note-h3-border: rgba(192, 38, 211, 0.45);
+    --section-title-border: rgba(124, 58, 237, 0.2);
+    --note-h1-border: rgba(124, 58, 237, 0.25);
+    --inline-code-bg: rgba(124, 58, 237, 0.15);
+    --inline-code-border: rgba(124, 58, 237, 0.25);
+    --code-block-border: rgba(124, 58, 237, 0.25);
+    --code-block-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --formula-bg: rgba(124, 58, 237, 0.1);
+    --formula-border: rgba(124, 58, 237, 0.2);
+    --formula-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    --heading-1-color: var(--purple-pale);
+    --heading-1-shadow: none;
+    --heading-2-color: var(--purple-mid);
+    --heading-2-shadow: none;
+    --mathjax-color: var(--purple-light);
+
+    --theme-icon-sun: block;
+    --theme-icon-moon: none;
+
+    --table-header-text: #ffffff;
+    --table-header-bg: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.88));
+    --table-header-corner-bg: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.92));
+    --table-header-corner-text: #ffffff;
+    --table-header-border: rgba(255,255,255,0.2);
+    --table-first-col-bg: linear-gradient(180deg, rgba(124,58,237,0.06), rgba(167,139,250,0.04));
+    --table-cell-text: var(--text-primary);
+    --table-cell-border: rgba(0,0,0,0.06);
+    --table-alt-row-bg: linear-gradient(180deg, rgba(124,58,237,0.02), transparent);
+    --table-hover-bg: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(167,139,250,0.04));
+
+    /* TOC items (notes sidebar) — light equivalents */
+    --toc-item-bg: rgba(124, 58, 237, 0.06);
+    --toc-item-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
+    --toc-item-border: rgba(124, 58, 237, 0.15);
+    --toc-item-hover-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.12), rgba(167, 139, 250, 0.06));
+    --toc-item-hover-border: rgba(124, 58, 237, 0.35);
+    --toc-item-active-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.2), rgba(167, 139, 250, 0.12));
+    --toc-item-active-border: rgba(124, 58, 237, 0.45);
+    --toc-item-active-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --toc-link-color: var(--purple-mid);
+    --toc-link-hover-color: var(--purple-deep);
+    --toc-link-active-color: var(--purple-deep);
+
+    /* Editor textareas — light equivalents */
+    --editor-textarea-bg: rgba(255, 255, 255, 0.98);
+    --editor-textarea-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+    --editor-textarea-focus-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15), inset 0 1px 4px rgba(0, 0, 0, 0.06);
+
+    /* Login page — light equivalents */
+    --login-card-bg: rgba(255, 255, 255, 0.98);
+    --login-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(124, 58, 237, 0.1);
+    --login-input-bg: rgba(255, 255, 255, 0.98);
+    --login-input-border: rgba(124, 58, 237, 0.2);
+    --login-contact-border: rgba(0, 0, 0, 0.08);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #f1f0f7;
+    color: var(--text-primary);
     padding: 20px;
-    background-color: #0a0a0e;
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ===== Sticky Header ===== */
 .sticky-header {
     position: sticky;
     top: 0;
-    background: #111117;
+    background: var(--surface-1);
     z-index: 1000;
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 8px 18px -10px rgba(255, 255, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--border-dim);
+    box-shadow: var(--shadow-main), var(--shadow-inner);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header-top-row {
+    display: flex;
+    justify-content: center; /* Default centered for narrow screens */
+    align-items: center;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.theme-toggle-btn {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--border-mid);
+    color: var(--purple-mid);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--pill-shadow);
+}
+
+.theme-toggle-btn:hover {
+    background: var(--border-hover);
+    transform: translateY(calc(-50% - 1px));
+}
+
+.theme-icon-light { display: var(--theme-icon-sun); }
+.theme-icon-dark { display: var(--theme-icon-moon); }
+
+.theme-toggle-btn svg {
+    width: 18px;
+    height: 18px;
 }
 
 .paper-container {
@@ -44,34 +316,36 @@ body {
 
 /* ===== Headings ===== */
 h1 {
-    color: #e0d7ff;
+    color: var(--heading-1-color);
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
     line-height: 1.2;
-    text-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
+    text-shadow: var(--heading-1-shadow);
     letter-spacing: -0.01em;
+    transition: color 0.3s ease;
 }
 
 h2 {
-    color: #a78bfa;
+    color: var(--heading-2-color);
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.3;
-    text-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+    text-shadow: var(--heading-2-shadow);
+    transition: color 0.3s ease;
 }
 
 /* Year section headers inside question files */
 .year-section h2 {
     text-align: center;
-    color: #c4b5fd;
+    color: var(--purple-light);
     border-bottom: none;
     padding-bottom: 12px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 0 rgba(196, 181, 253, 0.2);
+    box-shadow: 0 2px 0 var(--border-mid);
 }
 
 /* ===== Set Indicator (divider style) ===== */
@@ -89,12 +363,12 @@ h2 {
 }
 
 .set-indicator-left {
-    background: linear-gradient(90deg, transparent 0%, #7c3aed 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--purple-deep) 100%);
     opacity: 0.55;
 }
 
 .set-indicator-right {
-    background: linear-gradient(90deg, #7c3aed 0%, transparent 100%);
+    background: linear-gradient(90deg, var(--purple-deep) 0%, transparent 100%);
     opacity: 0.55;
 }
 
@@ -114,7 +388,7 @@ h2 {
     gap: 8px;
     padding: 4px 0;
     text-decoration: none;
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-size: 0.82rem;
     transition: color 0.25s ease, text-decoration-color 0.25s ease;
     text-underline-offset: 4px;
@@ -122,12 +396,12 @@ h2 {
 
 .auth-pill-login {
     text-decoration: underline;
-    text-decoration-color: rgba(167, 139, 250, 0.4);
+    text-decoration-color: var(--border-hover);
 }
 
 .auth-pill-login:hover {
-    color: #c4b5fd;
-    text-decoration-color: rgba(196, 181, 253, 0.6);
+    color: var(--purple-light);
+    text-decoration-color: var(--purple-light);
 }
 
 .auth-pill .auth-icon {
@@ -156,7 +430,7 @@ h2 {
 
 .auth-hint {
     font-size: 0.72rem;
-    color: #94a3b8;
+    color: var(--text-context);
     font-weight: 400;
 }
 
@@ -165,7 +439,7 @@ h2 {
     align-items: center;
     gap: 8px;
     padding: 4px 0;
-    color: #c4b5fd;
+    color: var(--purple-light);
     font-size: 0.82rem;
 }
 
@@ -174,7 +448,7 @@ h2 {
 }
 
 .auth-pill-logged .auth-text strong {
-    color: #f0abfc;
+    color: var(--text-strong);
 }
 
 .auth-logout-btn {
@@ -187,15 +461,15 @@ h2 {
     margin-left: 4px;
     border: none;
     background: transparent;
-    color: #c4b5fd;
+    color: var(--purple-light);
     cursor: pointer;
     border-radius: 4px;
     transition: color 0.2s, background 0.2s;
 }
 
 .auth-logout-btn:hover {
-    color: #e0d7ff;
-    background: rgba(196, 181, 253, 0.15);
+    color: var(--purple-pale);
+    background: var(--surface-2);
 }
 
 .auth-logout-btn svg {
@@ -207,14 +481,14 @@ h2 {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.22em;
-    color: #a78bfa;
+    color: var(--purple-mid);
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
 }
 
 .set-dot {
-    color: #7c3aed;
+    color: var(--purple-deep);
     font-size: 0.5rem;
     vertical-align: middle;
     margin: 0 3px;
@@ -224,7 +498,7 @@ h2 {
 #set-letter {
     font-size: 0.8rem;
     font-weight: 800;
-    color: #c4b5fd;
+    color: var(--purple-light);
     text-shadow: 0 0 12px rgba(196, 181, 253, 0.55);
     letter-spacing: 0.06em;
 }
@@ -236,9 +510,9 @@ h2 {
     margin: 10px auto 20px;
     max-width: 680px;
     border-radius: 12px;
-    background: rgba(124, 58, 237, 0.05);
+    background: var(--surface-2);
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 20px rgba(0, 0, 0, 0.45);
+    box-shadow: var(--pill-shadow), var(--card-shadow);
 }
 
 /* Each control zone */
@@ -270,7 +544,7 @@ h2 {
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #3a3a50;
+    color: var(--text-muted);
     user-select: none;
     transition: color 0.2s ease;
 }
@@ -279,7 +553,7 @@ h2 {
 .meta-value {
     font-size: 0.92rem;
     font-weight: 700;
-    color: #c4b5fd;
+    color: var(--purple-light);
     text-shadow: 0 0 8px rgba(196, 181, 253, 0.2);
     user-select: none;
     text-align: center;
@@ -291,11 +565,11 @@ h2 {
 }
 
 .meta-item:hover .meta-label {
-    color: #606080;
+    color: var(--text-context);
 }
 
 .meta-item:hover .meta-value {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     text-shadow: 0 0 16px rgba(196, 181, 253, 0.6);
 }
 
@@ -317,7 +591,7 @@ h2 {
 /* Vertical separator between zones */
 .meta-sep-line {
     width: 1px;
-    background: rgba(255, 255, 255, 0.07);
+    background: var(--border-dim);
     align-self: stretch;
     margin: 10px 0;
     flex-shrink: 0;
@@ -328,15 +602,15 @@ h2 {
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 28px;
-    background-color: rgba(124, 58, 237, 0.05);
+    background-color: var(--surface-2);
     transition: all 0.28s ease;
     position: relative;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    box-shadow: var(--card-shadow), var(--shadow-inner);
     box-sizing: border-box;
 }
 
 .question-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(167, 139, 250, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), var(--shadow-inner), 0 0 0 1px var(--border-hover);
     transform: translateY(-2px);
 }
 
@@ -355,15 +629,15 @@ h2 {
     align-items: center;
     padding: 10px 14px 12px;
     margin-bottom: 18px;
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.12) 0%, rgba(167, 139, 250, 0.05) 100%);
+    background: linear-gradient(90deg, var(--border-hover) 0%, var(--surface-2) 100%);
     border-radius: 8px;
-    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--border-mid);
+    box-shadow: var(--glow-shadow), var(--shadow-inner);
 }
 
 .q-number {
     font-weight: 700;
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-size: 1.1rem;
     text-shadow: 0 0 10px rgba(167, 139, 250, 0.35);
 }
@@ -373,7 +647,7 @@ h2 {
     font-size: 0.78rem;
     font-weight: 500;
     font-style: italic;
-    color: #f0abfc;
+    color: var(--text-strong);
     padding-left: 10px;
     line-height: 1.3;
     letter-spacing: 0.01em;
@@ -382,7 +656,7 @@ h2 {
 
 /* ===== Question Text ===== */
 .q-text {
-    color: #f1f0f7;
+    color: var(--text-primary);
     font-size: 1.125rem;
     line-height: 1.8;
     margin-bottom: 18px;
@@ -391,21 +665,21 @@ h2 {
 /* MathJax inside q-text and q-context — consistent lavender */
 .q-text mjx-container,
 .q-context mjx-container, .q-notes-content mjx-container, .note-section-content mjx-container, .callout-content mjx-container {
-    color: #c4b5fd;
+    color: var(--mathjax-color);
 }
 
 /* ===== Context Block — blockquote style ===== */
 .q-context {
-    color: #b0aac8;
+    color: var(--text-context);
     font-size: 1.0625rem;
     line-height: 1.85;
     padding: 14px 0 14px 20px;
     margin-bottom: 20px;
     position: relative;
     overflow: auto;
-    background: #0a0a0e;
+    background: var(--bg-color);
     border-radius: 6px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: var(--glow-shadow), var(--shadow-inner);
 }
 
 /* Gradient left stripe — the only visual anchor */
@@ -417,12 +691,12 @@ h2 {
     bottom: 0;
     width: 3px;
     border-radius: 3px;
-    background: linear-gradient(180deg, #a78bfa 0%, rgba(124, 58, 237, 0.25) 100%);
+    background: linear-gradient(180deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
 }
 
 .q-context strong {
     font-weight: 600;
-    color: #f0abfc;
+    color: var(--text-strong);
 }
 
 /* ===== Data Table ===== */
@@ -431,7 +705,7 @@ h2 {
     margin: 18px 0;
     -webkit-overflow-scrolling: touch;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: var(--glow-shadow), var(--shadow-inner);
 }
 
 .q-table table {
@@ -451,20 +725,20 @@ h2 {
 .q-table:not(:has(thead)) tr:first-child td,
 .q-table thead tr th,
 .q-table:not(:has(thead)) tr:first-child th {
-    background: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.9));
-    color: #0a0a0e;
+    background: var(--table-header-bg);
+    color: var(--table-header-text);
     font-weight: 800;
     padding: 12px 14px;
     text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--table-header-border);
     letter-spacing: 0.02em;
 }
 
 /* First column — soft lavender panel (apply to th and td) */
 .q-table td:first-child,
 .q-table th:first-child {
-    background: linear-gradient(180deg, rgba(167,139,250,0.04), rgba(124,58,237,0.03));
-    color: #c4b5fd;
+    background: var(--table-first-col-bg);
+    color: var(--purple-light);
     font-weight: 700;
     padding: 12px;
     text-align: left;
@@ -473,29 +747,29 @@ h2 {
 /* Top-left corner accent */
 .q-table:not(:has(thead)) tr:first-child td:first-child,
 .q-table thead tr th:first-child {
-    background: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.95));
-    color: #ffffff;
+    background: var(--table-header-corner-bg);
+    color: var(--table-header-corner-text);
     font-weight: 800;
 }
 
-/* Data cells — minimal, with thin separators for readability (apply to th/td where appropriate) */ 
+/* Data cells — minimal, with thin separators for readability */
 .q-table td,
 .q-table th {
     padding: 12px 14px;
     word-wrap: break-word;
     background: transparent;
-    color: #e8e6f7;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--table-cell-text);
+    border-bottom: 1px solid var(--table-cell-border);
 }
 
 /* Alternating row warmth */
 .q-table tr:nth-child(even) td:not(:first-child) {
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+    background: var(--table-alt-row-bg);
 }
 
 /* Row hover elegant lift */
 .q-table tr:hover td {
-    background: linear-gradient(90deg, rgba(124,58,237,0.03), rgba(167,139,250,0.02));
+    background: var(--table-hover-bg);
 }
 
 /* ===== Options Grid — bare 2-col layout, no surface ===== */
@@ -517,17 +791,17 @@ h2 {
     border-radius: 0;
     display: flex;
     align-items: center;
-    color: #f0abfc;
+    color: var(--option-text);
     font-size: 1.0625rem;
     line-height: 1.6;
     transition: color 0.15s ease;
 }
 
 .option-item:hover {
-    color: #f5c6fe;
+    color: var(--option-hover);
 }
 
-/* Option label — small indigo capsule */
+/* Option label — small capsule */
 .opt-label {
     text-transform: uppercase;
     display: inline-flex;
@@ -536,8 +810,8 @@ h2 {
     min-width: 34px;
     height: 20px;
     border-radius: 5px;
-    background: rgba(217, 70, 239, 0.1);
-    color: #d946ef;
+    background: var(--opt-label-bg);
+    color: var(--opt-label-color);
     font-weight: 700;
     font-size: 0.7rem;
     margin-right: 10px;
@@ -612,8 +886,8 @@ h2 {
     inset: 0;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #a78bfa;
-    border-right-color: #7c3aed;
+    border-top-color: var(--purple-mid);
+    border-right-color: var(--purple-deep);
     box-shadow: 0 0 18px rgba(167, 139, 250, 0.25);
     animation: qb-spin 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
@@ -627,7 +901,7 @@ h2 {
     justify-content: center;
     font-size: 1.6rem;
     font-weight: 700;
-    color: #a78bfa;
+    color: var(--purple-mid);
     text-shadow: 0 0 24px rgba(167, 139, 250, 0.7), 0 0 6px rgba(124, 58, 237, 0.4);
     animation: qb-symbol-pulse 1.3s ease-in-out infinite;
     user-select: none;
@@ -648,15 +922,15 @@ h2 {
 }
 
 .qb-loader-dot:nth-child(1) {
-    background: #7c3aed;
+    background: var(--purple-deep);
     animation-delay: 0s;
 }
 .qb-loader-dot:nth-child(2) {
-    background: #a78bfa;
+    background: var(--purple-mid);
     animation-delay: 0.18s;
 }
 .qb-loader-dot:nth-child(3) {
-    background: #c4b5fd;
+    background: var(--purple-light);
     animation-delay: 0.36s;
 }
 
@@ -666,7 +940,7 @@ h2 {
     font-weight: 700;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #3a3a50;
+    color: var(--text-muted);
     user-select: none;
 }
 
@@ -746,7 +1020,7 @@ h2 {
 .q-copy-btn,
 .q-answer-btn {
     background: rgba(255,255,255,0.04);
-    color: #a78bfa;
+    color: var(--purple-mid);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -765,8 +1039,8 @@ h2 {
     bottom: -28px;
     left: 50%;
     transform: translateX(-50%);
-    background: #0a0a0e;
-    color: #f1f0f7;
+    background: var(--bg-color);
+    color: var(--text-primary);
     padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -786,7 +1060,7 @@ h2 {
 
 .q-copy-btn:hover,
 .q-answer-btn:hover {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     transform: scale(1.12);
 }
 
@@ -802,12 +1076,12 @@ h2 {
 }
 
 .q-copy-btn.copied {
-    color: #a78bfa;
+    color: var(--purple-mid);
     box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
 }
 
 .q-answer-btn:hover {
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 .q-answer-btn svg {
@@ -835,22 +1109,22 @@ h2 {
 .revealed-triggers-row .edit-explanation-trigger {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #a78bfa;
+    color: var(--purple-mid);
     cursor: pointer;
     letter-spacing: 0.02em;
     opacity: 0.95;
     transition: opacity 0.2s ease, color 0.2s ease;
 }
-.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: #c4b5fd; }
+.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: var(--purple-light); }
 
 .notes-wrap {
     width: 100%;
     margin-top: 18px;
     padding: 12px;
     border-radius: 14px;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.08) 0%, rgba(10, 10, 14, 0.95) 100%);
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.08) 0%, var(--surface-panel) 100%);
     border: none;
-    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: var(--notes-wrap-shadow);
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
@@ -869,7 +1143,7 @@ h2 {
     font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.2em;
-    color: #f0abfc; /* Orchid/Soft Purple for better alignment with theme */
+    color: var(--text-strong); /* Orchid/Soft Purple for better alignment with theme */
     text-shadow: 0 0 10px rgba(240, 171, 252, 0.35);
     user-select: none;
     pointer-events: none;
@@ -885,13 +1159,13 @@ h2 {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, #f0abfc 0%, #7c3aed 100%);
+    background: linear-gradient(180deg, var(--text-strong) 0%, var(--purple-deep) 100%);
     border-radius: 4px 0 0 4px;
 }
 
 .q-notes-content {
     width: 100%;
-    color: #f1f0f7;
+    color: var(--text-primary);
     font-size: 1rem;
     line-height: 1.7;
     overflow-wrap: break-word;
@@ -906,23 +1180,23 @@ h2 {
 }
 
 .q-notes-rich code {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
-    color: #f0abfc;
+    background: var(--inline-code-bg);
+    color: var(--text-strong);
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9em;
-    border: 1px solid rgba(167, 139, 250, 0.25);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--inline-code-border);
+    box-shadow: var(--shadow-inner);
 }
 
 .q-notes-rich strong {
-    color: #c4b5fd;
+    color: var(--purple-light);
     font-weight: 700;
 }
 
 .q-notes-empty { 
-    color: #5858a0; 
+    color: var(--text-muted); 
     font-style: italic; 
     text-align: center;
     font-size: 0.9rem;
@@ -945,8 +1219,8 @@ h2 {
     padding: 12px;
     border-radius: 10px;
     border: 1px solid rgba(167,139,250,0.12);
-    background: rgba(0,0,0,0.35);
-    color: #f1f0f7;
+    background: var(--editor-textarea-bg);
+    color: var(--text-primary);
     font-family: inherit;
     font-size: 0.95rem;
     resize: vertical;
@@ -961,14 +1235,14 @@ h2 {
     font-weight: 700;
 }
 .note-save-btn {
-    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
     color: #fff;
     border: 1px solid rgba(167,139,250,0.2);
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);
     transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
 }
 .note-save-btn:hover {
-    background: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, var(--purple-light) 0%, #8b5cf6 100%);
     color: #fff;
     transform: translateY(-1px);
     box-shadow: 0 8px 26px rgba(124,58,237,0.12);
@@ -986,7 +1260,7 @@ h2 {
 .note-cancel-btn {
     /* Reddish secondary (cancel) button that fits the theme */
     background: rgba(251, 113, 133, 0.06); /* soft rose surface */
-    color: #fb7185; /* rose text to indicate cancel/destructive intent */
+    color: var(--rose-text); /* rose text to indicate cancel/destructive intent */
     border: 1px solid rgba(251, 113, 133, 0.14);
     transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);
@@ -1015,18 +1289,18 @@ h2 {
 
 /* Active state: showing the answer — glows purple */
 .q-answer-btn.showing {
-    color: #c4b5fd;
+    color: var(--purple-light);
     box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.4), 0 0 14px rgba(167, 139, 250, 0.15);
 }
 
 /* ===== Correct Answer Highlight — purple theme ===== */
 .option-item.correct-answer {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     position: relative;
     padding-right: 36px;
-    background: #0a0a0e;
+    background: var(--bg-color);
     border-radius: 6px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: var(--glow-shadow), var(--shadow-inner);
 }
 
 .option-item.correct-answer::after {
@@ -1035,7 +1309,7 @@ h2 {
     right: 4px;
     top: 50%;
     transform: translateY(-50%);
-    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    background: linear-gradient(135deg, var(--purple-mid), var(--purple-deep));
     color: #ffffff;
     width: 22px;
     height: 22px;
@@ -1058,11 +1332,11 @@ h2 {
 
 .option-item.correct-answer .opt-label {
     background: rgba(167, 139, 250, 0.18);
-    color: #c4b5fd;
+    color: var(--purple-light);
 }
 
 .option-item.correct-answer:hover {
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 /* ===== Wrong Answer? — in action row left ===== */
@@ -1076,7 +1350,7 @@ h2 {
 .wrong-answer-trigger {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #fb7185;
+    color: var(--rose-text);
     cursor: pointer;
     letter-spacing: 0.02em;
     opacity: 0.9;
@@ -1123,7 +1397,7 @@ h2 {
     padding: 3px 8px;
     font-size: 0.72rem;
     font-weight: 600;
-    color: #b0aac8;
+    color: var(--text-context);
     background: transparent;
     border: 1px solid rgba(167, 139, 250, 0.2);
     border-radius: 4px;
@@ -1132,12 +1406,12 @@ h2 {
 }
 
 .wrong-answer-chip:hover {
-    color: #c4b5fd;
+    color: var(--purple-light);
     border-color: rgba(167, 139, 250, 0.4);
 }
 
 .wrong-answer-chip.selected {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     background: rgba(124, 58, 237, 0.25);
     border-color: rgba(167, 139, 250, 0.5);
 }
@@ -1148,8 +1422,8 @@ h2 {
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     padding: 12px 24px;
-    background: #111117;
-    color: #a78bfa;
+    background: var(--surface-1);
+    color: var(--purple-mid);
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 8px;
@@ -1169,7 +1443,7 @@ h2 {
     body {
         padding: 10px;
         font-size: 16px;
-        background-color: #0a0a0e;
+        background-color: var(--bg-color);
     }
 
     .meta-controls {
@@ -1260,7 +1534,7 @@ h2 {
     body {
         padding: 5px;
         font-size: 16px;
-        background-color: #0a0a0e;
+        background-color: var(--bg-color);
     }
 
     h1 { font-size: 1.1rem; margin-bottom: 10px; }
@@ -1309,16 +1583,15 @@ h2 {
     justify-content: center;
     padding: clamp(12px, 4vw, 24px);
     padding-bottom: env(safe-area-inset-bottom, 0);
-    background-color: #0a0a0e;
+    background-color: var(--bg-color);
 }
 
 .login-back-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 20px;
     padding: 8px 16px;
-    color: #a78bfa;
+    color: var(--purple-mid);
     text-decoration: underline;
     text-underline-offset: 3px;
     font-size: 0.9rem;
@@ -1326,12 +1599,50 @@ h2 {
     transition: color 0.2s ease;
 }
 
+.login-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--purple-mid);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-theme-toggle:hover {
+    background: var(--border-hover);
+    color: var(--purple-light);
+}
+
+.login-theme-toggle .theme-icon-light { display: var(--theme-icon-sun); }
+.login-theme-toggle .theme-icon-dark { display: var(--theme-icon-moon); }
+
+.login-theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
 .login-back-btn:hover {
-    color: #c4b5fd;
+    color: var(--purple-light);
 }
 
 .login-back-btn:focus-visible {
-    outline: 2px solid #a78bfa;
+    outline: 2px solid var(--purple-mid);
     outline-offset: 2px;
 }
 
@@ -1341,21 +1652,21 @@ h2 {
 }
 
 .login-card {
-    background: rgba(124, 58, 237, 0.04);
+    background: var(--login-card-bg);
     border-radius: 16px;
     padding: clamp(24px, 6vw, 32px);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--login-card-shadow);
 }
 
 .login-title {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     font-size: 1.5rem;
     text-align: center;
     margin-bottom: 4px;
 }
 
 .login-subtitle {
-    color: #b0aac8;
+    color: var(--text-context);
     font-size: 0.9rem;
     text-align: center;
     margin-bottom: 24px;
@@ -1377,28 +1688,28 @@ h2 {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    color: #a78bfa;
+    color: var(--purple-mid);
     text-transform: uppercase;
 }
 
 .login-field input {
     padding: 12px 14px;
     border-radius: 10px;
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    background: rgba(17, 17, 23, 0.8);
-    color: #f1f0f7;
+    border: 1px solid var(--login-input-border);
+    background: var(--login-input-bg);
+    color: var(--text-primary);
     font-size: 1rem;
     transition: border-color 0.2s ease;
 }
 
 .login-field input:focus {
     outline: none;
-    border-color: #a78bfa;
+    border-color: var(--purple-mid);
     box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
 }
 
 .login-error {
-    color: #fb7185;
+    color: var(--rose-text);
     font-size: 0.875rem;
     margin: 0;
     min-height: 1.6em;
@@ -1408,7 +1719,7 @@ h2 {
     padding: 12px 20px;
     border-radius: 10px;
     border: none;
-    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
     color: #fff;
     font-size: 1rem;
     font-weight: 600;
@@ -1427,24 +1738,24 @@ h2 {
 .login-contact {
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--login-contact-border);
     text-align: center;
 }
 
 .login-contact-line1 {
-    color: #b0aac8;
+    color: var(--text-context);
     font-size: 0.85rem;
     margin: 0 0 6px;
 }
 
 .login-contact-line2 {
-    color: #b0aac8;
+    color: var(--text-context);
     font-size: 0.85rem;
     margin: 0;
 }
 
 .login-contact-link {
-    color: #c4b5fd;
+    color: var(--purple-light);
     font-weight: 600;
     text-decoration: none;
     text-underline-offset: 3px;
@@ -1452,7 +1763,7 @@ h2 {
 }
 
 .login-contact-link:hover {
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 /* --- Mode Toggle --- */
@@ -1466,7 +1777,7 @@ h2 {
 .mode-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(167, 139, 250, 0.2);
-    color: #a78bfa;
+    color: var(--purple-mid);
     padding: 6px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -1476,10 +1787,10 @@ h2 {
 }
 
 .mode-btn.active {
-    background: #7c3aed;
+    background: var(--purple-deep);
     color: white;
     box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-    border-color: #a78bfa;
+    border-color: var(--purple-mid);
 }
 
 /* --- Notes Viewer --- */
@@ -1487,7 +1798,7 @@ h2 {
     max-width: 850px;
     margin: 0 auto;
     padding: 20px 0 60px;
-    color: #f1f0f7;
+    color: var(--text-primary);
     text-align: left;
 }
 
@@ -1498,13 +1809,13 @@ h2 {
 .notes-header h1 {
     margin: 0;
     font-size: 2.25rem;
-    color: #e0d7ff;
-    text-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
+    color: var(--heading-1-color);
+    text-shadow: var(--heading-1-shadow);
     text-align: left;
 }
 
 .topic-badge {
-    background: linear-gradient(90deg, #7c3aed, #a78bfa);
+    background: linear-gradient(90deg, var(--purple-deep), var(--purple-mid));
     color: white;
     font-size: 0.65rem;
     font-weight: 800;
@@ -1527,10 +1838,10 @@ h2 {
     top: 0;
     height: 100vh;
     z-index: 2000;
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
-    background: #0a0a0e;
+    box-shadow: var(--sidebar-shadow);
+    background: var(--bg-color);
     width: 300px;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid var(--border-dim);
     padding: 24px 16px;
     overflow-y: auto;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1567,7 +1878,7 @@ h2 {
     left: 24px;
     bottom: 30px;
     z-index: 1001;
-    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
     color: white;
     border: none;
     border-radius: 30px;
@@ -1599,7 +1910,7 @@ h2 {
 .sidebar-close-btn {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #b0aac8;
+    color: var(--text-context);
     cursor: pointer;
     padding: 6px;
     border-radius: 8px;
@@ -1610,7 +1921,7 @@ h2 {
 }
 
 .sidebar-close-btn:hover {
-    color: #f1f0f7;
+    color: var(--text-primary);
     background: rgba(124, 58, 237, 0.2);
     border-color: rgba(167, 139, 250, 0.3);
 }
@@ -1628,7 +1939,7 @@ h2 {
     margin-top: 20px;
     background: rgba(124, 58, 237, 0.08);
     border: 1px dashed rgba(167, 139, 250, 0.25);
-    color: #a78bfa;
+    color: var(--purple-mid);
     padding: 12px;
     border-radius: 10px;
     cursor: pointer;
@@ -1641,7 +1952,7 @@ h2 {
 .sidebar-add-btn:hover {
     background: rgba(124, 58, 237, 0.15);
     border-color: rgba(167, 139, 250, 0.5);
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 /* Sidebar TOC links */
@@ -1657,17 +1968,17 @@ h2 {
     gap: 8px;
     margin-bottom: 6px;
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.28);
-    box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(167, 139, 250, 0.1);
+    background: var(--toc-item-bg);
+    box-shadow: var(--toc-item-shadow);
+    border: 1px solid var(--toc-item-border);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
 .notes-sidebar .toc-item:hover {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.18), rgba(167, 139, 250, 0.08));
-    border-color: rgba(167, 139, 250, 0.4);
+    background: var(--toc-item-hover-bg);
+    border-color: var(--toc-item-hover-border);
 }
 
 .notes-sidebar .toc-item.active .toc-link {
@@ -1701,7 +2012,7 @@ h2 {
     padding: 0;
     border: none;
     background: transparent;
-    color: #a78bfa;
+    color: var(--purple-mid);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -1709,16 +2020,16 @@ h2 {
 
 .notes-sidebar .toc-action-btn:hover {
     background: rgba(124, 58, 237, 0.2);
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 .notes-sidebar .toc-action-btn.toc-delete-btn:hover {
     background: rgba(239, 68, 68, 0.15);
-    color: #fb7185;
+    color: var(--rose-text);
 }
 
 .notes-sidebar .toc-action-btn.copied {
-    color: #a78bfa;
+    color: var(--purple-mid);
     box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
 }
 
@@ -1727,7 +2038,7 @@ h2 {
     text-align: left;
     padding: 12px 8px 12px 14px;
     font-size: 0.95rem;
-    color: #c4b5fd;
+    color: var(--toc-link-color);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     line-height: 1.4;
@@ -1735,17 +2046,17 @@ h2 {
 }
 
 .notes-sidebar .toc-item .toc-link:hover {
-    color: #ffffff;
+    color: var(--toc-link-hover-color);
 }
 
 .notes-sidebar .toc-item:has(.toc-link.active) {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.32), rgba(167, 139, 250, 0.18));
-    border-color: rgba(167, 139, 250, 0.55);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+    background: var(--toc-item-active-bg);
+    border-color: var(--toc-item-active-border);
+    box-shadow: var(--toc-item-active-shadow);
 }
 
 .notes-sidebar .toc-item .toc-link.active {
-    color: #ffffff;
+    color: var(--toc-link-active-color);
 }
 
 .notes-sidebar .toc-item .toc-link::before {
@@ -1755,7 +2066,7 @@ h2 {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: #7c3aed;
+    background: var(--purple-deep);
     transform: scaleY(0);
     transition: transform 0.2s ease;
     border-radius: 0 3px 3px 0;
@@ -1767,14 +2078,14 @@ h2 {
 }
 
 .section-title {
-    color: #c4b5fd !important;
+    color: var(--purple-light) !important;
     font-size: 1.75rem !important;
     font-weight: 800 !important;
     margin: 40px 0 24px 0 !important;
     padding-bottom: 16px !important;
     text-align: left !important;
     text-shadow: none !important;
-    border-bottom: 2px solid rgba(167, 139, 250, 0.15) !important;
+    border-bottom: 2px solid var(--section-title-border) !important;
     letter-spacing: -0.02em;
     position: relative;
 }
@@ -1786,7 +2097,7 @@ h2 {
     left: 0;
     width: 60px;
     height: 2px;
-    background: #7c3aed;
+    background: var(--purple-deep);
     border-radius: 2px;
 }
 
@@ -1801,18 +2112,18 @@ h2 {
 
 /* h1 — pale lavender, full underline. Largest, rarely used inside sections. */
 .note-h1 {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     font-size: 1.5rem;
     margin: 0 0 18px 0;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(196, 181, 253, 0.25);
+    border-bottom: 1px solid var(--note-h1-border);
     letter-spacing: -0.01em;
 }
 
-/* h2 — mid-purple, distinct from section-title (#c4b5fd) and h3 (#f0abfc).
+/* h2 — mid-purple, distinct from section-title (var(--purple-light)) and h3 (var(--text-strong)).
    Wide dash marker clearly wider than h3's left-bar to show rank. */
 .note-h2 {
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-size: 1.35rem;
     margin: 32px 0 12px 0;
     text-shadow: 0 0 18px rgba(167, 139, 250, 0.2);
@@ -1823,7 +2134,7 @@ h2 {
     display: inline-block;
     width: 18px;
     height: 3px;
-    background: linear-gradient(90deg, #a78bfa, rgba(167, 139, 250, 0.5));
+    background: linear-gradient(90deg, var(--purple-mid), rgba(167, 139, 250, 0.5));
     border-radius: 2px;
     margin-right: 10px;
     vertical-align: middle;
@@ -1831,11 +2142,11 @@ h2 {
 
 /* h3 — fuchsia, left border bar. Most common heading inside note sections. */
 .note-h3 {
-    color: #f0abfc;
+    color: var(--text-strong);
     font-size: 1.18rem;
     margin: 26px 0 10px 0;
     padding-left: 12px;
-    border-left: 3px solid rgba(240, 171, 252, 0.5);
+    border-left: 3px solid var(--note-h3-border);
 }
 
 .note-h3::before {
@@ -1844,14 +2155,14 @@ h2 {
 
 /* h4 — mid-lavender, filled triangle. One step below h3. */
 .note-h4 {
-    color: #c4b5fd;
+    color: var(--purple-light);
     font-size: 1.05rem;
     margin: 20px 0 8px 0;
 }
 
 .note-h4::before {
     content: '▸';
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-size: 0.78em;
     margin-right: 7px;
     vertical-align: middle;
@@ -1859,7 +2170,7 @@ h2 {
 
 /* h5 — muted purple, ALL-CAPS label style. Clearly a sub-label, not a heading. */
 .note-h5 {
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-size: 0.8rem;
     font-weight: 700;
     margin: 16px 0 6px 0;
@@ -1869,7 +2180,7 @@ h2 {
 
 /* h6 — dim, smallest. Fine-grain annotation only. */
 .note-h6 {
-    color: #5858a0;
+    color: var(--text-muted);
     font-size: 0.78rem;
     font-weight: 600;
     margin: 12px 0 4px 0;
@@ -1891,22 +2202,22 @@ h2 {
 .note-blockquote {
     margin: 28px 0;
     padding: 22px 28px;
-    border-left: 5px solid #a78bfa;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(17, 17, 23, 0.98) 100%);
+    border-left: 5px solid var(--blockquote-border);
+    background: var(--blockquote-bg);
     border-radius: 0 16px 16px 0;
-    color: #e0d7ff;
+    color: var(--blockquote-text);
     font-style: italic; /* Keep normal on wrapper for MathJax */
     font-weight: 600;
     line-height: 1.8;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: var(--panel-shadow);
     position: relative;
     overflow: hidden;
 }
 
-/* Variant for "ISS tip" blockquotes — consistent with Revision Priorities */
+/* Variant for "ISS tip" blockquotes — rose accent for differentiation */
 .note-blockquote.tip-style {
-    border-left-color: #7c3aed;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(10, 10, 14, 0.98) 100%);
+    border-left-color: var(--blockquote-tip-border);
+    background: var(--blockquote-tip-bg);
 }
 
 /* Style the text inside for emphasis without affecting MathJax symbols */
@@ -1923,7 +2234,7 @@ h2 {
     top: -15px;
     left: 10px;
     font-size: 6rem;
-    color: rgba(167, 139, 250, 0.08);
+    color: var(--blockquote-accent);
     font-family: serif;
     font-weight: 900;
     line-height: 1;
@@ -1932,59 +2243,59 @@ h2 {
 }
 
 .note-blockquote strong {
-    color: #f0abfc;
+    color: var(--text-strong);
     font-style: normal;
     text-decoration: underline;
     text-underline-offset: 4px;
-    text-decoration-color: rgba(240, 171, 252, 0.3);
+    text-decoration-color: var(--blockquote-strong-decoration);
 }
 
 /* Inline markdown in notes — strong, em, code */
 .q-notes-content strong, .note-section-content strong,
 .q-notes-content .note-p strong, .note-section-content .note-p strong,
 .note-list strong {
-    color: #f0abfc; /* Orchid — distinguishable from MathJax #c4b5fd */
+    color: var(--text-strong); /* Orchid — distinguishable from MathJax var(--purple-light) */
     font-weight: 700;
 }
 
 .q-notes-content em, .note-section-content em,
 .q-notes-content .note-p em, .note-section-content .note-p em,
 .note-list em {
-    color: #e0d7ff;
+    color: var(--purple-pale);
     font-style: italic;
 }
 
 .q-notes-content code, .note-section-content code,
 .q-notes-content .note-p code, .note-section-content .note-p code,
 .note-list code {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
-    color: #f0abfc;
+    background: var(--inline-code-bg);
+    color: var(--text-strong);
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9em;
-    border: 1px solid rgba(167, 139, 250, 0.25);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--inline-code-border);
+    box-shadow: var(--shadow-inner);
 }
 
 /* Fenced code block in notes */
 .note-code-block {
     margin: 18px 0;
     padding: 16px 18px;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.12) 0%, #0a0a0e 35%, rgba(10, 10, 14, 0.98) 100%);
-    border: 1px solid rgba(167, 139, 250, 0.3);
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.12) 0%, var(--bg-color) 35%, var(--surface-panel) 100%);
+    border: 1px solid var(--code-block-border);
     border-radius: 8px;
     overflow-x: auto;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.9rem;
     line-height: 1.6;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    box-shadow: var(--code-block-shadow);
 }
 
 .note-code-block code {
     background: none;
     padding: 0;
-    color: #e0d7ff;
+    color: var(--purple-pale);
     border: none;
     box-shadow: none;
 }
@@ -1992,7 +2303,7 @@ h2 {
 .note-p {
     margin-bottom: 14px;
     line-height: 1.8;
-    color: #d4d0e8;
+    color: var(--text-body);
     font-size: 1.02rem;
     overflow-x: auto;
     overflow-y: hidden;
@@ -2001,7 +2312,7 @@ h2 {
     margin-bottom: 6px;
     position: relative;
     list-style: none;
-    color: #d4d0e8;
+    color: var(--text-body);
     line-height: 1.75;
     padding-left: 2px;
 }
@@ -2011,7 +2322,7 @@ h2 {
     content: '›';
     position: absolute;
     left: -18px;
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-weight: 700;
     font-size: 1.1em;
     line-height: 1.75;
@@ -2023,7 +2334,7 @@ h2 {
 }
 
 .note-ol li::marker {
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-weight: 700;
 }
 
@@ -2038,7 +2349,7 @@ h2 {
 
 .note-list .note-list:not(.note-ol) li::before {
     content: '·';
-    color: #5858a0;
+    color: var(--text-muted);
     font-size: 1.4em;
     left: -16px;
     line-height: 1.6;
@@ -2046,13 +2357,13 @@ h2 {
 
 /* Formula blocks in notes */
 .note-section-content mjx-container[display="true"] {
-    background: rgba(0, 0, 0, 0.28) !important;
+    background: var(--formula-bg) !important;
     padding: 18px 22px !important;
     border-radius: 8px !important;
-    border: 1px solid rgba(124, 58, 237, 0.15) !important;
-    border-left: 3px solid rgba(167, 139, 250, 0.5) !important;
+    border: 1px solid var(--formula-border) !important;
+    border-left: 3px solid var(--purple-mid) !important;
     margin: 18px 0 !important;
-    box-shadow: inset 0 1px 8px rgba(0,0,0,0.45) !important;
+    box-shadow: var(--formula-shadow) !important;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -2061,15 +2372,15 @@ h2 {
 .note-callout.tip {
     margin: 32px 0 40px 0;
     padding: 24px 28px;
-    border-left: 5px solid #7c3aed;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.15) 0%, rgba(10, 10, 14, 0.98) 100%);
+    border-left: 5px solid var(--purple-deep);
+    background: var(--callout-tip-bg);
     border-radius: 0 16px 16px 0;
     display: flex;
     gap: 18px;
     align-items: flex-start;
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: var(--panel-shadow);
     position: relative;
     overflow: auto;
 }
@@ -2081,7 +2392,7 @@ h2 {
     top: -20px;
     right: 20px;
     font-size: 8rem;
-    color: rgba(124, 58, 237, 0.06);
+    color: var(--callout-tip-accent);
     pointer-events: none;
     z-index: 0;
 }
@@ -2097,14 +2408,14 @@ h2 {
     flex: 1;
     font-size: 1rem;
     line-height: 1.75;
-    color: #e0d7ff;
+    color: var(--purple-pale);
     min-width: 0;
     z-index: 1;
 }
 
 .note-callout.tip .tip-label {
     display: block;
-    color: #a78bfa;
+    color: var(--purple-mid);
     font-weight: 800;
     font-size: 1.15rem;
     margin-bottom: 12px;
@@ -2120,7 +2431,7 @@ h2 {
     padding: 4px 10px;
     background: rgba(124, 58, 237, 0.1);
     border: 1px solid rgba(167, 139, 250, 0.2);
-    color: #a78bfa;
+    color: var(--purple-mid);
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -2133,7 +2444,7 @@ h2 {
     opacity: 1;
     background: rgba(124, 58, 237, 0.2);
     border-color: rgba(167, 139, 250, 0.4);
-    color: #e0d7ff;
+    color: var(--purple-pale);
 }
 
 .note-editor-wrap {
@@ -2148,21 +2459,21 @@ h2 {
     width: 100%;
     min-height: 250px;
     padding: 15px;
-    background: #0a0a0e;
-    color: #f1f0f7;
+    background: var(--editor-textarea-bg);
+    color: var(--text-primary);
     border: 1px solid rgba(167, 139, 250, 0.2);
     border-radius: 8px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.95rem;
     line-height: 1.6;
     resize: vertical;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    box-shadow: var(--editor-textarea-shadow);
 }
 
 .note-editor-textarea:focus {
     outline: none;
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1), inset 0 2px 10px rgba(0,0,0,0.5);
+    border-color: var(--purple-deep);
+    box-shadow: var(--editor-textarea-focus-shadow);
 }
 
 /* Formatting help — above editor, compact reference bar */
@@ -2173,13 +2484,13 @@ h2 {
     border: 1px solid rgba(167, 139, 250, 0.15);
     border-radius: 10px;
     font-size: 0.8rem;
-    color: #b0aac8;
+    color: var(--text-context);
 }
 
 .note-format-hint summary {
     cursor: pointer;
     font-weight: 600;
-    color: #a78bfa;
+    color: var(--purple-mid);
     user-select: none;
     list-style: none;
     display: flex;
@@ -2198,7 +2509,7 @@ h2 {
 .note-format-hint[open] summary::before { transform: rotate(90deg); }
 
 .note-format-hint summary:hover {
-    color: #c4b5fd;
+    color: var(--purple-light);
 }
 
 .note-format-hint-body {
@@ -2210,7 +2521,7 @@ h2 {
 
 .note-format-hint code {
     background: rgba(124, 58, 237, 0.15);
-    color: #f0abfc;
+    color: var(--text-strong);
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.85em;
@@ -2242,7 +2553,7 @@ h2 {
     padding: 0;
     border: none;
     background: rgba(124, 58, 237, 0.1);
-    color: #a78bfa;
+    color: var(--purple-mid);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -2251,18 +2562,18 @@ h2 {
 
 .note-section-action-btn:hover {
     background: rgba(124, 58, 237, 0.2);
-    color: #e0d7ff;
+    color: var(--purple-pale);
     border-color: rgba(167, 139, 250, 0.4);
 }
 
 .note-section-action-btn.note-section-delete-btn:hover {
     background: rgba(239, 68, 68, 0.1);
-    color: #fb7185;
+    color: var(--rose-text);
     border-color: rgba(239, 68, 68, 0.2);
 }
 
 .note-section-action-btn.copied {
-    color: #a78bfa;
+    color: var(--purple-mid);
     box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
 }
 
@@ -2275,7 +2586,7 @@ h2 {
 .note-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--modal-bg);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -2285,12 +2596,12 @@ h2 {
 }
 
 .note-modal-card {
-    width: 90%;
+    width: 75%;
     max-width: 450px;
-    background: #111117;
+    background: var(--surface-1);
     border-radius: 16px;
     padding: 30px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: var(--card-shadow), 0 0 0 1px var(--border-dim);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2298,7 +2609,7 @@ h2 {
 
 .note-modal-card h3 {
     margin: 0;
-    color: #e0d7ff;
+    color: var(--purple-pale);
     font-size: 1.25rem;
     text-align: center;
 }
@@ -2314,22 +2625,22 @@ h2 {
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #a78bfa;
+    color: var(--purple-mid);
 }
 
 .note-field input {
     padding: 12px 14px;
     border-radius: 10px;
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    background: rgba(0, 0, 0, 0.3);
-    color: #f1f0f7;
+    border: 1px solid var(--border-mid);
+    background: var(--surface-2);
+    color: var(--text-primary);
     font-size: 1rem;
 }
 
 .note-field input:focus {
     outline: none;
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+    border-color: var(--purple-deep);
+    box-shadow: 0 0 0 2px var(--selection-bg);
 }
 
 .note-add-btn {
@@ -2337,7 +2648,7 @@ h2 {
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
     color: white;
     border: none;
     border-radius: 20px;
@@ -2362,7 +2673,7 @@ h2 {
 .note-confirm-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--modal-bg);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -2372,12 +2683,12 @@ h2 {
 }
 
 .note-confirm-card {
-    width: 90%;
+    width: 75%;
     max-width: 420px;
-    background: #111117;
+    background: var(--surface-1);
     border-radius: 16px;
     padding: 24px 28px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: var(--card-shadow), 0 0 0 1px var(--border-dim);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2385,7 +2696,7 @@ h2 {
 
 .note-confirm-card .note-confirm-message {
     margin: 0;
-    color: #f1f0f7;
+    color: var(--text-primary);
     font-size: 1rem;
     line-height: 1.5;
     text-align: center;
@@ -2414,7 +2725,7 @@ h2 {
 /* No / Cancel — cross icon, rose */
 .note-confirm-btn-no {
     background: rgba(251, 113, 133, 0.12);
-    color: #fb7185;
+    color: var(--rose-text);
     border: 1px solid rgba(251, 113, 133, 0.25);
 }
 
@@ -2429,12 +2740,12 @@ h2 {
 /* Yes / Confirm — check icon, green (distinct from No) */
 .note-confirm-btn-yes {
     background: rgba(74, 222, 128, 0.15);
-    color: #4ade80;
+    color: var(--green-mid);
     border: 1px solid rgba(74, 222, 128, 0.35);
 }
 
 .note-confirm-btn-yes:hover {
-    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
     color: #fff;
     border-color: rgba(74, 222, 128, 0.5);
     transform: translateY(-1px);

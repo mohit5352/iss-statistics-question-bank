@@ -110,9 +110,10 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Add Explanation** or **Edit Explanation** link appears in the action row. Click it to add or edit a step-by-step explanation for the question (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
 - **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. **Copy**, **Edit**, and **Delete** (admin) icon buttons appear in both the sidebar and each topic header. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Formatting help** (collapsible) is available in all note editors.
 - **Sidebar Navigation**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical purple accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
+- **Theme Toggle**: Sun/moon icon in the header switches between **dark** (default) and **light** themes. Preference is saved in `localStorage` and persists across sessions. The login page also supports both themes and syncs with the main app.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
-- **Color-Coded Interface**: Modern **Obsidian Dark Theme** — matte/near-black background with an all-purple accent palette:
+- **Color-Coded Interface**: **Dark theme** (default) — Obsidian-style matte/near-black background with an all-purple accent palette. **Light theme** — soft off-white background with equivalent purple accents for readability. Toggle via sun/moon icon in the header. Dark theme palette:
   - **Background**: Near-black (`#0a0a0e`) body; dark surface (`#111117`) sticky header
   - **Paper Title (h1)**: Pale lavender (`#e0d7ff`) with soft purple glow
   - **Set Indicator**: Divider-style row with converging purple gradient lines and uppercase `SET ◆ X` label in `#a78bfa`
@@ -390,7 +391,7 @@ For **each section file** and each year:
   - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
   - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
   - All font sizes use rem units for consistent scaling and accessibility
-- **Color Scheme**: **Obsidian Dark / Purple Theme** — near-black background (`#0a0a0e`), purple-glass card surfaces (`rgba(124,58,237,0.05)`), violet accent hierarchy (`#7c3aed` → `#a78bfa` → `#c4b5fd` → `#e0d7ff`), orchid/fuchsia option text (`#f0abfc` / `#d946ef`), purple copy-success state (`#a78bfa`)
+- **Color Scheme**: **Dark theme** (default) — Obsidian-style near-black background (`#0a0a0e`), purple-glass card surfaces (`rgba(124,58,237,0.05)`), violet accent hierarchy (`#7c3aed` → `#a78bfa` → `#c4b5fd` → `#e0d7ff`), orchid/fuchsia option text (`#f0abfc` / `#d946ef`). **Light theme** — off-white background (`#f7f8fc`), equivalent purple accents, muted gray-purple for headings (`#4c4363`). Theme preference stored in `localStorage`; login page respects the same setting.
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: Unified fetch/XMLHttpRequest approach works for both desktop and mobile without iframe isolation
 - **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
@@ -517,7 +518,7 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 - **Admin**: Only admins can update answers. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
 - **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link).
-- **Login page** (`/login` or `login.html`): Username/password form. Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
+- **Login page** (`/login` or `login.html`): Username/password form with theme toggle (dark/light). Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
 - **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
 ### Show Answer — How It Works:
@@ -606,7 +607,7 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025/2026 — **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
+**Last Updated**: 2025/2026 — **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
 - **Sticky Header** with paper title, set indicator divider (`SET ◆ X`), and a unified meta-controls pill panel (Paper / Section / Year)
 - **Set Indicator**: Displays the exam set letter for each paper/year combination, rendered as a centred divider row with converging purple gradient lines
 - **Meta Controls**: Dashboard-style pill panel replacing individual badges — hidden `<select>` overlays, dim ALL-CAPS labels, bold lavender values, vertical hairline separators
@@ -618,6 +619,7 @@ When updating or fixing questions:
 - **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? and Add/Edit Explanation features
 - **Action Row & Wrong Answer? & Add/Edit Explanation**: Single row with Wrong Answer? and Add/Edit Explanation (left, admin only), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections; Add/Edit Explanation toggles an inline editor for explanations (supports LaTeX)
 - **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; **collapsible sidebar** for navigation; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
+- **Theme Toggle**: Sun/moon icon in header; dark (default) and light themes; preference persisted in `localStorage`; login page supports both themes
 - **Sidebar & Floating Button**: Interactive navigation sidebar with Copy/Edit/Delete icon buttons per TOC item; Copy shows checkmark "Copied" state; state-persisted (localStorage) collapsible design; floating "Topics" button for mobile/collapsed viewing; **scroll-synced TOC highlighting** (active section updates on scroll for mobile and desktop); **outside click** closes sidebar; **topic headers** also have Copy/Edit/Delete icon buttons for quick access when scrolled
 - **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
 - **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
