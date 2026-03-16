@@ -23,11 +23,13 @@ statistics_question_bank/
 ├── styles.css                                     # Styling for question cards and layout
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
 ├── explanations.js                                # Explanations for each question (skeleton mirrors answers.js; empty template literals)
+├── question_edits.js                              # Admin question edits (text, topic, options overrides)
 ├── notes.js                                       # Revision Notes per paper/section (sections, tips; markdown + LaTeX)
-├── server.py                                      # Local server with answer correction + explanation + notes + auth (writes to answers.js, explanations.js, notes.js)
+├── server.py                                      # Local server with answer correction + explanation + notes + question edits + auth (writes to answers.js, explanations.js, notes.js, question_edits.js)
 ├── api/
 │   ├── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
 │   ├── explanations.js                            # Vercel serverless API for live explanation edits (updates explanations.js in GitHub)
+│   ├── questions.js                               # Vercel serverless API for live question edits (updates question_edits.js in GitHub)
 │   ├── notes.js                                   # Vercel serverless API for Revision Notes edits (updates notes.js in GitHub)
 │   ├── auth.js                                    # Admin login validation (ADMIN_USERNAME, ADMIN_PASSWORD)
 │   └── config.js                                 # Public config (CONTACT_EMAIL for login page)
@@ -106,10 +108,12 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables are preserved with proper structure (tab-separated cells, newline-separated rows) so pasted content stays readable.
 - **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
-- **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** link appears in the action row. Click it to reveal inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
-- **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Add Explanation** or **Edit Explanation** link appears in the action row. Click it to add or edit a step-by-step explanation for the question (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
+- **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** icon (⚠) appears at the top-right of the options grid. Click it to expand inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
+- **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Edit Explanation** icon appears in the collapsible explanation header. Click it to add or edit a step-by-step explanation (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
+- **Edit Question**: When logged in as admin, an **Edit Question** icon appears in the card header. Click it to edit the question text, topic, and options (supports LaTeX). Edits are stored in `question_edits.js` and follow the same deployment pattern as answers and explanations.
 - **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. **Copy**, **Edit**, and **Delete** (admin) icon buttons appear in both the sidebar and each topic header. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Formatting help** (collapsible) is available in all note editors.
-- **Sidebar Navigation**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical purple accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
+- **Questions Sidebar**: In Questions mode, a collapsible sidebar shows a Table of Contents with topic + question preview (ellipsis). Hover for full question text. **Hash routing** and **scroll sync** keep the active question highlighted as you scroll. **Outside click** closes the sidebar. On mobile, a floating **Questions** button opens the slide-out drawer.
+- **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical purple accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
 - **Theme Toggle**: Sun/moon icon in the header switches between **dark** (default) and **light** themes. Preference is saved in `localStorage` and persists across sessions. The login page also supports both themes and syncs with the main app.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
@@ -127,7 +131,8 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
   - **Context Block bold text**: Orchid (`#f0abfc`) matching option items; MathJax expressions in lavender (`#c4b5fd`) consistent with question text
   - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
-- **Action Row**: Single row at bottom of each card — `[Wrong Answer?]` and `[Add/Edit Explanation]` on the left (admin only); `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active
+- **Collapsible Explanation**: When the answer is revealed, a collapsible **Explanation** section appears with **Copy** and **Edit** (admin) icons in the header, plus an expand/collapse chevron. Supports LaTeX.
+- **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active. **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Question** icon (admin) in card header; **Edit Explanation** icon (admin) in explanation section header.
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Works without internet (except for MathJax CDN)
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
@@ -323,7 +328,7 @@ For **each section file** and each year:
 - `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
 - `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns purple (`#a78bfa`) on success
 - `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
-- `.wrong-answer-wrap`: Container for Wrong Answer? trigger and picker (visible when answer is shown; admin only)
+- `.wrong-answer-wrap`: Flex container for Wrong Answer? icon and picker — `display: flex`, `align-items: flex-end`, `justify-content: flex-end`; when picker open, `flex-direction: column` stacks icon and chips (visible when answer is shown; admin only)
 - `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
 - `.wrong-answer-picker`: Expandable section with "Choose correct answer:" hint and (a)(b)(c)(d) chips
 - `.wrong-answer-chip`: Option chip button — selects correct answer on click
@@ -378,7 +383,8 @@ For **each section file** and each year:
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
 - **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted with tab-separated cells and newline-separated rows so pasted content preserves structure.
 - **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
-- **Explanation System**: Explanations are stored in `explanations.js` (skeleton mirrors `answers.js`; values are empty template literals). Admins can add or edit explanations via **Add/Edit Explanation** when the answer is visible. Edits are submitted via `POST /api/explanations`. Behaviour by deployment: **Local** (`server.py`) writes to `explanations.js`; **Vercel** (`api/explanations.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Explanation System**: Explanations are stored in `explanations.js` (skeleton mirrors `answers.js`; values are empty template literals). Admins can add or edit explanations via **Edit Explanation** in the collapsible explanation header when the answer is visible. Edits are submitted via `POST /api/explanations`. Behaviour by deployment: **Local** (`server.py`) writes to `explanations.js`; **Vercel** (`api/explanations.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
+- **Question Edit System**: Edits (text, topic, options) are stored in `question_edits.js`. Admins can edit via **Edit Question** icon in the card header. Edits are submitted via `POST /api/questions`. **Local** writes to `question_edits.js`; **Vercel** (`api/questions.js`) pushes to GitHub; **GitHub Pages** / static falls back to `localStorage`.
 - **Revision Notes System**: Notes are stored in `notes.js` (structure: `paper`, `section`, `sections[]` with `id`, `label`, `content`, plus `tips` per topic). **Markdown** supports: headers (`#`–`######`), **bold** (`**text**`), *italic* (`*text*`), `inline code`, fenced code blocks (` ``` `), lists (`-` or `1.`), blockquote (`>`), horizontal rule (`---`), tables (`| col | col |`). **LaTeX**: inline `\( ... \)`, block `\[ ... \]`, or `$...$` / `$$...$$`. A collapsible **Formatting help** appears in all note editors. Edits are submitted via `POST /api/notes`. **Local** writes to `notes.js`; **Vercel** (`api/notes.js`) pushes to GitHub; **GitHub Pages** / static: not available. **Sidebar TOC** highlights the active section on scroll (listens to both content-viewer and window scroll); outside click closes the sidebar. **Copy** (raw markdown), **Edit**, and **Delete** (admin) actions available in both the sidebar and each topic header; Copy shows a checkmark "Copied" state.
 - **Admin Login**: Credentials are validated via `POST /api/auth`; contact email is served via `GET /api/config`. Env vars: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
 - **Responsive Design**: The layout adapts to different screen sizes
@@ -528,8 +534,8 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 4. Clicking again hides the answer and removes the highlight
 
 ### Wrong Answer? — How It Works:
-1. When logged in as admin and the answer is visible, **Wrong Answer?** appears in the action row (left side)
-2. Click **Wrong Answer?** to expand the inline picker: **Choose correct answer:** followed by (a)(b)(c)(d) chips
+1. When logged in as admin and the answer is visible, a **Wrong Answer?** icon (⚠) appears at the top-right of the options grid
+2. Click the icon to expand the inline picker: **Choose correct answer:** followed by (a)(b)(c)(d) chips
 3. Click the correct option chip — the displayed answer updates immediately; the correction is queued and saved according to the deployment scenario (see below)
 4. **Batching (Vercel)**: Corrections are queued and sent in a single batch after 15 seconds of inactivity, or when you leave the page (`sendBeacon`), to minimize GitHub commits
 
@@ -607,7 +613,12 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025/2026 — **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
+**Last Updated**: 2025/2026 — **Questions mode UX overhaul**:
+- **Questions Sidebar**: Collapsible TOC with topic + question preview, hover for full text; hash routing and scroll sync; outside click closes
+- **Icon-based actions**: Wrong Answer? (top-right of options grid), Edit Question (card header), Edit Explanation (explanation header); all with tooltips
+- **Collapsible Explanation**: Copy, Edit, expand/collapse chevron in header; Wrong Answer picker uses flex layout (align/justify end; column when open)
+- **Edit Question** and **question_edits.js** with Vercel `api/questions.js` for live updates
+- **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
 - **Sticky Header** with paper title, set indicator divider (`SET ◆ X`), and a unified meta-controls pill panel (Paper / Section / Year)
 - **Set Indicator**: Displays the exam set letter for each paper/year combination, rendered as a centred divider row with converging purple gradient lines
 - **Meta Controls**: Dashboard-style pill panel replacing individual badges — hidden `<select>` overlays, dim ALL-CAPS labels, bold lavender values, vertical hairline separators
@@ -617,7 +628,7 @@ When updating or fixing questions:
 - **Context Block**: Near-black background with a purple gradient left stripe; bold text in orchid (`#f0abfc`); MathJax expressions in lavender (`#c4b5fd`) consistent with question text; "CONTEXT" label removed
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
 - **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? and Add/Edit Explanation features
-- **Action Row & Wrong Answer? & Add/Edit Explanation**: Single row with Wrong Answer? and Add/Edit Explanation (left, admin only), Show Answer + Copy (right); Wrong Answer? expands to inline (a)(b)(c)(d) chips for corrections; Add/Edit Explanation toggles an inline editor for explanations (supports LaTeX)
+- **Action Row**: Show Answer + Copy icons (right); Wrong Answer? icon at top-right of options grid (admin); Edit Question icon in card header (admin); Edit Explanation in collapsible explanation header (admin)
 - **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; **collapsible sidebar** for navigation; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
 - **Theme Toggle**: Sun/moon icon in header; dark (default) and light themes; preference persisted in `localStorage`; login page supports both themes
 - **Sidebar & Floating Button**: Interactive navigation sidebar with Copy/Edit/Delete icon buttons per TOC item; Copy shows checkmark "Copied" state; state-persisted (localStorage) collapsible design; floating "Topics" button for mobile/collapsed viewing; **scroll-synced TOC highlighting** (active section updates on scroll for mobile and desktop); **outside click** closes sidebar; **topic headers** also have Copy/Edit/Delete icon buttons for quick access when scrolled

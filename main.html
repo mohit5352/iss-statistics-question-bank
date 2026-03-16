@@ -133,6 +133,7 @@
     <script src="notes.js"></script>
     <script src="answers.js"></script>
     <script src="explanations.js"></script>
+    <script src="question_edits.js"></script>
     <script>
         // Theme Management
         function toggleTheme() {
@@ -405,12 +406,18 @@
                 updateActiveFromScroll();
             }
 
-            // Outside click: close sidebar when clicking outside it
+            // Close sidebar: on outside click, or on any link/action click inside
             function closeSidebarIfOpen(ev) {
                 if (!layout.parentNode) return;
                 if (layout.classList.contains('sidebar-collapsed')) return;
-                if (sidebar.contains(ev.target)) return;
                 if (ev.target.closest && ev.target.closest('.sidebar-open-btn')) return;
+                if (sidebar.contains(ev.target)) {
+                    if (ev.target.closest('.toc-link') || ev.target.closest('.toc-action-btn') || ev.target.closest('.sidebar-add-btn')) {
+                        layout.classList.add('sidebar-collapsed');
+                        localStorage.setItem('iss_sidebar_collapsed', 'true');
+                    }
+                    return;
+                }
                 layout.classList.add('sidebar-collapsed');
                 localStorage.setItem('iss_sidebar_collapsed', 'true');
             }
@@ -462,18 +469,15 @@
 
         function handleTocClick(e, id) {
             if (e && e.preventDefault) e.preventDefault();
-            // Scroll to the section smoothly and highlight the TOC item
             const target = document.getElementById(id);
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 setActiveToc(id);
                 try { history.replaceState(null, '', '#' + id); } catch (err) {}
             }
-            // On mobile, close sidebar after clicking a link
-            if (window.innerWidth <= 1024) {
-                const layout = document.getElementById('notes-layout');
-                if (layout) layout.classList.add('sidebar-collapsed');
-            }
+            const layout = document.getElementById('notes-layout');
+            if (layout) layout.classList.add('sidebar-collapsed');
+            localStorage.setItem('iss_sidebar_collapsed', 'true');
         }
 
         // Paper sets per year
@@ -630,38 +634,242 @@
             });
         }
 
-        // Copy button functionality - DRY principle
-        function addCopyButtons(container) {
-            var questionCards = container.querySelectorAll('.question-card');
-            questionCards.forEach(function(card) {
-                // Skip if button already exists
-                if (card.querySelector('.q-copy-btn')) {
-                    return;
+        function toggleQuestionsSidebar() {
+            var layout = document.getElementById('questions-layout');
+            if (layout) {
+                layout.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('iss_questions_sidebar_collapsed', layout.classList.contains('sidebar-collapsed'));
+            }
+        }
+
+        function getQuestionPreview(card) {
+            var topicEl = card.querySelector('.q-topic');
+            var topic = topicEl ? topicEl.textContent.trim() : '';
+            var qText = '';
+            Array.prototype.forEach.call(card.children, function(child) {
+                if (child.classList && child.classList.contains('q-text')) {
+                    var t = extractTextWithTables(child);
+                    if (t) qText += t + ' ';
                 }
-                
-                // Create copy button
+            });
+            qText = qText.replace(/\s+/g, ' ').trim();
+            var preview = qText.length > 80 ? qText.substring(0, 80) + '…' : qText;
+            return { topic: topic, preview: preview, fullText: qText };
+        }
+
+        function buildQuestionsSidebar(container) {
+            if (!container) return;
+            var cards = container.querySelectorAll('.question-card');
+            var tocEl = document.getElementById('questions-toc-links');
+            if (!tocEl) return;
+            var secKey = sectionToAnswerKey[currentSection];
+            var answers = QUESTION_ANSWERS[currentPaper];
+            var sectionAnswers = answers && answers[secKey];
+            var yearAnswers = sectionAnswers && sectionAnswers[currentYear];
+            var copyIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+            var editIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 17.25V21h4.25L17.81 9.94l-4.25-4.25L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 4.25 4.25 1.83-1.83z"/></svg>';
+            var explIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>';
+            tocEl.innerHTML = '';
+            cards.forEach(function(card, idx) {
+                var qNumEl = card.querySelector('.q-number');
+                if (!qNumEl) return;
+                var qNumber = qNumEl.textContent.trim().replace('.', '');
+                var id = 'q-' + qNumber;
+                card.id = id;
+                var hasAnswer = yearAnswers && yearAnswers[qNumber];
+                var prev = getQuestionPreview(card);
+                var fullTitle = prev.topic ? prev.topic + ' — ' + prev.fullText : prev.fullText;
+                var item = document.createElement('div');
+                item.className = 'question-toc-item';
+                item.setAttribute('data-section', id);
+                var topicHtml = prev.topic ? '<span class="question-toc-topic">' + prev.topic + '</span>' : '';
+                var previewHtml = prev.preview ? '<span class="question-toc-preview">' + prev.preview + '</span>' : '';
+                var textContent = topicHtml + previewHtml || qNumber;
+                var link = '<a href="#' + id + '" class="question-toc-link" title="' + (fullTitle ? fullTitle.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '') + '"><span class="question-toc-num">' + qNumber + '.</span><span class="question-toc-text">' + textContent + '</span></a>';
+                var actions = '<div class="question-toc-actions">';
+                actions += '<button class="question-toc-btn" data-tooltip="Copy" title="Copy" onclick="copyQuestionText(document.getElementById(\'' + id + '\'), this)" aria-label="Copy">' + copyIcon + '</button>';
+                if (isAdmin()) {
+                    actions += '<button class="question-toc-btn" data-tooltip="Edit Question" title="Edit Question" onclick="showQuestionEditor(document.getElementById(\'' + id + '\'), \'' + qNumber + '\')" aria-label="Edit Question">' + editIcon + '</button>';
+                    if (hasAnswer) actions += '<button class="question-toc-btn" data-tooltip="Show Answer" title="Show Answer" onclick="scrollToAndReveal(\'' + id + '\', \'' + qNumber + '\')" aria-label="Show Answer"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></button>';
+                    actions += '<button class="question-toc-btn" data-tooltip="Edit Explanation" title="Edit Explanation" onclick="scrollToAndReveal(\'' + id + '\', \'' + qNumber + '\', true)" aria-label="Edit Explanation">' + explIcon + '</button>';
+                }
+                actions += '</div>';
+                item.innerHTML = link + actions;
+                tocEl.appendChild(item);
+            });
+            var layout = document.getElementById('questions-layout');
+            if (layout && localStorage.getItem('iss_questions_sidebar_collapsed') === 'true') {
+                layout.classList.add('sidebar-collapsed');
+            }
+            initQuestionsSidebarScrollSync();
+        }
+
+        function scrollToAndReveal(cardId, qNumber, openExpl) {
+            var card = document.getElementById(cardId);
+            if (!card) return;
+            card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            var btn = card.querySelector('.q-answer-btn');
+            if (btn && !btn.classList.contains('showing')) {
+                var secKey = sectionToAnswerKey[currentSection];
+                var effective = getEffectiveAnswer(currentPaper, secKey, currentYear, qNumber);
+                toggleAnswer(card, btn, effective, qNumber);
+            }
+            if (openExpl && card.querySelector('.notes-wrap')) {
+                var coll = card.querySelector('.explanation-collapsible');
+                if (coll) {
+                    coll.classList.add('expanded');
+                    var tgl = coll.querySelector('.explanation-toggle');
+                    if (tgl) tgl.setAttribute('aria-expanded', 'true');
+                }
+                var nw = card.querySelector('.notes-wrap');
+                if (nw.querySelector('.note-editor')) showNotesView(card, qNumber, nw);
+                else showNotesEditor(card, qNumber, nw);
+            }
+        }
+
+        function initQuestionsSidebarScrollSync() {
+            var layout = document.getElementById('questions-layout');
+            var sidebar = document.getElementById('questions-sidebar');
+            var mainContent = layout && layout.querySelector('.questions-main-content');
+            var tocLinks = document.getElementById('questions-toc-links');
+            var scrollRoot = document.getElementById('year-viewer');
+            if (!layout || !mainContent || !tocLinks) return;
+            function setActiveQuestionToc(id) {
+                tocLinks.querySelectorAll('.question-toc-item').forEach(function(el) {
+                    var isActive = el.getAttribute('data-section') === id;
+                    el.classList.toggle('active', isActive);
+                    var link = el.querySelector('.question-toc-link');
+                    if (link) link.classList.toggle('active', isActive);
+                });
+            }
+            function updateActive() {
+                var cards = mainContent.querySelectorAll('.question-card[id]');
+                var refTop = 140;
+                var activeId = null;
+                var bestTop = -Infinity;
+                cards.forEach(function(c) {
+                    var r = c.getBoundingClientRect();
+                    if (r.top <= refTop + 80) {
+                        if (r.top > bestTop) {
+                            bestTop = r.top;
+                            activeId = c.id;
+                        }
+                    }
+                });
+                if (!activeId && cards.length) {
+                    activeId = cards[0].id;
+                }
+                setActiveQuestionToc(activeId || '');
+                if (activeId) {
+                    try { history.replaceState(null, '', '#' + activeId); } catch (e) {}
+                }
+            }
+            var onScroll = typeof throttle === 'function' ? throttle(updateActive, 80) : updateActive;
+            if (scrollRoot) scrollRoot.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('scroll', onScroll, true);
+            updateActive();
+            setTimeout(updateActive, 100);
+            tocLinks.addEventListener('click', function(e) {
+                var link = e.target.closest('.question-toc-link');
+                var btn = e.target.closest('.question-toc-btn');
+                if (link && link.getAttribute('href')) {
+                    e.preventDefault();
+                    var id = (link.getAttribute('href') || '').replace('#', '');
+                    var target = document.getElementById(id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        setActiveQuestionToc(id);
+                        try { history.replaceState(null, '', '#' + id); } catch (err) {}
+                    }
+                    layout.classList.add('sidebar-collapsed');
+                    localStorage.setItem('iss_questions_sidebar_collapsed', 'true');
+                }
+                if (btn) {
+                    layout.classList.add('sidebar-collapsed');
+                    localStorage.setItem('iss_questions_sidebar_collapsed', 'true');
+                }
+            });
+            function closeQuestionsSidebarIfOpen(ev) {
+                if (!layout || !layout.parentNode) return;
+                if (layout.classList.contains('sidebar-collapsed')) return;
+                if (ev.target.closest && ev.target.closest('.sidebar-open-btn')) return;
+                if (sidebar && sidebar.contains(ev.target)) {
+                    if (ev.target.closest('.question-toc-link') || ev.target.closest('.question-toc-btn')) return;
+                }
+                layout.classList.add('sidebar-collapsed');
+                localStorage.setItem('iss_questions_sidebar_collapsed', 'true');
+            }
+            document.addEventListener('click', closeQuestionsSidebarIfOpen);
+            function scrollToHash() {
+                var hash = (location.hash || '').replace('#', '');
+                var el = hash ? document.getElementById(hash) : null;
+                if (el) {
+                    if (el.scrollIntoView) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    setActiveQuestionToc(hash);
+                } else if (hash) {
+                    var first = mainContent.querySelector('.question-card[id]');
+                    var firstId = first ? first.id : null;
+                    if (firstId) {
+                        try { history.replaceState(null, '', '#' + firstId); } catch (e) {}
+                        setActiveQuestionToc(firstId);
+                    }
+                }
+            }
+            setTimeout(scrollToHash, 100);
+            setTimeout(scrollToHash, 600);
+            window.addEventListener('hashchange', function() {
+                if (document.getElementById('questions-layout')) scrollToHash();
+            });
+        }
+
+        function addHeaderActionsToCards(container) {
+            if (!container) return;
+            var sectionKey = sectionToAnswerKey[currentSection];
+            var sectionAnswers = (QUESTION_ANSWERS[currentPaper] || {})[sectionKey];
+            var yearAnswers = sectionAnswers && sectionAnswers[currentYear];
+            var cards = container.querySelectorAll('.question-card');
+            cards.forEach(function(card) {
+                var header = card.querySelector('.q-header');
+                if (!header || header.querySelector('.q-header-actions')) return;
+                var qNumEl = card.querySelector('.q-number');
+                if (!qNumEl) return;
+                var qNumber = qNumEl.textContent.trim().replace('.', '');
+                var correctAnswer = getEffectiveAnswer(currentPaper, sectionKey, currentYear, qNumber) || (yearAnswers && yearAnswers[qNumber]);
+                var leftWrap = document.createElement('div');
+                leftWrap.className = 'q-header-left';
+                while (header.firstChild) leftWrap.appendChild(header.firstChild);
+                header.appendChild(leftWrap);
+                var actions = document.createElement('div');
+                actions.className = 'q-header-actions';
                 var copyBtn = document.createElement('button');
                 copyBtn.className = 'q-copy-btn';
                 copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
-                copyBtn.setAttribute('aria-label', 'Copy question');
+                copyBtn.setAttribute('aria-label', 'Copy');
                 copyBtn.setAttribute('data-tooltip', 'Copy');
-                
-                copyBtn.addEventListener('click', function() {
-                    copyQuestionText(card, copyBtn);
-                });
-                
-                // Create actions row: [Wrong Answer?] ... [Show Answer] [Copy]
+                copyBtn.addEventListener('click', function() { copyQuestionText(card, copyBtn); });
+                actions.appendChild(copyBtn);
+                if (correctAnswer) {
+                    var answerBtn = document.createElement('button');
+                    answerBtn.className = 'q-answer-btn';
+                    answerBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+                    answerBtn.setAttribute('aria-label', 'Show Answer');
+                    answerBtn.setAttribute('data-tooltip', 'Show Answer');
+                    answerBtn.addEventListener('click', function() { toggleAnswer(card, answerBtn, correctAnswer, qNumber); });
+                    actions.appendChild(answerBtn);
+                }
+                if (isAdmin()) {
+                    var editQIcon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 17.25V21h4.25L17.81 9.94l-4.25-4.25L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 4.25 4.25 1.83-1.83z"/></svg>';
+                    var editQBtn = document.createElement('button');
+                    editQBtn.type = 'button';
+                    editQBtn.className = 'q-header-action-btn edit-question-trigger';
+                    editQBtn.innerHTML = editQIcon;
+                    editQBtn.setAttribute('data-tooltip', 'Edit Question');
+                    editQBtn.setAttribute('aria-label', 'Edit Question');
+                    editQBtn.addEventListener('click', function() { showQuestionEditor(card, qNumber); });
+                    actions.appendChild(editQBtn);
+                }
+                header.appendChild(actions);
                 card.style.position = 'relative';
-                var row = document.createElement('div');
-                row.className = 'q-actions-row';
-                var left = document.createElement('div');
-                left.className = 'q-actions-left';
-                var right = document.createElement('div');
-                right.className = 'q-actions-right';
-                row.appendChild(left);
-                row.appendChild(right);
-                right.appendChild(copyBtn);
-                card.appendChild(row);
             });
         }
 
@@ -755,6 +963,22 @@
             document.body.removeChild(textArea);
         }
 
+        function copyExplanationContent(card, qNumber, button) {
+            var text = getEffectiveExplanation(currentPaper, sectionToExplanationsKey[currentSection], currentYear, qNumber) || '';
+            if (!text) {
+                showCorrectionToast('No explanation to copy');
+                return;
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopySuccess(button);
+                }).catch(function() {
+                    fallbackCopy(text, button);
+                });
+            } else {
+                fallbackCopy(text, button);
+            }
+        }
 
         function updateControlsUI() {
             var paperValueEl = document.getElementById('paper-value');
@@ -867,14 +1091,37 @@
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
                 var bodyContent = doc.body.innerHTML;
-                
-                // Inject content into viewer
-                viewer.innerHTML = bodyContent;
+
+                var layoutHtml = '<div class="questions-layout" id="questions-layout">' +
+                    '<aside class="questions-sidebar" id="questions-sidebar">' +
+                    '<div class="sidebar-header">' +
+                    '<span class="topic-badge">QUESTIONS</span>' +
+                    '<button class="sidebar-close-btn" onclick="toggleQuestionsSidebar()" aria-label="Close Sidebar">' +
+                    '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>' +
+                    '</button></div>' +
+                    '<div class="questions-toc-links" id="questions-toc-links"></div>' +
+                    '</aside>' +
+                    '<button class="sidebar-open-btn" id="questions-sidebar-open" onclick="toggleQuestionsSidebar()" aria-label="Open"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg><span>Questions</span></button>' +
+                    '<main class="questions-main-content">' + bodyContent + '</main></div>';
+
+                viewer.innerHTML = layoutHtml;
+
+                var mainContent = viewer.querySelector('.questions-main-content');
+                var container = mainContent || viewer;
+
+                // Apply question edits (admin overrides) before MathJax
+                applyQuestionEdits(container);
+
+                // Capture raw human-readable content (LaTeX, etc.) BEFORE MathJax transforms it
+                captureRawQuestionContent(container);
 
                 // Normalize option markup first, then capture LaTeX source
-                wrapOptionContent(viewer);
+                wrapOptionContent(container);
                 // Capture LaTeX source text BEFORE MathJax replaces text nodes
-                captureCardCopyText(viewer);
+                captureCardCopyText(container);
+
+                // Build questions sidebar and add ids + header actions to cards
+                buildQuestionsSidebar(container);
                 
                 // Initialize MathJax FIRST, then add buttons AFTER MathJax is done
                 function initMathJaxInViewer() {
@@ -903,12 +1150,10 @@
                             
                             return window.MathJax.typesetPromise([viewer]);
                         }).then(function() {
-                            addCopyButtons(viewer);
-                            addShowAnswerButtons(viewer);
+                            addHeaderActionsToCards(container);
                         }).catch(function(err) {
                             console.error('MathJax error:', err);
-                            addCopyButtons(viewer);
-                            addShowAnswerButtons(viewer);
+                            addHeaderActionsToCards(container);
                         });
                     } else {
                         setTimeout(initMathJaxInViewer, 100);
@@ -1103,6 +1348,104 @@
             return yearAnswers[qNumber] || null;
         }
 
+        // Get effective question edit (QUESTION_EDITS + localStorage)
+        function getEffectiveQuestionEdit(paper, section, year, qNumber) {
+            try {
+                var stored = JSON.parse(localStorage.getItem('iss_question_edits') || '{}');
+                var p = stored[paper];
+                if (p && p[section] && p[section][year] && p[section][year][qNumber]) {
+                    return typeof p[section][year][qNumber] === 'string'
+                        ? JSON.parse(p[section][year][qNumber])
+                        : p[section][year][qNumber];
+                }
+            } catch (e) {}
+            try {
+                var edits = typeof QUESTION_EDITS !== 'undefined' ? QUESTION_EDITS : {};
+                var p = edits[paper];
+                if (p && p[section] && p[section][year] && p[section][year][qNumber]) {
+                    var val = p[section][year][qNumber];
+                    return typeof val === 'string' ? JSON.parse(val) : val;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        // Cache raw question content (LaTeX, human-readable) before MathJax runs
+        var rawQuestionCache = new WeakMap();
+
+        function captureRawQuestionContent(container) {
+            if (!container) return;
+            var cards = container.querySelectorAll('.question-card');
+            cards.forEach(function(card) {
+                var topic = '';
+                var topicEl = card.querySelector('.q-topic');
+                if (topicEl) topic = topicEl.textContent.trim();
+                var text = '';
+                var textEls = card.querySelectorAll('.q-text');
+                textEls.forEach(function(el, i) {
+                    text += (i ? '\n\n' : '') + el.innerHTML;
+                });
+                var options = [];
+                var optItems = card.querySelectorAll('.options-grid .option-item');
+                optItems.forEach(function(opt, idx) {
+                    if (idx >= 4) return;
+                    var lbl = opt.querySelector('.opt-label');
+                    var lblText = lbl ? lbl.textContent.replace(/[()]/g, '').trim().toLowerCase() : 'abcd'[idx];
+                    var wrap = opt.querySelector('.opt-content');
+                    var txt;
+                    if (wrap) {
+                        txt = wrap.innerHTML.trim();
+                    } else {
+                        var clone = opt.cloneNode(true);
+                        var c = clone.querySelector('.opt-label');
+                        if (c) c.remove();
+                        txt = clone.innerHTML.trim();
+                    }
+                    options.push({ label: lblText || 'abcd'[idx], text: txt });
+                });
+                rawQuestionCache.set(card, { topic: topic, text: text, options: options });
+            });
+        }
+
+        // Apply question edits to DOM (run after content is injected)
+        function applyQuestionEdits(container) {
+            if (!container) return;
+            var secKey = sectionToAnswerKey[currentSection];
+            var cards = container.querySelectorAll('.question-card');
+            cards.forEach(function(card) {
+                var qNumEl = card.querySelector('.q-number');
+                if (!qNumEl) return;
+                var qNumber = qNumEl.textContent.trim().replace('.', '');
+                var edit = getEffectiveQuestionEdit(currentPaper, secKey, currentYear, qNumber);
+                if (!edit) return;
+                if (edit.topic) {
+                    var topicEl = card.querySelector('.q-topic');
+                    if (topicEl) topicEl.textContent = edit.topic;
+                }
+                if (edit.text) {
+                    var textEls = card.querySelectorAll('.q-text');
+                    if (textEls.length) {
+                        textEls[0].innerHTML = edit.text;
+                        for (var i = 1; i < textEls.length; i++) textEls[i].remove();
+                    }
+                }
+                if (edit.options && edit.options.length >= 4) {
+                    var optItems = card.querySelectorAll('.options-grid .option-item');
+                    edit.options.slice(0, 4).forEach(function(opt, idx) {
+                        if (optItems[idx]) {
+                            var lbl = '(' + (opt.label || 'abcd'[idx]) + ')';
+                            var wrap = optItems[idx].querySelector('.opt-content');
+                            if (wrap) {
+                                wrap.innerHTML = opt.text || '';
+                            } else {
+                                optItems[idx].innerHTML = '<span class="opt-label">' + lbl + '</span> ' + (opt.text || '');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
         // Toggle answer visibility
         function toggleAnswer(card, button, correctAnswer, qNumber) {
             var isShowing = button.classList.contains('showing');
@@ -1139,19 +1482,17 @@
             }
         }
 
-        // Show Wrong Answer? + Add/Edit Explanation (same row) + explanations section below (full width)
+        // When answer shown: (1) Wrong Answer? icon at top-right of options grid, (2) Collapsible Explanation with Edit Explanation only
         function showRevealedContent(card, qNumber) {
-            var row = card.querySelector('.q-actions-row');
-            var left = card.querySelector('.q-actions-left');
-            if (!row || !left || left.querySelector('.revealed-triggers-row') || card.querySelector('.notes-wrap')) return;
+            if (card.querySelector('.options-grid .wrong-answer-wrap')) return;
             var secKey = sectionToAnswerKey[currentSection];
-            if (isAdmin()) {
-                var triggersRow = document.createElement('div');
-                triggersRow.className = 'revealed-triggers-row';
+            var optionsGrid = card.querySelector('.options-grid');
+            if (isAdmin() && optionsGrid) {
                 var currentAnswer = getEffectiveAnswer(currentPaper, secKey, currentYear, qNumber) || '';
                 var wrap = document.createElement('span');
                 wrap.className = 'wrong-answer-wrap';
-                wrap.innerHTML = '<span class="wrong-answer-trigger">Wrong Answer?</span><span class="wrong-answer-picker"><span class="wrong-answer-hint">Choose correct answer</span><span class="wrong-answer-chips"></span></span>';
+                var wrongAnswerIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>';
+                wrap.innerHTML = '<button type="button" class="q-header-action-btn wrong-answer-trigger" data-tooltip="Wrong Answer?" aria-label="Wrong Answer?">' + wrongAnswerIcon + '</button><span class="wrong-answer-picker"><span class="wrong-answer-hint">Choose correct answer</span><span class="wrong-answer-chips"></span></span>';
                 var pickerEl = wrap.querySelector('.wrong-answer-picker');
                 var chipsEl = wrap.querySelector('.wrong-answer-chips');
                 ['a','b','c','d'].forEach(function(opt) {
@@ -1168,12 +1509,42 @@
                     pickerEl.classList.toggle('open');
                     wrap.classList.toggle('picker-open', pickerEl.classList.contains('open'));
                 });
-                triggersRow.appendChild(wrap);
+                optionsGrid.appendChild(wrap);
+            }
+            var collapsible = document.createElement('div');
+            collapsible.className = 'explanation-collapsible';
+            var header = document.createElement('div');
+            header.className = 'explanation-header';
+            var toggleLabel = document.createElement('button');
+            toggleLabel.type = 'button';
+            toggleLabel.className = 'explanation-toggle';
+            toggleLabel.setAttribute('aria-expanded', 'false');
+            toggleLabel.innerHTML = '<span class="explanation-toggle-label">Explanation</span>';
+            var headerRight = document.createElement('div');
+            headerRight.className = 'explanation-header-right';
+            var copyIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+            var copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
+            copyBtn.className = 'q-header-action-btn explanation-copy-btn';
+            copyBtn.innerHTML = copyIcon;
+            copyBtn.setAttribute('data-tooltip', 'Copy');
+            copyBtn.setAttribute('aria-label', 'Copy explanation');
+            copyBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                copyExplanationContent(card, qNumber, copyBtn);
+            });
+            headerRight.appendChild(copyBtn);
+            if (isAdmin()) {
+                var explIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>';
+                var addEditBtn = document.createElement('button');
+                addEditBtn.type = 'button';
+                addEditBtn.className = 'q-header-action-btn edit-explanation-trigger';
+                addEditBtn.innerHTML = explIcon;
                 var noteText = getEffectiveExplanation(currentPaper, secKey, currentYear, qNumber) || '';
-                var addEditSpan = document.createElement('span');
-                addEditSpan.className = 'edit-explanation-trigger';
-                addEditSpan.textContent = noteText ? 'Edit Explanation' : 'Add Explanation';
-                addEditSpan.addEventListener('click', function() {
+                addEditBtn.setAttribute('data-tooltip', noteText ? 'Edit Explanation' : 'Add Explanation');
+                addEditBtn.setAttribute('aria-label', noteText ? 'Edit Explanation' : 'Add Explanation');
+                addEditBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     var nw = card.querySelector('.notes-wrap');
                     if (!nw) return;
                     if (nw.querySelector('.note-editor')) {
@@ -1182,20 +1553,41 @@
                         showNotesEditor(card, qNumber, nw);
                     }
                 });
-                triggersRow.appendChild(addEditSpan);
-                left.appendChild(triggersRow);
+                headerRight.appendChild(addEditBtn);
             }
+            var chevronBtn = document.createElement('button');
+            chevronBtn.type = 'button';
+            chevronBtn.className = 'explanation-chevron-btn';
+            chevronBtn.setAttribute('aria-label', 'Expand/collapse');
+            chevronBtn.innerHTML = '<svg class="explanation-chevron" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>';
+            headerRight.appendChild(chevronBtn);
+            header.appendChild(toggleLabel);
+            header.appendChild(headerRight);
+            var body = document.createElement('div');
+            body.className = 'explanation-body';
             var notesWrap = document.createElement('div');
             notesWrap.className = 'notes-wrap';
-            row.insertAdjacentElement('afterend', notesWrap);
+            collapsible.appendChild(header);
+            collapsible.appendChild(body);
+            body.appendChild(notesWrap);
+            card.appendChild(collapsible);
+            function doToggle() {
+                var expanded = collapsible.classList.toggle('expanded');
+                toggleLabel.setAttribute('aria-expanded', expanded);
+            }
+            toggleLabel.addEventListener('click', doToggle);
+            chevronBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                doToggle();
+            });
             showNotesView(card, qNumber, notesWrap);
         }
 
         function hideWrongAnswerSection(card) {
-            var left = card.querySelector('.q-actions-left');
-            if (left) left.innerHTML = '';
-            var notesWrap = card.querySelector('.notes-wrap');
-            if (notesWrap) notesWrap.remove();
+            var wrap = card.querySelector('.options-grid .wrong-answer-wrap');
+            if (wrap) wrap.remove();
+            var collapsible = card.querySelector('.explanation-collapsible');
+            if (collapsible) collapsible.remove();
         }
 
         // Batch corrections to minimize GitHub commits (30s debounce)
@@ -1334,8 +1726,12 @@
         function showNotesView(card, qNumber, notesWrap) {
             var noteText = getEffectiveExplanation(currentPaper, sectionToExplanationsKey[currentSection], currentYear, qNumber) || '';
             notesWrap.innerHTML = '<div class="q-notes-content">' + renderNoteHtml(noteText) + '</div>';
-            var trigger = card.querySelector('.revealed-triggers-row .edit-explanation-trigger');
-            if (trigger) trigger.textContent = noteText ? 'Edit Explanation' : 'Add Explanation';
+            var trigger = card.querySelector('.edit-explanation-trigger');
+            if (trigger) {
+                var label = noteText ? 'Edit Explanation' : 'Add Explanation';
+                trigger.setAttribute('data-tooltip', label);
+                trigger.setAttribute('aria-label', label);
+            }
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([notesWrap]).catch(function(err) { console.warn('MathJax:', err); });
             }
@@ -1619,7 +2015,170 @@
                 var blob = new Blob([JSON.stringify({ edits: noteEditQueue })], { type: 'application/json' });
                 navigator.sendBeacon('/api/explanations', blob);
             }
+            if (questionEditQueue.length > 0 && navigator.sendBeacon) {
+                var blob = new Blob([JSON.stringify({ edits: questionEditQueue })], { type: 'application/json' });
+                navigator.sendBeacon('/api/questions', blob);
+            }
         });
+
+        // ─── Edit Question (admin) ───────────────────────────────────────────
+        var questionEditQueue = [];
+        var questionEditTimer = null;
+        var QUESTION_EDIT_DEBOUNCE_MS = 15000;
+
+        function persistQuestionEditToLocalStorage(paper, section, year, q, payload) {
+            try {
+                var stored = JSON.parse(localStorage.getItem('iss_question_edits') || '{}');
+                if (!stored[paper]) stored[paper] = {};
+                if (!stored[paper][section]) stored[paper][section] = {};
+                if (!stored[paper][section][year]) stored[paper][section][year] = {};
+                stored[paper][section][year][q] = typeof payload === 'string' ? payload : JSON.stringify(payload);
+                localStorage.setItem('iss_question_edits', JSON.stringify(stored));
+            } catch (e) {}
+        }
+
+        function flushQuestionEditQueue() {
+            if (questionEditTimer) { clearTimeout(questionEditTimer); questionEditTimer = null; }
+            if (questionEditQueue.length === 0) return;
+            var batch = questionEditQueue.slice();
+            questionEditQueue = [];
+            fetch('/api/questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ edits: batch })
+            }).then(function(r) { return r.json(); }).then(function(res) {
+                if (res.ok) {
+                    showCorrectionToast(res.count === 1 ? 'Updated question_edits.js' : (res.count + ' question edits saved'));
+                } else {
+                    batch.forEach(function(c) { persistQuestionEditToLocalStorage(c.paper, c.section, c.year, c.q, { text: c.text, topic: c.topic, options: c.options }); });
+                    showCorrectionToast('Save failed — stored locally');
+                }
+            }).catch(function() {
+                batch.forEach(function(c) { persistQuestionEditToLocalStorage(c.paper, c.section, c.year, c.q, { text: c.text, topic: c.topic, options: c.options }); });
+                showCorrectionToast('Offline — stored locally');
+            });
+        }
+
+        function showQuestionEditor(card, qNumber) {
+            var secKey = sectionToAnswerKey[currentSection];
+            var existing = getEffectiveQuestionEdit(currentPaper, secKey, currentYear, qNumber);
+            var topic = '';
+            var text = '';
+            var options = [{ label: 'a', text: '' }, { label: 'b', text: '' }, { label: 'c', text: '' }, { label: 'd', text: '' }];
+            if (existing) {
+                topic = existing.topic || '';
+                text = existing.text || '';
+                if (existing.options && existing.options.length >= 4) options = existing.options.slice(0, 4);
+            } else {
+                var raw = rawQuestionCache.get(card);
+                if (raw) {
+                    topic = raw.topic || '';
+                    text = raw.text || '';
+                    if (raw.options && raw.options.length >= 4) options = raw.options.slice(0, 4);
+                } else {
+                    var topicEl = card.querySelector('.q-topic');
+                    if (topicEl) topic = topicEl.textContent.trim();
+                    var textEls = card.querySelectorAll('.q-text');
+                    if (textEls.length) {
+                        for (var i = 0; i < textEls.length; i++) {
+                            text += (i ? '\n\n' : '') + textEls[i].innerHTML;
+                        }
+                    }
+                    var optItems = card.querySelectorAll('.options-grid .option-item');
+                    optItems.forEach(function(opt, idx) {
+                        if (idx < 4) {
+                            var lbl = opt.querySelector('.opt-label');
+                            var lblText = lbl ? lbl.textContent.replace(/[()]/g, '').trim().toLowerCase() : 'abcd'[idx];
+                            var contentWrap = opt.querySelector('.opt-content');
+                            var txt = contentWrap ? contentWrap.innerHTML.trim() : (function() {
+                                var clone = opt.cloneNode(true);
+                                if (lbl) { var c = clone.querySelector('.opt-label'); if (c) c.remove(); }
+                                return clone.innerHTML.trim();
+                            })();
+                            options[idx] = { label: lblText || 'abcd'[idx], text: txt };
+                        }
+                    });
+                }
+            }
+            var modal = document.createElement('div');
+            modal.className = 'note-modal-overlay question-edit-modal';
+            function escAttr(s) { return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+            modal.innerHTML = '<div class="note-modal-card question-edit-card">' +
+                '<h3>Edit Question ' + qNumber + '</h3>' +
+                '<div class="note-field"><label>Topic</label><input type="text" id="q-edit-topic" value="' + escAttr(topic) + '" placeholder="[Topic: ...]"></div>' +
+                '<div class="note-field"><label>Question text (LaTeX: \\( \\) or \\[ \\])</label><textarea id="q-edit-text" rows="6" placeholder="Question text...">' + escAttr(text) + '</textarea></div>' +
+                '<div class="note-field"><label>Options</label>' +
+                '<input type="text" id="q-edit-opt-a" placeholder="(a)" value="' + escAttr((options[0] && options[0].text) || '') + '">' +
+                '<input type="text" id="q-edit-opt-b" placeholder="(b)" value="' + escAttr((options[1] && options[1].text) || '') + '">' +
+                '<input type="text" id="q-edit-opt-c" placeholder="(c)" value="' + escAttr((options[2] && options[2].text) || '') + '">' +
+                '<input type="text" id="q-edit-opt-d" placeholder="(d)" value="' + escAttr((options[3] && options[3].text) || '') + '">' +
+                '</div>' +
+                '<div class="note-editor-actions"><button class="note-cancel-btn" type="button">Cancel</button><button class="note-save-btn" type="button">Save</button></div></div>';
+            document.body.appendChild(modal);
+            modal.querySelector('.note-cancel-btn').addEventListener('click', function() { modal.remove(); });
+            modal.querySelector('.note-save-btn').addEventListener('click', function() {
+                var topicVal = document.getElementById('q-edit-topic').value.trim();
+                var textVal = document.getElementById('q-edit-text').value.trim();
+                var opts = [
+                    { label: 'a', text: document.getElementById('q-edit-opt-a').value.trim() },
+                    { label: 'b', text: document.getElementById('q-edit-opt-b').value.trim() },
+                    { label: 'c', text: document.getElementById('q-edit-opt-c').value.trim() },
+                    { label: 'd', text: document.getElementById('q-edit-opt-d').value.trim() }
+                ];
+                saveQuestionEdit(card, qNumber, topicVal, textVal, opts);
+                modal.remove();
+            });
+            modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+            document.getElementById('q-edit-topic').focus();
+        }
+
+        function saveQuestionEdit(card, qNumber, topic, text, options) {
+            var secKey = sectionToAnswerKey[currentSection];
+            var payload = { text: text, topic: topic, options: options };
+            try {
+                if (typeof QUESTION_EDITS === 'undefined') window.QUESTION_EDITS = {};
+                if (!QUESTION_EDITS[currentPaper]) QUESTION_EDITS[currentPaper] = {};
+                if (!QUESTION_EDITS[currentPaper][secKey]) QUESTION_EDITS[currentPaper][secKey] = {};
+                if (!QUESTION_EDITS[currentPaper][secKey][currentYear]) QUESTION_EDITS[currentPaper][secKey][currentYear] = {};
+                QUESTION_EDITS[currentPaper][secKey][currentYear][qNumber] = JSON.stringify(payload);
+            } catch (e) {}
+            var viewer = card.closest('#year-viewer') || document.getElementById('year-viewer');
+            if (viewer && card.closest('#year-viewer')) {
+                var topicEl = card.querySelector('.q-topic');
+                if (topicEl) topicEl.textContent = topic;
+                var textEls = card.querySelectorAll('.q-text');
+                if (textEls.length && text) { textEls[0].innerHTML = text; for (var i = 1; i < textEls.length; i++) textEls[i].remove(); }
+                var optItems = card.querySelectorAll('.options-grid .option-item');
+                options.forEach(function(opt, idx) {
+                    if (optItems[idx]) {
+                        var lbl = optItems[idx].querySelector('.opt-label');
+                        var wrap = optItems[idx].querySelector('.opt-content');
+                        var label = lbl ? lbl.textContent : '(' + (opt.label || 'abcd'[idx]) + ')';
+                        if (wrap) {
+                            wrap.innerHTML = opt.text || '';
+                        } else {
+                            optItems[idx].innerHTML = '<span class="opt-label">' + label + '</span>' + (opt.text || '');
+                        }
+                    }
+                });
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    try { window.MathJax.typesetPromise([card]); } catch (e) {}
+                }
+            }
+            var origin = window.location.origin;
+            var canUseApi = origin && origin !== 'null' && origin !== 'file://';
+            if (canUseApi) {
+                var key = currentPaper + '|' + secKey + '|' + currentYear + '|' + qNumber;
+                questionEditQueue = questionEditQueue.filter(function(c) { return c.key !== key; });
+                questionEditQueue.push({ paper: currentPaper, section: secKey, year: currentYear, q: qNumber, text: text, topic: topic, options: options, key: key });
+                showCorrectionToast('Queued — saving in 15s');
+                if (questionEditTimer) clearTimeout(questionEditTimer);
+                questionEditTimer = setTimeout(flushQuestionEditQueue, QUESTION_EDIT_DEBOUNCE_MS);
+            } else {
+                persistQuestionEditToLocalStorage(currentPaper, secKey, currentYear, qNumber, payload);
+                showCorrectionToast('Saved locally (use server to update question_edits.js)');
+            }
+        }
 
         // ─── Revision Notes Editor ──────────────────────────────────────────
         var revisionNoteQueue = [];

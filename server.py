@@ -13,6 +13,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ANSWERS_FILE = os.path.join(SCRIPT_DIR, 'answers.js')
 EXPLANATIONS_FILE = os.path.join(SCRIPT_DIR, 'explanations.js')
 NOTES_FILE = os.path.join(SCRIPT_DIR, 'notes.js')
+QUESTION_EDITS_FILE = os.path.join(SCRIPT_DIR, 'question_edits.js')
 
 # Load .env for local dev (optional; no extra deps)
 _env_path = os.path.join(SCRIPT_DIR, '.env')
@@ -167,6 +168,52 @@ def apply_explanation_update(paper, section, year, q_number, new_note):
         return False, str(e)
 
 
+def apply_question_edit(paper, section, year, q_number, text, topic, options):
+    """Update a single question edit in question_edits.js. Returns (success, error_msg)."""
+    try:
+        content = ''
+        if os.path.isfile(QUESTION_EDITS_FILE):
+            with open(QUESTION_EDITS_FILE, 'r', encoding='utf-8') as f:
+                content = f.read()
+        else:
+            content = 'const QUESTION_EDITS = {};'
+
+        match = re.search(r'const\s+QUESTION_EDITS\s*=\s*(\{[\s\S]*\})\s*;', content)
+        obj = {}
+        if match:
+            try:
+                obj = json.loads(match.group(1))
+            except json.JSONDecodeError:
+                obj = {}
+
+        if paper not in obj:
+            obj[paper] = {}
+        if section not in obj[paper]:
+            obj[paper][section] = {}
+        if year not in obj[paper][section]:
+            obj[paper][section][year] = {}
+
+        opts = []
+        if isinstance(options, list):
+            for o in options[:4]:
+                lbl = str(o.get('label', '')).lower().strip()
+                if lbl not in ('a', 'b', 'c', 'd'):
+                    lbl = chr(97 + len(opts))
+                opts.append({'label': lbl, 'text': str(o.get('text', ''))})
+        while len(opts) < 4:
+            opts.append({'label': chr(97 + len(opts)), 'text': ''})
+
+        payload = {'text': str(text or ''), 'topic': str(topic or ''), 'options': opts}
+        obj[paper][section][year][str(q_number)] = json.dumps(payload)
+
+        new_content = 'const QUESTION_EDITS = ' + json.dumps(obj, indent=2) + ';\n'
+        with open(QUESTION_EDITS_FILE, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        return True, None
+    except Exception as e:
+        return False, str(e)
+
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=SCRIPT_DIR, **kwargs)
@@ -304,6 +351,55 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             return
                         count += 1
                 self.send_json(200, {'ok': True, 'count': count})
+            except Exception as e:
+                self.send_json(500, {'ok': False, 'error': str(e)})
+        elif self.path == '/api/questions':
+            try:
+                length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(length).decode('utf-8')
+                data = json.loads(body)
+                edits = []
+                if isinstance(data.get('edits'), list) and data['edits']:
+                    edits = data['edits']
+                elif data.get('paper') and data.get('section') and data.get('year') and data.get('q') is not None:
+                    edits = [{
+                        'paper': data['paper'],
+                        'section': data['section'],
+                        'year': data['year'],
+                        'q': data['q'],
+                        'text': data.get('text', ''),
+                        'topic': data.get('topic', ''),
+                        'options': data.get('options', []),
+                    }]
+                if not edits:
+                    self.send_json(400, {'ok': False, 'error': 'Missing params'})
+                    return
+                valid = []
+                for e in edits:
+                    if e.get('paper') and e.get('section') and e.get('year') and e.get('q') is not None:
+                        valid.append({
+                            'paper': e['paper'],
+                            'section': e['section'],
+                            'year': str(e['year']),
+                            'q': str(e['q']),
+                            'text': str(e.get('text', '')),
+                            'topic': str(e.get('topic', '')),
+                            'options': e.get('options') or [],
+                        })
+                if not valid:
+                    self.send_json(400, {'ok': False, 'error': 'No valid edits'})
+                    return
+                for c in valid:
+                    ok, err = apply_question_edit(
+                        c['paper'], c['section'], c['year'], c['q'],
+                        c['text'], c['topic'], c['options']
+                    )
+                    if not ok:
+                        self.send_json(500, {'ok': False, 'error': err or 'Write failed'})
+                        return
+                self.send_json(200, {'ok': True, 'count': len(valid)})
+            except json.JSONDecodeError:
+                self.send_json(400, {'ok': False, 'error': 'Invalid JSON'})
             except Exception as e:
                 self.send_json(500, {'ok': False, 'error': str(e)})
         else:

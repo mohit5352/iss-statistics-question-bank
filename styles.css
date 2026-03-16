@@ -628,11 +628,34 @@ h2 {
     justify-content: space-between;
     align-items: center;
     padding: 10px 14px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 18px;
     background: linear-gradient(90deg, var(--border-hover) 0%, var(--surface-2) 100%);
     border-radius: 8px;
     border-bottom: 1px solid var(--border-mid);
     box-shadow: var(--glow-shadow), var(--shadow-inner);
+}
+
+.q-header-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+}
+
+.q-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.q-header-actions .q-copy-btn,
+.q-header-actions .q-answer-btn,
+.q-header-actions .edit-question-trigger {
+    padding: 6px 8px;
 }
 
 .q-number {
@@ -973,6 +996,7 @@ h2 {
     min-height: 400px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    scroll-padding-top: 40px;
 }
 
 #iframe-viewer {
@@ -1090,9 +1114,93 @@ h2 {
     fill: currentColor;
 }
 
-/* ===== Revealed section: [Wrong Answer? | Add/Edit Explanation] same row, explanations full width below, icons sticky right ===== */
-.q-actions-row:has(.revealed-triggers-row) {
-    align-items: flex-start;
+/* ===== Collapsible explanation section (shown when answer visible) ===== */
+.explanation-collapsible {
+    margin-top: 18px;
+    border-radius: 12px;
+    background: linear-gradient(165deg, rgba(124, 58, 237, 0.06) 0%, var(--surface-panel) 100%);
+    border: 1px solid rgba(167, 139, 250, 0.15);
+    overflow: hidden;
+}
+
+.explanation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+}
+
+.explanation-toggle {
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--purple-mid);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.explanation-toggle:hover {
+    color: var(--purple-light);
+}
+
+.explanation-toggle-label {
+    letter-spacing: 0.05em;
+}
+
+.explanation-header-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.explanation-header-right .q-header-action-btn {
+    width: 28px;
+    height: 28px;
+    color: var(--purple-mid);
+}
+
+.explanation-header-right .q-header-action-btn:hover {
+    color: var(--purple-light);
+}
+
+.explanation-header-right .explanation-copy-btn.copied {
+    color: var(--purple-mid);
+}
+
+.explanation-chevron-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: transparent;
+    border: none;
+    color: var(--purple-mid);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.explanation-chevron-btn:hover {
+    color: var(--purple-light);
+}
+
+.explanation-chevron {
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.explanation-collapsible.expanded .explanation-chevron {
+    transform: rotate(180deg);
+}
+
+.explanation-body {
+    display: none;
+    padding: 0 16px 16px;
+}
+
+.explanation-collapsible.expanded .explanation-body {
+    display: block;
 }
 
 .q-actions-right {
@@ -1106,16 +1214,92 @@ h2 {
     flex-wrap: wrap;
 }
 
-.revealed-triggers-row .edit-explanation-trigger {
-    font-size: 0.75rem;
-    font-weight: 600;
+/* Icon buttons: Wrong Answer?, Add/Edit Explanation, Edit Question — same style as Copy/Show Answer */
+.q-header-action-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
     color: var(--purple-mid);
+    border-radius: 8px;
     cursor: pointer;
-    letter-spacing: 0.02em;
-    opacity: 0.95;
-    transition: opacity 0.2s ease, color 0.2s ease;
+    transition: all 0.2s ease;
 }
-.revealed-triggers-row .edit-explanation-trigger:hover { opacity: 1; color: var(--purple-light); }
+
+.q-header-action-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-color);
+    color: var(--text-primary);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.q-header-action-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.q-header-action-btn:hover {
+    color: var(--purple-pale);
+    transform: scale(1.12);
+}
+
+.q-header-action-btn:active {
+    transform: scale(0.95);
+}
+
+.q-header-action-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Wrong Answer? — flag icon, rose accent */
+.wrong-answer-trigger.q-header-action-btn {
+    color: var(--rose-text);
+}
+
+.wrong-answer-trigger.q-header-action-btn:hover {
+    color: #fda4af;
+}
+
+/* Edit Explanation — document icon */
+.edit-explanation-trigger.q-header-action-btn {
+    color: var(--purple-mid);
+}
+
+.edit-explanation-trigger.q-header-action-btn:hover {
+    color: var(--purple-light);
+}
+
+/* Edit Question — pencil icon */
+.edit-question-trigger.q-header-action-btn {
+    color: var(--purple-mid);
+}
+
+.edit-question-trigger.q-header-action-btn:hover {
+    color: var(--purple-light);
+}
+
+.explanation-body .notes-wrap {
+    margin-top: 0;
+}
 
 .notes-wrap {
     width: 100%;
@@ -1137,6 +1321,10 @@ h2 {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* "Explanation" header label - hide when inside collapsible (toggle already says it) */
+.explanation-body .notes-wrap::before {
+    content: none !important;
+}
 /* "Explanation" header label - moved to top-left */
 .notes-wrap::before {
     content: 'EXPLANATION';
@@ -1339,34 +1527,25 @@ h2 {
     color: var(--purple-pale);
 }
 
-/* ===== Wrong Answer? — in action row left ===== */
+/* ===== Wrong Answer? — consistent card-style picker ===== */
 .wrong-answer-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 
-.wrong-answer-trigger {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--rose-text);
-    cursor: pointer;
-    letter-spacing: 0.02em;
-    opacity: 0.9;
-    transition: opacity 0.2s ease;
-}
-
-.wrong-answer-trigger:hover {
-    opacity: 1;
+.wrong-answer-wrap.picker-open {
+    flex-direction: column;
 }
 
 .wrong-answer-picker {
     display: none;
     align-items: center;
     gap: 10px;
-    padding-left: 10px;
-    border-left: 1px solid rgba(167, 139, 250, 0.2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(124, 58, 237, 0.06);
+    border: 1px solid rgba(167, 139, 250, 0.2);
 }
 
 .wrong-answer-picker.open {
@@ -1374,46 +1553,66 @@ h2 {
 }
 
 .wrong-answer-hint {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: rgba(196, 181, 253, 0.75);
+    color: var(--text-context);
 }
 
 .wrong-answer-hint::after {
     content: ':';
     margin-left: 2px;
-    opacity: 0.8;
+    opacity: 0.9;
+}
+
+.light-theme .wrong-answer-hint {
+    color: #475569;
 }
 
 .wrong-answer-chips {
     display: inline-flex;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
 }
 
 .wrong-answer-chip {
-    padding: 3px 8px;
-    font-size: 0.72rem;
+    padding: 4px 10px;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--text-context);
-    background: transparent;
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
+.light-theme .wrong-answer-chip {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    border-color: rgba(124, 58, 237, 0.2);
+}
+
 .wrong-answer-chip:hover {
     color: var(--purple-light);
-    border-color: rgba(167, 139, 250, 0.4);
+    border-color: rgba(167, 139, 250, 0.45);
+}
+
+.light-theme .wrong-answer-chip:hover {
+    border-color: rgba(124, 58, 237, 0.4);
 }
 
 .wrong-answer-chip.selected {
     color: var(--purple-pale);
-    background: rgba(124, 58, 237, 0.25);
+    background: rgba(124, 58, 237, 0.2);
     border-color: rgba(167, 139, 250, 0.5);
+}
+
+.light-theme .wrong-answer-chip.selected {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--purple-deep);
+    border-color: rgba(124, 58, 237, 0.4);
 }
 
 .correction-toast {
@@ -1502,27 +1701,18 @@ h2 {
         margin-top: 14px;
         padding-top: 12px;
     }
-    /* When picker open: stack "Choose correct answer" + chips below "Wrong Answer?" */
-    .wrong-answer-wrap {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
     .wrong-answer-picker {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
-        padding-left: 0;
-        padding-top: 8px;
-        border-left: none;
-        border-top: 1px solid rgba(167, 139, 250, 0.15);
+        padding: 10px 12px;
+        border-top: 1px solid rgba(167, 139, 250, 0.2);
     }
     .wrong-answer-chips {
         flex-wrap: wrap;
         gap: 6px;
     }
 
-    .revealed-triggers-row .edit-explanation-trigger { font-size: 0.72rem; }
     .revealed-triggers-row { gap: 8px; }
 
     .auth-pill { font-size: 0.75rem; }
@@ -1569,10 +1759,8 @@ h2 {
 
     .option-item.correct-answer::after { width: 18px; height: 18px; font-size: 10px; right: 6px; }
     .options-grid { margin-top: 12px; padding: 8px; gap: 5px; }
-    .wrong-answer-trigger { font-size: 0.68rem; }
-    .wrong-answer-hint { font-size: 0.6rem; letter-spacing: 0.08em; }
+    .wrong-answer-hint { font-size: 0.65rem; }
 
-    .revealed-triggers-row .edit-explanation-trigger { font-size: 0.68rem; }
 }
 
 /* ===== Login Page ===== */
@@ -1825,11 +2013,219 @@ h2 {
 }
 
 /* --- Notes Layout & Sidebar --- */
-.notes-layout {
+.notes-layout,
+.questions-layout {
     display: flex;
     min-height: calc(100vh - 120px);
     position: relative;
     gap: 0;
+}
+
+.questions-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-dim);
+}
+
+.questions-sidebar .sidebar-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+}
+
+.questions-sidebar .sidebar-close-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.questions-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 2000;
+    box-shadow: var(--sidebar-shadow);
+    background: var(--bg-color);
+    width: 300px;
+    border-right: 1px solid var(--border-dim);
+    padding: 24px 16px;
+    overflow-y: auto;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(124, 58, 237, 0.2) transparent;
+    box-sizing: border-box;
+}
+
+.questions-main-content {
+    flex: 1;
+    padding: 0 40px 40px;
+    margin-left: 300px;
+    transition: all 0.4s ease;
+    min-width: 0;
+}
+
+.questions-layout.sidebar-collapsed .questions-sidebar {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.questions-layout.sidebar-collapsed .questions-main-content {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+.questions-layout.sidebar-collapsed .sidebar-open-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.questions-toc-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.question-toc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 10px;
+    background: var(--toc-item-bg);
+    box-shadow: var(--toc-item-shadow);
+    border: 1px solid var(--toc-item-border);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.question-toc-item:hover {
+    background: var(--toc-item-hover-bg);
+    border-color: var(--toc-item-hover-border);
+}
+
+.question-toc-item.active {
+    background: var(--toc-item-active-bg);
+    border-color: var(--toc-item-active-border);
+    box-shadow: var(--toc-item-active-shadow);
+}
+
+.question-toc-link {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: var(--toc-link-color);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.question-toc-num {
+    flex-shrink: 0;
+    font-weight: 700;
+    color: var(--purple-mid);
+}
+
+.question-toc-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.question-toc-topic {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--purple-mid);
+}
+
+.question-toc-preview {
+    font-size: 0.8rem;
+    color: var(--text-context);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.question-toc-link:hover,
+.question-toc-link.active {
+    color: var(--toc-link-active-color);
+}
+
+.question-toc-link:hover .question-toc-num,
+.question-toc-link.active .question-toc-num {
+    color: var(--purple-pale);
+}
+
+.question-toc-actions {
+    display: flex;
+    gap: 2px;
+    padding-right: 8px;
+}
+
+.question-toc-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--purple-mid);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.question-toc-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-color);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.question-toc-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.question-toc-btn:hover {
+    background: rgba(124, 58, 237, 0.2);
+    color: var(--purple-pale);
+}
+
+.question-toc-btn.copied {
+    color: var(--purple-mid);
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
+}
+
+.question-toc-btn svg {
+    width: 14px;
+    height: 14px;
 }
 
 .notes-sidebar {
@@ -2643,6 +3039,34 @@ h2 {
     box-shadow: 0 0 0 2px var(--selection-bg);
 }
 
+.question-edit-card {
+    max-width: 560px;
+}
+.question-edit-card .note-field input,
+.question-edit-card .note-field textarea {
+    background: var(--editor-textarea-bg);
+    color: var(--text-primary);
+}
+.question-edit-card .note-field textarea,
+.question-edit-card #q-edit-text {
+    min-height: 120px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.95rem;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-mid);
+    resize: vertical;
+}
+.question-edit-card #q-edit-opt-a,
+.question-edit-card #q-edit-opt-b,
+.question-edit-card #q-edit-opt-c,
+.question-edit-card #q-edit-opt-d {
+    margin-bottom: 8px;
+}
+.question-edit-card .note-field:last-of-type input {
+    margin-bottom: 0;
+}
+
 .note-add-btn {
     display: inline-flex;
     align-items: center;
@@ -2754,19 +3178,22 @@ h2 {
 
 /* Mobile adjustments for sidebar */
 @media (max-width: 1024px) {
-    .notes-sidebar {
-        width: 300px;
+    .notes-sidebar,
+    .questions-sidebar {
+        width: 280px;
         padding-bottom: 40px;
     }
     
-    .notes-main-content {
+    .notes-main-content,
+    .questions-main-content {
         margin-left: 0;
         padding: 0 20px 40px;
     }
     
-    .sidebar-collapsed .notes-sidebar {
+    .sidebar-collapsed .notes-sidebar,
+    .questions-layout.sidebar-collapsed .questions-sidebar {
         transform: translateX(-100%);
-        opacity: 1; /* Keep opacity for slide animation */
+        opacity: 1;
     }
 }
 
