@@ -654,6 +654,7 @@ h2 {
 
 .q-header-actions .q-copy-btn,
 .q-header-actions .q-answer-btn,
+.q-header-actions .q-ask-ai-btn,
 .q-header-actions .edit-question-trigger {
     padding: 6px 8px;
 }
@@ -1042,7 +1043,9 @@ h2 {
 }
 
 .q-copy-btn,
-.q-answer-btn {
+.q-answer-btn,
+.q-ask-ai-btn {
+    position: relative;
     background: rgba(255,255,255,0.04);
     color: var(--purple-mid);
     border: none;
@@ -1057,7 +1060,8 @@ h2 {
 }
 
 .q-copy-btn::after,
-.q-answer-btn::after {
+.q-answer-btn::after,
+.q-ask-ai-btn::after {
     content: attr(data-tooltip);
     position: absolute;
     bottom: -28px;
@@ -1077,23 +1081,27 @@ h2 {
 }
 
 .q-copy-btn:hover::after,
-.q-answer-btn:hover::after {
+.q-answer-btn:hover::after,
+.q-ask-ai-btn:hover::after {
     opacity: 1;
     visibility: visible;
 }
 
 .q-copy-btn:hover,
-.q-answer-btn:hover {
+.q-answer-btn:hover,
+.q-ask-ai-btn:hover {
     color: var(--purple-pale);
     transform: scale(1.12);
 }
 
 .q-copy-btn:active,
-.q-answer-btn:active {
+.q-answer-btn:active,
+.q-ask-ai-btn:active {
     transform: scale(0.95);
 }
 
-.q-copy-btn svg {
+.q-copy-btn svg,
+.q-ask-ai-btn svg {
     width: 18px;
     height: 18px;
     fill: currentColor;
@@ -1112,6 +1120,11 @@ h2 {
     width: 18px;
     height: 18px;
     fill: currentColor;
+}
+
+.q-ask-ai-btn:hover {
+    color: var(--text-strong);
+    box-shadow: 0 0 0 1px rgba(192, 38, 211, 0.35);
 }
 
 /* ===== Collapsible explanation section (shown when answer visible) ===== */
@@ -1465,11 +1478,6 @@ h2 {
     border-color: rgba(245,46,117,0.32);
 }
 
-.q-copy-btn,
-.q-answer-btn {
-    position: relative;
-}
-
 .q-answer-btn.hidden {
     color: #3d3d55;
     box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
@@ -1687,12 +1695,14 @@ h2 {
     }
     #iframe-viewer { min-height: 400px; }
 
-    .q-copy-btn, .q-answer-btn { padding: 5px; }
+    .q-copy-btn, .q-answer-btn, .q-ask-ai-btn { padding: 5px; }
     .q-copy-btn svg,
-    .q-answer-btn svg { width: 17px; height: 17px; }
+    .q-answer-btn svg,
+    .q-ask-ai-btn svg { width: 17px; height: 17px; }
     
     .q-copy-btn::after,
-    .q-answer-btn::after { font-size: 0.7rem; padding: 3px 8px; bottom: -24px; }
+    .q-answer-btn::after,
+    .q-ask-ai-btn::after { font-size: 0.7rem; padding: 3px 8px; bottom: -24px; }
 
     .option-item.correct-answer::after { width: 20px; height: 20px; font-size: 11px; right: 8px; }
     .options-grid { margin-top: 14px; padding: 10px; }
@@ -1750,12 +1760,14 @@ h2 {
     #iframe-viewer { min-height: 300px; }
 
     .q-actions-row { align-items: flex-start; margin-top: 12px; padding-top: 10px; }
-    .q-copy-btn, .q-answer-btn { padding: 4px; }
+    .q-copy-btn, .q-answer-btn, .q-ask-ai-btn { padding: 4px; }
     .q-copy-btn svg,
-    .q-answer-btn svg { width: 16px; height: 16px; }
+    .q-answer-btn svg,
+    .q-ask-ai-btn svg { width: 16px; height: 16px; }
     
     .q-copy-btn::after,
-    .q-answer-btn::after { font-size: 0.65rem; padding: 3px 6px; bottom: -22px; }
+    .q-answer-btn::after,
+    .q-ask-ai-btn::after { font-size: 0.65rem; padding: 3px 6px; bottom: -22px; }
 
     .option-item.correct-answer::after { width: 18px; height: 18px; font-size: 10px; right: 6px; }
     .options-grid { margin-top: 12px; padding: 8px; gap: 5px; }

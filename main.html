@@ -53,6 +53,18 @@
     </script>
     <link rel="stylesheet" href="styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        processEscapes: true,
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      },
+    };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
@@ -150,8 +162,9 @@
             }
         })();
 
-        // Admin role: only admin sees Wrong Answer? (sessionStorage.iss_admin)
+        // Admin role: only admin sees Wrong Answer?, Study chat, Ask AI, etc. (sessionStorage.iss_admin)
         function isAdmin() { return sessionStorage.getItem('iss_admin') === '1'; }
+        window.isAdmin = isAdmin;
         function getAdminName() { return sessionStorage.getItem('iss_admin_name') || 'Admin'; }
         function updateAuthLink() {
             var wrap = document.getElementById('auth-wrap');
@@ -174,7 +187,7 @@
                     '<span class="auth-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>' +
                     '<span class="auth-text">Admin Login</span>' +
                     '</a>' +
-                    ' <span class="auth-hint">(if you want to update answers)</span>' +
+                    ' <span class="auth-hint">(admin tools &amp; Study chat)</span>' +
                     '</span>';
             }
         }
@@ -531,17 +544,41 @@
         // This MUST run before MathJax touches the DOM.
         // At that point \( ... \) / \[ ... \] are still raw text nodes, so
         // textContent gives us proper LaTeX source rather than garbled SVG text.
-        function formatTableForCopy(tableEl) {
+        /** GitHub-flavored markdown table (readable in chat, copy, and editors). */
+        function formatTableAsMarkdown(tableEl) {
             if (!tableEl || !tableEl.querySelectorAll) return '';
-            var rows = [];
+            function cellText(cell) {
+                if (!cell) return '';
+                var t = cell.textContent.replace(/\r\n/g, '\n').replace(/\n/g, ' ');
+                t = t.replace(/\s+/g, ' ').trim();
+                return t.replace(/\|/g, '\\|');
+            }
+            var rowArrays = [];
             tableEl.querySelectorAll('tr').forEach(function(tr) {
                 var cells = [];
                 tr.querySelectorAll('td, th').forEach(function(cell) {
-                    cells.push(cell.textContent.trim());
+                    cells.push(cellText(cell));
                 });
-                if (cells.length) rows.push(cells.join('\t'));
+                if (cells.length) rowArrays.push(cells);
             });
-            return rows.join('\n');
+            if (!rowArrays.length) return '';
+            var numCols = 0;
+            rowArrays.forEach(function(r) { numCols = Math.max(numCols, r.length); });
+            function pad(r) {
+                var out = r.slice();
+                while (out.length < numCols) out.push('');
+                return out;
+            }
+            rowArrays = rowArrays.map(pad);
+            function rowLine(r) {
+                return '| ' + r.join(' | ') + ' |';
+            }
+            var lines = [rowLine(rowArrays[0])];
+            lines.push('|' + rowArrays[0].map(function() { return ' --- '; }).join('|') + '|');
+            for (var i = 1; i < rowArrays.length; i++) {
+                lines.push(rowLine(rowArrays[i]));
+            }
+            return lines.join('\n');
         }
         function extractTextWithTables(el) {
             var parts = [];
@@ -554,7 +591,10 @@
                 if (node.nodeType === 1) {
                     if (node.classList && node.classList.contains('q-table')) {
                         var table = node.querySelector('table');
-                        if (table) parts.push(formatTableForCopy(table));
+                        if (table) {
+                            var md = formatTableAsMarkdown(table);
+                            if (md) parts.push('\n\n' + md + '\n\n');
+                        }
                         return;
                     }
                     if (node.tagName === 'BR') {
@@ -580,8 +620,8 @@
                         var t = extractTextWithTables(child);
                         if (t) qText += t + '\n';
                     } else if (child.classList && child.classList.contains('q-table')) {
-                        var t = formatTableForCopy(child.querySelector('table'));
-                        if (t) qText += t + '\n';
+                        var t = formatTableAsMarkdown(child.querySelector('table'));
+                        if (t) qText += t + '\n\n';
                     }
                 });
                 qText = qText.trim();
@@ -848,6 +888,36 @@
                 copyBtn.setAttribute('data-tooltip', 'Copy');
                 copyBtn.addEventListener('click', function() { copyQuestionText(card, copyBtn); });
                 actions.appendChild(copyBtn);
+                if (isAdmin()) {
+                    var askAiBtn = document.createElement('button');
+                    askAiBtn.type = 'button';
+                    askAiBtn.className = 'q-ask-ai-btn';
+                    askAiBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>';
+                    askAiBtn.setAttribute('data-tooltip', 'Ask AI');
+                    askAiBtn.setAttribute('aria-label', 'Ask AI about this question');
+                    askAiBtn.addEventListener('click', function() {
+                        var body = buildQuestionPlainTextForCopy(card);
+                        if (!body) {
+                            showCorrectionToast('Question text not ready — try again in a moment');
+                            return;
+                        }
+                        var pv = document.getElementById('paper-value');
+                        var sv = document.getElementById('section-value');
+                        var yv = document.getElementById('year-value');
+                        var prefix = '[UPSC ISS — ' +
+                            (pv ? pv.textContent.trim() : '') + ', ' +
+                            (sv ? sv.textContent.trim() : '') + ', ' +
+                            (yv ? yv.textContent.trim() : '') + ']\n\n';
+                        var full = prefix + body;
+                        var chat = window.questionBankChat;
+                        if (chat && typeof chat.prefillAndOpen === 'function') {
+                            chat.prefillAndOpen(full);
+                        } else {
+                            showCorrectionToast('Study chat unavailable — log in as admin and refresh');
+                        }
+                    });
+                    actions.appendChild(askAiBtn);
+                }
                 if (correctAnswer) {
                     var answerBtn = document.createElement('button');
                     answerBtn.className = 'q-answer-btn';
@@ -873,47 +943,49 @@
             });
         }
 
+        /** Plain-text question for copy / Ask AI (LaTeX when _latexCopyText is set). */
+        function buildQuestionPlainTextForCopy(card) {
+            var formattedText = card._latexCopyText || '';
+            if (!formattedText) {
+                formattedText = '';
+                var qNumberEl = card.querySelector('.q-number');
+                var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
+                var qTopicEl = card.querySelector('.q-topic');
+                var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
+                var qText = '';
+                Array.prototype.forEach.call(card.children, function(child) {
+                    if (child.classList && child.classList.contains('q-text')) {
+                        var text = extractTextWithTables(child);
+                        if (text) qText += text + '\n';
+                    } else if (child.classList && child.classList.contains('q-table')) {
+                        var t = formatTableAsMarkdown(child.querySelector('table'));
+                        if (t) qText += t + '\n\n';
+                    }
+                });
+                qText = qText.trim();
+                var qContextEl = card.querySelector('.q-context');
+                var qContext = qContextEl ? extractTextWithTables(qContextEl) + '\n\n' : '';
+                var options = [];
+                card.querySelectorAll('.option-item').forEach(function(item) {
+                    var optText = item.textContent.trim();
+                    if (optText) options.push(optText);
+                });
+                if (qContext) formattedText += qContext;
+                if (qNumber)  formattedText += qNumber + ' ';
+                if (qTopic)   formattedText += qTopic + '\n';
+                if (qText)    formattedText += qText + '\n\n';
+                if (options.length) {
+                    formattedText += 'Options:\n';
+                    options.forEach(function(opt) { formattedText += opt + '\n'; });
+                }
+                formattedText = formattedText.trim();
+            }
+            return formattedText;
+        }
+
         function copyQuestionText(card, button) {
             try {
-                // Prefer the pre-MathJax captured text which preserves LaTeX source
-                // (\( ... \) / \[ ... \] notation intact — readable by AI tools).
-                // Falls back to live DOM extraction if capture was not run.
-                var formattedText = card._latexCopyText || '';
-
-                if (!formattedText) {
-                    // ── Fallback: extract from post-MathJax DOM (no LaTeX, plain text) ──
-                    var qNumberEl = card.querySelector('.q-number');
-                    var qNumber = qNumberEl ? qNumberEl.textContent.trim() : '';
-                    var qTopicEl = card.querySelector('.q-topic');
-                    var qTopic = qTopicEl ? qTopicEl.textContent.trim() : '';
-                    var qText = '';
-                    Array.prototype.forEach.call(card.children, function(child) {
-                        if (child.classList && child.classList.contains('q-text')) {
-                            var text = extractTextWithTables(child);
-                            if (text) qText += text + '\n';
-                        } else if (child.classList && child.classList.contains('q-table')) {
-                            var t = formatTableForCopy(child.querySelector('table'));
-                            if (t) qText += t + '\n';
-                        }
-                    });
-                    qText = qText.trim();
-                    var qContextEl = card.querySelector('.q-context');
-                    var qContext = qContextEl ? extractTextWithTables(qContextEl) + '\n\n' : '';
-                    var options = [];
-                    card.querySelectorAll('.option-item').forEach(function(item) {
-                        var optText = item.textContent.trim();
-                        if (optText) options.push(optText);
-                    });
-                    if (qContext) formattedText += qContext;
-                    if (qNumber)  formattedText += qNumber + ' ';
-                    if (qTopic)   formattedText += qTopic + '\n';
-                    if (qText)    formattedText += qText + '\n\n';
-                    if (options.length) {
-                        formattedText += 'Options:\n';
-                        options.forEach(function(opt) { formattedText += opt + '\n'; });
-                    }
-                    formattedText = formattedText.trim();
-                }
+                var formattedText = buildQuestionPlainTextForCopy(card);
 
                 // Copy to clipboard
                 if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2583,6 +2655,21 @@
             }
         });
 
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+    <script>
+    window.questionBankChat = null;
+    if (typeof isAdmin === 'function' && isAdmin()) {
+      var _chatCss = document.createElement('link');
+      _chatCss.rel = 'stylesheet';
+      _chatCss.href = 'chat/chat.css';
+      document.head.appendChild(_chatCss);
+      var _chatBoot = document.createElement('script');
+      _chatBoot.type = 'module';
+      _chatBoot.src = 'chat/bootstrap.js';
+      document.body.appendChild(_chatBoot);
+    }
     </script>
 </body>
 </html>

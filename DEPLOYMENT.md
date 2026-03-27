@@ -133,6 +133,43 @@ vercel
 
 ---
 
+## Study chat (Ollama)
+
+The question bank includes a **Chat** panel on `main.html` for **logged-in admins only** (`sessionStorage` after successful `/api/auth`). Non-admins do not load `chat/bootstrap.js`, the floating **Chat** button, or the per-question **Ask AI** control. The same-origin proxy (`/api/ollama/chat`, `/api/ollama/health`) is not separately authenticated from the browser; treat like other backend routes and restrict deployment exposure if you rely on obscurity.
+
+It streams from **Ollama** through that proxy so the browser never talks to `localhost:11434` directly (avoids CORS issues). UI and scripts live under the `chat/` folder.
+
+### Local (recommended)
+
+1. Install [Ollama](https://ollama.com/) and pull the default model:
+
+   ```bash
+   ollama pull qwen2.5:7b
+   ```
+
+2. Run the **Python** app server (not plain `http.server`), so `/api/ollama/chat` and `/api/ollama/health` exist:
+
+   ```bash
+   python3 server.py 8000
+   ```
+
+3. Open `http://localhost:8000/main.html`, **Admin Login**, then return to the bank (or refresh). Use the **Chat** floating button (shortcut **⌘J** / **Ctrl+J**).
+
+Optional: set `OLLAMA_HOST` in `.env` if Ollama listens elsewhere (default `http://127.0.0.1:11434`).
+
+The chat loads `syllabus.md` into the **system** prompt for syllabus-grounded scope (not full RAG over the whole site).
+
+### Vercel
+
+Serverless functions cannot run Ollama. Admins still need to log in on the deployed site to see chat UI. To use chat on the deployed site you must:
+
+1. Run Ollama on a machine you control (home Mac, VPS, etc.) reachable over HTTPS or your network.
+2. Set project env **`OLLAMA_HOST`** (or **`OLLAMA_BASE_URL`**) to that base URL **without** a trailing slash, e.g. `https://ollama.example.com` so the function can call `…/api/chat` and `…/api/tags`.
+
+If `OLLAMA_HOST` is unset, the health check reports “not configured” and chat requests return 503 until you add it or use the local Python server instead.
+
+---
+
 ## Local Development
 
 For local development with live corrections, explanations, notes, and admin login:
@@ -145,7 +182,7 @@ For local development with live corrections, explanations, notes, and admin logi
 python3 server.py 8000
 # Open http://localhost:8000/main.html
 
-# Option 2: Static only (corrections/explanations go to localStorage; notes not persisted; login requires API)
+# Option 2: Static only (corrections/explanations go to localStorage; notes not persisted; login requires API; Ollama chat proxy missing)
 python3 -m http.server 8000
 # Open http://localhost:8000/main.html
 ```

@@ -2,12 +2,15 @@
 """
 ISS Statistics Question Bank - Local server with answer correction and explanation support.
 Serves static files and accepts POST to update answers.js and explanations.js directly.
+Proxies /api/ollama/chat and /api/ollama/health to Ollama (OLLAMA_HOST, default http://127.0.0.1:11434).
 """
 import http.server
 import json
 import os
 import re
+import urllib.error
 import urllib.parse
+import urllib.request
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ANSWERS_FILE = os.path.join(SCRIPT_DIR, 'answers.js')
@@ -225,18 +228,92 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
+    def _ollama_base_url(self):
+        return os.environ.get('OLLAMA_HOST', 'http://127.0.0.1:11434').rstrip('/')
+
     def do_GET(self):
-        if self.path == '/api/config':
+        req_path = urllib.parse.urlparse(self.path).path
+        if self.path == '/api/config' or req_path == '/api/config':
             contact = os.environ.get('CONTACT_EMAIL', 'Contact admin for access')
             self.send_json(200, {'contactDetails': contact})
+        elif req_path == '/api/ollama/health':
+            self._ollama_proxy_health()
         else:
             super().do_GET()
 
+    def _ollama_proxy_health(self):
+        url = self._ollama_base_url() + '/api/tags'
+        try:
+            req = urllib.request.Request(url, method='GET')
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                raw = resp.read().decode('utf-8')
+                data = json.loads(raw)
+            self.send_json(200, {'ok': True, 'ollama': data})
+        except urllib.error.HTTPError as e:
+            self.send_json(502, {'ok': False, 'error': f'Ollama HTTP {e.code}'})
+        except urllib.error.URLError as e:
+            self.send_json(502, {'ok': False, 'error': f'Ollama unreachable ({e.reason})'})
+        except Exception as e:
+            self.send_json(502, {'ok': False, 'error': str(e)})
+
+    def _ollama_proxy_chat_stream(self, body_bytes):
+        url = self._ollama_base_url() + '/api/chat'
+        try:
+            req = urllib.request.Request(
+                url,
+                data=body_bytes,
+                method='POST',
+                headers={'Content-Type': 'application/json'},
+            )
+            with urllib.request.urlopen(req, timeout=600) as resp:
+                self.send_response(200)
+                ct = resp.headers.get('Content-Type', 'application/x-ndjson')
+                self.send_header('Content-Type', ct)
+                self.send_header('Cache-Control', 'no-store')
+                self.end_headers()
+                while True:
+                    chunk = resp.read(16384)
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode('utf-8', errors='replace')
+            self.send_json(e.code if e.code in (400, 404) else 502, {
+                'ok': False,
+                'error': err_body or f'Ollama HTTP {e.code}',
+            })
+        except urllib.error.URLError as e:
+            self.send_json(502, {'ok': False, 'error': f'Ollama unreachable ({e.reason})'})
+        except Exception as e:
+            self.send_json(500, {'ok': False, 'error': str(e)})
+
     def do_POST(self):
+        req_path = urllib.parse.urlparse(self.path).path
+        if req_path == '/api/ollama/chat':
+            try:
+                length = int(self.headers.get('Content-Length', 0))
+                if length > 2_000_000:
+                    self.send_json(413, {'ok': False, 'error': 'Request body too large'})
+                    return
+                body = self.rfile.read(length) if length else b'{}'
+                try:
+                    payload = json.loads(body.decode('utf-8'))
+                except json.JSONDecodeError:
+                    self.send_json(400, {'ok': False, 'error': 'Invalid JSON'})
+                    return
+                if not isinstance(payload.get('messages'), list):
+                    self.send_json(400, {'ok': False, 'error': 'messages array required'})
+                    return
+                out = dict(payload)
+                out['stream'] = True
+                self._ollama_proxy_chat_stream(json.dumps(out).encode('utf-8'))
+            except Exception as e:
+                self.send_json(500, {'ok': False, 'error': str(e)})
+            return
         if self.path == '/api/auth':
             try:
                 length = int(self.headers.get('Content-Length', 0))

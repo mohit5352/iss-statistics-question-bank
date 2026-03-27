@@ -1,6 +1,6 @@
 # UPSC ISS Statistics Question Bank
 
-> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers, **Revision Notes** with markdown.
+> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers, **Revision Notes** with markdown. **Study chat** (local **Ollama**) and per-question **Ask AI** are available **only after admin login** (same session as answer corrections).
 
 This repository contains a web-based archive of **objective MCQs** from UPSC ISS **Statistics Paper I** and **Statistics Paper II**, organised by **paper**, **section**, and **year**. Aligned with the official UPSC ISS syllabus:
 
@@ -25,18 +25,30 @@ statistics_question_bank/
 ├── explanations.js                                # Explanations for each question (skeleton mirrors answers.js; empty template literals)
 ├── question_edits.js                              # Admin question edits (text, topic, options overrides)
 ├── notes.js                                       # Revision Notes per paper/section (sections, tips; markdown + LaTeX)
-├── server.py                                      # Local server with answer correction + explanation + notes + question edits + auth (writes to answers.js, explanations.js, notes.js, question_edits.js)
+├── syllabus.md                                    # ISS syllabus text (loaded into the chat system prompt for scope)
+├── server.py                                      # Local server: static files + APIs + Ollama proxy (/api/ollama/chat, /api/ollama/health); writes answers/explanations/notes/question_edits; auth
+├── chat/                                          # Study chat UI (Ollama, streaming, markdown + MathJax); loaded only for admins
+│   ├── bootstrap.js                               # If session is admin: mounts ChatApp, sets window.questionBankChat for Ask AI
+│   ├── app.js                                     # ChatApp: panel, streaming, typing indicator, prefillAndOpen()
+│   ├── config.js                                  # Endpoints, default model, localStorage keys
+│   ├── prompts.js                                 # System prompt + syllabus injection
+│   ├── stream-client.js                           # NDJSON stream from same-origin proxy
+│   ├── markdown-math.js                           # Markdown + preserved LaTeX for assistant messages
+│   └── chat.css                                   # Chat panel / FAB styles
 ├── api/
 │   ├── correct.js                                 # Vercel serverless API for live answer corrections (single or batch; updates GitHub)
 │   ├── explanations.js                            # Vercel serverless API for live explanation edits (updates explanations.js in GitHub)
 │   ├── questions.js                               # Vercel serverless API for live question edits (updates question_edits.js in GitHub)
 │   ├── notes.js                                   # Vercel serverless API for Revision Notes edits (updates notes.js in GitHub)
 │   ├── auth.js                                    # Admin login validation (ADMIN_USERNAME, ADMIN_PASSWORD)
-│   └── config.js                                 # Public config (CONTACT_EMAIL for login page)
+│   ├── config.js                                  # Public config (CONTACT_EMAIL for login page)
+│   └── ollama/
+│       ├── chat.js                                # Vercel: stream JSON body to remote Ollama (needs OLLAMA_HOST)
+│       └── health.js                              # Vercel: proxy GET /api/tags for status
 ├── vercel.json                                    # Vercel config (rewrites / to main.html, /login to login.html)
 ├── robots.txt                                     # Search engine crawl rules; points to sitemap
 ├── sitemap.xml                                    # Sitemap for search engines and AI crawlers
-├── .env.example                                   # Example env vars (ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, CONTACT_EMAIL)
+├── .env.example                                   # Example env vars (admin + optional OLLAMA_HOST for local proxy)
 ├── DEPLOYMENT.md                                  # Deployment guide for Vercel (live corrections, explanations, notes + admin login)
 ├── QUICK_START.md                                 # Quick start guide
 ├── start-server.sh                                # Quick start script for local server (Mac/Linux)
@@ -79,7 +91,7 @@ statistics_question_bank/
      cd "path\to\statistics_question_bank"
      python server.py 8000
      ```
-   - **Note**: `server.py` serves static files and supports **answer corrections** (writes to `answers.js`), **explanation edits** (writes to `explanations.js`), **Revision Notes** (writes to `notes.js`), and **admin login**. For static-only serving, use `python3 -m http.server 8000` instead. For local login, create `.env` from `.env.example` and set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`.
+   - **Note**: `server.py` serves static files, **proxies Ollama** at `/api/ollama/chat` and `/api/ollama/health` (default `http://127.0.0.1:11434`), and supports **answer corrections** (`answers.js`), **explanation edits** (`explanations.js`), **Revision Notes** (`notes.js`), **question edits**, and **admin login**. The **Study chat** UI and **Ask AI** button load only when logged in as admin (`sessionStorage`); the Ollama proxy itself is not separately authenticated (same pattern as other write APIs — restrict network access if needed). For static-only serving, use `python3 -m http.server 8000` instead (no API routes, no Ollama proxy). For local login, create `.env` from `.env.example` and set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. Optional: `OLLAMA_HOST` if Ollama runs elsewhere.
 
 2. **Find your computer's IP address**:
    - Mac: System Preferences → Network → IP Address
@@ -95,7 +107,7 @@ statistics_question_bank/
 
 ### Live Deployment (Vercel) — Answer Corrections, Explanations & Revision Notes on Production
 
-To deploy so that **answer corrections**, **explanation edits**, and **Revision Notes** work on the live site (updating `answers.js`, `explanations.js`, and `notes.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections, explanations, and notes; and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
+To deploy so that **answer corrections**, **explanation edits**, and **Revision Notes** work on the live site (updating `answers.js`, `explanations.js`, and `notes.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login, **Study chat** for admins on Vercel via `OLLAMA_HOST`). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections, explanations, and notes; and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
 
 ## 🎯 Features
 
@@ -105,9 +117,11 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
   - Paper I: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
   - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
 - **Year Navigation**: Browse questions from 2017 to 2025
-- **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables are preserved with proper structure (tab-separated cells, newline-separated rows) so pasted content stays readable.
+- **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables (`.q-table`) are emitted as **GitHub-flavored Markdown pipe tables** (with LaTeX in cells preserved when pre-MathJax capture ran) so paste and chat rendering stay structured.
+- **Ask AI** (admin only): Sparkle icon next to Copy — same visibility as **Edit Question**. Opens **Study chat**, prefills the textarea with the current paper/section/year line plus the same text as Copy. Does not auto-send; edit and press **Send** when ready. Requires admin session, **Ollama**, and same-origin proxy (`server.py` locally, or Vercel + `OLLAMA_HOST`); see [DEPLOYMENT.md](DEPLOYMENT.md).
+- **Study chat** (admin only): After **Admin Login**, `chat/chat.css` and `chat/bootstrap.js` load; floating **Chat** button and **⌘J** / **Ctrl+J** appear. Streams replies from **Ollama** through `/api/ollama/chat` (avoids browser CORS to `localhost:11434`). Loads `syllabus.md` into the system prompt. Default model is configurable in `chat/config.js` and in the UI (saved in `localStorage`). **Stop** aborts generation; **Clear** resets the thread. User and assistant bubbles use markdown + MathJax-safe LaTeX. **Not** official UPSC advice — verify facts on official sites.
 - **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
-- **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers. See [Admin Login & Roles](#admin-login--roles).
+- **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers, use **Study chat** / **Ask AI**, and other admin-only tools. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** icon (⚠) appears at the top-right of the options grid. Click it to expand inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, an **Edit Explanation** icon appears in the collapsible explanation header. Click it to add or edit a step-by-step explanation (supports LaTeX). Explanations are stored in `explanations.js` and follow the same deployment pattern as answers.
 - **Edit Question**: When logged in as admin, an **Edit Question** icon appears in the card header. Click it to edit the question text, topic, and options (supports LaTeX). Edits are stored in `question_edits.js` and follow the same deployment pattern as answers and explanations.
@@ -132,9 +146,9 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
   - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
   - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
 - **Collapsible Explanation**: When the answer is revealed, a collapsible **Explanation** section appears with **Copy** and **Edit** (admin) icons in the header, plus an expand/collapse chevron. Supports LaTeX.
-- **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active. **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Question** icon (admin) in card header; **Edit Explanation** icon (admin) in explanation section header.
+- **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active. **Card header actions**: **Copy**, **Ask AI** (admin), optional **Show Answer**, **Edit Question** (admin). **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Explanation** icon (admin) in explanation section header.
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
-- **Offline Capable**: Works without internet (except for MathJax CDN)
+- **Offline Capable**: Question bank works without internet except MathJax CDN. **Study chat** (admins) needs a running **Ollama** instance and (in the browser) the Python server or Vercel proxy — it is not offline.
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
 
 ## 📋 Instructions for Extracting Questions
@@ -327,6 +341,7 @@ For **each section file** and each year:
 - `.q-actions-row`: Action row at bottom of card — flex layout with separator above; contains left (Wrong Answer?) and right (Show Answer + Copy) sections
 - `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
 - `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns purple (`#a78bfa`) on success
+- `.q-ask-ai-btn`: Ask AI icon button (admin-only) — same affordances as copy/answer; sparkle SVG; tooltip “Ask AI”
 - `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
 - `.wrong-answer-wrap`: Flex container for Wrong Answer? icon and picker — `display: flex`, `align-items: flex-end`, `justify-content: flex-end`; when picker open, `flex-direction: column` stacks icon and chips (visible when answer is shown; admin only)
 - `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
@@ -381,7 +396,8 @@ For **each section file** and each year:
 - **Sticky Header**: Header with Paper/Section/Year controls stays at the top while scrolling using `position: sticky`
 - **Math Rendering**: MathJax 3.x is used for rendering mathematical notation. Math expressions are properly rendered in all elements (q-text, q-context, option-item) with consistent styling across desktop and mobile.
 - **Answer System**: Answers are stored in `answers.js` and loaded dynamically via JavaScript. The `main.html` script injects show answer buttons and handles toggle functionality.
-- **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted with tab-separated cells and newline-separated rows so pasted content preserves structure.
+- **Copy / Table Handling**: Copy captures LaTeX source (pre-MathJax) when available. Tables (`.q-table`) are formatted as **GFM Markdown pipe tables** so paste, editors, and chat markdown render stay aligned. **Ask AI** reuses the same `buildQuestionPlainTextForCopy()` helper.
+- **Study chat**: When `window.isAdmin()` is true (same helper as Wrong Answer? / edits), `main.html` injects `chat/chat.css` and loads `chat/bootstrap.js`; `bootstrap.js` mounts after load even if `DOMContentLoaded` already fired (dynamic module). Sets `window.questionBankChat` for **Ask AI**. Server-side, `server.py` forwards chat POSTs to Ollama; Vercel uses `api/ollama/chat.js` and `api/ollama/health.js` when `OLLAMA_HOST` (or `OLLAMA_BASE_URL`) points to a reachable Ollama base URL. See [DEPLOYMENT.md](DEPLOYMENT.md) for **Study chat (Ollama)**.
 - **Answer Correction System**: Corrections are submitted via `POST /api/correct`. Only **admins** (logged in) can submit corrections. On Vercel, the frontend **batches** corrections (15s debounce) and sends them in one request to reduce GitHub commits; `sendBeacon` flushes the queue on page unload. Behaviour by deployment: **Local** (`server.py`) writes to `answers.js`; **Vercel** (`api/correct.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Explanation System**: Explanations are stored in `explanations.js` (skeleton mirrors `answers.js`; values are empty template literals). Admins can add or edit explanations via **Edit Explanation** in the collapsible explanation header when the answer is visible. Edits are submitted via `POST /api/explanations`. Behaviour by deployment: **Local** (`server.py`) writes to `explanations.js`; **Vercel** (`api/explanations.js`) pushes updates to GitHub; **GitHub Pages** / static hosting falls back to `localStorage`.
 - **Question Edit System**: Edits (text, topic, options) are stored in `question_edits.js`. Admins can edit via **Edit Question** icon in the card header. Edits are submitted via `POST /api/questions`. **Local** writes to `question_edits.js`; **Vercel** (`api/questions.js`) pushes to GitHub; **GitHub Pages** / static falls back to `localStorage`.
@@ -448,6 +464,13 @@ For **each section file** and each year:
 - Check internet connection (MathJax loads from CDN)
 - Verify LaTeX syntax is correct (use `\( ... \)` for inline, `\[ ... \]` for display)
 - Check browser console for MathJax errors
+
+### Study chat / Ask AI not working?
+- **Log in as admin** (Admin Login → return to `main.html`). Chat scripts and styles load only with an admin session; refresh after login if needed.
+- Use **`python3 server.py 8000`**, not plain `http.server`, so `/api/ollama/chat` exists.
+- Run **Ollama** locally (`ollama serve`) and pull your model (e.g. `ollama pull qwen2.5:7b`). Match the model name in the chat panel to what you pulled.
+- **Vercel**: set `OLLAMA_HOST` to a URL where Ollama is reachable from the internet (e.g. tunnel to your Mac). Without it, the health check shows off and chat returns 503. Details in [DEPLOYMENT.md](DEPLOYMENT.md).
+- **Ask AI** shows “Study chat unavailable” if you are not admin or scripts did not load — log in as admin and refresh.
 
 ### Tables not displaying correctly?
 - Make sure tables are wrapped in `<div class="q-table">` (not on the `<table>` itself)
@@ -522,8 +545,8 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 ### Admin Login & Roles
 
-- **Admin**: Only admins can update answers. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
-- **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link).
+- **Admin**: Only admins can update answers, use **Study chat** and **Ask AI**, and use other admin-only editing tools. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
+- **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link) and do not see the chat FAB, keyboard shortcut, or Ask AI button.
 - **Login page** (`/login` or `login.html`): Username/password form with theme toggle (dark/light). Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
 - **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
@@ -613,7 +636,13 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2025/2026 — **Questions mode UX overhaul**:
+**Last Updated**: 2025/2026 — **Study chat & Ask AI** (admin-only UI):
+- **`chat/`** module: Ollama-backed streaming chat, `syllabus.md` in system prompt, typing indicator, **⌘J** / **Ctrl+J**; mounted only when `iss_admin` session is set
+- **`server.py`** + **`api/ollama/`**: same-origin proxy for `/api/ollama/chat` and `/api/ollama/health`; optional **`OLLAMA_HOST`**
+- **Ask AI** (admin): sparkle on question cards; prefills chat via `window.questionBankChat.prefillAndOpen()`; shared text builder with Copy
+- **`buildQuestionPlainTextForCopy()`** in `main.html` for copy + Ask AI; tables as GFM markdown in captured text
+
+**Earlier — Questions mode UX overhaul**:
 - **Questions Sidebar**: Collapsible TOC with topic + question preview, hover for full text; hash routing and scroll sync; outside click closes
 - **Icon-based actions**: Wrong Answer? (top-right of options grid), Edit Question (card header), Edit Explanation (explanation header); all with tooltips
 - **Collapsible Explanation**: Copy, Edit, expand/collapse chevron in header; Wrong Answer picker uses flex layout (align/justify end; column when open)
@@ -627,8 +656,8 @@ When updating or fixing questions:
 - **Topic**: Italic orchid inline annotation (`#f0abfc`, weight 500) — no badge, no border
 - **Context Block**: Near-black background with a purple gradient left stripe; bold text in orchid (`#f0abfc`); MathJax expressions in lavender (`#c4b5fd`) consistent with question text; "CONTEXT" label removed
 - **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
-- **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer? and Add/Edit Explanation features
-- **Action Row**: Show Answer + Copy icons (right); Wrong Answer? icon at top-right of options grid (admin); Edit Question icon in card header (admin); Edit Explanation in collapsible explanation header (admin)
+- **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer?, Add/Edit Explanation, Study chat, Ask AI
+- **Action Row / header actions**: Show Answer + Copy + Ask AI (admin) in card header; Wrong Answer? at top-right of options grid (admin); Edit Question in card header (admin); Edit Explanation in collapsible explanation header (admin)
 - **Revision Notes**: Mode toggle (Questions | Revision Notes); topic-based sections with subsections; **collapsible sidebar** for navigation; add/edit/delete sections; markdown (headers, bold, italic, code, lists, blockquote, tables, code blocks) and LaTeX; collapsible Formatting help in editors
 - **Theme Toggle**: Sun/moon icon in header; dark (default) and light themes; preference persisted in `localStorage`; login page supports both themes
 - **Sidebar & Floating Button**: Interactive navigation sidebar with Copy/Edit/Delete icon buttons per TOC item; Copy shows checkmark "Copied" state; state-persisted (localStorage) collapsible design; floating "Topics" button for mobile/collapsed viewing; **scroll-synced TOC highlighting** (active section updates on scroll for mobile and desktop); **outside click** closes sidebar; **topic headers** also have Copy/Edit/Delete icon buttons for quick access when scrolled
