@@ -83,3 +83,86 @@ National Accounts: Definition, Basic Concepts; issues; the Strategy, Collection 
 Population Census: Need, Data Collected, Periodicity, Methods of data collection, dissemination, Agencies
 involved.
 Misc: Socio Economic Indicators, Gender Awareness/Statistics, Important Surveys and Censuses.
+
+### STATISTICS- III (DESCRIPTIVE TYPE)
+
+- **(i) Sampling Techniques:**
+Concept of population and sample, need for sampling, complete enumeration versus sampling, basic concepts in
+sampling, sampling and Non-sampling error, Methodologies in sample surveys (questionnaires, sampling design
+and methods followed in field investigation) by NSSO.
+Subjective or purposive sampling, probability sampling or random sampling, simple random sampling with and
+without replacement, estimation of population mean, population proportions and their standard errors. Stratified
+random sampling, proportional and optimum allocation, comparison with simple random sampling for fixed
+sample size. Covariance and Variance Function.
+Ratio, product and regression methods of estimation, estimation of population mean, evaluation of Bias and
+Variance to the first order of approximation, comparison with simple random sampling.
+Systematic sampling (when population size (N) is an integer multiple of sampling size (n)). Estimation of
+population mean and standard error of this estimate, comparison with simple random sampling.
+Sampling with probability proportional to size (with and without replacement method), Des Raj and Das
+estimators for n=2, Horvitz-Thomson’s estimator.
+Equal size cluster sampling: estimators of population mean and total and their standard errors, comparison of
+cluster sampling with SRS in terms of intra-class correlation coefficient.
+Concept of multistage sampling and its application, two-stage sampling with equal number of second stage units,
+estimation of population mean and total. Double sampling in ratio and regression methods of estimation.
+Concept of Interpenetrating sub-sampling.
+
+- **(ii) Econometrics:**
+Nature of econometrics, the general linear model (GLM) and its extensions, ordinary least squares (OLS)
+estimation and prediction, generalized least squares (GLS) estimation and prediction, heteroscedastic
+disturbances, pure and mixed estimation.
+Auto correlation, its consequences and tests. Theil BLUS procedure, estimation and prediction, multi-collinearity
+problem, its implications and tools for handling the problem, ridge regression.
+Linear regression and stochastic regression, instrumental variable estimation, errors in variables, autoregressive
+linear regression, lagged variables, distributed lag models, estimation of lags by OLS method, Koyck’s geometric
+lag model.
+Simultaneous linear equations model and its generalization, identification problem, restrictions on structural
+parameters, rank and order conditions. 
+Estimation in simultaneous equations model, recursive systems, 2 SLS estimators, limited information estimators,
+k-class estimators, 3 SLS estimator, full information maximum likelihood method, prediction and simultaneous
+confidence intervals.
+
+- **(iii) Applied Statistics:**
+Index Numbers: Price relatives and quantity or volume relatives, Link and chain relatives composition of index
+numbers; Laspeyre's, Paasches’, Marshal Edgeworth and Fisher index numbers; chain base index number, tests for
+index number, Construction of index numbers of wholesale and consumer prices, Income distribution-Pareto and
+Engel curves, Concentration curve, Methods of estimating national income, Inter-sectoral flows, Inter-industry
+table, Role of CSO. Demand Analysis.
+Time Series Analysis: Economic time series, different components, illustration, additive and multiplicative models,
+determination of trend, seasonal and cyclical fluctuations.
+Time-series as discrete parameter stochastic process, auto covariance and autocorrelation functions and their
+properties.
+Exploratory time Series analysis, tests for trend and seasonality, exponential and moving average smoothing. Holt
+and Winters smoothing, forecasting based on smoothing.
+Detailed study of the stationary processes: (1) moving average (MA), (2) auto regressive (AR), (3) ARMA and (4)
+AR integrated MA (ARIMA) models. Box-Jenkins models, choice of AR and MA periods.
+Discussion (without proof) of estimation of mean, auto covariance and autocorrelation functions under large
+sample theory, estimation of ARIMA model parameters.
+Spectral analysis of weakly stationary process, periodogram and correlogram analyses, computations based on
+Fourier transform.
+
+### STATISTICS-IV (DESCRIPTIVE TYPE)
+
+- **(ii) Demography and Vital Statistics:**
+Sources of demographic data, census, registration, ad-hoc surveys, Hospital records, Demographic profiles of the
+Indian Census.
+Complete life table and its main features, Uses of life table. Makehams and Gompertz curves. National life tables.
+UN model life tables. Abridged life tables. Stable and stationary populations.
+Measurement of Fertility: Crude birth rate, General fertility rate, Age specific birth rate, Total fertility rate, Gross
+reproduction rate, Net reproduction rate.
+Measurement of Mortality: Crude death rate, Standardized death rates, Age-specific death rates, Infant Mortality
+rate, Death rate by cause.
+Internal migration and its measurement, migration models, concept of international migration. Net migration.
+International and postcensal estimates. Projection method including logistic curve fitting. Decennial population
+census in India.
+
+- **(iv) Quality Control:**
+Statistical process and product control: Quality of a product, need for quality control, basic concept of process
+control, process capability and product control, general theory of control charts, causes of variation in quality,
+control limits, sub grouping summary of out of control criteria, charts for attributes p chart, np chart, c-chart, V
+chart, charts for variables: R, (X,R), (X,σ) charts.
+Basic concepts of process monitoring and control; process capability and process optimization. General theory and
+review of control charts for attribute and variable data; O.C. and A.R.L. of control charts; control by gauging; moving
+average and exponentially weighted moving average charts; Cu-Sum charts using V-masks and decision intervals;
+Economic design of X-bar chart. 
+Acceptance sampling plans for attributes inspection; single and double sampling plans and their properties;
+plans for inspection by variables for one-sided and two sided specification.

@@ -104,6 +104,8 @@
                     <select id="paper-select" onchange="setPaper(this.value)">
                         <option value="paper1">Paper I</option>
                         <option value="paper2">Paper II</option>
+                        <option value="paper3">Paper III</option>
+                        <option value="paper4">Paper IV</option>
                     </select>
                 </div>
                 <div class="meta-sep-line"></div>
@@ -194,9 +196,10 @@
         updateAuthLink();
 
         // Track current selection
-        var currentPaper = 'paper1'; // 'paper1' | 'paper2'
+        var currentPaper = 'paper1'; // 'paper1' | 'paper2' | 'paper3' | 'paper4'
         var currentYear = '2025';
-        var currentSection = 'prob'; // Paper 1: 'prob' | 'num' | 'comp'; Paper 2: 'linear' | 'inference' | 'official'
+        // Paper 1: prob | num | comp; Paper 2: linear | inference | official; Paper 3: sampling | econometrics | applied; Paper 4: demography | quality
+        var currentSection = 'prob';
         var appMode = 'questions'; // 'questions' | 'notes'
 
         function setAppMode(mode) {
@@ -535,6 +538,9 @@
                     // Fallback to Linear Models
                     prefix = basePath + 'Linear_Models/Linear_Models_questions_';
                 }
+            } else if (currentPaper === 'paper3' || currentPaper === 'paper4') {
+                // No extracted HTML yet — fetch fails and showError() shows the same message as any missing file
+                prefix = 'extracted_htmls/_questions_not_available_';
             }
             
             return prefix + currentYear + '.html';
@@ -1060,52 +1066,72 @@
             var yearValueEl = document.getElementById('year-value');
 
             // Update paper display
+            var paperShort = { paper1: 'Paper I', paper2: 'Paper II', paper3: 'Paper III', paper4: 'Paper IV' };
+            var paperLong = {
+                paper1: 'ISS Statistics Paper I',
+                paper2: 'ISS Statistics Paper II',
+                paper3: 'ISS Statistics Paper III',
+                paper4: 'ISS Statistics Paper IV'
+            };
             if (paperValueEl) {
-                paperValueEl.textContent = currentPaper === 'paper1' ? 'Paper I' : 'Paper II';
+                paperValueEl.textContent = paperShort[currentPaper] || currentPaper;
             }
             if (paperTitleEl) {
-                paperTitleEl.textContent = currentPaper === 'paper1' ? 'ISS Statistics Paper I' : 'ISS Statistics Paper II';
+                paperTitleEl.textContent = paperLong[currentPaper] || 'ISS Statistics';
             }
 
             // Update section dropdown based on paper
             if (sectionSelectEl) {
                 sectionSelectEl.innerHTML = '';
                 if (currentPaper === 'paper1') {
-                    // Paper I sections
-                    sectionSelectEl.innerHTML = 
+                    sectionSelectEl.innerHTML =
                         '<option value="prob">Probability &amp; Statistics</option>' +
                         '<option value="num">Numerical Analysis</option>' +
                         '<option value="comp">Computer Section</option>';
-                } else {
-                    // Paper II sections
-                    sectionSelectEl.innerHTML = 
+                } else if (currentPaper === 'paper2') {
+                    sectionSelectEl.innerHTML =
                         '<option value="linear">Linear Models</option>' +
                         '<option value="inference">Statistical Inference and Hypothesis Testing</option>' +
                         '<option value="official">Official Statistics</option>';
+                } else if (currentPaper === 'paper3') {
+                    sectionSelectEl.innerHTML =
+                        '<option value="sampling">Sampling Techniques</option>' +
+                        '<option value="econometrics">Econometrics</option>' +
+                        '<option value="applied">Applied Statistics</option>';
+                } else if (currentPaper === 'paper4') {
+                    sectionSelectEl.innerHTML =
+                        '<option value="demography">Demography and Vital Statistics</option>' +
+                        '<option value="quality">Quality Control</option>';
                 }
-                // Set the selected option
-                sectionSelectEl.value = currentSection;
+                if (sectionSelectEl.querySelector('option[value="' + currentSection + '"]')) {
+                    sectionSelectEl.value = currentSection;
+                } else {
+                    var firstOpt = sectionSelectEl.querySelector('option');
+                    if (firstOpt) {
+                        currentSection = firstOpt.value;
+                        sectionSelectEl.value = currentSection;
+                    }
+                }
             }
 
             // Update section display text
             if (sectionValueEl) {
                 var sectionText = '';
                 if (currentPaper === 'paper1') {
-                    if (currentSection === 'prob') {
-                        sectionText = 'Probability & Statistics';
-                    } else if (currentSection === 'num') {
-                        sectionText = 'Numerical Analysis';
-                    } else if (currentSection === 'comp') {
-                        sectionText = 'Computer Section';
-                    }
-                } else {
-                    if (currentSection === 'linear') {
-                        sectionText = 'Linear Models';
-                    } else if (currentSection === 'inference') {
-                        sectionText = 'Statistical Inference and Hypothesis Testing';
-                    } else if (currentSection === 'official') {
-                        sectionText = 'Official Statistics';
-                    }
+                    if (currentSection === 'prob') sectionText = 'Probability & Statistics';
+                    else if (currentSection === 'num') sectionText = 'Numerical Analysis';
+                    else if (currentSection === 'comp') sectionText = 'Computer Section';
+                } else if (currentPaper === 'paper2') {
+                    if (currentSection === 'linear') sectionText = 'Linear Models';
+                    else if (currentSection === 'inference') sectionText = 'Statistical Inference and Hypothesis Testing';
+                    else if (currentSection === 'official') sectionText = 'Official Statistics';
+                } else if (currentPaper === 'paper3') {
+                    if (currentSection === 'sampling') sectionText = 'Sampling Techniques';
+                    else if (currentSection === 'econometrics') sectionText = 'Econometrics';
+                    else if (currentSection === 'applied') sectionText = 'Applied Statistics';
+                } else if (currentPaper === 'paper4') {
+                    if (currentSection === 'demography') sectionText = 'Demography and Vital Statistics';
+                    else if (currentSection === 'quality') sectionText = 'Quality Control';
                 }
                 sectionValueEl.textContent = sectionText;
             }
@@ -1119,12 +1145,10 @@
 
         function setPaper(paperKey) {
             currentPaper = paperKey;
-            // Reset section to first section of the selected paper
-            if (currentPaper === 'paper1') {
-                currentSection = 'prob';
-            } else {
-                currentSection = 'linear';
-            }
+            if (currentPaper === 'paper1') currentSection = 'prob';
+            else if (currentPaper === 'paper2') currentSection = 'linear';
+            else if (currentPaper === 'paper3') currentSection = 'sampling';
+            else if (currentPaper === 'paper4') currentSection = 'demography';
             updateControlsUI();
             if (appMode === 'questions') {
                 loadContent();
@@ -2277,7 +2301,8 @@
         };
 
         function revisionEditorPaperLabel() {
-            return currentPaper === 'paper1' ? 'Paper I' : 'Paper II';
+            var m = { paper1: 'Paper I', paper2: 'Paper II', paper3: 'Paper III', paper4: 'Paper IV' };
+            return m[currentPaper] || currentPaper;
         }
 
         function revisionEditorTopicTitle() {
