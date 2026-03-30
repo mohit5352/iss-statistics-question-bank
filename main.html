@@ -1986,16 +1986,22 @@
             return resultHtml;
         }
 
-        var NOTE_FORMAT_HINT = '<details class="note-format-hint" open><summary>Formatting help</summary><div class="note-format-hint-body">' +
+        var NOTE_FORMAT_HINT_BODY =
             '<strong>Headers:</strong> <code>#</code> <code>##</code> <code>###</code> …<br>' +
             '<strong>Bold:</strong> <code>**text**</code> &nbsp; <strong>Italic:</strong> <code>*text*</code> &nbsp; <strong>Inline code:</strong> <code>`code`</code><br>' +
             '<strong>Code block:</strong> <code>```</code> on own line, code, <code>```</code><br>' +
             '<strong>Lists:</strong> <code>- item</code> or <code>1. item</code><br>' +
             '<strong>Table:</strong> <code>| A | B |</code> header, <code>| --- | --- |</code> separator, <code>| 1 | 2 |</code> rows<br>' +
             '<strong>Blockquote:</strong> <code>&gt; quote</code> &nbsp; <strong>Rule:</strong> <code>---</code><br>' +
-            '<strong>LaTeX:</strong> inline <code>\\( E = mc^2 \\)</code> &nbsp; block <code>\\[ ... \\]</code></div></details>';
+            '<strong>LaTeX:</strong> inline <code>\\( E = mc^2 \\)</code> &nbsp; block <code>\\[ ... \\]</code>';
+
+        var NOTE_FORMAT_HINT = '<details class="note-format-hint" open><summary>Formatting help</summary><div class="note-format-hint-body">' + NOTE_FORMAT_HINT_BODY + '</div></details>';
 
         function showNotesEditor(card, qNumber, notesWrap) {
+            if (typeof showExplanationFullEditor === 'function') {
+                showExplanationFullEditor(card, qNumber, notesWrap);
+                return;
+            }
             notesWrap.innerHTML = '';
             var editor = document.createElement('div');
             editor.className = 'note-editor';
@@ -2011,7 +2017,6 @@
             editor.querySelector('.note-save-btn').addEventListener('click', function() {
                 var val = ta.value.trim();
                 saveNoteEdit(card, qNumber, val);
-                showNotesView(card, qNumber, notesWrap);
             });
             ta.focus();
         }
@@ -2054,7 +2059,8 @@
             });
         }
 
-        function saveNoteEdit(card, qNumber, noteText) {
+        function saveNoteEdit(card, qNumber, noteText, options) {
+            options = options || {};
             var secKey = sectionToExplanationsKey[currentSection];
             try {
                 if (typeof QUESTION_EXPLANATIONS === 'undefined') window.QUESTION_EXPLANATIONS = {};
@@ -2063,8 +2069,10 @@
                 if (!QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear]) QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear] = {};
                 QUESTION_EXPLANATIONS[currentPaper][secKey][currentYear][qNumber] = noteText;
             } catch (e) {}
-            var notesWrap = card.querySelector('.notes-wrap');
-            if (notesWrap) showNotesView(card, qNumber, notesWrap);
+            if (!options.skipNotesViewRefresh) {
+                var notesWrap = card.querySelector('.notes-wrap');
+                if (notesWrap) showNotesView(card, qNumber, notesWrap);
+            }
 
             var origin = window.location.origin;
             var canUseApi = origin && origin !== 'null' && origin !== 'file://';
@@ -2257,6 +2265,355 @@
         var revisionNoteTimer = null;
         var REVISION_NOTE_DEBOUNCE_MS = 15000;
 
+        var revisionFullEditor = {
+            type: null,
+            sectionId: null,
+            originalContent: '',
+            originalLabel: '',
+            explanationCard: null,
+            explanationQNumber: null,
+            previewTimer: null,
+            keyHandler: null
+        };
+
+        function revisionEditorPaperLabel() {
+            return currentPaper === 'paper1' ? 'Paper I' : 'Paper II';
+        }
+
+        function revisionEditorTopicTitle() {
+            var d = REVISION_NOTES[currentPaper] && REVISION_NOTES[currentPaper][currentSection];
+            return (d && d.title) ? d.title : String(currentSection || '');
+        }
+
+        function escapeRevisionEditorAttr(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+        }
+
+        function destroyRevisionEditorPreviewMath(el) {
+            if (!el) return;
+            if (window.MathJax && window.MathJax.typesetClear) {
+                try { window.MathJax.typesetClear([el]); } catch (e) {}
+            }
+        }
+
+        function flushRevisionEditorPreview() {
+            revisionFullEditor.previewTimer = null;
+            var el = document.getElementById('revision-editor-preview');
+            if (!el) return;
+            var raw = (document.getElementById('revision-editor-source') || {}).value || '';
+            destroyRevisionEditorPreviewMath(el);
+            el.innerHTML = renderNoteHtml(raw);
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([el]).catch(function(err) { console.warn('MathJax preview:', err); });
+            }
+        }
+
+        function scheduleRevisionEditorPreview() {
+            if (revisionFullEditor.previewTimer) clearTimeout(revisionFullEditor.previewTimer);
+            revisionFullEditor.previewTimer = setTimeout(flushRevisionEditorPreview, 240);
+        }
+
+        function setRevisionEditorLayout(mode) {
+            var body = document.getElementById('revision-editor-body');
+            if (!body) return;
+            body.className = 'revision-editor-body revision-editor-layout-' + mode;
+            document.querySelectorAll('.revision-editor-layout-btn').forEach(function(btn) {
+                var m = btn.getAttribute('data-layout');
+                var on = m === mode;
+                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                btn.classList.toggle('is-active', on);
+            });
+        }
+
+        function isRevisionEditorDirty() {
+            var srcEl = document.getElementById('revision-editor-source');
+            if (!srcEl) return false;
+            if (srcEl.value !== revisionFullEditor.originalContent) return true;
+            if (revisionFullEditor.type === 'section') {
+                var lblEl = document.getElementById('revision-editor-label');
+                var cur = lblEl ? lblEl.value.trim() : '';
+                var orig = (revisionFullEditor.originalLabel || '').trim();
+                if (cur !== orig) return true;
+            }
+            return false;
+        }
+
+        function explanationEditorBreadcrumb(qNumber) {
+            var paper = revisionEditorPaperLabel();
+            var secEl = document.getElementById('section-select');
+            var secName = (secEl && secEl.options && secEl.selectedIndex >= 0)
+                ? secEl.options[secEl.selectedIndex].text.replace(/\s+/g, ' ').trim()
+                : String(currentSection || '');
+            var setLetterEl = document.getElementById('set-letter');
+            var setPart = (setLetterEl && setLetterEl.textContent)
+                ? ('Set ' + setLetterEl.textContent.trim() + ' · ')
+                : '';
+            return escapeRevisionEditorAttr(paper + ' · ' + secName + ' · ' + setPart + currentYear + ' · Q' + qNumber);
+        }
+
+        /** Prior sibling card that only carries shared context (matches copy / Ask AI preamble). */
+        function isContextOnlyPreambleCard(el) {
+            if (!el || !el.classList || !el.classList.contains('question-card')) return false;
+            if (el.querySelector('.q-header')) return false;
+            return !!el.querySelector('.q-context');
+        }
+
+        function collectPrecedingContextPreambleCards(card) {
+            var list = [];
+            var prev = card.previousElementSibling;
+            while (prev && isContextOnlyPreambleCard(prev)) {
+                list.unshift(prev);
+                prev = prev.previousElementSibling;
+            }
+            return list;
+        }
+
+        /** Same document order as captureCardCopyText / buildQuestionPlainTextForCopy: q-context, q-text, q-table siblings, then options. */
+        function buildExplanationQuestionExpandBodyDom(card) {
+            var body = document.createElement('div');
+            body.className = 'revision-editor-question-expand-body';
+            body.setAttribute('aria-hidden', 'true');
+            collectPrecedingContextPreambleCards(card).forEach(function(preambleCard) {
+                var ctx = preambleCard.querySelector('.q-context');
+                if (ctx) body.appendChild(ctx.cloneNode(true));
+            });
+            Array.prototype.forEach.call(card.children, function(child) {
+                if (!child.classList) return;
+                if (child.classList.contains('q-header')) return;
+                if (child.classList.contains('explanation-collapsible')) return;
+                if (child.classList.contains('q-context') ||
+                    child.classList.contains('q-text') ||
+                    child.classList.contains('q-table')) {
+                    body.appendChild(child.cloneNode(true));
+                    return;
+                }
+                if (child.classList.contains('options-grid')) {
+                    var ogc = child.cloneNode(true);
+                    ogc.querySelectorAll('.wrong-answer-wrap').forEach(function(n) { n.remove(); });
+                    body.appendChild(ogc);
+                }
+            });
+            return body;
+        }
+
+        /** Collapsible question context: summary row = real q-header (number + topic) + chevron; expanded = full stem + options (tables, multiple q-text, shared context). */
+        function buildExplanationQuestionHeroHtml(card, qNumber) {
+            var qh = card.querySelector('.q-header');
+            var headerHtml = '';
+            if (qh) {
+                var hc = qh.cloneNode(true);
+                hc.querySelectorAll('.q-header-actions').forEach(function(n) { n.remove(); });
+                hc.querySelectorAll('button').forEach(function(n) { n.remove(); });
+                headerHtml = hc.outerHTML;
+            } else {
+                headerHtml = '<div class="q-header"><span class="q-number">' + escapeRevisionEditorAttr(String(qNumber)) + '.</span></div>';
+            }
+            var body = buildExplanationQuestionExpandBodyDom(card);
+            return (
+                '<details class="revision-editor-question-hero-wrap">' +
+                '<summary class="revision-editor-question-hero-summary" aria-label="Show or hide question text and options">' +
+                '<div class="revision-editor-question-hero-summary-head">' + headerHtml + '</div>' +
+                '<span class="revision-editor-question-hero-summary-right" aria-hidden="true">' +
+                '<span class="revision-editor-question-hero-summary-chevron"></span></span></summary>' +
+                '<div class="revision-editor-question-hero">' + body.outerHTML + '</div></details>'
+            );
+        }
+
+        function showExplanationFullEditor(card, qNumber, notesWrap) {
+            if (!card || !qNumber) return;
+            var secKey = sectionToExplanationsKey[currentSection];
+            var text = getEffectiveExplanation(currentPaper, secKey, currentYear, qNumber) || '';
+            revisionFullEditor.type = 'explanation';
+            revisionFullEditor.sectionId = null;
+            revisionFullEditor.explanationCard = card;
+            revisionFullEditor.explanationQNumber = qNumber;
+            revisionFullEditor.originalContent = text;
+            revisionFullEditor.originalLabel = '';
+
+            var bc = explanationEditorBreadcrumb(qNumber);
+            var heroHtml = buildExplanationQuestionHeroHtml(card, qNumber);
+            var markup = buildRevisionEditorMarkup(bc, '', 'Save', {
+                titleLabel: '',
+                omitTitleHero: true,
+                heroHtml: heroHtml
+            });
+            openRevisionEditorOverlay(markup, function() {
+                var src = document.getElementById('revision-editor-source');
+                if (src) src.value = text;
+                var det = document.querySelector('#revision-editor-overlay .revision-editor-question-hero-wrap');
+                if (det) {
+                    det.open = !window.matchMedia('(max-width: 720px)').matches;
+                }
+                var ov = document.getElementById('revision-editor-overlay');
+                if (ov && window.MathJax && window.MathJax.typesetPromise) {
+                    var mjRoots = ov.querySelectorAll('.revision-editor-question-hero-wrap');
+                    if (mjRoots.length) {
+                        window.MathJax.typesetPromise(Array.from(mjRoots)).catch(function(err) {
+                            console.warn('MathJax question hero:', err);
+                        });
+                    }
+                }
+            }, 'revision-editor-panel--question-explanation');
+            var saveBtn = document.getElementById('revision-editor-save');
+            if (saveBtn) saveBtn.addEventListener('click', saveExplanationFromRevisionEditor);
+        }
+
+        function saveExplanationFromRevisionEditor() {
+            if (revisionFullEditor.type !== 'explanation') return;
+            var card = revisionFullEditor.explanationCard;
+            var qNumber = revisionFullEditor.explanationQNumber;
+            var src = document.getElementById('revision-editor-source');
+            if (!card || !qNumber || !src) {
+                teardownRevisionNoteEditor();
+                return;
+            }
+            var val = src.value.trim();
+            saveNoteEdit(card, qNumber, val, { skipNotesViewRefresh: true });
+            teardownRevisionNoteEditor();
+            var nw = card.querySelector('.notes-wrap');
+            if (nw) showNotesView(card, qNumber, nw);
+        }
+
+        function teardownRevisionNoteEditor() {
+            if (revisionFullEditor.previewTimer) {
+                clearTimeout(revisionFullEditor.previewTimer);
+                revisionFullEditor.previewTimer = null;
+            }
+            if (revisionFullEditor.keyHandler) {
+                document.removeEventListener('keydown', revisionFullEditor.keyHandler);
+                revisionFullEditor.keyHandler = null;
+            }
+            var prev = document.getElementById('revision-editor-preview');
+            destroyRevisionEditorPreviewMath(prev);
+            var ov = document.getElementById('revision-editor-overlay');
+            if (ov) ov.remove();
+            document.body.classList.remove('revision-editor-open');
+            revisionFullEditor.type = null;
+            revisionFullEditor.sectionId = null;
+            revisionFullEditor.explanationCard = null;
+            revisionFullEditor.explanationQNumber = null;
+        }
+
+        async function requestCloseRevisionNoteEditor() {
+            if (isRevisionEditorDirty()) {
+                var ok = await showConfirmDialog('Discard unsaved changes?', { confirmText: 'Discard', cancelText: 'Keep editing' });
+                if (!ok) return;
+            }
+            teardownRevisionNoteEditor();
+        }
+
+        function revisionEditorCloseIconSvg() {
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+        }
+
+        function buildRevisionEditorMarkup(breadcrumbHtml, titleSlotHtml, saveButtonLabel, options) {
+            options = options || {};
+            var titleLabelHtml = options.titleLabel
+                ? '<span class="revision-editor-field-label">' + escapeRevisionEditorAttr(options.titleLabel) + '</span>'
+                : '';
+            var closeIc = revisionEditorCloseIconSvg();
+            var themeBtn =
+                '<button type="button" class="theme-toggle-btn revision-editor-theme-toggle" id="revision-editor-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">' +
+                '<span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>' +
+                '<span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg></span>' +
+                '</button>';
+            var layoutToggle =
+                '<div class="revision-editor-layout-toggle" role="group" aria-label="Editor layout">' +
+                '<button type="button" class="revision-editor-layout-btn is-active" data-layout="split" aria-pressed="true">Split</button>' +
+                '<button type="button" class="revision-editor-layout-btn" data-layout="source-only" aria-pressed="false">Source</button>' +
+                '<button type="button" class="revision-editor-layout-btn" data-layout="preview-only" aria-pressed="false">Preview</button>' +
+                '</div>';
+            var formatTip =
+                '<div class="revision-editor-format-tip-wrap">' +
+                '<button type="button" class="revision-editor-icon-btn revision-editor-format-tip-btn" id="revision-editor-format-tip-btn" aria-describedby="revision-editor-format-tip-content" aria-label="Formatting reference (hover or focus for tips)">' +
+                '<span class="revision-editor-format-tip-char" aria-hidden="true">?</span>' +
+                '</button>' +
+                '<div id="revision-editor-format-tip-content" class="revision-editor-format-tooltip note-format-hint" role="tooltip">' +
+                '<div class="revision-editor-format-tooltip-title">Markdown &amp; LaTeX</div>' +
+                '<div class="note-format-hint-body">' + NOTE_FORMAT_HINT_BODY + '</div>' +
+                '</div></div>';
+            var toolbarRow =
+                '<div class="revision-editor-toolbar-row">' +
+                '<div class="revision-editor-toolbar-left">' +
+                layoutToggle +
+                '</div>' +
+                '<div class="note-editor-actions revision-editor-toolbar-actions">' +
+                '<button type="button" class="note-cancel-btn" id="revision-editor-cancel">Cancel</button>' +
+                '<button type="button" class="note-save-btn" id="revision-editor-save">' + saveButtonLabel + '</button>' +
+                '</div></div>';
+            var heroBlock = options.heroHtml || '';
+            var titleBlock = options.omitTitleHero
+                ? ''
+                : ('<div class="revision-editor-title-hero">' + titleLabelHtml + titleSlotHtml + '</div>');
+            return (
+                '<div class="revision-editor-unified">' +
+                '<div class="revision-editor-chrome">' +
+                '<div class="revision-editor-top-bar">' +
+                '<p class="revision-editor-breadcrumb" id="revision-editor-breadcrumb">' + breadcrumbHtml + '</p>' +
+                '<div class="revision-editor-top-bar-end">' +
+                themeBtn +
+                '<button type="button" class="revision-editor-close-btn" id="revision-editor-close-btn" aria-label="Close editor">' + closeIc + '</button>' +
+                '</div></div>' +
+                heroBlock +
+                titleBlock +
+                toolbarRow +
+                '</div>' +
+                '<div id="revision-editor-body" class="revision-editor-body revision-editor-layout-split">' +
+                '<div class="revision-editor-pane revision-editor-pane-source">' +
+                '<div class="revision-editor-pane-header revision-editor-pane-header--source">' +
+                '<span class="revision-editor-pane-title">Markdown source</span>' +
+                formatTip +
+                '</div>' +
+                '<div class="revision-editor-pane-inner">' +
+                '<textarea id="revision-editor-source" class="revision-editor-textarea" spellcheck="true" aria-label="Markdown source"></textarea>' +
+                '</div></div>' +
+                '<div class="revision-editor-pane revision-editor-pane-preview">' +
+                '<div class="revision-editor-pane-label">Live preview</div>' +
+                '<div class="revision-editor-preview-scroll">' +
+                '<div id="revision-editor-preview" class="note-section-content"></div>' +
+                '</div></div></div></div>'
+            );
+        }
+
+        function openRevisionEditorOverlay(markup, wireCallback, panelExtraClass) {
+            if (document.getElementById('revision-editor-overlay')) teardownRevisionNoteEditor();
+            var overlay = document.createElement('div');
+            overlay.id = 'revision-editor-overlay';
+            overlay.className = 'revision-editor-overlay';
+            overlay.setAttribute('role', 'dialog');
+            overlay.setAttribute('aria-modal', 'true');
+            var panelClass = 'revision-editor-panel' + (panelExtraClass ? ' ' + String(panelExtraClass).trim() : '');
+            overlay.innerHTML = '<div class="' + panelClass + '">' + markup + '</div>';
+            document.body.appendChild(overlay);
+            var source = document.getElementById('revision-editor-source');
+            if (!source) return;
+            if (wireCallback) wireCallback();
+            source.addEventListener('input', scheduleRevisionEditorPreview);
+            document.body.classList.add('revision-editor-open');
+            revisionFullEditor.keyHandler = function(ev) {
+                if (ev.key !== 'Escape') return;
+                if (document.querySelector('.note-confirm-overlay')) return;
+                ev.preventDefault();
+                requestCloseRevisionNoteEditor();
+            };
+            document.addEventListener('keydown', revisionFullEditor.keyHandler);
+            var cancelBtn = document.getElementById('revision-editor-cancel');
+            var closeBtn = document.getElementById('revision-editor-close-btn');
+            if (cancelBtn) cancelBtn.addEventListener('click', requestCloseRevisionNoteEditor);
+            if (closeBtn) closeBtn.addEventListener('click', requestCloseRevisionNoteEditor);
+            overlay.addEventListener('click', function(ev) {
+                if (ev.target === overlay) requestCloseRevisionNoteEditor();
+            });
+            document.querySelectorAll('.revision-editor-layout-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    setRevisionEditorLayout(btn.getAttribute('data-layout') || 'split');
+                });
+            });
+            setRevisionEditorLayout('split');
+            flushRevisionEditorPreview();
+            source.focus();
+        }
+
         function showAddSectionForm() {
             const viewer = document.getElementById('year-viewer');
             const paperData = REVISION_NOTES[currentPaper] || {};
@@ -2342,105 +2699,52 @@
             var target = document.getElementById(sectionId);
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            const container = document.getElementById(`note-content-${sectionId}`);
-            const titleEl = document.getElementById(`note-label-${sectionId}`);
-            
-            // Save current state for cancel functionality
-            const currentContent = section.content;
-            const currentLabel = section.label;
+            revisionFullEditor.type = 'section';
+            revisionFullEditor.sectionId = sectionId;
+            revisionFullEditor.originalContent = section.content;
+            revisionFullEditor.originalLabel = section.label;
 
-            // Make title editable - Full width container for title + buttons
-            titleEl.parentNode.style.flexDirection = 'column';
-            titleEl.parentNode.style.alignItems = 'flex-start';
-            titleEl.parentNode.style.gap = '12px';
-            
-            titleEl.innerHTML = `<input type="text" id="edit-label-${sectionId}" value="${currentLabel.replace(/"/g, '&quot;')}" style="font-size: 1.2rem; font-weight: bold; background: rgba(0,0,0,0.3); border: 1px solid rgba(167, 139, 250, 0.3); color: white; width: 100%; border-radius: 8px; padding: 10px 15px; outline: none; box-sizing: border-box;">`;
-
-            const headerRow = titleEl.parentNode;
-            const headerActions = headerRow.querySelector('.note-section-actions');
-            if (headerActions) headerActions.style.display = 'none';
-
-            container.innerHTML = `
-                <div class="note-editor-wrap">
-                    ${NOTE_FORMAT_HINT}
-                    <textarea class="note-editor-textarea" id="edit-area-${sectionId}"></textarea>
-                    <div class="note-editor-actions">
-                        <button class="note-cancel-btn" id="cancel-${sectionId}">Cancel</button>
-                        <button class="note-save-btn" onclick="saveNoteSection('${sectionId}')">Save Changes</button>
-                    </div>
-                </div>
-            `;
-            
-            const textarea = container.querySelector('textarea');
-            textarea.value = currentContent;
-            
-            container.querySelector(`#cancel-${sectionId}`).onclick = () => {
-                if (headerActions) headerActions.style.display = 'flex';
-                cancelNoteEdit(sectionId, currentContent, currentLabel);
-            };
-            
-            textarea.focus();
-        }
-
-        function restoreNoteSectionHeader(headerRow) {
-            if (!headerRow) return;
-            headerRow.style.flexDirection = '';
-            headerRow.style.alignItems = 'center';
-            headerRow.style.gap = '';
-        }
-
-        function cancelNoteEdit(sectionId, originalContent, originalLabel) {
-            const container = document.getElementById(`note-content-${sectionId}`);
-            const titleEl = document.getElementById(`note-label-${sectionId}`);
-            if (titleEl) {
-                titleEl.textContent = originalLabel;
-                const headerRow = titleEl.parentNode;
-                restoreNoteSectionHeader(headerRow);
-                const headerActions = headerRow && headerRow.querySelector('.note-section-actions');
-                if (headerActions) headerActions.style.display = 'flex';
-            }
-            
-            if (container) {
-                container.innerHTML = renderNoteHtml(originalContent);
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    window.MathJax.typesetPromise([container]);
-                }
-            }
+            var bc = escapeRevisionEditorAttr(revisionEditorPaperLabel() + ' · ' + revisionEditorTopicTitle());
+            var titleSlot = '<input type="text" id="revision-editor-label" class="revision-editor-title-input" autocomplete="off" aria-label="Section title" />';
+            var markup = buildRevisionEditorMarkup(bc, titleSlot, 'Save', { titleLabel: 'Section title' });
+            openRevisionEditorOverlay(markup, function() {
+                document.getElementById('revision-editor-label').value = section.label;
+                document.getElementById('revision-editor-source').value = section.content;
+            });
+            document.getElementById('revision-editor-save').addEventListener('click', function() {
+                saveNoteSection(sectionId);
+            });
         }
 
         function saveNoteSection(sectionId) {
-            const textarea = document.getElementById(`edit-area-${sectionId}`);
-            const labelInput = document.getElementById(`edit-label-${sectionId}`);
+            if (revisionFullEditor.type !== 'section' || revisionFullEditor.sectionId !== sectionId) return;
+            const textarea = document.getElementById('revision-editor-source');
+            const labelInput = document.getElementById('revision-editor-label');
             if (!textarea || !labelInput) return;
-            
+
             const newContent = textarea.value;
             const newLabel = labelInput.value.trim() || sectionId;
-            
+
             const data = REVISION_NOTES[currentPaper][currentSection];
             const section = data.sections.find(s => s.id === sectionId);
-            
+
             if (section) {
                 section.content = newContent;
                 section.label = newLabel;
-                
-                // Update UI
-                const container = document.getElementById(`note-content-${sectionId}`);
-                const titleEl = document.getElementById(`note-label-${sectionId}`);
-                const headerRow = titleEl && titleEl.parentNode;
-                restoreNoteSectionHeader(headerRow);
-                const headerActions = headerRow && headerRow.querySelector('.note-section-actions');
-                if (headerActions) headerActions.style.display = 'flex';
-                if (titleEl) titleEl.textContent = newLabel;
-                container.innerHTML = renderNoteHtml(newContent);
-                
-                // Refresh TOC if label changed
-                updateTOC();
 
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    window.MathJax.typesetPromise([container]);
+                const container = document.getElementById('note-content-' + sectionId);
+                const titleEl = document.getElementById('note-label-' + sectionId);
+                if (titleEl) titleEl.textContent = newLabel;
+                if (container) {
+                    container.innerHTML = renderNoteHtml(newContent);
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise([container]);
+                    }
                 }
-                
+
+                updateTOC();
                 queueNoteUpdate(currentPaper, currentSection, sectionId, newContent, newLabel);
+                teardownRevisionNoteEditor();
             }
         }
 
@@ -2485,7 +2789,11 @@
             const label = section ? section.label : sectionId;
             const confirmed = await showConfirmDialog(`Are you sure you want to delete "${label}"? This cannot be undone.`, { confirmText: 'Delete', cancelText: 'Cancel' });
             if (!confirmed) return;
-            
+
+            if (revisionFullEditor.type === 'section' && revisionFullEditor.sectionId === sectionId) {
+                teardownRevisionNoteEditor();
+            }
+
             const index = data.sections.findIndex(s => s.id === sectionId);
             
             if (index !== -1) {
@@ -2555,54 +2863,42 @@
 
         function showTipsEditor() {
             const data = REVISION_NOTES[currentPaper][currentSection];
-            const container = document.getElementById('note-tips-content');
-            const originalTips = data.tips;
-
             var tipsContainer = document.getElementById('note-tips-container');
             if (tipsContainer) tipsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            container.innerHTML = `
-                <div class="note-editor-wrap">
-                    ${NOTE_FORMAT_HINT}
-                    <textarea class="note-editor-textarea" id="edit-tips-area"></textarea>
-                    <div class="note-editor-actions">
-                        <button class="note-cancel-btn" id="cancel-tips">Cancel</button>
-                        <button class="note-save-btn" onclick="saveTips()">Save Tips</button>
-                    </div>
-                </div>
-            `;
-            
-            const textarea = container.querySelector('textarea');
-            textarea.value = originalTips;
-            
-            container.querySelector('#cancel-tips').onclick = () => {
-                cancelTipsEdit(originalTips);
-            };
-            
-            textarea.focus();
-        }
+            revisionFullEditor.type = 'tips';
+            revisionFullEditor.sectionId = null;
+            revisionFullEditor.originalContent = data.tips || '';
+            revisionFullEditor.originalLabel = '';
 
-        function cancelTipsEdit(originalTips) {
-            const container = document.getElementById('note-tips-content');
-            container.innerHTML = renderNoteHtml(originalTips);
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([container]);
-            }
+            var bc = escapeRevisionEditorAttr(revisionEditorPaperLabel() + ' · ' + revisionEditorTopicTitle());
+            var titleSlot = '<p class="revision-editor-static-title">Revision priorities &amp; tips</p>';
+            var markup = buildRevisionEditorMarkup(bc, titleSlot, 'Save tips', { titleLabel: '' });
+            openRevisionEditorOverlay(markup, function() {
+                document.getElementById('revision-editor-source').value = data.tips || '';
+            });
+            document.getElementById('revision-editor-save').addEventListener('click', function() {
+                saveTips();
+            });
         }
 
         function saveTips() {
-            const textarea = document.getElementById('edit-tips-area');
+            if (revisionFullEditor.type !== 'tips') return;
+            const textarea = document.getElementById('revision-editor-source');
             if (!textarea) return;
             const newTips = textarea.value;
             const data = REVISION_NOTES[currentPaper][currentSection];
-            
+
             data.tips = newTips;
             const container = document.getElementById('note-tips-content');
-            container.innerHTML = renderNoteHtml(newTips);
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([container]);
+            if (container) {
+                container.innerHTML = renderNoteHtml(newTips);
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise([container]);
+                }
             }
             queueNoteUpdate(currentPaper, currentSection, 'TIPS_PROPERTY', newTips);
+            teardownRevisionNoteEditor();
         }
 
         function queueNoteUpdate(paper, section, sectionId, content, label = null, isDelete = false) {
