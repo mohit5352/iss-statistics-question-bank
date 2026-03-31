@@ -1,18 +1,27 @@
 # UPSC ISS Statistics Question Bank
 
-> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics Paper I & II question bank. **Statistics Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Statistics Paper II:** Linear Models, Statistical Inference, Official Statistics. 2017–2025. MathJax, instant answers, **Revision Notes** with markdown. **Study chat** (local **Ollama**) and per-question **Ask AI** are available **only after admin login** (same session as answer corrections).
+> 🌐 **Live:** [**Vercel**](https://iss-statistics-question-bank.vercel.app/) (primary, with API) · [GitHub Pages](https://mohit5352.github.io/iss-statistics-question-bank/main.html) — Free UPSC ISS Statistics question bank covering all four papers. **Paper I:** Probability & Statistics, Numerical Analysis, Computer. **Paper II:** Linear Models, Statistical Inference, Official Statistics. **Papers III & IV:** comprehensive descriptive-type **Revision Notes** (Sampling Techniques, Econometrics, Applied Statistics, Demography & Vital Statistics, Quality Control). 2017–2025. MathJax, instant answers, **Revision Notes** with markdown + LaTeX. **Study chat** (local **Ollama**) and per-question **Ask AI** are available **only after admin login** (same session as answer corrections).
 
-This repository contains a web-based archive of **objective MCQs** from UPSC ISS **Statistics Paper I** and **Statistics Paper II**, organised by **paper**, **section**, and **year**. Aligned with the official UPSC ISS syllabus:
+This repository contains a web-based archive of **objective MCQs** from UPSC ISS **Statistics Paper I** and **Statistics Paper II**, plus comprehensive **Revision Notes** for all four ISS Statistics papers. Organised by **paper**, **section**, and **year**. Aligned with the official UPSC ISS syllabus:
 
-**Paper I:**
+**Paper I (Objective):**
 - Probability & Statistics
 - Numerical Analysis
 - Computer Section
 
-**Paper II:**
+**Paper II (Objective):**
 - Linear Models
 - Statistical Inference and Hypothesis Testing
 - Official Statistics
+
+**Paper III (Descriptive — Revision Notes only):**
+- Sampling Techniques (SRS, Stratified, Systematic, PPS, Cluster, Multistage)
+- Econometrics (OLS/GLS, Autocorrelation, IV, Simultaneous Equations)
+- Applied Statistics (Index Numbers, Time Series, ARIMA, Spectral Analysis)
+
+**Paper IV (Descriptive — Revision Notes only):**
+- Demography & Vital Statistics (Life Tables, Fertility/Mortality Rates, Migration, Projections)
+- Quality Control (Control Charts, CUSUM/EWMA, Acceptance Sampling)
 
 ## 📁 File Structure
 
@@ -24,7 +33,7 @@ statistics_question_bank/
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
 ├── explanations.js                                # Explanations for each question (skeleton mirrors answers.js; empty template literals)
 ├── question_edits.js                              # Admin question edits (text, topic, options overrides)
-├── notes.js                                       # Revision Notes per paper/section (sections, tips; markdown + LaTeX)
+├── notes.js                                       # Revision Notes for all 4 papers/sections (77 sections total; markdown + LaTeX)
 ├── syllabus.md                                    # ISS syllabus text (loaded into the chat system prompt for scope)
 ├── server.py                                      # Local server: static files + APIs + Ollama proxy (/api/ollama/chat, /api/ollama/health); writes answers/explanations/notes/question_edits; auth
 ├── chat/                                          # Study chat UI (Ollama, streaming, markdown + MathJax); loaded only for admins
@@ -112,10 +121,12 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 ## 🎯 Features
 
 - **Sticky Header**: Paper/Section/Year controls stay visible at the top while scrolling
-- **Paper Switcher**: Switch between Paper I and Paper II
-- **Section Switcher**: 
-  - Paper I: Switch between Probability & Statistics, Numerical Analysis, and Computer sections
-  - Paper II: Switch between Linear Models, Statistical Inference and Hypothesis Testing, and Official Statistics
+- **Paper Switcher**: Switch between all four ISS Statistics Papers
+- **Section Switcher**:
+  - Paper I: Probability & Statistics, Numerical Analysis, Computer
+  - Paper II: Linear Models, Statistical Inference and Hypothesis Testing, Official Statistics
+  - Paper III: Sampling Techniques, Econometrics, Applied Statistics *(Revision Notes only)*
+  - Paper IV: Demography & Vital Statistics, Quality Control *(Revision Notes only)*
 - **Year Navigation**: Browse questions from 2017 to 2025
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables (`.q-table`) are emitted as **GitHub-flavored Markdown pipe tables** (with LaTeX in cells preserved when pre-MathJax capture ran) so paste and chat rendering stay structured.
 - **Ask AI** (admin only): Sparkle icon next to Copy — same visibility as **Edit Question**. Opens **Study chat**, prefills the textarea with the current paper/section/year line plus the same text as Copy. Does not auto-send; edit and press **Send** when ready. Requires admin session, **Ollama**, and same-origin proxy (`server.py` locally, or Vercel + `OLLAMA_HOST`); see [DEPLOYMENT.md](DEPLOYMENT.md).
@@ -607,7 +618,27 @@ const QUESTION_ANSWERS = {
 
 ## 📒 Revision Notes & Markdown Formatting
 
-Revision Notes are stored in `notes.js` and organised by paper and section. Each topic (e.g. Probability & Statistics) has multiple subsections with titles and content. Use **Markdown** and **LaTeX** when editing:
+Revision Notes are stored in `notes.js` and organised by paper and section across **all four ISS Statistics Papers** (77 sections total). Each topic has multiple subsections with titles and content. Use **Markdown** and **LaTeX** when editing:
+
+**Current coverage in `notes.js`:**
+
+| Paper | Topic | Sections |
+|---|---|---|
+| I | Probability & Statistics | 10 |
+| I | Numerical Analysis | 6 |
+| I | Computer | 6 |
+| II | Linear Models | 6 |
+| II | Statistical Inference | 9 |
+| II | Official Statistics | 8 |
+| III | Sampling Techniques | 8 |
+| III | Econometrics | 6 |
+| III | Applied Statistics | 5 |
+| **IV** | **Demography & Vital Statistics** | **6** |
+| **IV** | **Quality Control** | **6** |
+
+**Paper IV — Demography (6 sections):** Sources & Indian Census profile · Complete life table & Makeham/Gompertz · UN model tables, abridged tables & stable/stationary populations · Fertility measures (CBR→NRR) · Mortality (CDR, SMR, IMR, cause-specific) · Migration, projections (logistic) & census machinery.
+
+**Paper IV — Quality Control (6 sections):** QC foundations (causes of variation, WECO rules) · Attribute charts (p, np, c, u) · Variable charts (X-bar, R, S with constants table) · OC curve, ARL & process capability (Cp, Cpk) · MA, EWMA, CUSUM (V-mask + tabular) & economic design · Acceptance sampling (single, double plans, AOQ/AOQL).
 
 | Syntax | Example |
 |--------|---------|
@@ -644,7 +675,12 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2026 — **Unified full-screen markdown editor** (Revision Notes + question explanations):
+**Last Updated**: 2026 — **Papers III & IV Revision Notes — deep syllabus coverage added:**
+- **Paper IV — Demography & Vital Statistics (6 sections, ~5,300 words):** Sources of demographic data (Census, CRS, SRS, hospital records) + SRS dual-record design + Census 2011 profile · Complete life table (all 10 columns, Reed–Merrell, recursive relations, infant correction) + Makeham/Gompertz mortality laws · UN Coale–Demeny model life tables (4 families, West = default for India), abridged tables (Greville formula), stable and stationary populations, Euler–Lotka equation · All six fertility measures (CBR → GFR → ASFR → TFR → GRR → NRR) with formulas and India NFHS-5 data · Mortality (CDR, direct/indirect standardisation, SMR, IMR components, cause-specific rates) · Migration models (gravity, Stouffer, Lee), four projection methods (arithmetic, geometric, Pearl–Reed logistic), intercensal/postcensal estimates, Indian Census machinery. Each section has a real-life India example and ISS exam tips.
+- **Paper IV — Quality Control (6 sections, ~36,000 chars):** QC foundations (Juran/Crosby definitions, common vs assignable causes, 3σ theory, ARL₀ ≈ 370, rational subgrouping, 6 WECO rules) · Attribute charts — p, np (Binomial), c, u (Poisson) — full formulas, variable vs fixed n rules · Variable charts — complete constants table (n = 2–10), R-chart, (X̄,R) pair, (X̄,S) pair, I-MR chart, all derivations · OC curve formula (Φ(3−δ√n) − Φ(−3−δ√n)), ARL comparison table, process capability (Cp, Cpk, Cpm) with ppm table, control by gauging · MA chart, EWMA (Z_t = λX_t + (1−λ)Z_{t−1}, steady-state variance λσ²/(2−λ)), CUSUM — tabular (k, h) and V-mask (tan θ = k, d = h/k), Duncan economic design · Acceptance sampling — OC curve (Binomial/Poisson), AOQ/AOQL concept, ATI, single plan design, double sampling procedure + ASN formula, variables k-method.
+- **Split from 3 → 6 sections per paper** for both Demography and Quality Control, matching the granularity of Papers I & II (8–10 sections per topic cluster). Total sections: **77** across all four papers.
+
+**Earlier 2026 — Unified full-screen markdown editor** (Revision Notes + question explanations):
 - **`revision-editor-unified`** single-card layout; **`buildRevisionEditorMarkup`** / **`openRevisionEditorOverlay`**; **Split | Source | Preview**, **Cancel/Save**, **?** tooltip on source header, live preview + MathJax
 - **Explanations** reuse the same editor (`showExplanationFullEditor`, `saveExplanationFromRevisionEditor`, `saveNoteEdit` + `/api/explanations`); question stem clone matches **Copy / Ask AI** order (preamble context cards, `q-context`, `q-text`, `q-table`, options); collapsible **q-header** row on mobile; **MathJax** on hero
 - Styles: `.revision-editor-*`, `.revision-editor-question-hero-wrap`, `.revision-editor-question-expand-body`, `.revision-editor-panel--question-explanation` in `styles.css`

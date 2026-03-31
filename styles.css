@@ -2669,7 +2669,7 @@ h2 {
 .q-notes-content em, .note-section-content em,
 .q-notes-content .note-p em, .note-section-content .note-p em,
 .note-list em {
-    color: var(--purple-pale);
+    color: var(--purple-mid);
     font-style: italic;
 }
 
