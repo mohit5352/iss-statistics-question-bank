@@ -1887,11 +1887,36 @@
 
             var inCodeBlock = false;
             var codeBlockLines = [];
+            var inChartBlock = false;
+            var chartBlockLines = [];
 
             for (var i = 0; i < lines.length; i++) {
                 var rawLine = lines[i];
                 var line = rawLine.trim();
-                
+
+                // Handle ```chart blocks — generates pure inline SVG
+                if (!inCodeBlock && /^```chart\s*$/.test(line)) {
+                    closeLists(0);
+                    inChartBlock = true;
+                    chartBlockLines = [];
+                    continue;
+                }
+                if (inChartBlock) {
+                    if (line === '```') {
+                        try {
+                            var chartCfg = JSON.parse(chartBlockLines.join('\n'));
+                            resultHtml += buildNoteSVG(chartCfg);
+                        } catch(e) {
+                            resultHtml += '<div class="note-chart-error">Chart JSON error: ' + e.message + '</div>';
+                        }
+                        inChartBlock = false;
+                        chartBlockLines = [];
+                    } else {
+                        chartBlockLines.push(rawLine);
+                    }
+                    continue;
+                }
+
                 // Handle Fenced Code Block (```)
                 if (/^```(\w*)\s*$/.test(line)) {
                     if (inCodeBlock) {
@@ -2010,6 +2035,518 @@
             return resultHtml;
         }
 
+        // ─── Note Chart Engine — Pure Inline SVG ─────────────────────────
+        // Graphs are SVG generated during note parsing — no library, no canvas,
+        // no post-render init. Colors via CSS custom properties: theme-aware.
+        (function () {
+
+            // ── Math helpers ──────────────────────────────────────────────
+            function phi(z) {
+                var t = 1 / (1 + 0.2316419 * Math.abs(z));
+                var p = t * (0.31938 + t * (-0.35656 + t * (1.78148 + t * (-1.82126 + t * 1.33027))));
+                var v = 1 - (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * p;
+                return z >= 0 ? v : 1 - v;
+            }
+            function normPdf(x, mu, s) {
+                return Math.exp(-0.5 * Math.pow((x - mu) / s, 2)) / (s * Math.sqrt(2 * Math.PI));
+            }
+            function poisCDF(lam, c) {
+                var s = 0, t = Math.exp(-lam);
+                for (var k = 0; k <= c; k++) { s += t; t *= lam / (k + 1); }
+                return s;
+            }
+            function linspace(a, b, n) {
+                var r = [];
+                for (var i = 0; i < n; i++) r.push(a + (b - a) * i / (n - 1));
+                return r;
+            }
+            function arange(a, b, step) {
+                var r = [];
+                for (var v = a; v <= b + 1e-9; v += step) r.push(parseFloat(v.toFixed(10)));
+                return r;
+            }
+
+            // ── Tick generation ───────────────────────────────────────────
+            function niceTicks(lo, hi, count) {
+                var range = hi - lo;
+                if (range === 0) return [lo];
+                var step = Math.pow(10, Math.floor(Math.log10(range / count)));
+                var mults = [1, 2, 2.5, 5, 10];
+                for (var i = 0; i < mults.length; i++) {
+                    var s = step * mults[i];
+                    if (Math.ceil(hi / s) - Math.floor(lo / s) <= count + 1) { step = s; break; }
+                }
+                var ticks = [];
+                var start = Math.ceil(lo / step) * step;
+                for (var t = start; t <= hi + step * 0.01; t = parseFloat((t + step).toFixed(12)))
+                    if (t >= lo - 1e-9 && t <= hi + 1e-9) ticks.push(parseFloat(t.toFixed(10)));
+                return ticks;
+            }
+            function fmtN(v, pct) {
+                if (pct) return (v * 100).toFixed(0) + '%';
+                var a = Math.abs(v);
+                if (a >= 10000) return v.toExponential(1);
+                if (a >= 100) return Math.round(v) + '';
+                if (a >= 10) return parseFloat(v.toFixed(1)) + '';
+                if (a >= 1) return parseFloat(v.toFixed(2)) + '';
+                if (a >= 0.01) return parseFloat(v.toFixed(3)) + '';
+                return parseFloat(v.toFixed(4)) + '';
+            }
+
+            // ── Utilities ─────────────────────────────────────────────────
+            var _uid = 0;
+            function uid() { return 'nc' + (++_uid); }
+            function esc(s) {
+                return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+            function colVar(name) {
+                switch (name) {
+                    case 'primary':   return 'var(--purple-mid)';
+                    case 'danger':    return 'var(--rose-text)';
+                    case 'success':   return 'var(--green-mid)';
+                    case 'accent':    return 'var(--purple-light)';
+                    case 'secondary': return 'var(--text-context)';
+                    default:          return 'var(--text-muted)';
+                }
+            }
+            var AUTO_COLORS = ['primary', 'danger', 'success', 'accent', 'secondary'];
+
+            // ── Statistical compute handlers ──────────────────────────────
+            var COMPUTE = {
+
+                'normal': function(c) {
+                    var mu = c.mean !== undefined ? c.mean : 0, sd = c.sd !== undefined ? c.sd : 1;
+                    var r = c.range || [mu - 4 * sd, mu + 4 * sd];
+                    var xs = linspace(r[0], r[1], 200);
+                    return { xLabel: c.xLabel || 'x', yLabel: c.yLabel || 'f(x)', yMin: 0, labels: xs,
+                        datasets: [{ label: 'N(μ=' + mu + ', σ=' + sd + ')', color: 'primary', fill: true, data: xs.map(function(x) { return normPdf(x, mu, sd); }) }] };
+                },
+
+                'binomial': function(c) {
+                    var n = c.n || 10, p = c.p || 0.3;
+                    function pmf(n, k, p) {
+                        if (k < 0 || k > n) return 0;
+                        var lc = 0; for (var i = 0; i < k; i++) lc += Math.log(n - i) - Math.log(i + 1);
+                        return Math.exp(lc + k * Math.log(p || 1e-10) + (n - k) * Math.log((1 - p) || 1e-10));
+                    }
+                    var ks = [], data = [];
+                    for (var k = 0; k <= n; k++) { ks.push(k); data.push(pmf(n, k, p)); }
+                    return { type: 'bar', xLabel: c.xLabel || 'k', yLabel: c.yLabel || 'P(X=k)', yMin: 0, labels: ks,
+                        datasets: [{ label: 'Bin(n=' + n + ', p=' + p + ')', color: 'primary', data: data }] };
+                },
+
+                'poisson': function(c) {
+                    var lam = c.lambda || c.lam || 3;
+                    var maxK = c.maxK || Math.ceil(lam + 4 * Math.sqrt(lam) + 2);
+                    var ks = [], data = [];
+                    for (var k = 0; k <= maxK; k++) {
+                        ks.push(k);
+                        var lp = -lam; for (var i = 1; i <= k; i++) lp -= Math.log(i); lp += k * Math.log(lam || 0.001);
+                        data.push(Math.exp(lp));
+                    }
+                    return { type: 'bar', xLabel: c.xLabel || 'k', yLabel: c.yLabel || 'P(X=k)', yMin: 0, labels: ks,
+                        datasets: [{ label: 'Poisson(λ=' + lam + ')', color: 'secondary', data: data }] };
+                },
+
+                'oc-xbar': function(c) {
+                    var kl = c.k || 3, ns = c.n || [1, 4, 9];
+                    if (!Array.isArray(ns)) ns = [ns];
+                    var deltas = linspace(0, 4, 120);
+                    var cols = ['primary', 'danger', 'success', 'accent'];
+                    return { xLabel: c.xLabel || 'Shift δ (σ units)', yLabel: c.yLabel || 'β = P(no signal)', yMin: 0, yMax: 1, labels: deltas,
+                        datasets: ns.map(function(n, i) {
+                            return { label: 'n = ' + n, color: cols[i % cols.length],
+                                data: deltas.map(function(d) { return phi(kl - d * Math.sqrt(n)) - phi(-kl - d * Math.sqrt(n)); }) };
+                        }) };
+                },
+
+                'oc-sampling': function(c) {
+                    var n = c.n || 100, cv = c.c || 3, pMax = c.pMax || 0.15;
+                    var ps = linspace(0, pMax, 160);
+                    return { xLabel: c.xLabel || 'Fraction defective p', yLabel: c.yLabel || 'L(p) = P(Accept)', yMin: 0, yMax: 1, labels: ps,
+                        datasets: [{ label: 'n=' + n + ', c=' + cv, color: 'primary', fill: true, data: ps.map(function(p) { return poisCDF(n * p, cv); }) }] };
+                },
+
+                'arl': function(c) {
+                    var deltas = c.deltas || [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3];
+                    var cap = c.cap || 150, n1 = c.n1 || 1, n2 = c.n2 || 4;
+                    function arlX(n, d) { return Math.min(cap, 1 / (1 - (phi(3 - d * Math.sqrt(n)) - phi(-3 - d * Math.sqrt(n))))); }
+                    function cusARL(d, k, h) { if (d === 0) return Math.min(cap, Math.exp(2 * k * h)); var m = d - k; return m <= 0 ? cap : Math.min(cap, (Math.exp(-2 * m * h) - 1 + 2 * m * h) / (2 * m * m)); }
+                    function ewmARL(d, lam) { var sz = Math.sqrt(lam / (2 - lam)), b = phi(3 / sz - d / sz) - phi(-3 / sz - d / sz); return Math.min(cap, 1 / (1 - b)); }
+                    return { xLabel: c.xLabel || 'Shift δ (σ units)', yLabel: c.yLabel || 'ARL₁', yMin: 0, labels: deltas,
+                        datasets: [
+                            { label: 'Shewhart n=' + n1, color: 'danger', dash: [6, 3], data: deltas.map(function(d) { return arlX(n1, d); }) },
+                            { label: 'Shewhart n=' + n2, color: 'primary', data: deltas.map(function(d) { return arlX(n2, d); }) },
+                            { label: 'CUSUM(k=0.5, h=5)', color: 'success', dash: [4, 2], data: deltas.map(function(d) { return cusARL(d, 0.5, 5); }) },
+                            { label: 'EWMA(λ=0.2)', color: 'accent', dash: [2, 2], data: deltas.map(function(d) { return ewmARL(d, 0.2); }) },
+                        ] };
+                },
+
+                'capability': function(c) {
+                    var cp = c.cp !== undefined ? c.cp : 1.33, mu = c.shift || 0, sigma = 1, hs = 3 * cp;
+                    var xs = linspace(mu - 4.5, mu + 4.5, 200);
+                    return { xLabel: c.xLabel || 'σ from target', yLabel: c.yLabel || 'Density', yMin: 0, labels: xs,
+                        datasets: [
+                            { label: 'Within spec', color: 'primary', fill: true, data: xs.map(function(x) { return (x >= -hs && x <= hs) ? normPdf(x, mu, sigma) : 0; }) },
+                            { label: 'Defect', color: 'danger', fill: true, data: xs.map(function(x) { return (x < -hs || x > hs) ? normPdf(x, mu, sigma) : 0; }) },
+                        ] };
+                },
+
+                'aoq': function(c) {
+                    var n = c.n || 100, cv = c.c || 3, pMax = c.pMax || 0.18;
+                    var ps = linspace(0.001, pMax, 160);
+                    var aoq = ps.map(function(p) { return p * poisCDF(n * p, cv); });
+                    var aoqlVal = Math.max.apply(null, aoq), aoqlIdx = aoq.indexOf(aoqlVal);
+                    return { xLabel: c.xLabel || 'Incoming p', yLabel: c.yLabel || 'AOQ(p)', yMin: 0, labels: ps,
+                        datasets: [{ label: 'AOQ', color: 'primary', fill: true, data: aoq }],
+                        annotations: [{ type: 'vline', x: ps[aoqlIdx], label: 'AOQL=' + (aoqlVal * 100).toFixed(2) + '%', color: 'danger' }] };
+                },
+
+                'logistic': function(c) {
+                    var K = c.K || 100, r = c.r || 0.15, P0 = c.P0 || 5, tMax = c.tMax || 60;
+                    var ts = arange(0, tMax, 1);
+                    var data = ts.map(function(t) { return K / (1 + ((K - P0) / P0) * Math.exp(-r * t)); });
+                    var hK = K / 2, tStar = data.reduce(function(b, v, i) { return Math.abs(v - hK) < Math.abs(data[b] - hK) ? i : b; }, 0);
+                    return { xLabel: c.xLabel || 'Time t', yLabel: c.yLabel || 'P(t)', yMin: 0, labels: ts,
+                        datasets: [{ label: 'P(t), K=' + K, color: 'primary', fill: true, data: data }],
+                        annotations: [
+                            { type: 'hline', y: hK, label: 'K/2', color: 'danger' },
+                            { type: 'vline', x: ts[tStar], label: 't*', color: 'danger' },
+                        ] };
+                },
+
+                'survivor': function(c) {
+                    var ages = c.ages || [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90];
+                    var lx = c.lx || [100000, 98500, 98200, 97900, 97300, 96600, 95800, 94800, 93500, 91700, 89200, 85700, 80500, 73000, 62000, 47000, 31000, 17000, 7000];
+                    return { xLabel: c.xLabel || 'Age x', yLabel: c.yLabel || 'lₓ', yMin: 0, labels: ages,
+                        datasets: [{ label: 'lₓ survivor', color: 'primary', fill: true, data: lx }] };
+                },
+
+                'acf': function(c) {
+                    var pat = c.pattern || 'AR1', ph2 = c.phi || 0.7, theta = c.theta || 0.6;
+                    var lags = c.lags || [1, 2, 3, 4, 5, 6, 7, 8];
+                    var acfFn, pacfFn;
+                    if (pat === 'MA1') {
+                        acfFn = function(k) { return k === 1 ? -theta / (1 + theta * theta) : 0; };
+                        pacfFn = function(k) { return Math.pow(-theta, k) * (1 - theta * theta) / (1 - Math.pow(theta, 2 * (k + 1))); };
+                    } else if (pat === 'WN') {
+                        acfFn = pacfFn = function() { return 0; };
+                    } else {
+                        acfFn = function(k) { return Math.pow(ph2, k); };
+                        pacfFn = function(k) { return k === 1 ? ph2 : 0; };
+                    }
+                    return { type: 'bar', xLabel: c.xLabel || 'Lag k', yLabel: c.yLabel || 'Autocorrelation', yMin: -1, yMax: 1,
+                        labels: lags,
+                        datasets: [
+                            { label: 'ACF ρ̂ₖ', color: 'primary', data: lags.map(acfFn) },
+                            { label: 'PACF φ̂ₖₖ', color: 'danger', data: lags.map(pacfFn) },
+                        ] };
+                },
+
+                'ridge': function(c) {
+                    var ks = linspace(0, 1, 60);
+                    var betas = c.betas || [{ start: 2.8, end: 0.6, noise: 0.4 }, { start: -2.1, end: -0.3, noise: 0.35 }, { start: 1.4, end: 0.5, noise: 0.25 }, { start: -0.7, end: -0.2, noise: 0.2 }];
+                    var cols = ['primary', 'danger', 'success', 'accent'];
+                    return { xLabel: c.xLabel || 'Ridge parameter k', yLabel: c.yLabel || 'β̂(k)', labels: ks,
+                        datasets: betas.map(function(b, i) {
+                            return { label: 'β' + (i + 1), color: cols[i % cols.length],
+                                data: ks.map(function(k) { return b.start * Math.exp(-5 * k) + b.end * (1 - Math.exp(-5 * k)) + b.noise * Math.exp(-10 * k) * Math.sin(15 * k); }) };
+                        }) };
+                },
+
+                'spectral': function(c) {
+                    var ph3 = c.phi !== undefined ? c.phi : 0.8, s2 = c.sigma2 || 1;
+                    var omegas = linspace(0, Math.PI, 200);
+                    return { xLabel: c.xLabel || 'Frequency ω', yLabel: c.yLabel || 'f(ω)', yMin: 0, labels: omegas,
+                        xTicks: [0, Math.PI / 2, Math.PI],
+                        xTickFmt: function(v) { if (Math.abs(v) < 0.08) return '0'; if (Math.abs(v - Math.PI / 2) < 0.15) return 'π/2'; return 'π'; },
+                        datasets: [{ label: 'f(ω), φ=' + ph3, color: 'primary', fill: true,
+                            data: omegas.map(function(w) { return s2 / (2 * Math.PI * (1 - 2 * ph3 * Math.cos(w) + ph3 * ph3)); }) }] };
+                },
+
+                'lorenz': function(c) {
+                    var gini = c.gini !== undefined ? c.gini : 0.35, pts = linspace(0, 1, 100), ex = 1 + 2 * gini;
+                    return { xLabel: c.xLabel || 'Cumulative pop. share', yLabel: c.yLabel || 'Cum. income share',
+                        xMin: 0, xMax: 1, yMin: 0, yMax: 1, xTickFmt: 'pct', yTickFmt: 'pct', labels: pts,
+                        datasets: [
+                            { label: 'Line of Equality', color: 'secondary', dash: [5, 3], data: pts.map(Number) },
+                            { label: 'Lorenz (Gini≈' + gini + ')', color: 'primary', fill: '-1', data: pts.map(function(p) { return Math.pow(p, ex); }) },
+                        ] };
+                },
+
+                'variance-hierarchy': function(c) {
+                    return { type: 'hbar', xLabel: c.xLabel || 'Relative variance (normalised)', xMin: 0, xMax: 1.3,
+                        labels: ['V(ȳ_SRS)', 'V(ȳ_st) prop', 'V(ȳ_st) opt'],
+                        datasets: [{ data: [1.00, 0.72, 0.55], colors: ['danger', 'primary', 'success'] }] };
+                },
+            };
+
+            // ── Legend (HTML, so CSS vars auto-update on theme toggle) ─────
+            function buildLegend(datasets) {
+                var items = datasets.filter(function(ds) { return ds.label; });
+                if (items.length <= 1) return '';
+                var html = '<div class="note-chart-legend">';
+                items.forEach(function(ds, i) {
+                    var cv = colVar(ds.color || AUTO_COLORS[i % AUTO_COLORS.length]);
+                    var dashAttr = ds.dash ? ' stroke-dasharray="' + ds.dash.join(',') + '"' : '';
+                    var swatch = '<svg width="20" height="10" aria-hidden="true" style="overflow:visible;flex-shrink:0">' +
+                        '<line x1="1" y1="5" x2="19" y2="5"' + dashAttr + ' style="stroke:' + cv + ';stroke-width:2.5;stroke-linecap:round"/>' +
+                        '</svg>';
+                    html += '<span class="note-chart-legend-item">' + swatch + esc(ds.label) + '</span>';
+                });
+                return html + '</div>';
+            }
+
+            // ── SVG line / area chart ─────────────────────────────────────
+            function svgLine(cfg) {
+                var W = 520, H = 270, ml = 58, mr = 22, mt = 16, mb = 46;
+                var pw = W - ml - mr, ph = H - mt - mb;
+                var id = uid();
+
+                var datasets = cfg.datasets || [], labels = cfg.labels || [];
+                var xPct = cfg.xTickFmt === 'pct', yPct = cfg.yTickFmt === 'pct';
+                var xTickFn = typeof cfg.xTickFmt === 'function' ? cfg.xTickFmt : null;
+
+                var xMin = cfg.xMin !== undefined ? cfg.xMin : (labels.length ? labels[0] : 0);
+                var xMax = cfg.xMax !== undefined ? cfg.xMax : (labels.length ? labels[labels.length - 1] : 1);
+                var allY = [];
+                datasets.forEach(function(ds) { (ds.data || []).forEach(function(v) { if (v !== null && !isNaN(v)) allY.push(v); }); });
+                var rawYMin = allY.length ? Math.min.apply(null, allY) : 0;
+                var rawYMax = allY.length ? Math.max.apply(null, allY) : 1;
+                var yPad = (rawYMax - rawYMin) * 0.08 || 0.1;
+                var yMin = cfg.yMin !== undefined ? cfg.yMin : rawYMin - yPad;
+                var yMax = cfg.yMax !== undefined ? cfg.yMax : rawYMax + yPad;
+                if (yMin === yMax) { yMin -= 1; yMax += 1; }
+
+                function sx(v) { return ml + (v - xMin) / (xMax - xMin) * pw; }
+                function sy(v) { return mt + ph * (1 - (v - yMin) / (yMax - yMin)); }
+
+                var yTicks = niceTicks(yMin, yMax, 5);
+                var xTicks = cfg.xTicks || niceTicks(xMin, xMax, 6);
+
+                var g = '<defs><clipPath id="' + id + '"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+
+                // Grid
+                yTicks.forEach(function(ty) {
+                    if (ty < yMin - 1e-9 || ty > yMax + 1e-9) return;
+                    g += '<line x1="' + ml + '" y1="' + sy(ty).toFixed(1) + '" x2="' + (W - mr) + '" y2="' + sy(ty).toFixed(1) + '" stroke-dasharray="3,3" style="stroke:var(--border-mid);stroke-width:1"/>';
+                });
+                // Axes
+                g += '<line x1="' + ml + '" y1="' + mt + '" x2="' + ml + '" y2="' + (mt + ph) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+                g += '<line x1="' + ml + '" y1="' + (mt + ph) + '" x2="' + (W - mr) + '" y2="' + (mt + ph) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+
+                // Y ticks + labels
+                yTicks.forEach(function(ty) {
+                    if (ty < yMin - 1e-9 || ty > yMax + 1e-9) return;
+                    var yy = sy(ty).toFixed(1);
+                    g += '<line x1="' + (ml - 4) + '" y1="' + yy + '" x2="' + ml + '" y2="' + yy + '" style="stroke:var(--text-muted);stroke-width:1"/>';
+                    g += '<text x="' + (ml - 7) + '" y="' + (parseFloat(yy) + 3.5) + '" text-anchor="end" style="font-size:9.5px;fill:var(--text-muted);font-family:inherit">' + fmtN(ty, yPct) + '</text>';
+                });
+                // X ticks + labels
+                xTicks.forEach(function(tx) {
+                    if (tx < xMin - 1e-9 || tx > xMax + 1e-9) return;
+                    var xx = sx(tx).toFixed(1);
+                    g += '<line x1="' + xx + '" y1="' + (mt + ph) + '" x2="' + xx + '" y2="' + (mt + ph + 4) + '" style="stroke:var(--text-muted);stroke-width:1"/>';
+                    var lbl = xTickFn ? xTickFn(tx) : fmtN(tx, xPct);
+                    if (lbl !== '') g += '<text x="' + xx + '" y="' + (mt + ph + 14) + '" text-anchor="middle" style="font-size:9.5px;fill:var(--text-muted);font-family:inherit">' + esc(lbl) + '</text>';
+                });
+                // Axis labels
+                if (cfg.xLabel) g += '<text x="' + (ml + pw / 2) + '" y="' + (H - 3) + '" text-anchor="middle" style="font-size:11px;fill:var(--text-context);font-family:inherit">' + esc(cfg.xLabel) + '</text>';
+                if (cfg.yLabel) {
+                    var ylx = ml - 44, yly = mt + ph / 2;
+                    g += '<text x="' + ylx + '" y="' + yly + '" text-anchor="middle" transform="rotate(-90 ' + ylx + ' ' + yly + ')" style="font-size:11px;fill:var(--text-context);font-family:inherit">' + esc(cfg.yLabel) + '</text>';
+                }
+
+                // Datasets
+                var ptsCache = [];
+                datasets.forEach(function(ds, di) {
+                    var cv = colVar(ds.color || AUTO_COLORS[di % AUTO_COLORS.length]);
+                    var pts = [];
+                    labels.forEach(function(lbl, i) {
+                        var xv = parseFloat(lbl), yv = ds.data[i];
+                        if (!isNaN(xv) && yv !== null && yv !== undefined && !isNaN(yv))
+                            pts.push([sx(xv), sy(yv)]);
+                    });
+                    ptsCache[di] = pts;
+                    if (!pts.length) return;
+
+                    // Fill: true → area under curve to baseline
+                    if (ds.fill === true) {
+                        var yBase = sy(Math.max(yMin, 0));
+                        var fp = 'M' + pts[0][0].toFixed(1) + ',' + yBase;
+                        pts.forEach(function(p) { fp += ' L' + p[0].toFixed(1) + ',' + p[1].toFixed(1); });
+                        fp += ' L' + pts[pts.length - 1][0].toFixed(1) + ',' + yBase + ' Z';
+                        g += '<path d="' + fp + '" style="fill:' + cv + ';fill-opacity:0.18;stroke:none" clip-path="url(#' + id + ')"/>';
+                    }
+                    // Fill: '-1' → fill between this dataset and the previous one (e.g. Lorenz/Gini area)
+                    if (ds.fill === '-1' && di > 0 && ptsCache[di - 1] && ptsCache[di - 1].length) {
+                        var pp = ptsCache[di - 1];
+                        var fp2 = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1);
+                        pts.forEach(function(p) { fp2 += ' L' + p[0].toFixed(1) + ',' + p[1].toFixed(1); });
+                        for (var pi = pp.length - 1; pi >= 0; pi--) fp2 += ' L' + pp[pi][0].toFixed(1) + ',' + pp[pi][1].toFixed(1);
+                        fp2 += ' Z';
+                        g += '<path d="' + fp2 + '" style="fill:' + cv + ';fill-opacity:0.18;stroke:none" clip-path="url(#' + id + ')"/>';
+                    }
+
+                    // Line
+                    var dashAttr = ds.dash ? ' stroke-dasharray="' + ds.dash.join(',') + '"' : '';
+                    g += '<polyline points="' + pts.map(function(p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"' + dashAttr + ' style="stroke:' + cv + ';stroke-width:2;fill:none;stroke-linejoin:round;stroke-linecap:round" clip-path="url(#' + id + ')"/>';
+                });
+
+                // Annotations (reference lines)
+                (cfg.annotations || []).forEach(function(ann) {
+                    var acv = colVar(ann.color || 'danger');
+                    if (ann.type === 'vline') {
+                        var axv = sx(ann.x).toFixed(1);
+                        g += '<line x1="' + axv + '" y1="' + mt + '" x2="' + axv + '" y2="' + (mt + ph) + '" stroke-dasharray="4,3" style="stroke:' + acv + ';stroke-width:1.5" clip-path="url(#' + id + ')"/>';
+                        if (ann.label) g += '<text x="' + (parseFloat(axv) + 3) + '" y="' + (mt + 13) + '" style="font-size:8.5px;fill:' + acv + ';font-family:inherit">' + esc(ann.label) + '</text>';
+                    } else if (ann.type === 'hline') {
+                        var ayv = sy(ann.y).toFixed(1);
+                        g += '<line x1="' + ml + '" y1="' + ayv + '" x2="' + (W - mr) + '" y2="' + ayv + '" stroke-dasharray="4,3" style="stroke:' + acv + ';stroke-width:1.5"/>';
+                        if (ann.label) g += '<text x="' + (W - mr - 3) + '" y="' + (parseFloat(ayv) - 3) + '" text-anchor="end" style="font-size:8.5px;fill:' + acv + ';font-family:inherit">' + esc(ann.label) + '</text>';
+                    }
+                });
+
+                var captionHtml = cfg.title ? '<p class="note-chart-caption">' + esc(cfg.title) + '</p>' : '';
+                return '<div class="note-chart-wrap">' +
+                    '<svg class="note-chart-svg" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + g + '</svg>' +
+                    buildLegend(datasets) + captionHtml + '</div>';
+            }
+
+            // ── SVG vertical bar chart ────────────────────────────────────
+            function svgBar(cfg) {
+                var W = 480, H = 256, ml = 52, mr = 14, mt = 14, mb = 42;
+                var pw = W - ml - mr, ph = H - mt - mb;
+
+                var labels = cfg.datasets ? cfg.labels || [] : [];
+                var datasets = cfg.datasets || [];
+                var n = labels.length;
+                if (!n) return '';
+
+                var allY = [];
+                datasets.forEach(function(ds) { (ds.data || []).forEach(function(v) { if (v !== null && !isNaN(v)) allY.push(v); }); });
+                var yMin = cfg.yMin !== undefined ? cfg.yMin : Math.min(0, Math.min.apply(null, allY));
+                var yMax = cfg.yMax !== undefined ? cfg.yMax : (Math.max.apply(null, allY) * 1.15 || 1);
+                if (yMin === yMax) yMax = yMin + 1;
+
+                function sy(v) { return mt + ph * (1 - (v - yMin) / (yMax - yMin)); }
+                var yBase = sy(0);
+                var nDs = datasets.length;
+                var gW = pw / n;
+                var bW = Math.max(5, gW * 0.65 / nDs - 1);
+
+                var g = '';
+                var yTicks = niceTicks(yMin, yMax, 5);
+                yTicks.forEach(function(ty) {
+                    if (ty < yMin - 1e-9 || ty > yMax + 1e-9) return;
+                    g += '<line x1="' + ml + '" y1="' + sy(ty).toFixed(1) + '" x2="' + (W - mr) + '" y2="' + sy(ty).toFixed(1) + '" stroke-dasharray="3,3" style="stroke:var(--border-mid);stroke-width:1"/>';
+                });
+                if (yMin < 0 && yMax > 0) g += '<line x1="' + ml + '" y1="' + sy(0).toFixed(1) + '" x2="' + (W - mr) + '" y2="' + sy(0).toFixed(1) + '" style="stroke:var(--text-muted);stroke-width:0.8"/>';
+                g += '<line x1="' + ml + '" y1="' + mt + '" x2="' + ml + '" y2="' + (mt + ph) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+                g += '<line x1="' + ml + '" y1="' + (mt + ph) + '" x2="' + (W - mr) + '" y2="' + (mt + ph) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+                yTicks.forEach(function(ty) {
+                    if (ty < yMin - 1e-9 || ty > yMax + 1e-9) return;
+                    var yy = sy(ty).toFixed(1);
+                    g += '<line x1="' + (ml - 4) + '" y1="' + yy + '" x2="' + ml + '" y2="' + yy + '" style="stroke:var(--text-muted);stroke-width:1"/>';
+                    g += '<text x="' + (ml - 7) + '" y="' + (parseFloat(yy) + 3.5) + '" text-anchor="end" style="font-size:9.5px;fill:var(--text-muted);font-family:inherit">' + fmtN(ty) + '</text>';
+                });
+                labels.forEach(function(lbl, li) {
+                    var cx = (ml + (li + 0.5) * gW).toFixed(1);
+                    g += '<text x="' + cx + '" y="' + (mt + ph + 14) + '" text-anchor="middle" style="font-size:9px;fill:var(--text-muted);font-family:inherit">' + esc(String(lbl)) + '</text>';
+                });
+                if (cfg.xLabel) g += '<text x="' + (ml + pw / 2) + '" y="' + (H - 3) + '" text-anchor="middle" style="font-size:11px;fill:var(--text-context);font-family:inherit">' + esc(cfg.xLabel) + '</text>';
+                if (cfg.yLabel) {
+                    var ylx = ml - 38, yly = mt + ph / 2;
+                    g += '<text x="' + ylx + '" y="' + yly + '" text-anchor="middle" transform="rotate(-90 ' + ylx + ' ' + yly + ')" style="font-size:11px;fill:var(--text-context);font-family:inherit">' + esc(cfg.yLabel) + '</text>';
+                }
+                datasets.forEach(function(ds, di) {
+                    var colName = ds.color || AUTO_COLORS[di % AUTO_COLORS.length];
+                    (ds.data || []).forEach(function(v, li) {
+                        if (v === null || isNaN(v)) return;
+                        var cn = (ds.colors && ds.colors[li]) ? ds.colors[li] : colName;
+                        var cv = colVar(cn);
+                        var bx = ml + li * gW + (nDs === 1 ? (gW - bW) / 2 : di * (bW + 1) + (gW - nDs * (bW + 1)) / 2);
+                        var byTop = Math.min(yBase, sy(v)).toFixed(1);
+                        var bh = Math.abs(yBase - sy(v)).toFixed(1);
+                        g += '<rect x="' + bx.toFixed(1) + '" y="' + byTop + '" width="' + bW.toFixed(1) + '" height="' + bh + '" rx="2" style="fill:' + cv + ';fill-opacity:0.85"/>';
+                    });
+                });
+                var captionHtml = cfg.title ? '<p class="note-chart-caption">' + esc(cfg.title) + '</p>' : '';
+                return '<div class="note-chart-wrap">' +
+                    '<svg class="note-chart-svg" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + g + '</svg>' +
+                    buildLegend(datasets) + captionHtml + '</div>';
+            }
+
+            // ── SVG horizontal bar chart ──────────────────────────────────
+            function svgHBar(cfg) {
+                var labels = cfg.labels || [], datasets = cfg.datasets || [], n = labels.length;
+                var barH = 28, barGap = 10, ml = 112, mr = 52, mt = 14, mb = 34;
+                var W = 480, H = mt + n * (barH + barGap) + mb;
+                var pw = W - ml - mr;
+                var allX = [];
+                datasets.forEach(function(ds) { (ds.data || []).forEach(function(v) { if (v !== null && !isNaN(v)) allX.push(v); }); });
+                var xMin = cfg.xMin !== undefined ? cfg.xMin : 0;
+                var xMax = cfg.xMax !== undefined ? cfg.xMax : (allX.length ? Math.max.apply(null, allX) * 1.2 : 1);
+
+                function sx(v) { return ml + (v - xMin) / (xMax - xMin) * pw; }
+                var g = '';
+                var xTicks = niceTicks(xMin, xMax, 5);
+                xTicks.forEach(function(tx) {
+                    var xx = sx(tx).toFixed(1);
+                    g += '<line x1="' + xx + '" y1="' + mt + '" x2="' + xx + '" y2="' + (H - mb) + '" stroke-dasharray="3,3" style="stroke:var(--border-mid);stroke-width:1"/>';
+                });
+                g += '<line x1="' + ml + '" y1="' + mt + '" x2="' + ml + '" y2="' + (H - mb) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+                g += '<line x1="' + ml + '" y1="' + (H - mb) + '" x2="' + (W - mr) + '" y2="' + (H - mb) + '" style="stroke:var(--text-muted);stroke-width:1.5"/>';
+                xTicks.forEach(function(tx) {
+                    var xx = sx(tx).toFixed(1);
+                    g += '<line x1="' + xx + '" y1="' + (H - mb) + '" x2="' + xx + '" y2="' + (H - mb + 4) + '" style="stroke:var(--text-muted);stroke-width:1"/>';
+                    g += '<text x="' + xx + '" y="' + (H - mb + 14) + '" text-anchor="middle" style="font-size:9.5px;fill:var(--text-muted);font-family:inherit">' + fmtN(tx) + '</text>';
+                });
+                labels.forEach(function(lbl, li) {
+                    var cy = mt + li * (barH + barGap) + barH / 2;
+                    g += '<text x="' + (ml - 7) + '" y="' + (cy + 4) + '" text-anchor="end" style="font-size:10px;fill:var(--text-context);font-family:inherit">' + esc(String(lbl)) + '</text>';
+                });
+                if (cfg.xLabel) g += '<text x="' + (ml + pw / 2) + '" y="' + (H - 3) + '" text-anchor="middle" style="font-size:11px;fill:var(--text-context);font-family:inherit">' + esc(cfg.xLabel) + '</text>';
+                datasets.forEach(function(ds, di) {
+                    var colName = ds.color || AUTO_COLORS[di % AUTO_COLORS.length];
+                    (ds.data || []).forEach(function(v, li) {
+                        if (v === null || isNaN(v)) return;
+                        var cn = (ds.colors && ds.colors[li]) ? ds.colors[li] : colName;
+                        var cv = colVar(cn);
+                        var by2 = mt + li * (barH + barGap);
+                        var bw2 = Math.max(0, sx(v) - ml);
+                        g += '<rect x="' + ml + '" y="' + by2.toFixed(1) + '" width="' + bw2.toFixed(1) + '" height="' + barH + '" rx="3" style="fill:' + cv + ';fill-opacity:0.85"/>';
+                        g += '<text x="' + (ml + bw2 + 5) + '" y="' + (by2 + barH / 2 + 4) + '" style="font-size:10px;font-weight:600;fill:' + cv + ';font-family:inherit">' + fmtN(v) + '</text>';
+                    });
+                });
+                var captionHtml = cfg.title ? '<p class="note-chart-caption">' + esc(cfg.title) + '</p>' : '';
+                return '<div class="note-chart-wrap">' +
+                    '<svg class="note-chart-svg" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + g + '</svg>' +
+                    captionHtml + '</div>';
+            }
+
+            // ── Public entry point ────────────────────────────────────────
+            window.buildNoteSVG = function(userCfg) {
+                var cfg;
+                if (userCfg.compute) {
+                    var handler = COMPUTE[userCfg.compute];
+                    if (!handler) return '<div class="note-chart-error">Unknown compute type: <code>' + esc(userCfg.compute) + '</code></div>';
+                    cfg = handler(userCfg);
+                    if (userCfg.title)  cfg.title  = userCfg.title;
+                    if (userCfg.xLabel) cfg.xLabel = userCfg.xLabel;
+                    if (userCfg.yLabel) cfg.yLabel = userCfg.yLabel;
+                } else {
+                    cfg = userCfg;
+                }
+                var type = cfg.type || 'line';
+                if (type === 'bar')  return svgBar(cfg);
+                if (type === 'hbar') return svgHBar(cfg);
+                return svgLine(cfg);
+            };
+
+        })();
+        // ─────────────────────────────────────────────────────────────────
+
         var NOTE_FORMAT_HINT_BODY =
             '<strong>Headers:</strong> <code>#</code> <code>##</code> <code>###</code> …<br>' +
             '<strong>Bold:</strong> <code>**text**</code> &nbsp; <strong>Italic:</strong> <code>*text*</code> &nbsp; <strong>Inline code:</strong> <code>`code`</code><br>' +
@@ -2017,7 +2554,15 @@
             '<strong>Lists:</strong> <code>- item</code> or <code>1. item</code><br>' +
             '<strong>Table:</strong> <code>| A | B |</code> header, <code>| --- | --- |</code> separator, <code>| 1 | 2 |</code> rows<br>' +
             '<strong>Blockquote:</strong> <code>&gt; quote</code> &nbsp; <strong>Rule:</strong> <code>---</code><br>' +
-            '<strong>LaTeX:</strong> inline <code>\\( E = mc^2 \\)</code> &nbsp; block <code>\\[ ... \\]</code>';
+            '<strong>LaTeX:</strong> inline <code>\\( E = mc^2 \\)</code> &nbsp; block <code>\\[ ... \\]</code><br>' +
+            '<hr style="margin:8px 0;border-color:var(--border-mid)">' +
+            '<strong>Statistical graph</strong> — computed curve (engine generates the data):<br>' +
+            '<code>```chart</code> &nbsp; <code>{"compute":"normal","mean":0,"sd":1,"title":"Standard Normal"}</code> &nbsp; <code>```</code><br>' +
+            'Compute types: <code>normal</code> &nbsp;<code>binomial</code> &nbsp;<code>poisson</code> &nbsp;<code>oc-xbar</code> &nbsp;<code>oc-sampling</code> &nbsp;<code>arl</code> &nbsp;<code>capability</code> &nbsp;<code>aoq</code> &nbsp;<code>logistic</code> &nbsp;<code>survivor</code> &nbsp;<code>acf</code> &nbsp;<code>ridge</code> &nbsp;<code>spectral</code> &nbsp;<code>lorenz</code> &nbsp;<code>variance-hierarchy</code><br>' +
+            'Override any label: add <code>"title":"..."</code> <code>"xLabel":"..."</code> <code>"yLabel":"..."</code><br>' +
+            '<strong>Custom graph</strong> — provide your own data:<br>' +
+            '<code>{"type":"line","xLabel":"x","yLabel":"y","labels":[1,2,3],"datasets":[{"label":"A","data":[1,4,9],"color":"primary","fill":true}]}</code><br>' +
+            '<code>type</code>: <code>line</code> | <code>bar</code> &nbsp; <code>color</code>: <code>primary</code> | <code>secondary</code> | <code>danger</code> | <code>success</code> | <code>accent</code> &nbsp; <code>"dash":[5,3]</code> for dashed line';
 
         var NOTE_FORMAT_HINT = '<details class="note-format-hint" open><summary>Formatting help</summary><div class="note-format-hint-body">' + NOTE_FORMAT_HINT_BODY + '</div></details>';
 
