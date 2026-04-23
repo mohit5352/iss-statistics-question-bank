@@ -876,7 +876,33 @@
             var cards = container.querySelectorAll('.question-card');
             cards.forEach(function(card) {
                 var header = card.querySelector('.q-header');
-                if (!header || header.querySelector('.q-header-actions')) return;
+                if (!header) {
+                    var preambleContext = card.querySelector('.q-context');
+                    if (preambleContext && !card.querySelector('.q-context-copy-btn') && isContextOnlyPreambleCard(card)) {
+                        var contextCopyBtn = document.createElement('button');
+                        contextCopyBtn.type = 'button';
+                        contextCopyBtn.className = 'q-copy-btn q-context-copy-btn';
+                        contextCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+                        contextCopyBtn.setAttribute('aria-label', 'Copy context');
+                        contextCopyBtn.setAttribute('data-tooltip', 'Copy');
+                        contextCopyBtn.addEventListener('click', function() {
+                            var contextText = (card._latexCopyText || extractTextWithTables(preambleContext) || '').trim();
+                            if (!contextText) return;
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(contextText).then(function() {
+                                    showCopySuccess(contextCopyBtn);
+                                }).catch(function() {
+                                    fallbackCopy(contextText, contextCopyBtn);
+                                });
+                            } else {
+                                fallbackCopy(contextText, contextCopyBtn);
+                            }
+                        });
+                        preambleContext.appendChild(contextCopyBtn);
+                    }
+                    return;
+                }
+                if (header.querySelector('.q-header-actions')) return;
                 var qNumEl = card.querySelector('.q-number');
                 if (!qNumEl) return;
                 var qNumber = qNumEl.textContent.trim().replace('.', '');

@@ -1107,6 +1107,14 @@ h2 {
     fill: currentColor;
 }
 
+.q-context-copy-btn {
+    position: sticky;
+    bottom: 10px;
+    left: calc(100% - 34px);
+    margin-top: 8px;
+    z-index: 2;
+}
+
 .q-copy-btn.copied {
     color: var(--purple-mid);
     box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
