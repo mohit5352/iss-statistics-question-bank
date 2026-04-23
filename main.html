@@ -3038,7 +3038,7 @@
                 if (src) src.value = text;
                 var det = document.querySelector('#revision-editor-overlay .revision-editor-question-hero-wrap');
                 if (det) {
-                    det.open = !window.matchMedia('(max-width: 720px)').matches;
+                    det.open = false;
                 }
                 var ov = document.getElementById('revision-editor-overlay');
                 if (ov && window.MathJax && window.MathJax.typesetPromise) {

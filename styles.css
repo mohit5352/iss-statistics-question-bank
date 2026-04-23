@@ -3242,17 +3242,6 @@ body.revision-editor-open {
     margin-top: 10px;
 }
 
-@media (min-width: 721px) {
-    .revision-editor-question-hero-summary {
-        cursor: default;
-        pointer-events: none;
-    }
-
-    .revision-editor-question-hero-summary-right {
-        display: none;
-    }
-}
-
 @media (max-width: 720px) {
     .revision-editor-question-hero {
         max-height: min(42vh, 300px);
