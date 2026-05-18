@@ -63,6 +63,10 @@
         displayMath: [['\\[', '\\]'], ['$$', '$$']],
         processEscapes: true,
       },
+      chtml: {
+        displayOverflow: 'linebreak',
+        linebreaks: { automatic: true, width: 'container' },
+      },
       options: {
         skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       },
@@ -116,7 +120,6 @@
                                     <option value="paper4">Paper IV</option>
                                 </select>
                             </div>
-                            <span class="hero-dock__dot" aria-hidden="true">·</span>
                             <div class="meta-item meta-section">
                                 <span class="meta-label">Section</span>
                                 <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
@@ -126,7 +129,6 @@
                                     <option value="comp">Computer Section</option>
                                 </select>
                             </div>
-                            <span class="hero-dock__dot hero-dock__dot--year" aria-hidden="true">·</span>
                             <div class="meta-item meta-year">
                                 <span class="meta-label">Year</span>
                                 <span class="meta-value" id="year-value">2025</span>
@@ -148,7 +150,7 @@
                         <div class="set-indicator-wrap toolbar-set-wrap">
                             <span class="set-indicator-text hero-dock__text">Set <span class="set-dot">◆</span> <span id="set-letter">A</span></span>
                         </div>
-                        <span class="hero-dock__dot" aria-hidden="true">·</span>
+                        <span class="hero-dock__dot hero-dock__dot--set-auth" id="hero-dock-set-auth-dot" aria-hidden="true">·</span>
                         <div class="auth-wrap hero-dock__auth" id="auth-wrap"></div>
                     </div>
                     </header>
@@ -187,13 +189,43 @@
             return Math.ceil(hero.getBoundingClientRect().height) + 8;
         }
 
-        function ensureContentViewerDocumentScroll() {
+        function ensureContentViewerLayout() {
             var viewer = document.getElementById('year-viewer');
             if (!viewer) return;
-            viewer.style.overflow = 'visible';
+            var isQuestions = appMode === 'questions';
+            viewer.classList.toggle('content-viewer--questions', isQuestions);
+            viewer.classList.toggle('content-viewer--notes', !isQuestions);
+            viewer.style.overflow = '';
+            viewer.style.overflowX = '';
+            viewer.style.overflowY = '';
             viewer.style.maxHeight = 'none';
             viewer.style.height = 'auto';
             if (viewer.scrollTop) viewer.scrollTop = 0;
+        }
+
+        function ensureContentViewerDocumentScroll() {
+            ensureContentViewerLayout();
+        }
+
+        /** Clear legacy inline MathJax overflow styles (CSS handles display vs inline). */
+        function constrainMathOverflow(root) {
+            if (!root) return;
+            var nodes = root.querySelectorAll ? root.querySelectorAll('mjx-container') : [];
+            nodes.forEach(function(node) {
+                node.classList.remove('math-scroll');
+                [
+                    'overflow-x', 'overflow-y', 'min-width', 'max-width',
+                    'display', 'vertical-align', 'box-sizing', 'width'
+                ].forEach(function(prop) { node.style.removeProperty(prop); });
+            });
+        }
+
+        function typesetMathWithConstraints(elements) {
+            if (!window.MathJax || !window.MathJax.typesetPromise) return Promise.resolve();
+            var list = Array.isArray(elements) ? elements : [elements];
+            return window.MathJax.typesetPromise(list).then(function() {
+                list.forEach(function(el) { constrainMathOverflow(el); });
+            });
         }
 
         function scrollToWithHeroOffset(el, behavior) {
@@ -213,16 +245,10 @@
             var exitY = 16;
 
             function scrollTop() {
-                var y = window.scrollY
+                return window.scrollY
                     || document.documentElement.scrollTop
                     || document.body.scrollTop
                     || 0;
-                var viewer = document.getElementById('year-viewer');
-                if (viewer && viewer.scrollTop > 0) {
-                    var oy = window.getComputedStyle(viewer).overflowY;
-                    if (oy === 'auto' || oy === 'scroll') y += viewer.scrollTop;
-                }
-                return y;
             }
 
             function updateHeroCompact() {
@@ -247,8 +273,6 @@
             updateHeroCompact();
             window.addEventListener('scroll', onScroll, { passive: true });
             document.addEventListener('scroll', onScroll, { passive: true, capture: true });
-            var viewer = document.getElementById('year-viewer');
-            if (viewer) viewer.addEventListener('scroll', onScroll, { passive: true });
             window.addEventListener('resize', updateHeroCompact);
         })();
 
@@ -289,20 +313,24 @@
         // Paper 1: prob | num | comp; Paper 2: linear | inference | official; Paper 3: sampling | econometrics | applied; Paper 4: demography | quality
         var currentSection = 'prob';
         var appMode = 'questions'; // 'questions' | 'notes'
+        document.body.classList.add('app-mode-questions');
 
         function setAppMode(mode) {
             appMode = mode;
+            document.body.classList.toggle('app-mode-notes', mode === 'notes');
+            document.body.classList.toggle('app-mode-questions', mode === 'questions');
             document.getElementById('mode-q').classList.toggle('active', mode === 'questions');
             document.getElementById('mode-n').classList.toggle('active', mode === 'notes');
             
             // Hide/Show year selector and set indicator based on mode
-            var yearMeta = document.querySelector('.meta-year');
+            var yearMeta = document.querySelector('.hero-dock__meta .meta-year');
             var setIndicator = document.querySelector('.set-indicator-wrap');
-            var yearDot = document.querySelector('.hero-dock__dot--year');
+            var setAuthDot = document.getElementById('hero-dock-set-auth-dot');
+            var isNotes = mode === 'notes';
             
-            if (yearMeta) yearMeta.style.display = (mode === 'notes') ? 'none' : 'flex';
-            if (setIndicator) setIndicator.style.display = (mode === 'notes') ? 'none' : 'flex';
-            if (yearDot) yearDot.style.display = (mode === 'notes') ? 'none' : 'inline';
+            if (yearMeta) yearMeta.style.display = isNotes ? 'none' : 'flex';
+            if (setIndicator) setIndicator.style.display = isNotes ? 'none' : 'flex';
+            if (setAuthDot) setAuthDot.style.display = isNotes ? 'none' : 'inline';
 
             updateControlsUI();
             ensureContentViewerDocumentScroll();
@@ -382,6 +410,7 @@
                     </button>
 
                     <main class="notes-main-content">
+                        <div class="notes-viewport">
                         <div class="notes-container">
                             <div class="notes-header">
                                 <h1>${data.title}</h1>
@@ -435,7 +464,7 @@
                 }
             }
 
-            html += `</div></main></div>`;
+            html += `</div></div></main></div>`;
             viewer.innerHTML = html;
             ensureContentViewerDocumentScroll();
 
@@ -449,9 +478,9 @@
                 initNotesSidebar();
             }
 
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([viewer]);
-            }
+            typesetMathWithConstraints(viewer).catch(function(err) {
+                console.warn('MathJax notes:', err);
+            });
 
             requestAnimationFrame(function() {
                 var hash = (location.hash || '').replace('#', '');
@@ -510,7 +539,6 @@
                     }
                 }
                 var onScroll = throttle(updateActiveFromScroll, 80);
-                if (scrollRoot) scrollRoot.addEventListener('scroll', onScroll, { passive: true });
                 window.addEventListener('scroll', onScroll, { passive: true });
                 updateActiveFromScroll();
             }
@@ -871,7 +899,6 @@
             var sidebar = document.getElementById('questions-sidebar');
             var mainContent = layout && layout.querySelector('.questions-main-content');
             var tocLinks = document.getElementById('questions-toc-links');
-            var scrollRoot = document.getElementById('year-viewer');
             if (!layout || !mainContent || !tocLinks) return;
             function setActiveQuestionToc(id) {
                 tocLinks.querySelectorAll('.question-toc-item').forEach(function(el) {
@@ -904,8 +931,7 @@
                 }
             }
             var onScroll = typeof throttle === 'function' ? throttle(updateActive, 80) : updateActive;
-            if (scrollRoot) scrollRoot.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('scroll', onScroll, true);
+            window.addEventListener('scroll', onScroll, { passive: true });
             updateActive();
             setTimeout(updateActive, 100);
             tocLinks.addEventListener('click', function(e) {
@@ -1317,7 +1343,7 @@
                     '<div class="questions-toc-links" id="questions-toc-links"></div>' +
                     '</aside>' +
                     '<button class="sidebar-open-btn" id="questions-sidebar-open" onclick="toggleQuestionsSidebar()" aria-label="Open"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg><span>Questions</span></button>' +
-                    '<main class="questions-main-content">' + bodyContent + '</main></div>';
+                    '<main class="questions-main-content"><div class="questions-viewport">' + bodyContent + '</div></main></div>';
 
                 viewer.innerHTML = layoutHtml;
                 ensureContentViewerDocumentScroll();
@@ -1364,9 +1390,10 @@
                                 });
                             }
                             
-                            return window.MathJax.typesetPromise([viewer]);
+                            return typesetMathWithConstraints(viewer);
                         }).then(function() {
                             addHeaderActionsToCards(container);
+                            if (window.syncHeroCompact) window.syncHeroCompact();
                         }).catch(function(err) {
                             console.error('MathJax error:', err);
                             addHeaderActionsToCards(container);
@@ -1449,9 +1476,9 @@
         // Re-render MathJax on orientation change
         window.addEventListener('orientationchange', function() {
             setTimeout(function() {
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    var viewer = document.getElementById('year-viewer');
-                    window.MathJax.typesetPromise([viewer]).catch(function(err) {
+                var viewer = document.getElementById('year-viewer');
+                if (viewer) {
+                    typesetMathWithConstraints(viewer).catch(function(err) {
                         console.log('MathJax error:', err);
                     });
                 }
@@ -3409,9 +3436,9 @@
                 if (titleEl) titleEl.textContent = newLabel;
                 if (container) {
                     container.innerHTML = renderNoteHtml(newContent);
-                    if (window.MathJax && window.MathJax.typesetPromise) {
-                        window.MathJax.typesetPromise([container]);
-                    }
+                    typesetMathWithConstraints(container).catch(function(err) {
+                        console.warn('MathJax note save:', err);
+                    });
                 }
 
                 updateTOC();

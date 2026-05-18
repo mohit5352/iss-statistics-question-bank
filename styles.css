@@ -5,10 +5,13 @@
  */
 
 html {
+    margin: 0;
+    padding: 0;
     overflow-x: clip;
 }
 
 :root {
+    --page-gutter: clamp(16px, 3vw, 28px);
     --bone: #F1ECE3;
     --charcoal: #424242;
     --charcoal-deep: #2e2e2e;
@@ -28,10 +31,10 @@ html {
     --hero-media-position: center;
     --hero-overlay-angle: 105deg;
     /* Overlay on photo only (not UI). Left = headline side (bone text). */
-    --hero-overlay-text-side: 68%;
-    --hero-overlay-text-mid: 40%;
-    --hero-overlay-clear-at: 58%;
-    --hero-overlay-far-edge: 10%;
+    --hero-overlay-text-side: 80%;
+    --hero-overlay-text-mid: 52%;
+    --hero-overlay-clear-at: 50%;
+    --hero-overlay-far-edge: 22%;
     --hero-glass-bg: color-mix(in srgb, var(--charcoal) 42%, transparent);
     --hero-glass-bg-stuck: color-mix(in srgb, var(--charcoal-deep) 92%, transparent);
     --hero-chip-bg: color-mix(in srgb, var(--charcoal) 55%, transparent);
@@ -307,12 +310,15 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     color: var(--text-primary);
-    padding: 20px 0;
+    margin: 0;
+    padding: 0 0 20px;
     background-color: var(--bg-color);
     background-image:
         radial-gradient(ellipse 120% 80% at 50% -20%, color-mix(in srgb, var(--bone) 6%, transparent), transparent 55%);
     transition: background-color 0.3s ease, color 0.3s ease;
     -webkit-font-smoothing: antialiased;
+    max-width: 100%;
+    overflow-x: clip;
 }
 
 body.light-theme {
@@ -325,14 +331,13 @@ body.light-theme {
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100vw;
-    max-width: 100vw;
-    margin: -20px 0 12px;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    width: 100%;
+    max-width: none;
+    margin: 0 0 12px;
     min-height: var(--hero-min-height);
     overflow: hidden;
     border-radius: 0;
+    box-sizing: border-box;
     isolation: isolate;
     contain: layout style;
     -webkit-backface-visibility: hidden;
@@ -364,9 +369,9 @@ body.light-theme {
 
 .site-hero__scrim {
     background:
-        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 22%, transparent) 0%, transparent 30%),
-        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 62%, transparent) 0%, transparent 55%),
-        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 28%, transparent) 0%, transparent 42%);
+        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 34%, transparent) 0%, transparent 32%),
+        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 74%, transparent) 0%, transparent 58%),
+        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 38%, transparent) 0%, transparent 44%);
 }
 
 .site-hero__frame {
@@ -547,6 +552,11 @@ body.light-theme {
     line-height: 1;
 }
 
+/* Notes mode: Set row hidden — hide orphan dot before auth */
+body.app-mode-notes .hero-dock__dot--set-auth {
+    display: none !important;
+}
+
 .hero-dock__text,
 .hero-dock__auth .auth-pill,
 .hero-dock__auth .auth-pill-logged {
@@ -648,27 +658,46 @@ body.light-theme .site-hero .mode-toggle-wrap--hero .mode-btn.active {
     box-shadow: none;
 }
 
-/* Meta row — text on hero, no panel */
+/* Meta row — fit-content columns, single row, start-aligned */
 .hero-dock__meta.meta-controls {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 8px;
+    flex-wrap: nowrap;
+    align-items: start;
+    justify-content: flex-start;
+    gap: 12px 20px;
     margin: 0;
-    max-width: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     background: transparent;
     border: none;
     border-radius: 0;
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.hero-dock__meta.meta-controls::-webkit-scrollbar {
+    display: none;
 }
 
 .hero-dock__meta .meta-item {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
     padding: 0;
     background: transparent;
+    align-items: start;
+    text-align: start;
+}
+
+.hero-dock__meta .meta-item.meta-section {
+    max-width: min(56vw, 22rem);
 }
 
 .hero-dock__meta .meta-item:hover {
@@ -676,16 +705,30 @@ body.light-theme .site-hero .mode-toggle-wrap--hero .mode-btn.active {
 }
 
 .hero-dock__meta .meta-label {
+    display: block;
+    width: auto;
+    max-width: 100%;
     font-size: 0.58rem;
     letter-spacing: 0.16em;
     color: var(--hero-fg-subtle);
+    text-align: start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hero-dock__meta .meta-value {
+    display: block;
+    width: auto;
+    max-width: 100%;
     font-size: 0.88rem;
     font-weight: 600;
     color: var(--hero-fg);
     text-shadow: inherit;
+    text-align: start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hero-dock__meta .meta-sep-line {
@@ -701,9 +744,9 @@ body.light-theme .site-hero__media {
 
 body.light-theme .site-hero__scrim {
     background:
-        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 22%, transparent) 0%, transparent 30%),
-        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 62%, transparent) 0%, transparent 55%),
-        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 28%, transparent) 0%, transparent 42%);
+        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 34%, transparent) 0%, transparent 32%),
+        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 74%, transparent) 0%, transparent 58%),
+        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 38%, transparent) 0%, transparent 44%);
 }
 
 body.light-theme .site-hero .hero-dock__meta.meta-controls,
@@ -776,9 +819,13 @@ body.light-theme .site-hero .hero-dock #set-letter {
 
 .paper-container {
     background: transparent;
-    padding: 0 clamp(16px, 3vw, 28px);
+    padding: 0;
     border-radius: 0;
     box-shadow: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 /* ===== Headings ===== */
@@ -1167,6 +1214,91 @@ h2 {
     color: var(--mathjax-color);
 }
 
+/* Long math / wide content — scroll horizontally instead of widening the page */
+.q-text,
+.q-context,
+.option-item,
+.options-grid,
+.question-card,
+.note-section-content,
+.callout-content,
+#note-tips-content,
+.note-section,
+.notes-container,
+.notes-main-content,
+.notes-viewport,
+.notes-layout {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.note-section-content,
+.callout-content,
+#note-tips-content {
+    overflow-x: clip;
+    overflow-wrap: anywhere;
+}
+
+.questions-main-content img,
+.questions-main-content svg:not(.note-sep-glyph),
+.questions-main-content table,
+.questions-viewport img,
+.questions-viewport table,
+.notes-main-content img,
+.notes-main-content table,
+.note-section-content img,
+.note-section-content table,
+.callout-content img,
+.callout-content table {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Display math only — shrink to content; scroll when wider than column */
+.q-text mjx-container[display="true"],
+.q-context mjx-container[display="true"],
+.option-item mjx-container[display="true"],
+.q-notes-content mjx-container[display="true"],
+.note-section-content mjx-container[display="true"],
+.callout-content mjx-container[display="true"],
+#note-tips-content mjx-container[display="true"],
+.questions-main-content mjx-container[display="true"],
+.questions-viewport mjx-container[display="true"],
+.notes-main-content mjx-container[display="true"],
+.notes-viewport mjx-container[display="true"] {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0.5em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+/* Inline math — no scroll boxes; parents clip page overflow */
+.q-text mjx-container:not([display="true"]),
+.q-context mjx-container:not([display="true"]),
+.option-item mjx-container:not([display="true"]),
+.q-notes-content mjx-container:not([display="true"]),
+.note-section-content mjx-container:not([display="true"]),
+.callout-content mjx-container:not([display="true"]),
+#note-tips-content mjx-container:not([display="true"]) {
+    max-width: 100%;
+}
+
+.questions-main-content pre,
+.questions-viewport pre,
+.notes-main-content pre,
+.note-section-content pre,
+.callout-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* ===== Context Block — blockquote style ===== */
 .q-context {
     color: var(--text-context);
@@ -1175,7 +1307,10 @@ h2 {
     padding: 14px 0 14px 20px;
     margin-bottom: 20px;
     position: relative;
-    overflow: auto;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    overflow-y: visible;
     background: var(--bg-color);
     border-radius: 6px;
     box-shadow: var(--glow-shadow), var(--shadow-inner);
@@ -1280,6 +1415,10 @@ h2 {
     padding: 0;
     position: relative;
     background: transparent;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 /* option items are bare text — no background, border, or box-shadow */
@@ -1471,10 +1610,30 @@ h2 {
 .content-viewer {
     width: 100%;
     min-height: 0;
+    max-width: 100%;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+    box-sizing: border-box;
     overflow: visible;
     max-height: none;
     height: auto;
     scroll-padding-top: calc(var(--hero-compact-min-height) + 16px);
+}
+
+/* Clip wide content at viewer — math scrolls inside mjx-container, not the whole page */
+#year-viewer.content-viewer--questions,
+#year-viewer.content-viewer--notes {
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+.questions-viewport,
+.notes-viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 .note-section[id],
@@ -2143,19 +2302,17 @@ h2 {
 
 /* ===== Responsive — 768px ===== */
 @media (max-width: 768px) {
+    :root {
+        --page-gutter: 12px;
+    }
+
     body {
-        padding: 10px 0;
+        padding: 0 0 10px;
         font-size: 16px;
         background-color: var(--bg-color);
     }
 
-    .paper-container {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
     .site-hero {
-        margin-top: -10px;
         margin-bottom: 12px;
         --hero-compact-min-height: 132px;
     }
@@ -2179,11 +2336,33 @@ h2 {
         right: max(12px, env(safe-area-inset-right, 0px));
     }
 
+    .site-hero__dock-wrap {
+        max-width: 100%;
+    }
+
+    .hero-dock__primary {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .hero-dock__meta.meta-controls {
+        width: 100%;
+        gap: 10px 14px;
+    }
+
+    .hero-dock__meta .meta-value {
+        font-size: 0.78rem;
+    }
+
+    .hero-dock__meta .meta-label {
+        font-size: 0.52rem;
+        letter-spacing: 0.12em;
+    }
+
     .meta-controls {
         margin: 0;
         max-width: 100%;
     }
-
 
     .meta-item {
         padding: 8px 10px 10px;
@@ -2265,15 +2444,13 @@ h2 {
         background-color: var(--bg-color);
     }
 
-    .paper-container {
-        padding-left: 10px;
-        padding-right: 10px;
+    :root {
+        --page-gutter: 10px;
     }
 
     h1:not(.site-hero__title) { font-size: 1.1rem; margin-bottom: 10px; }
 
     .site-hero {
-        margin-top: -5px;
         margin-bottom: 10px;
         --hero-compact-min-height: 124px;
     }
@@ -2282,6 +2459,23 @@ h2 {
         padding: 0 0 3px;
         margin-right: 14px;
         font-size: 0.68rem;
+    }
+
+    .hero-dock__meta.meta-controls {
+        gap: 8px 12px;
+    }
+
+    .hero-dock__meta .meta-item.meta-section {
+        max-width: min(62vw, 18rem);
+    }
+
+    .hero-dock__meta .meta-value {
+        font-size: 0.72rem;
+    }
+
+    .hero-dock__meta .meta-label {
+        font-size: 0.48rem;
+        letter-spacing: 0.1em;
     }
 
     .question-card  { padding: 12px; margin-bottom: 15px; }
@@ -2776,10 +2970,13 @@ body.login-page-body.light-theme .login-card {
 /* --- Notes Viewer --- */
 .notes-container {
     max-width: 850px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px 0 60px;
     color: var(--text-primary);
     text-align: left;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .notes-header {
@@ -2812,9 +3009,12 @@ body.login-page-body.light-theme .login-card {
 .questions-layout {
     display: flex;
     min-height: 0;
+    max-width: 100%;
+    min-width: 0;
     position: relative;
     gap: 0;
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 .questions-sidebar .sidebar-header {
@@ -3052,8 +3252,11 @@ body.login-page-body.light-theme .login-card {
     margin-left: 300px;
     transition: all 0.4s ease;
     min-width: 0;
-    overflow: auto;
+    max-width: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
     max-height: none;
+    box-sizing: border-box;
 }
 
 /* Collapsed state */
@@ -3565,8 +3768,10 @@ body.login-page-body.light-theme .login-card {
     line-height: 1.8;
     color: var(--text-body);
     font-size: 1.02rem;
-    overflow-x: auto;
-    overflow-y: hidden;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 .note-list li {
     margin-bottom: 6px;
@@ -3616,7 +3821,8 @@ body.login-page-body.light-theme .login-card {
 }
 
 /* Formula blocks in notes */
-.note-section-content mjx-container[display="true"] {
+.note-section-content mjx-container[display="true"],
+.callout-content mjx-container[display="true"] {
     background: var(--formula-bg) !important;
     padding: 18px 22px !important;
     border-radius: 8px !important;
@@ -3624,8 +3830,6 @@ body.login-page-body.light-theme .login-card {
     border-left: 3px solid var(--accent-default) !important;
     margin: 18px 0 !important;
     box-shadow: var(--formula-shadow) !important;
-    overflow-x: auto;
-    overflow-y: hidden;
 }
 
 /* Tip Callout — Revision Priorities */
@@ -3639,10 +3843,13 @@ body.login-page-body.light-theme .login-card {
     gap: 18px;
     align-items: flex-start;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     box-sizing: border-box;
     box-shadow: var(--panel-shadow);
     position: relative;
-    overflow: auto;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 /* Add a subtle decorative icon in the background */
@@ -3670,6 +3877,8 @@ body.login-page-body.light-theme .login-card {
     line-height: 1.75;
     color: var(--accent-muted);
     min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
     z-index: 1;
 }
 
