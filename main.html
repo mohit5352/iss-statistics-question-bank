@@ -64,7 +64,7 @@
         processEscapes: true,
       },
       chtml: {
-        displayOverflow: 'linebreak',
+        displayOverflow: 'scroll',
         linebreaks: { automatic: true, width: 'container' },
       },
       options: {
@@ -207,16 +207,52 @@
             ensureContentViewerLayout();
         }
 
-        /** Clear legacy inline MathJax overflow styles (CSS handles display vs inline). */
-        function constrainMathOverflow(root) {
+        /** Unwrap legacy wrappers; tag only math that truly exceeds column width. */
+        function applyMathOverflow(root) {
             if (!root) return;
-            var nodes = root.querySelectorAll ? root.querySelectorAll('mjx-container') : [];
-            nodes.forEach(function(node) {
-                node.classList.remove('math-scroll');
-                [
-                    'overflow-x', 'overflow-y', 'min-width', 'max-width',
-                    'display', 'vertical-align', 'box-sizing', 'width'
-                ].forEach(function(prop) { node.style.removeProperty(prop); });
+
+            root.querySelectorAll('.math-scroll-wrap').forEach(function(wrap) {
+                var mjx = wrap.querySelector('mjx-container');
+                if (mjx && wrap.parentNode) {
+                    wrap.parentNode.insertBefore(mjx, wrap);
+                    wrap.remove();
+                }
+            });
+
+            function columnLimit(node) {
+                var el = node.parentElement;
+                while (el && el !== root) {
+                    if (el.clientWidth > 0) return el.clientWidth;
+                    el = el.parentElement;
+                }
+                return root.clientWidth || 0;
+            }
+
+            function mathWidth(node) {
+                var math = node.querySelector('mjx-math');
+                if (math) {
+                    var w = math.scrollWidth || math.offsetWidth;
+                    if (w > 0) return w;
+                }
+                return node.scrollWidth || node.offsetWidth || 0;
+            }
+
+            function measure() {
+                root.querySelectorAll('mjx-container').forEach(function(node) {
+                    node.classList.remove('math-wide');
+                    var limit = columnLimit(node);
+                    if (limit < 1) return;
+                    var pad = node.getAttribute('display') === 'true' ? 48 : 0;
+                    if (mathWidth(node) > limit - pad + 2) {
+                        node.classList.add('math-wide');
+                    }
+                });
+            }
+
+            measure();
+            requestAnimationFrame(function() {
+                measure();
+                requestAnimationFrame(measure);
             });
         }
 
@@ -224,7 +260,7 @@
             if (!window.MathJax || !window.MathJax.typesetPromise) return Promise.resolve();
             var list = Array.isArray(elements) ? elements : [elements];
             return window.MathJax.typesetPromise(list).then(function() {
-                list.forEach(function(el) { constrainMathOverflow(el); });
+                list.forEach(function(el) { applyMathOverflow(el); });
             });
         }
 
@@ -1473,6 +1509,17 @@
             loadContent();
         });
         
+        // Re-measure math after layout changes (no full re-typeset)
+        var mathOverflowResizeTimer;
+        function scheduleMathOverflowRemeasure() {
+            clearTimeout(mathOverflowResizeTimer);
+            mathOverflowResizeTimer = setTimeout(function() {
+                var viewer = document.getElementById('year-viewer');
+                if (viewer) applyMathOverflow(viewer);
+            }, 150);
+        }
+        window.addEventListener('resize', scheduleMathOverflowRemeasure);
+
         // Re-render MathJax on orientation change
         window.addEventListener('orientationchange', function() {
             setTimeout(function() {
@@ -1957,9 +2004,7 @@
                 trigger.setAttribute('data-tooltip', label);
                 trigger.setAttribute('aria-label', label);
             }
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([notesWrap]).catch(function(err) { console.warn('MathJax:', err); });
-            }
+            typesetMathWithConstraints(notesWrap).catch(function(err) { console.warn('MathJax:', err); });
         }
 
         function renderNoteHtml(text) {
@@ -2939,9 +2984,7 @@
                         }
                     }
                 });
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    try { window.MathJax.typesetPromise([card]); } catch (e) {}
-                }
+                typesetMathWithConstraints(card).catch(function() {});
             }
             var origin = window.location.origin;
             var canUseApi = origin && origin !== 'null' && origin !== 'file://';
@@ -3002,9 +3045,7 @@
             var raw = (document.getElementById('revision-editor-source') || {}).value || '';
             destroyRevisionEditorPreviewMath(el);
             el.innerHTML = renderNoteHtml(raw);
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([el]).catch(function(err) { console.warn('MathJax preview:', err); });
-            }
+            typesetMathWithConstraints(el).catch(function(err) { console.warn('MathJax preview:', err); });
         }
 
         function scheduleRevisionEditorPreview() {
@@ -3144,10 +3185,10 @@
                     det.open = false;
                 }
                 var ov = document.getElementById('revision-editor-overlay');
-                if (ov && window.MathJax && window.MathJax.typesetPromise) {
+                if (ov) {
                     var mjRoots = ov.querySelectorAll('.revision-editor-question-hero-wrap');
                     if (mjRoots.length) {
-                        window.MathJax.typesetPromise(Array.from(mjRoots)).catch(function(err) {
+                        typesetMathWithConstraints(Array.from(mjRoots)).catch(function(err) {
                             console.warn('MathJax question hero:', err);
                         });
                     }
@@ -3592,9 +3633,7 @@
             const container = document.getElementById('note-tips-content');
             if (container) {
                 container.innerHTML = renderNoteHtml(newTips);
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    window.MathJax.typesetPromise([container]);
-                }
+                typesetMathWithConstraints(container);
             }
             queueNoteUpdate(currentPaper, currentSection, 'TIPS_PROPERTY', newTips);
             teardownRevisionNoteEditor();

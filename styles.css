@@ -1235,8 +1235,23 @@ h2 {
 .note-section-content,
 .callout-content,
 #note-tips-content {
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-wrap: anywhere;
+}
+
+/* Do not force-break MathJax lines; scroll lives on mjx-container */
+.note-section-content mjx-container,
+.callout-content mjx-container,
+#note-tips-content mjx-container {
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Inline math — no scroll unless JS adds .math-wide (avoids scroll on every symbol) */
+.note-section-content mjx-container:not([display="true"]):not(.math-wide),
+.callout-content mjx-container:not([display="true"]):not(.math-wide),
+#note-tips-content mjx-container:not([display="true"]):not(.math-wide) {
+    max-width: 100%;
 }
 
 .questions-main-content img,
@@ -1254,38 +1269,104 @@ h2 {
     height: auto;
 }
 
-/* Display math only — shrink to content; scroll when wider than column */
+/* Display math inside lists — same scroll box (li stays overflow:visible for bullets) */
+.note-list li mjx-container[display="true"] {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    contain: none;
+}
+
+/* Notes display formulas — full-width box; inner math scrolls when wide */
+.note-section-content mjx-container[display="true"],
+.callout-content mjx-container[display="true"] {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    margin: 18px 0 !important;
+    padding: 18px 22px !important;
+    background: var(--formula-bg) !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--formula-border) !important;
+    border-left: 3px solid var(--accent-default) !important;
+    box-shadow: var(--formula-shadow) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    contain: none;
+}
+
+/* Inner math wider than box → horizontal scroll on container above */
+.note-section-content mjx-container[display="true"] mjx-math,
+.callout-content mjx-container[display="true"] mjx-math,
+.note-section-content mjx-container[display="true"].math-wide mjx-math,
+.callout-content mjx-container[display="true"].math-wide mjx-math {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+}
+
+/* Wide inline math only (not on li/p — avoids clipping list bullets) */
+.note-section-content mjx-container.math-wide:not([display="true"]),
+.callout-content mjx-container.math-wide:not([display="true"]),
+#note-tips-content mjx-container.math-wide:not([display="true"]),
+.q-text mjx-container.math-wide:not([display="true"]),
+.q-context mjx-container.math-wide:not([display="true"]),
+.option-item mjx-container.math-wide:not([display="true"]) {
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    vertical-align: middle;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+/* Questions — display math */
 .q-text mjx-container[display="true"],
 .q-context mjx-container[display="true"],
 .option-item mjx-container[display="true"],
 .q-notes-content mjx-container[display="true"],
-.note-section-content mjx-container[display="true"],
-.callout-content mjx-container[display="true"],
-#note-tips-content mjx-container[display="true"],
 .questions-main-content mjx-container[display="true"],
-.questions-viewport mjx-container[display="true"],
-.notes-main-content mjx-container[display="true"],
-.notes-viewport mjx-container[display="true"] {
+.questions-viewport mjx-container[display="true"] {
     display: block;
-    width: max-content;
+    width: 100%;
     max-width: 100%;
+    min-width: 0;
     box-sizing: border-box;
     margin: 0.5em 0;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    contain: none;
 }
 
-/* Inline math — no scroll boxes; parents clip page overflow */
-.q-text mjx-container:not([display="true"]),
-.q-context mjx-container:not([display="true"]),
-.option-item mjx-container:not([display="true"]),
-.q-notes-content mjx-container:not([display="true"]),
-.note-section-content mjx-container:not([display="true"]),
-.callout-content mjx-container:not([display="true"]),
-#note-tips-content mjx-container:not([display="true"]) {
-    max-width: 100%;
+.q-text mjx-container[display="true"] mjx-math,
+.q-context mjx-container[display="true"] mjx-math,
+.option-item mjx-container[display="true"] mjx-math,
+.q-notes-content mjx-container[display="true"] mjx-math,
+.questions-main-content mjx-container[display="true"] mjx-math,
+.questions-viewport mjx-container[display="true"] mjx-math {
+    display: inline-block;
+    width: auto;
+    max-width: none;
+    overflow: visible;
+}
+
+/* Extra-wide display in questions */
+.q-text mjx-container[display="true"].math-wide,
+.q-context mjx-container[display="true"].math-wide,
+.questions-main-content mjx-container[display="true"].math-wide,
+.questions-viewport mjx-container[display="true"].math-wide {
+    overflow-x: auto !important;
 }
 
 .questions-main-content pre,
@@ -1309,7 +1390,7 @@ h2 {
     position: relative;
     max-width: 100%;
     min-width: 0;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
     background: var(--bg-color);
     border-radius: 6px;
@@ -1620,10 +1701,10 @@ h2 {
     scroll-padding-top: calc(var(--hero-compact-min-height) + 16px);
 }
 
-/* Clip wide content at viewer — math scrolls inside mjx-container, not the whole page */
+/* Page width contained on html/body; math scrolls inside mjx-container */
 #year-viewer.content-viewer--questions,
 #year-viewer.content-viewer--notes {
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
 }
 
@@ -1632,7 +1713,7 @@ h2 {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
 }
 
@@ -3013,7 +3094,7 @@ body.login-page-body.light-theme .login-card {
     min-width: 0;
     position: relative;
     gap: 0;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
 }
 
@@ -3253,7 +3334,7 @@ body.login-page-body.light-theme .login-card {
     transition: all 0.4s ease;
     min-width: 0;
     max-width: 100%;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
     max-height: none;
     box-sizing: border-box;
@@ -3770,9 +3851,21 @@ body.login-page-body.light-theme .login-card {
     font-size: 1.02rem;
     max-width: 100%;
     min-width: 0;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
 }
+
+/* Room for chevron bullets (positioned left of li); do not use overflow on li — clips ::before */
+.note-list:not(.note-ol) {
+    padding-left: 22px;
+    list-style: none;
+}
+
+.note-list.note-ol {
+    padding-left: 1.75em;
+    list-style-position: outside;
+}
+
 .note-list li {
     margin-bottom: 6px;
     position: relative;
@@ -3780,6 +3873,12 @@ body.login-page-body.light-theme .login-card {
     color: var(--text-body);
     line-height: 1.75;
     padding-left: 2px;
+    max-width: 100%;
+    overflow: visible;
+}
+
+.note-ol li {
+    list-style: decimal;
 }
 
 /* Top-level bullet — mid-purple chevron */
@@ -3793,11 +3892,6 @@ body.login-page-body.light-theme .login-card {
     line-height: 1.75;
 }
 
-.note-ol li {
-    list-style: decimal;
-    padding-left: 2px;
-}
-
 .note-ol li::marker {
     color: var(--accent-default);
     font-weight: 700;
@@ -3808,8 +3902,7 @@ body.login-page-body.light-theme .login-card {
     margin-left: 22px;
     margin-top: 5px;
     margin-bottom: 5px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
 }
 
 .note-list .note-list:not(.note-ol) li::before {
@@ -3820,17 +3913,7 @@ body.login-page-body.light-theme .login-card {
     line-height: 1.6;
 }
 
-/* Formula blocks in notes */
-.note-section-content mjx-container[display="true"],
-.callout-content mjx-container[display="true"] {
-    background: var(--formula-bg) !important;
-    padding: 18px 22px !important;
-    border-radius: 8px !important;
-    border: 1px solid var(--formula-border) !important;
-    border-left: 3px solid var(--accent-default) !important;
-    margin: 18px 0 !important;
-    box-shadow: var(--formula-shadow) !important;
-}
+/* (Display formula blocks — see .note-section-content mjx-container[display="true"] above) */
 
 /* Tip Callout — Revision Priorities */
 .note-callout.tip {
@@ -3848,7 +3931,7 @@ body.login-page-body.light-theme .login-card {
     box-sizing: border-box;
     box-shadow: var(--panel-shadow);
     position: relative;
-    overflow-x: clip;
+    overflow-x: visible;
     overflow-y: visible;
 }
 
@@ -3878,7 +3961,7 @@ body.login-page-body.light-theme .login-card {
     color: var(--accent-muted);
     min-width: 0;
     max-width: 100%;
-    overflow-x: clip;
+    overflow-x: visible;
     z-index: 1;
 }
 
