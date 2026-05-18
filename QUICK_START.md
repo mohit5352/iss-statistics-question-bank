@@ -8,7 +8,7 @@
 
 That's it! No setup required for desktop use.
 
-**UI:** Full-bleed **sticky hero** photo with title + controls on the image (scroll to compact). **Admin login** (`login.html`): split hero + glass sign-in card. Dark theme by default (charcoal + bone glass); **sun/moon** on the hero switches page theme (photo styling stays the same). **Questions** | **Revision Notes** uses segmented pills on the hero; primary buttons match **Show Answer** capsule colors. Optional fonts: README / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
+**UI:** **Sticky hero** (`top-hero-image-*.webp`) with title + controls on the photo (scroll to compact). **Page backdrop** (`page-hero-image-*.webp`) behind questions when `PHOTO_BACKDROP` is on — light theme uses transparent glass cards. **Admin login** (`login.html`): split hero + glass sign-in card. **Sun/moon** swaps dark/light **and** both image pairs. See [`assets/README.md`](assets/README.md) to replace photos. Optional fonts: [README](README.md) / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
 
 **Changing the theme?** See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) (edit `styles.css` tokens only; verify dark + light).
 

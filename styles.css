@@ -23,12 +23,15 @@ html {
     --font-sans: "atvik", "Atvik", system-ui, -apple-system, sans-serif;
     --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-    /* Hero — swap any image via --hero-image; tune overlay strength below if needed */
-    /* --hero-image: url('assets/hero-statistics.webp'); */
-    --hero-image: url('assets/hero-statistics-color-green-gold.webp');
+    /* Hero images — per theme (see assets/IMAGE-PROMPTS.md) */
+    --top-hero-image: url('assets/top-hero-image-dark.webp');
+    --page-hero-image: url('assets/page-hero-image-dark.webp');
+    --top-hero-position: center;
+    --page-hero-position: center center;
+    /* Mobile portrait: vertical slice of 21:9 plate — tune % to taste */
+    --page-hero-position-mobile: center 38%;
     --hero-min-height: clamp(300px, 44vw, 400px);
     --hero-compact-min-height: 148px;
-    --hero-media-position: center;
     --hero-overlay-angle: 105deg;
     /* Overlay on photo only (not UI). Left = headline side (bone text). */
     --hero-overlay-text-side: 80%;
@@ -52,6 +55,16 @@ html {
         transparent var(--hero-overlay-clear-at),
         color-mix(in srgb, var(--charcoal-deep) var(--hero-overlay-far-edge), transparent) 100%
     );
+    /* Full-page photo behind viewer — toggled via body.app-photo-backdrop */
+    --page-backdrop-scrim: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--charcoal-deep) 48%, transparent) 0%,
+        color-mix(in srgb, var(--charcoal-deep) 78%, transparent) 38%,
+        color-mix(in srgb, var(--charcoal-deep) 88%, transparent) 100%
+    );
+    --card-glass-bg: color-mix(in srgb, var(--charcoal-deep) 36%, transparent);
+    --card-glass-bg-hover: color-mix(in srgb, var(--charcoal-deep) 48%, transparent);
+    --header-glass-bg: color-mix(in srgb, var(--charcoal) 52%, transparent);
     --toolbar-height: 56px;
 
     --glass-blur: 16px;
@@ -296,6 +309,36 @@ html {
 
     --glass-border: color-mix(in srgb, var(--charcoal) 14%, transparent);
     --glass-highlight: inset 0 1px 0 color-mix(in srgb, var(--bone-elevated) 85%, transparent);
+
+    --top-hero-image: url('assets/top-hero-image-light.webp');
+    --page-hero-image: url('assets/page-hero-image-light.webp');
+    /* Hero copy on bright photo — charcoal text, soft shadow */
+    --hero-fg: var(--charcoal-deep);
+    --hero-fg-muted: color-mix(in srgb, var(--charcoal) 90%, transparent);
+    --hero-fg-subtle: color-mix(in srgb, var(--charcoal) 78%, transparent);
+    --hero-text-shadow:
+        0 1px 2px color-mix(in srgb, var(--bone-elevated) 92%, transparent),
+        0 2px 10px color-mix(in srgb, var(--bone) 75%, transparent);
+    --hero-overlay-text-side: 42%;
+    --hero-overlay-text-mid: 18%;
+    --hero-overlay-clear-at: 56%;
+    --hero-overlay-far-edge: 10%;
+    --hero-overlay: linear-gradient(
+        var(--hero-overlay-angle),
+        color-mix(in srgb, var(--bone) var(--hero-overlay-text-side), transparent) 0%,
+        color-mix(in srgb, var(--bone) var(--hero-overlay-text-mid), transparent) 38%,
+        transparent var(--hero-overlay-clear-at),
+        color-mix(in srgb, var(--bone) var(--hero-overlay-far-edge), transparent) 100%
+    );
+    /* Lighter scrim — page photo visible like dark theme */
+    --page-backdrop-scrim: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bone) 16%, transparent) 0%,
+        color-mix(in srgb, var(--bone) 30%, transparent) 40%,
+        color-mix(in srgb, var(--bone) 38%, transparent) 100%
+    );
+    --header-glass-bg: color-mix(in srgb, var(--charcoal) 12%, transparent);
+    --sidebar-glass-bg: color-mix(in srgb, var(--charcoal) 10%, transparent);
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -363,7 +406,7 @@ body.light-theme {
 .site-hero__media {
     background:
         var(--hero-overlay),
-        var(--hero-image) var(--hero-media-position) / cover no-repeat;
+        var(--top-hero-image) var(--top-hero-position) / cover no-repeat;
     background-size: cover, cover;
 }
 
@@ -561,9 +604,9 @@ body.app-mode-notes .hero-dock__dot--set-auth {
 .hero-dock__auth .auth-pill,
 .hero-dock__auth .auth-pill-logged {
     color: var(--hero-fg-muted);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
 }
 
 .hero-dock__auth .auth-pill-login {
@@ -587,24 +630,29 @@ body.app-mode-notes .hero-dock__dot--set-auth {
 }
 
 .hero-dock .set-indicator-text,
-.hero-dock .set-dot,
-.hero-dock #set-letter {
+.hero-dock .set-dot {
     color: var(--hero-fg-muted);
     text-shadow: var(--hero-text-shadow);
 }
 
+.hero-dock .set-indicator-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
 .hero-dock #set-letter {
     color: var(--hero-fg);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 12px color-mix(in srgb, var(--bone) calc(0.55 * 70%), transparent);
 }
 
 .hero-dock .set-dot {
     color: var(--hero-fg-subtle);
     opacity: 0.9;
-}
-
-.hero-dock .set-indicator-text {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
 }
 
 /* Mode tabs — plain text on hero (override global pill styles in both themes) */
@@ -623,8 +671,8 @@ body.app-mode-notes .hero-dock__dot--set-auth {
     padding: 0 0 3px;
     margin-right: 18px;
     font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     color: var(--hero-fg-subtle);
     background: transparent;
     border: none;
@@ -641,6 +689,7 @@ body.app-mode-notes .hero-dock__dot--set-auth {
 
 .site-hero .mode-toggle-wrap--hero .mode-btn.active {
     color: var(--hero-fg);
+    font-weight: 800;
     background: transparent;
     border: none;
     box-shadow: none;
@@ -708,9 +757,11 @@ body.light-theme .site-hero .mode-toggle-wrap--hero .mode-btn.active {
     display: block;
     width: auto;
     max-width: 100%;
-    font-size: 0.58rem;
-    letter-spacing: 0.16em;
-    color: var(--hero-fg-subtle);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hero-fg-muted);
     text-align: start;
     white-space: nowrap;
     overflow: hidden;
@@ -721,10 +772,11 @@ body.light-theme .site-hero .mode-toggle-wrap--hero .mode-btn.active {
     display: block;
     width: auto;
     max-width: 100%;
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
     color: var(--hero-fg);
-    text-shadow: inherit;
+    text-shadow: 0 0 12px color-mix(in srgb, var(--bone) calc(0.55 * 70%), transparent);
     text-align: start;
     white-space: nowrap;
     overflow: hidden;
@@ -735,18 +787,27 @@ body.light-theme .site-hero .mode-toggle-wrap--hero .mode-btn.active {
     display: none;
 }
 
-/* Light theme: page tokens change but hero photo strip stays dark-gradient + bone text */
-body.light-theme .site-hero__media {
-    background:
-        var(--hero-overlay),
-        var(--hero-image) var(--hero-media-position) / cover no-repeat;
-}
-
+/* Light theme: light hero photo + bone wash scrim + charcoal hero text (via --hero-fg) */
 body.light-theme .site-hero__scrim {
     background:
-        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 34%, transparent) 0%, transparent 32%),
-        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 74%, transparent) 0%, transparent 58%),
-        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 38%, transparent) 0%, transparent 44%);
+        linear-gradient(180deg, color-mix(in srgb, var(--bone) 28%, transparent) 0%, transparent 30%),
+        linear-gradient(0deg, color-mix(in srgb, var(--bone) 52%, transparent) 0%, transparent 55%),
+        linear-gradient(90deg, color-mix(in srgb, var(--bone) 32%, transparent) 0%, transparent 46%);
+}
+
+body.light-theme .site-hero__theme.theme-toggle-btn {
+    border-color: var(--glass-border);
+    background: color-mix(in srgb, var(--bone-elevated) 88%, transparent);
+    color: var(--charcoal-deep);
+    box-shadow:
+        var(--shadow-inner),
+        0 4px 16px color-mix(in srgb, var(--charcoal) 10%, transparent);
+}
+
+body.light-theme .site-hero__theme.theme-toggle-btn:hover {
+    background: color-mix(in srgb, var(--bone) 92%, var(--charcoal) 8%);
+    border-color: var(--border-hover);
+    color: var(--charcoal-deep);
 }
 
 body.light-theme .site-hero .hero-dock__meta.meta-controls,
@@ -826,6 +887,209 @@ body.light-theme .site-hero .hero-dock #set-letter {
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
+    position: relative;
+}
+
+/* ===== Full-page hero photo behind questions + notes viewer (experiment) ===== */
+body.app-photo-backdrop {
+    background-color: var(--charcoal-deep);
+    background-image: none;
+}
+
+body.app-photo-backdrop.light-theme {
+    background-color: color-mix(in srgb, var(--bone) 55%, transparent);
+}
+
+body.app-photo-backdrop .paper-container::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: var(--page-backdrop-scrim), var(--page-hero-image);
+    background-size: auto, cover;
+    background-position: center, var(--page-hero-position);
+    background-repeat: no-repeat, no-repeat;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Page backdrop — mobile crop (portrait narrows the 21:9 frame; desktop stays center) */
+@media (max-width: 768px) {
+    body.app-photo-backdrop .paper-container::before {
+        background-position: center, var(--page-hero-position-mobile);
+        background-size: auto, cover;
+    }
+
+    /* Light mobile: don’t paint opaque bone over the page photo */
+    body.app-photo-backdrop.light-theme {
+        background-color: transparent;
+        background-image: none;
+    }
+
+    body.light-theme.app-photo-backdrop {
+        --page-backdrop-scrim: linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--bone) 12%, transparent) 0%,
+            color-mix(in srgb, var(--bone) 26%, transparent) 42%,
+            color-mix(in srgb, var(--bone) 34%, transparent) 100%
+        );
+    }
+
+    body.app-photo-backdrop.light-theme .question-card:not(.no-surface) {
+        background-color: color-mix(in srgb, var(--charcoal) 5%, transparent);
+        -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+        backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+        box-shadow: 0 0 0 1px var(--glass-border);
+    }
+
+    body.app-photo-backdrop.light-theme .question-card:not(.no-surface):hover {
+        background-color: color-mix(in srgb, var(--charcoal) 8%, transparent);
+        box-shadow: 0 0 0 1px var(--border-hover);
+        transform: none;
+    }
+
+    body.app-photo-backdrop.light-theme .q-header {
+        background: color-mix(in srgb, var(--charcoal) 10%, transparent);
+        box-shadow: 0 0 0 1px var(--border-dim);
+    }
+
+    body.app-photo-backdrop.light-theme .explanation-collapsible {
+        background: color-mix(in srgb, var(--charcoal) 7%, transparent);
+    }
+}
+
+@media (max-width: 480px) {
+    body.app-photo-backdrop .paper-container::before {
+        background-position: center, center 34%;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    body.app-photo-backdrop .paper-container::before {
+        background-position: center, center 45%;
+    }
+}
+
+/* Keep position: sticky on hero — never override with position: relative */
+body.app-photo-backdrop .site-hero {
+    z-index: 1000;
+}
+
+/* Do not z-index #year-viewer — it traps fixed sidebars (z-index 2000) below the hero */
+
+/* Compact sticky bar: glass over scrolling content (photo shows through hero scrims) */
+body.app-photo-backdrop .site-hero.is-compact {
+    background: var(--hero-glass-bg-stuck);
+    backdrop-filter: blur(18px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(18px) saturate(var(--glass-saturate));
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Hero keeps its own photo; page uses --page-hero-image on ::before */
+body.app-photo-backdrop .site-hero__media {
+    background:
+        var(--hero-overlay),
+        var(--top-hero-image) var(--top-hero-position) / cover no-repeat;
+    background-size: cover, cover;
+}
+
+body.app-photo-backdrop .sidebar-open-btn {
+    z-index: 2101;
+}
+
+body.app-photo-backdrop #year-viewer,
+body.app-photo-backdrop .notes-layout,
+body.app-photo-backdrop .questions-layout,
+body.app-photo-backdrop .notes-main-content,
+body.app-photo-backdrop .questions-main-content,
+body.app-photo-backdrop .notes-viewport,
+body.app-photo-backdrop .questions-viewport,
+body.app-photo-backdrop .notes-container {
+    background: transparent;
+}
+
+body.app-photo-backdrop .notes-sidebar,
+body.app-photo-backdrop .questions-sidebar {
+    background: color-mix(in srgb, var(--charcoal-deep) 76%, transparent);
+    backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+    border-right-color: var(--glass-border);
+    z-index: 2100;
+}
+
+body.app-photo-backdrop.light-theme .notes-sidebar,
+body.app-photo-backdrop.light-theme .questions-sidebar {
+    background: var(--sidebar-glass-bg, color-mix(in srgb, var(--charcoal) 10%, transparent));
+    backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+}
+
+body.app-photo-backdrop .q-context {
+    background: color-mix(in srgb, var(--charcoal) 68%, transparent);
+    backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+}
+
+body.app-photo-backdrop.light-theme .q-context {
+    background: color-mix(in srgb, var(--charcoal) 8%, transparent);
+    backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+}
+
+body.app-photo-backdrop .q-header {
+    background: var(--header-glass-bg);
+    backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+    box-shadow: var(--glow-shadow);
+}
+
+body.app-photo-backdrop.light-theme .q-header {
+    background: var(--header-glass-bg);
+    border-bottom-color: var(--border-dim);
+    box-shadow: 0 0 0 1px var(--border-dim);
+}
+
+body.app-photo-backdrop .note-callout.tip {
+    background: color-mix(in srgb, var(--charcoal) 70%, transparent);
+    backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+}
+
+body.app-photo-backdrop.light-theme .note-callout.tip {
+    background: color-mix(in srgb, var(--charcoal) 8%, transparent);
+    backdrop-filter: blur(14px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(14px) saturate(var(--glass-saturate));
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    body.app-photo-backdrop .paper-container::before {
+        display: none;
+    }
+
+    body.app-photo-backdrop {
+        background-color: var(--bg-color);
+    }
+
+    body.app-photo-backdrop .site-hero__media {
+        background:
+            var(--hero-overlay),
+            var(--top-hero-image) var(--top-hero-position) / cover no-repeat;
+        background-size: cover, cover;
+    }
+
+    body.app-photo-backdrop .notes-sidebar,
+    body.app-photo-backdrop .questions-sidebar {
+        background: var(--bg-color);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    body.app-photo-backdrop .q-context {
+        background: var(--bg-color);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
 }
 
 /* ===== Headings ===== */
@@ -1121,7 +1385,7 @@ h2 {
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 28px;
-    background-color: var(--surface-2);
+    background: color-mix(in srgb, var(--surface-2) 85%, transparent);
     backdrop-filter: blur(12px) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
     border: 1px solid var(--glass-border);
@@ -1129,6 +1393,34 @@ h2 {
     position: relative;
     box-shadow: var(--card-shadow), var(--shadow-inner);
     box-sizing: border-box;
+}
+
+body.app-photo-backdrop:not(.light-theme) .question-card:not(.no-surface) {
+    background: var(--card-glass-bg);
+}
+
+body.app-photo-backdrop:not(.light-theme) .question-card:not(.no-surface):hover {
+    background: var(--card-glass-bg-hover);
+}
+
+/* Light + photo: glass only — tiny charcoal tint (fully transparent breaks on iOS Safari) */
+body.app-photo-backdrop.light-theme .question-card:not(.no-surface) {
+    background-color: color-mix(in srgb, var(--charcoal) 4%, transparent);
+    backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+    box-shadow: 0 0 0 1px var(--glass-border);
+    isolation: isolate;
+}
+
+body.app-photo-backdrop.light-theme .question-card:not(.no-surface):hover {
+    background-color: color-mix(in srgb, var(--charcoal) 7%, transparent);
+    box-shadow: 0 0 0 1px var(--border-hover);
+}
+
+body.app-photo-backdrop.light-theme .explanation-collapsible {
+    background: color-mix(in srgb, var(--charcoal) 6%, transparent);
+    backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
 }
 
 .question-card:hover {
@@ -1142,6 +1434,8 @@ h2 {
     box-shadow: none;
     padding: 12px 0;
     border-radius: 6px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 /* ===== Question Header ===== */
@@ -1551,6 +1845,11 @@ h2 {
     .question-card:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
         transform: none;
+    }
+
+    body.app-photo-backdrop.light-theme .question-card:not(.no-surface):hover {
+        box-shadow: 0 0 0 1px var(--border-hover);
+        background-color: color-mix(in srgb, var(--charcoal) 8%, transparent);
     }
     .meta-item:hover {
         background: color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent);
@@ -2393,6 +2692,11 @@ h2 {
         background-color: var(--bg-color);
     }
 
+    body.app-photo-backdrop {
+        background-color: transparent;
+        background-image: none;
+    }
+
     .site-hero {
         margin-bottom: 12px;
         --hero-compact-min-height: 132px;
@@ -2432,12 +2736,16 @@ h2 {
     }
 
     .hero-dock__meta .meta-value {
-        font-size: 0.78rem;
+        font-size: 0.76rem;
     }
 
     .hero-dock__meta .meta-label {
-        font-size: 0.52rem;
-        letter-spacing: 0.12em;
+        font-size: 0.68rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-dock #set-letter {
+        font-size: 0.76rem;
     }
 
     .meta-controls {
@@ -2525,6 +2833,11 @@ h2 {
         background-color: var(--bg-color);
     }
 
+    body.app-photo-backdrop {
+        background-color: transparent;
+        background-image: none;
+    }
+
     :root {
         --page-gutter: 10px;
     }
@@ -2539,7 +2852,7 @@ h2 {
     .site-hero .mode-toggle-wrap--hero .mode-btn {
         padding: 0 0 3px;
         margin-right: 14px;
-        font-size: 0.68rem;
+        font-size: 0.72rem;
     }
 
     .hero-dock__meta.meta-controls {
@@ -2555,8 +2868,12 @@ h2 {
     }
 
     .hero-dock__meta .meta-label {
-        font-size: 0.48rem;
-        letter-spacing: 0.1em;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-dock #set-letter {
+        font-size: 0.72rem;
     }
 
     .question-card  { padding: 12px; margin-bottom: 15px; }
@@ -2639,7 +2956,7 @@ body.login-page-body.light-theme {
 .login-hero-panel__media {
     background:
         var(--hero-overlay),
-        var(--hero-image) var(--hero-media-position) / cover no-repeat;
+        var(--top-hero-image) var(--top-hero-position) / cover no-repeat;
     background-size: cover, cover;
 }
 

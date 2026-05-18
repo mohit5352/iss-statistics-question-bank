@@ -30,11 +30,13 @@ statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
 ├── login.html                                     # Admin login — split hero image + glass sign-in panel
 ├── assets/
-│   ├── hero-statistics-color-green-gold.webp      # Active default in styles.css (--hero-image)
-│   ├── hero-statistics.webp                       # Monochrome hero photo
-│   ├── hero-statistics-color-*.webp               # Color alternates (teal-amber, indigo-rose, coral-sky, …)
-│   ├── hero-statistics.svg                        # SVG fallback
-│   └── README.md                                  # Hero swap + overlay tuning + AI prompts
+│   ├── top-hero-image-dark.webp                   # Sticky hero — dark theme (--top-hero-image)
+│   ├── top-hero-image-light.webp                  # Sticky hero — light theme
+│   ├── page-hero-image-dark.webp                  # Full-page backdrop — dark (--page-hero-image)
+│   ├── page-hero-image-light.webp                 # Full-page backdrop — light (glass UI)
+│   ├── IMAGE-PROMPTS.md                           # AI prompts for all four images
+│   └── README.md                                  # Export specs, CSS tuning, QA checklist
+│   # Optional unused duplicates (not wired in CSS): top-hero-image.webp, page-hero-image.webp
 ├── fonts.css                                      # Adobe font stacks (Freight Display/Big Pro, Atvik) + fallbacks
 ├── styles.css                                     # Bone & Charcoal glass theme, layout, components
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
@@ -121,13 +123,33 @@ statistics_question_bank/
 
 **Note**: Mobile browsers block loading local files directly. Using a local web server is the most reliable method.
 
+## 🖼 Hero & page backdrop images
+
+The UI uses **four** production WebPs in `assets/` (green & gold editorial palette). CSS swaps them on theme toggle — see **[`assets/README.md`](assets/README.md)** and **[`assets/IMAGE-PROMPTS.md`](assets/IMAGE-PROMPTS.md)**.
+
+| Asset | Variable | Used for |
+|-------|----------|----------|
+| `top-hero-image-dark.webp` / `top-hero-image-light.webp` | `--top-hero-image` | Sticky hero + `login.html` hero panel |
+| `page-hero-image-dark.webp` / `page-hero-image-light.webp` | `--page-hero-image` | Full-page photo behind questions/notes (`PHOTO_BACKDROP` in `main.html`) |
+
+**Behaviour:**
+
+- **Sticky hero:** Photo stays pinned while scrolling; title compacts; mode/Paper/Year controls stay on the image (no separate solid toolbar). Theme toggle uses a **glass chip** (both themes).
+- **Page backdrop:** When `body.app-photo-backdrop` is set, the page plate shows behind the viewer. **Dark:** frosted charcoal glass cards. **Light:** **transparent** question cards (blur + border) so the photo shows through; light page image must have visible texture (not flat white).
+- **Mobile:** Same four files; CSS crops the 21:9 page plate via `--page-hero-position-mobile` (no separate mobile exports). Light mobile uses a transparent `body` over the photo so nothing paints solid bone between cards.
+
+To replace images: regenerate from `assets/IMAGE-PROMPTS.md`, drop files in `assets/`, hard refresh. Tune scrims without re-exporting via `--page-backdrop-scrim`, `--hero-overlay-*` in `styles.css`.
+
+To disable the page photo (solid theme only): set `PHOTO_BACKDROP = false` in `main.html` (removes `body.app-photo-backdrop`).
+
 ### Live Deployment (Vercel) — Answer Corrections, Explanations & Revision Notes on Production
 
 To deploy so that **answer corrections**, **explanation edits**, and **Revision Notes** work on the live site (updating `answers.js`, `explanations.js`, and `notes.js` in GitHub), use **Vercel** (free tier). See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (GitHub PAT, env vars, admin login, **Study chat** for admins on Vercel via `OLLAMA_HOST`). Set `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for corrections, explanations, and notes; and `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL` for admin login.
 
 ## 🎯 Features
 
-- **Sticky hero banner**: Full-bleed statistics photo (`--hero-image`) stays pinned while you scroll; title compacts to a shorter strip so controls remain on the image (no separate solid toolbar bar)
+- **Sticky hero banner**: Theme-specific photo (`--top-hero-image` — dark/light WebPs in `assets/`) stays pinned while you scroll; title compacts to a shorter strip so controls remain on the image (no separate solid toolbar bar)
+- **Page photo backdrop**: Theme-specific full-page plate (`--page-hero-image`) behind the questions/notes viewer when `app-photo-backdrop` is enabled — dark: frosted charcoal glass cards; light: transparent glass cards (blur + border) over a visible textured page photo
 - **Paper Switcher**: Switch between all four ISS Statistics Papers
 - **Section Switcher**:
   - Paper I: Probability & Statistics, Numerical Analysis, Computer
@@ -146,18 +168,18 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. **Copy**, **Edit**, and **Delete** (admin) icon buttons appear in both the sidebar and each topic header. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Full-screen edit** (section content or topic tips) uses the **same shell** as explanation editing: **`.revision-editor-unified`** — one bordered surface with **breadcrumb** + **theme/close**, optional **title** row (notes only), **toolbar** (**Split** / **Source** / **Preview** | **Cancel** / **Save**), then the **split panes**. A compact **?** in the **Markdown source** header shows formatting tips in a **tooltip** (hover/focus). **Inline** “add section” flows still use a collapsible **Formatting help** (`<details class="note-format-hint">`) above a small textarea.
 - **Questions Sidebar**: In Questions mode, a collapsible sidebar shows a Table of Contents with topic + question preview (ellipsis). Hover for full question text. **Hash routing** and **scroll sync** keep the active question highlighted as you scroll. **Outside click** closes the sidebar. On mobile, a floating **Questions** button opens the slide-out drawer.
 - **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical bone/charcoal accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
-- **Theme Toggle**: Sun/moon on the **hero photo** (top-right of `.site-hero__frame` on main; same on `login.html` hero panel). Switches **page chrome** between **dark** (default) and **light**; hero overlay and photo treatment use `:root` hero tokens only (same cinematic look in both themes). Preference in `localStorage`; login syncs with main.
-- **Mobile Optimized**: Responsive design with touch-friendly controls; window scroll + sticky hero (no nested scroll trap on `#year-viewer`)
-- **Math Rendering**: Beautiful mathematical notation using MathJax
+- **Theme Toggle**: Sun/moon on the **hero photo** (glass chip, top-right). Switches **dark/light** page chrome and swaps **`--top-hero-image`** / **`--page-hero-image`** to the matching WebP pair. Hero text: bone (dark) or charcoal (light). Preference in `localStorage`; login syncs with main.
+- **Mobile optimized**: Touch-friendly controls; window scroll + sticky hero; page backdrop cropped for portrait (`--page-hero-position-mobile`); light theme keeps glass cards transparent on photo (see [Hero & page backdrop images](#-hero--page-backdrop-images))
+- **Math Rendering**: MathJax with display-formula scroll boxes and width-aware inline overflow (`.math-wide` after typeset)
 - **Bone & Charcoal glass UI**: Strict **monochrome** palette — only **bone** (`#F1ECE3`) and **charcoal** (`#424242`), with steps derived via `color-mix` (no purple, green, or red accents). **Dark theme** (default): charcoal-deep page, frosted charcoal glass surfaces, bone text. **Light theme**: bone page, frosted bone glass, charcoal text. Highlights:
-  - **Hero & login layout**: Full-bleed `--hero-image` (edge-to-edge). **Sticky** `.site-hero` keeps the photo pinned while scrolling; compact mode hides title/tagline but leaves **hero dock** (mode, Paper/Section/Year, Set, admin link) on the image — no separate frosted toolbar bar. `login.html`: **split screen** (~52/48) — hero panel + glass sign-in card; **Back** + theme on the photo. Swap images via `assets/README.md`.
+  - **Hero & login layout**: Full-bleed `--top-hero-image` (separate dark/light files). **Sticky** `.site-hero` keeps the photo pinned; compact mode hides title/tagline but leaves **hero dock** on the image. `login.html`: split screen — hero panel + glass sign-in card. **Page backdrop**: `--page-hero-image` (dark/light) with glass viewer — light mode: transparent question cards, visible photo. Prompts: `assets/IMAGE-PROMPTS.md`.
   - **Typography**: **Atvik** (sans) for UI; **Freight Display Pro** / **Freight Big Pro** (serif) for headings — via Adobe Fonts (`fonts.css`; uncomment Typekit link in `main.html` / `login.html` after adding your Web Project kit ID)
   - **Glass**: `backdrop-filter` on question cards, login card, chat panel; hero dock / mode tabs on the photo stay transparent (photo-native controls, not a second glass bar on scroll)
   - **Paper Title (h1) / section titles**: Serif, bone (dark) or charcoal (light)
   - **Set Indicator**: Converging charcoal/bone gradient divider lines; `SET ◆ X` in accent tone
   - **Meta Controls**: Frosted pill panel; ALL-CAPS muted labels; bold accent values; hidden `<select>` overlay per zone
   - **Mode toggle** (Questions | Revision Notes): Segmented capsules — active segment uses `--pill-active-bg` / `--pill-active-fg` (same as **KEY TOPICS** badge and floating **Questions** / **Topics** buttons)
-  - **Question Cards**: Frosted glass card, hairline border, depth shadow; hover lift with bone/charcoal ring
+  - **Question Cards**: On photo backdrop — dark: charcoal-tinted glass; light: **transparent** card (blur + border, no white fill) over `--page-hero-image`. Off backdrop: frosted `--surface-2` glass
   - **Question Number / header band**: Accent default tone; subtle glass header row
   - **Question Topic**: Italic primary text — inline annotation, no badge
   - **Question Text & MathJax**: Primary text; formulas use `--mathjax-color` (accent-soft)
@@ -348,17 +370,18 @@ Use this workflow for any palette, contrast, or styling update — avoid editing
 Open `styles.css`. At the top you will find:
 
 1. **Primitives** (lines ~7–13): `--bone`, `--charcoal`, `--charcoal-deep`, `--charcoal-elevated`, `--bone-elevated`, `--bone-dim` — the only hex anchors.
-2. **Hero** (lines ~23–51): `--hero-image`, overlay strengths (`--hero-overlay-*`), `--hero-fg*` — shared by **main** sticky hero and **login** split panel; not overridden in `.light-theme`.
-3. **Dark theme** — `:root { ... }`: semantic mappings (`--bg-color`, `--surface-*`, `--pill-active-*`, `--text-*`, etc.).
-4. **Light theme** — `.light-theme { ... }`: page/surface tokens only; hero photo styling stays on `:root` hero tokens.
+2. **Hero images** (lines ~26–30): `--top-hero-image`, `--page-hero-image` — four WebPs in `assets/` (dark in `:root`, light in `.light-theme`).
+3. **Hero overlays** (lines ~33–55, `.light-theme` block): `--hero-overlay-*`, `--hero-fg*`, `--page-backdrop-scrim` — sticky hero + page backdrop scrims.
+4. **Dark theme** — `:root { ... }`: semantic mappings (`--bg-color`, `--surface-*`, `--pill-active-*`, `--text-*`, etc.).
+5. **Light theme** — `.light-theme { ... }`: page/surface tokens, light hero/page images, lighter page scrim, transparent glass cards on photo.
 
-Change primitives first for a full rebrand; swap hero with `--hero-image` only; tweak semantics in `:root` / `.light-theme` for page chrome (e.g. pill contrast, answer highlight strength).
+Change primitives first for a full rebrand; swap images via `assets/IMAGE-PROMPTS.md`; tune scrims/overlays in `:root` / `.light-theme` without re-exporting if needed.
 
 **Step 2 — Verify dark and light**
 
 1. Open `main.html` (and `login.html` if you touched auth styles).
 2. Toggle **sun/moon** on the hero — preference is stored in `localStorage`.
-3. Spot-check: sticky hero (scroll — image stays pinned, title compacts), hero dock tabs + meta, one question card, **Show Answer** (row tint + `(a)`–`(d)` + ✓), `login.html` split layout + glass card, revision **Save**, admin chat **Send** (if applicable).
+3. Spot-check: sticky hero (scroll — image stays pinned, title compacts), hero dock tabs + meta, **dark + light** page photo behind cards, one question card (light = glass not white panel), **Show Answer**, `login.html`, revision **Save**, admin chat (if applicable). **Mobile:** repeat light theme — page visible between cards.
 
 **Step 3 — Keep colors out of components**
 
@@ -380,7 +403,8 @@ Theme tokens live in `:root` (dark) and `.light-theme` in `styles.css`. **Change
 | Layer | Variables | Purpose |
 |-------|-----------|---------|
 | Primitives | `--bone`, `--charcoal`, `--charcoal-deep`, `--bone-elevated`, `--bone-dim` | Only hex anchors |
-| Hero (main + login) | `--hero-image`, `--hero-overlay-*`, `--hero-fg*`, `--hero-media-position` | Photo, scrim, on-image text; **not** overridden in `.light-theme` |
+| Hero (main + login) | `--top-hero-image`, `--hero-overlay-*`, `--hero-fg*`, `--top-hero-position` | Sticky hero photo + scrim; dark/light image swap in `.light-theme` |
+| Page backdrop | `--page-hero-image`, `--page-backdrop-scrim`, `--page-hero-position`, `--page-hero-position-mobile` | Full-page plate; light = lighter scrim + transparent glass cards; mobile crop |
 | Surfaces & borders | `--bg-color`, `--surface-*`, `--border-*`, `--glass-*` | Layout glass |
 | Text | `--text-primary`, `--text-context`, `--text-muted`, `--text-strong`, `--text-body` | Typography |
 | Accent | `--accent-strong` … `--accent-muted` | Links, numbers, icons |
@@ -390,10 +414,11 @@ Theme tokens live in `:root` (dark) and `.light-theme` in `styles.css`. **Change
 
 All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--green-*). To rebrand: edit primitives and the `:root` / `.light-theme` blocks in `styles.css` — not individual class rules.
 
-- `.site-hero`: Full-bleed sticky hero — background from `--hero-image`, overlay scrim, compact state `.is-compact` (shorter strip, copy hidden)
+- `.site-hero`: Full-bleed sticky hero — `--top-hero-image`, overlay scrim, compact `.is-compact` (shorter strip, copy hidden)
 - `.site-hero__frame` / `.site-hero__copy`: Photo frame; centered title/tagline; theme toggle anchored top-right on the frame
 - `.hero-dock` / `.hero-dock__meta`: Bottom-left controls on the hero (mode tabs, Paper/Section/Year, Set, admin link) — transparent on photo, no separate glass bar when scrolled
-- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Split login layout — hero panel (same `--hero-image`), toolbar on photo, glass sign-in card in main column
+- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Split login layout — hero panel (same `--top-hero-image`), toolbar on photo, glass sign-in card in main column
+- `body.app-photo-backdrop`: Fixed `--page-hero-image` behind viewer; `.light-theme` transparent `.question-card` glass over visible photo
 - `.paper-container`: Content wrapper below hero — horizontal padding; transparent background
 - `.mode-toggle-wrap` / `.mode-btn` / `.mode-btn.active`: Segmented **Questions | Revision Notes** control; opaque `--pill-track-bg` track; active uses `--pill-active-bg` / `--pill-active-fg` (same as `.topic-badge`, `.sidebar-open-btn`)
 - `.set-indicator-wrap`: Flex row containing two converging gradient lines and the `SET ◆ X` text; sits between `h1` and the meta panel
@@ -404,8 +429,8 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
 - `.meta-label`: Tiny ALL-CAPS muted label above each value
 - `.meta-value`: Bold accent display value — brightens on hover
 - `.meta-sep-line`: 1 px vertical hairline separator between meta zones
-- `.question-card`: Card container — frosted glass (`--surface-2`), border, depth shadow; hover lift with accent ring
-- `.question-card.no-surface`: Transparent variant for context-only cards (no bg, no shadow)
+- `.question-card`: Card container — frosted glass; with `app-photo-backdrop`: dark uses `--card-glass-bg`, light uses transparent blur + border
+- `.question-card.no-surface`: Transparent variant for context-only cards (no bg, no shadow, no blur)
 - `.q-header`: Question header row — subtle accent gradient glass band, rounded (`8px`), bottom hairline
 - `.q-number`: Question number — `--accent-default`
 - `.q-topic`: Topic annotation — italic primary text, no badge or border
@@ -498,7 +523,7 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
   - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
   - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
   - All font sizes use rem units for consistent scaling and accessibility
-- **Color scheme**: **Dark** (default) — `--charcoal-deep` background, frosted `--charcoal` glass, **bone** text. **Light** — `--bone` background, frosted elevated bone surfaces, **charcoal** text. Hero photo/scrim uses `:root` hero tokens in both themes. Strict monochrome: page UI colors are `color-mix` derivatives of `#F1ECE3` and `#424242` only. Theme in `localStorage`; login page syncs. See `styles.css` (`:root`, `.light-theme`) and `fonts.css`.
+- **Color scheme**: **Dark** (default) — `--charcoal-deep` page chrome, frosted `--charcoal` glass, **bone** text. **Light** — `--bone` page chrome, **charcoal** text. **Hero/page photos** swap per theme (`--top-hero-image`, `--page-hero-image`); hero text is bone (dark) or charcoal (light). Strict monochrome UI: `color-mix` of `#F1ECE3` and `#424242` only. Theme in `localStorage`; login syncs. See `styles.css` and `fonts.css`.
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: Unified fetch/XMLHttpRequest approach works for both desktop and mobile without iframe isolation
 - **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
@@ -506,8 +531,10 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
 
 ## 📱 Mobile Features
 
-- ✅ Sticky header for easy navigation
-- ✅ Full-screen content display
+- ✅ Sticky hero (photo pinned; compact mode for controls)
+- ✅ Full-screen content display; window scroll (no nested trap on `#year-viewer`)
+- ✅ Page backdrop: CSS crop of 21:9 plate (`--page-hero-position-mobile`; ≤480px uses `center 34%`)
+- ✅ Light theme on photo: transparent glass cards; body does not paint solid bone over the backdrop
 - ✅ Touch-friendly navigation buttons
 - ✅ Zoomable content (pinch to zoom math formulas)
 - ✅ Responsive tables (horizontal scroll on small screens)
@@ -632,7 +659,7 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 - **Admin**: Only admins can update answers, use **Study chat** and **Ask AI**, and use other admin-only editing tools. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
 - **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link) and do not see the chat FAB, keyboard shortcut, or Ask AI button.
-- **Login page** (`/login` or `login.html`): **Split-screen** — hero image panel (same `--hero-image` as main) with **Back** + **theme** on the photo; **glass sign-in card** on the right (page theme affects card/inputs only). **Login** button uses `--btn-primary-*`. Contact email for credential requests (`mailto:` when it contains `@`).
+- **Login page** (`/login` or `login.html`): **Split-screen** — hero panel (same `--top-hero-image` as main, theme-aware) with **Back** + **theme** on the photo; **glass sign-in card** on the right. **Login** button uses `--btn-primary-*`. Contact email for credential requests (`mailto:` when it contains `@`).
 - **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
 ### Show Answer — How It Works:

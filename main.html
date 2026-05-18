@@ -349,7 +349,10 @@
         // Paper 1: prob | num | comp; Paper 2: linear | inference | official; Paper 3: sampling | econometrics | applied; Paper 4: demography | quality
         var currentSection = 'prob';
         var appMode = 'questions'; // 'questions' | 'notes'
+        /** Full-page hero image behind viewer; set false to revert to solid page bg */
+        var PHOTO_BACKDROP = true;
         document.body.classList.add('app-mode-questions');
+        if (PHOTO_BACKDROP) document.body.classList.add('app-photo-backdrop');
 
         function setAppMode(mode) {
             appMode = mode;
