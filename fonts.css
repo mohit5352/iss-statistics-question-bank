@@ -1,0 +1,11 @@
+/**
+ * Adobe Fonts (Freight Display/Big Pro + Atvik)
+ * 1. Create a Web Project at fonts.adobe.com with those families.
+ * 2. Uncomment the link in main.html and login.html (replace YOUR_KIT_ID).
+ * Stacks below match Adobe CSS font-family names.
+ */
+:root {
+    --font-serif: "freight-display-pro", "freight-big-pro", "freight-display", Georgia, "Times New Roman", serif;
+    --font-sans: "atvik", "Atvik", system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}

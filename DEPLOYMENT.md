@@ -189,6 +189,22 @@ python3 -m http.server 8000
 
 ---
 
+## Custom fonts (Adobe Fonts) — optional
+
+The UI uses **Atvik** (sans) and **Freight Display Pro** / **Freight Big Pro** (serif). Stacks and fallbacks are in `fonts.css`. Until Adobe Fonts is wired up, the app uses system fallbacks (still fully usable).
+
+1. At [fonts.adobe.com](https://fonts.adobe.com), add **Atvik** and **Freight Display Pro** (or **Freight Big Pro**) to a **Web Project**.
+2. Copy the project embed link (`https://use.typekit.net/xxxxx.css`).
+3. In **`main.html`** and **`login.html`**, uncomment and set:
+   ```html
+   <link rel="stylesheet" href="https://use.typekit.net/YOUR_KIT_ID.css">
+   ```
+4. Redeploy to Vercel (or refresh locally). No build step required — static CSS/HTML only.
+
+Theme colors are defined in `styles.css` (`:root` = dark, `.light-theme` = light). Edit only primitives (`--bone`, `--charcoal`, …) and semantic tokens in those two blocks. Components reference `--accent-*`, `--pill-active-*`, `--btn-primary-*` (alias of pill active), `--answer-highlight-*`, etc. — not hex in class rules. See README **Bone & Charcoal glass UI** and the CSS Classes token table.
+
+---
+
 ## Summary
 
 1. Create a GitHub PAT with `repo` scope  

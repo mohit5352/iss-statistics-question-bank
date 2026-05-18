@@ -29,7 +29,8 @@ This repository contains a web-based archive of **objective MCQs** from UPSC ISS
 statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
 ├── login.html                                     # Admin login page (credentials from env)
-├── styles.css                                     # Styling for question cards and layout
+├── fonts.css                                      # Adobe font stacks (Freight Display/Big Pro, Atvik) + fallbacks
+├── styles.css                                     # Bone & Charcoal glass theme, layout, components
 ├── answers.js                                     # Centralized answer keys for Show Answer feature
 ├── explanations.js                                # Explanations for each question (skeleton mirrors answers.js; empty template literals)
 ├── question_edits.js                              # Admin question edits (text, topic, options overrides)
@@ -131,33 +132,36 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables (`.q-table`) are emitted as **GitHub-flavored Markdown pipe tables** (with LaTeX in cells preserved when pre-MathJax capture ran) so paste and chat rendering stay structured.
 - **Ask AI** (admin only): Sparkle icon next to Copy — same visibility as **Edit Question**. Opens **Study chat**, prefills the textarea with the current paper/section/year line plus the same text as Copy. Does not auto-send; edit and press **Send** when ready. Requires admin session, **Ollama**, and same-origin proxy (`server.py` locally, or Vercel + `OLLAMA_HOST`); see [DEPLOYMENT.md](DEPLOYMENT.md).
 - **Study chat** (admin only): After **Admin Login**, `chat/chat.css` and `chat/bootstrap.js` load; floating **Chat** button and **⌘J** / **Ctrl+J** appear. Streams replies from **Ollama** through `/api/ollama/chat` (avoids browser CORS to `localhost:11434`). Loads `syllabus.md` into the system prompt. Default model is configurable in `chat/config.js` and in the UI (saved in `localStorage`). **Stop** aborts generation; **Clear** resets the thread. User and assistant bubbles use markdown + MathJax-safe LaTeX. **Not** official UPSC advice — verify facts on official sites.
-- **Show Answer Button**: Eye icon (👁) that reveals the correct answer with **purple highlighting** and an animated checkmark (✓) badge on the right side of the option
+- **Show Answer Button**: Eye icon (👁) that reveals the correct answer: a subtle tinted row (`--answer-highlight-*`), **(a)–(d)** label in the same **pill capsule** as the ✓ badge, and an animated checkmark on the right (matches mode toggle / FAB / login button styling)
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers, use **Study chat** / **Ask AI**, and other admin-only tools. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** icon (⚠) appears at the top-right of the options grid. Click it to expand inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, **Edit Explanation** opens the **same full-screen markdown editor** as Revision Notes (unified **`.revision-editor-unified`** card, **Split | Source | Preview**, **Cancel/Save**, live preview + MathJax, **?** tooltip on the source pane). The **question** strip uses **`<details>`**: summary = cloned **`.q-header`** (number + topic) + chevron on small screens (collapsed by default ≤720px); expanded body clones the **full stem** in DOM order — preceding **context-only** sibling cards, then **`q-context`**, **`q-text`**, **`q-table`**, **options** — aligned with **Copy / Ask AI** (`buildExplanationQuestionExpandBodyDom` in `main.html`). **MathJax** typesets the hero after open. Data: **`explanations.js`** / **`POST /api/explanations`** (same deployment pattern as answers).
 - **Edit Question**: When logged in as admin, an **Edit Question** icon appears in the card header. Click it to edit the question text, topic, and options (supports LaTeX). Edits are stored in `question_edits.js` and follow the same deployment pattern as answers and explanations.
 - **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. **Copy**, **Edit**, and **Delete** (admin) icon buttons appear in both the sidebar and each topic header. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Full-screen edit** (section content or topic tips) uses the **same shell** as explanation editing: **`.revision-editor-unified`** — one bordered surface with **breadcrumb** + **theme/close**, optional **title** row (notes only), **toolbar** (**Split** / **Source** / **Preview** | **Cancel** / **Save**), then the **split panes**. A compact **?** in the **Markdown source** header shows formatting tips in a **tooltip** (hover/focus). **Inline** “add section” flows still use a collapsible **Formatting help** (`<details class="note-format-hint">`) above a small textarea.
 - **Questions Sidebar**: In Questions mode, a collapsible sidebar shows a Table of Contents with topic + question preview (ellipsis). Hover for full question text. **Hash routing** and **scroll sync** keep the active question highlighted as you scroll. **Outside click** closes the sidebar. On mobile, a floating **Questions** button opens the slide-out drawer.
-- **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical purple accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
+- **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical bone/charcoal accent indicator, and glass-tile styling. **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
 - **Theme Toggle**: Sun/moon icon in the header switches between **dark** (default) and **light** themes. Preference is saved in `localStorage` and persists across sessions. The login page also supports both themes and syncs with the main app.
 - **Mobile Optimized**: Responsive design with touch-friendly controls
 - **Math Rendering**: Beautiful mathematical notation using MathJax
-- **Color-Coded Interface**: **Dark theme** (default) — Obsidian-style matte/near-black background with an all-purple accent palette. **Light theme** — soft off-white background with equivalent purple accents for readability. Toggle via sun/moon icon in the header. Dark theme palette:
-  - **Background**: Near-black (`#0a0a0e`) body; dark surface (`#111117`) sticky header
-  - **Paper Title (h1)**: Pale lavender (`#e0d7ff`) with soft purple glow
-  - **Set Indicator**: Divider-style row with converging purple gradient lines and uppercase `SET ◆ X` label in `#a78bfa`
-  - **Meta Controls (Paper / Section / Year)**: Unified pill panel — purple-glass background, dim ALL-CAPS labels, bold lavender values (`#c4b5fd`); hidden `<select>` overlay makes each zone clickable
-  - **Question Cards**: Purple-tinted glass surface (`rgba(124,58,237,0.05)`), subtle depth shadow; hover lifts with a purple ring
-  - **Question Number**: Purple (`#a78bfa`) with matching glow
-  - **Question Topic**: Italic orchid annotation (`#f0abfc`, weight 500) — no badge, no border
-  - **Question Text**: Primary near-white (`#f1f0f7`); MathJax expressions render in lavender (`#c4b5fd`)
-  - **Context Block**: Muted lavender text (`#b0aac8`) on near-black background; identified only by a purple gradient left stripe — no label
-  - **Options**: Bare orchid text (`#f0abfc`) with small fuchsia capsule labels (`#d946ef`); no borders or backgrounds
-  - **Context Block bold text**: Orchid (`#f0abfc`) matching option items; MathJax expressions in lavender (`#c4b5fd`) consistent with question text
-  - **Correct Answer Highlight**: Purple theme — lavender text (`#e0d7ff`), near-black background, purple-gradient animated checkmark badge (✓), white glow shadow with glass-top highlight
-  - **Tables**: Purple → lavender gradient header row, lavender first-column, minimal hairline separators
+- **Bone & Charcoal glass UI**: Strict **monochrome** palette — only **bone** (`#F1ECE3`) and **charcoal** (`#424242`), with steps derived via `color-mix` (no purple, green, or red accents). **Dark theme** (default): charcoal-deep page, frosted charcoal glass surfaces, bone text. **Light theme**: bone page, frosted bone glass, charcoal text. Toggle via sun/moon icon in the header; preference in `localStorage` (login page syncs). Highlights:
+  - **Typography**: **Atvik** (sans) for UI; **Freight Display Pro** / **Freight Big Pro** (serif) for headings — via Adobe Fonts (`fonts.css`; uncomment Typekit link in `main.html` / `login.html` after adding your Web Project kit ID)
+  - **Glass**: `backdrop-filter` on sticky header, question cards, meta panel, login card, chat panel; opaque segmented controls so pills do not “bleed” through the blurred header
+  - **Paper Title (h1) / section titles**: Serif, bone (dark) or charcoal (light)
+  - **Set Indicator**: Converging charcoal/bone gradient divider lines; `SET ◆ X` in accent tone
+  - **Meta Controls**: Frosted pill panel; ALL-CAPS muted labels; bold accent values; hidden `<select>` overlay per zone
+  - **Mode toggle** (Questions | Revision Notes): Segmented capsules — active segment uses `--pill-active-bg` / `--pill-active-fg` (same as **KEY TOPICS** badge and floating **Questions** / **Topics** buttons)
+  - **Question Cards**: Frosted glass card, hairline border, depth shadow; hover lift with bone/charcoal ring
+  - **Question Number / header band**: Accent default tone; subtle glass header row
+  - **Question Topic**: Italic primary text — inline annotation, no badge
+  - **Question Text & MathJax**: Primary text; formulas use `--mathjax-color` (accent-soft)
+  - **Context Block**: Muted context text; charcoal/bone gradient left stripe only — no label
+  - **Options**: Primary text; `(a)`–`(d)` labels in small monochrome capsules (`--opt-label-bg` / `--opt-label-color`)
+  - **Correct Answer Highlight**: Light tint row + border (`--answer-highlight-*`); **(a)–(d)** and **✓** both use `--pill-active-bg` / `--pill-active-fg` (dark: bone capsule + charcoal text; light: charcoal capsule + bone text)
+  - **Primary actions**: Login, Save, Add section, chat Send — `--btn-primary-bg` / `--btn-primary-fg` (aliases of pill active tokens)
+  - **Tables**: Charcoal gradient header row (bone text), subtle first-column panel, minimal hairline separators
+  - **Charts** (inline SVG in notes): Series colors map to `--accent-*` / `--state-*` tokens (monochrome only)
 - **Collapsible Explanation**: When the answer is revealed, a collapsible **Explanation** section appears with **Copy** and **Edit** (admin) icons in the header, plus an expand/collapse chevron. **Edit** opens the **full-screen markdown editor** (same as Revision Notes). Stored explanations support **Markdown**, **LaTeX**, and MathJax in preview.
-- **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; purple gradient separator above; copy turns purple on success (`#a78bfa`); answer button glows purple while active. **Card header actions**: **Copy**, **Ask AI** (admin), optional **Show Answer**, **Edit Question** (admin). **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Explanation** icon (admin) in explanation section header.
+- **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; subtle gradient separator above; copy uses accent highlight on success; answer button glows while active. **Card header actions**: **Copy**, **Ask AI** (admin), optional **Show Answer**, **Edit Question** (admin). **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Explanation** icon (admin) in explanation section header.
 - **Enhanced Tables**: Styled tables with colored headers, alternating rows, and hover effects
 - **Offline Capable**: Question bank works without internet except MathJax CDN. **Study chat** (admins) needs a running **Ollama** instance and (in the browser) the Python server or Vercel proxy — it is not offline.
 - **Smooth Animations**: Button hover effects, answer highlight animations, and transitions
@@ -211,7 +215,7 @@ You can copy the base HTML structure from an existing year file and modify it.
 
 **Notes**: 
 - The CSS path `../../../styles.css` is relative to the subfolder structure. Since question files are in `extracted_htmls/stats_paper_1/[Section]/` or `extracted_htmls/stats_paper_2/[Section]/`, the path goes up three levels (`[Section]/` → `stats_paper_1/` or `stats_paper_2/` → `extracted_htmls/` → `statistics_question_bank/`) to reach `styles.css` in the `statistics_question_bank/` directory.
-- The `<h2>` tag styling is handled by CSS class `.year-section h2` - no inline styles needed. The header will automatically have light purple color (`#c4b5fd`), center alignment, and a bottom border.
+- The `<h2>` tag styling is handled by CSS class `.year-section h2` - no inline styles needed. The header will automatically use the theme accent color, center alignment, and a bottom border.
 - Update the header text to match the paper number (Paper I or Paper II) and section name.
 
 ### Step 4: Format Each Question
@@ -328,40 +332,97 @@ For **each section file** and each year:
 
 ## 🎨 CSS Classes Reference
 
-- `.sticky-header`: Sticky header — `position: sticky`, near-black surface (`#111117`), hairline bottom separator
+### Theme changes in 3 steps
+
+Use this workflow for any palette, contrast, or styling update — avoid editing individual component rules unless you are adding a **new** UI element.
+
+**Step 1 — Edit tokens in one place**
+
+Open `styles.css`. At the top you will find:
+
+1. **Primitives** (lines ~7–13): `--bone`, `--charcoal`, `--charcoal-deep`, `--charcoal-elevated`, `--bone-elevated`, `--bone-dim` — the only hex anchors.
+2. **Dark theme** — `:root { ... }`: semantic mappings (`--bg-color`, `--surface-*`, `--pill-active-*`, `--text-*`, etc.).
+3. **Light theme** — `.light-theme { ... }`: the same variable names with inverted bone/charcoal roles.
+
+Change primitives first for a full rebrand; tweak semantics in `:root` / `.light-theme` for finer control (e.g. pill contrast, answer highlight strength).
+
+**Step 2 — Verify dark and light**
+
+1. Open `main.html` (and `login.html` if you touched auth styles).
+2. Toggle **sun/moon** in the header — preference is stored in `localStorage`.
+3. Spot-check: mode toggle, meta panel, one question card, **Show Answer** (row tint + `(a)`–`(d)` + ✓), login/submit, revision **Save**, admin chat **Send** (if applicable).
+
+**Step 3 — Keep colors out of components**
+
+- **CSS:** New or updated rules should use `var(--…)` only — no new `#hex` or `rgb()` in class selectors. Copy an existing pattern (e.g. `.login-btn` → `--btn-primary-*`, `.mode-btn.active` → `--pill-active-*`).
+- **Other stylesheets:** `chat/chat.css` uses the same semantic tokens; load order is `fonts.css` → `styles.css` → `chat/chat.css`.
+- **JavaScript / inline SVG:** Use `getComputedStyle(document.documentElement).getPropertyValue('--accent-default')` (see `colVar()` in `main.html` for chart series) — do not hardcode colors in JS.
+- **Sanity check** (optional) — find stray color literals in theme files:
+
+  ```bash
+  grep -E '#[0-9a-fA-F]{3,8}|rgb\(' styles.css chat/chat.css main.html
+  ```
+
+**Adding a new UI control?** Pick the closest token group from the table below (text → `--text-*`, filled button → `--btn-primary-*`, selected capsule → `--pill-active-*`, subtle row highlight → `--answer-highlight-*`). If nothing fits, add a **new semantic variable** in `:root` and `.light-theme`, then reference it from your class — do not hardcode hex on the component.
+
+---
+
+Theme tokens live in `:root` (dark) and `.light-theme` in `styles.css`. **Change palette once** by editing base colors and semantic mappings only:
+
+| Layer | Variables | Purpose |
+|-------|-----------|---------|
+| Primitives | `--bone`, `--charcoal`, `--charcoal-deep`, `--bone-elevated`, `--bone-dim` | Only hex anchors |
+| Surfaces & borders | `--bg-color`, `--surface-*`, `--border-*`, `--glass-*` | Layout glass |
+| Text | `--text-primary`, `--text-context`, `--text-muted`, `--text-strong`, `--text-body` | Typography |
+| Accent | `--accent-strong` … `--accent-muted` | Links, numbers, icons |
+| State | `--state-success`, `--state-danger`, `--state-soft` | Monochrome emphasis |
+| Pills & CTAs | `--pill-track-bg`, `--pill-active-bg`, `--pill-active-fg`, `--btn-primary-bg`, `--btn-primary-fg` | Mode toggle, FAB, KEY TOPICS, login, save, chat send |
+| Answer reveal | `--answer-highlight-bg`, `--answer-highlight-border` | Correct option row (subtle tint; labels use pill tokens) |
+
+All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--green-*). To rebrand: edit primitives and the `:root` / `.light-theme` blocks in `styles.css` — not individual class rules.
+
+- `.sticky-header`: Sticky header — frosted glass (`backdrop-filter`), `--surface-1`, hairline bottom separator
 - `.paper-container`: Transparent wrapper — no background, no border, no padding
+- `.mode-toggle-wrap` / `.mode-btn` / `.mode-btn.active`: Segmented **Questions | Revision Notes** control; opaque `--pill-track-bg` track; active uses `--pill-active-bg` / `--pill-active-fg` (same as `.topic-badge`, `.sidebar-open-btn`)
 - `.set-indicator-wrap`: Flex row containing two converging gradient lines and the `SET ◆ X` text; sits between `h1` and the meta panel
-- `.set-indicator-text` / `#set-letter`: Uppercase set label (`#a78bfa`) with the dynamic set letter rendered brighter (`#c4b5fd`)
+- `.set-indicator-text` / `#set-letter`: Uppercase set label in `--accent-default` / `--accent-soft`
 - `.auth-row` / `.auth-wrap` / `.auth-pill`: Admin Login link (or "Admin: [Name]" when logged in) below meta controls
-- `.meta-controls`: Unified pill panel (max-width 680px) for Paper / Section / Year controls — purple-glass background, faint ring shadow
+- `.meta-controls`: Unified frosted pill panel (max-width 680px) for Paper / Section / Year — glass border and shadow
 - `.meta-item`: Individual clickable zone inside the panel (stacked label + value); a hidden `<select>` covers the zone for native dropdown behaviour
-- `.meta-label`: Tiny ALL-CAPS dim label (`#3a3a50`) above each value
-- `.meta-value`: Bold lavender display value (`#c4b5fd`) — brightens to `#e0d7ff` on hover
+- `.meta-label`: Tiny ALL-CAPS muted label above each value
+- `.meta-value`: Bold accent display value — brightens on hover
 - `.meta-sep-line`: 1 px vertical hairline separator between meta zones
-- `.question-card`: Card container — purple-tinted glass background, depth shadow; hover adds a purple ring lift; action row in document flow at bottom
+- `.question-card`: Card container — frosted glass (`--surface-2`), border, depth shadow; hover lift with accent ring
 - `.question-card.no-surface`: Transparent variant for context-only cards (no bg, no shadow)
-- `.q-header`: Question header row — subtle purple → lavender gradient background, rounded (`8px`), thin purple-tinted bottom hairline, white glow shadow with glass-top highlight
-- `.q-number`: Question number — purple (`#a78bfa`) with matching glow
-- `.q-topic`: Topic annotation — italic, orchid (`#f0abfc`, weight 500), no badge or border; purely inline text
-- `.q-text`: Main question text — near-white (`#f1f0f7`), `1.125rem`, no background or border
-- `.q-context`: Shared context block — muted lavender text (`#b0aac8`) on near-black bg (`#0a0a0e`); vertical padding, rounded corners, white glow shadow with glass-top highlight; a purple gradient `::before` stripe is the only visual accent; no "CONTEXT" label
-- `.q-table`: Responsive table wrapper — purple → lavender gradient header row, soft lavender first column, minimal hairline row separators, white glow shadow with glass-top highlight
-- `.options-grid`: 2-column grid (1-column on ≤ 600 px); bare transparent container — no background, no border
-- `.option-item`: Individual option — bare orchid text (`#f0abfc`), no background or border
-- `.opt-label`: `(a)` / `(b)` / `(c)` / `(d)` capsule badge — fuchsia (`#d946ef`) on translucent fuchsia background
-- `.q-actions-row`: Action row at bottom of card — flex layout with separator above; contains left (Wrong Answer?) and right (Show Answer + Copy) sections
+- `.q-header`: Question header row — subtle accent gradient glass band, rounded (`8px`), bottom hairline
+- `.q-number`: Question number — `--accent-default`
+- `.q-topic`: Topic annotation — italic primary text, no badge or border
+- `.q-text`: Main question text — `--text-primary`, `1.125rem`
+- `.q-context`: Shared context block — `--text-context`; bone/charcoal gradient `::before` stripe; no "CONTEXT" label
+- `.q-table`: Responsive table wrapper — charcoal gradient header (bone header text), tinted first column, minimal row separators
+- `.options-grid`: 2-column grid (1-column on ≤ 600 px); bare transparent container
+- `.option-item`: Individual option — primary text, no surface
+- `.opt-label`: `(a)`–`(d)` monochrome capsule (`--opt-label-bg`, `--opt-label-color`)
+- `.q-actions-row`: Action row at bottom of card — flex layout with separator above
 - `.q-actions-left` / `.q-actions-right`: Left and right sections of the action row
-- `.q-copy-btn`: Copy icon button — purple icon, faint ring; turns purple (`#a78bfa`) on success
-- `.q-ask-ai-btn`: Ask AI icon button (admin-only) — same affordances as copy/answer; sparkle SVG; tooltip “Ask AI”
-- `.q-answer-btn`: Show/Hide Answer icon button — purple icon; glows lavender while answer is visible
-- `.wrong-answer-wrap`: Flex container for Wrong Answer? icon and picker — `display: flex`, `align-items: flex-end`, `justify-content: flex-end`; when picker open, `flex-direction: column` stacks icon and chips (visible when answer is shown; admin only)
-- `.wrong-answer-trigger`: "Wrong Answer?" link — rose (`#fb7185`); click to expand picker
-- `.wrong-answer-picker`: Expandable section with "Choose correct answer:" hint and (a)(b)(c)(d) chips
-- `.wrong-answer-chip`: Option chip button — selects correct answer on click
-- `.correct-answer`: Correct option — lavender text (`#e0d7ff`), near-black background, rounded corners, white glow shadow with glass-top highlight, purple-gradient animated `✓` badge on the right
+- `.q-copy-btn`: Copy icon — accent icon; highlighted ring on success
+- `.q-ask-ai-btn`: Ask AI icon button (admin-only); sparkle SVG; tooltip “Ask AI”
+- `.q-answer-btn`: Show/Hide Answer — accent icon; glow while answer visible
+- `.wrong-answer-wrap`: Flex container for Wrong Answer? icon and picker (admin only)
+- `.wrong-answer-trigger`: "Wrong Answer?" — `--state-danger` (monochrome emphasis)
+- `.wrong-answer-picker`: Expandable section with option chips
+- `.wrong-answer-chip`: Option chip button
+- `.correct-answer`: Correct option — `--answer-highlight-bg` tint + border; text stays `--text-primary`; MathJax uses `--mathjax-color`
+- `.correct-answer .opt-label`: `(a)`–`(d)` capsule uses `--pill-active-bg` / `--pill-active-fg` (same as ✓ badge)
+- `.correct-answer::after`: **✓** badge — `--pill-active-bg` / `--pill-active-fg`
+- `.topic-badge` / `.sidebar-open-btn` / `.mode-btn.active`: Active capsule — `--pill-active-*`
+- `.login-btn` / `.note-save-btn` / `.note-add-btn`: Primary buttons — `--btn-primary-bg` / `--btn-primary-fg`
+- `.chat-btn-primary` (`chat/chat.css`): Chat **Send** — same primary tokens
+- `.note-sep` / `.note-sep-line` / `.note-sep-glyph`: Revision-notes section divider (μ Σ ∫ glyph, theme `currentColor`)
+- `.load-error` / `.load-error-callout`: Themed error panel when HTML fetch fails (replaces inline Material colors)
 - `.notes-layout` / `.notes-sidebar` / `.notes-main-content`: Layout structure for Revision Notes; supports fixed positioning, unified transitions, and collapsible states
 - `.toc-item` / `.toc-item-actions` / `.toc-action-btn`: Sidebar TOC row with Copy, Edit, Delete icon buttons; `.toc-action-btn.copied` shows checkmark state after copy
-- `.toc-link` / `.toc-link.active`: Sidebar navigation links with interactive hover states, pure white text highlight, and vertical purple accent indicators; `.active` highlights the current section based on scroll position
+- `.toc-link` / `.toc-link.active`: Sidebar navigation links with hover states and vertical accent indicators; `.active` highlights the current section based on scroll position
 - `.note-section-actions` / `.note-section-action-btn`: Topic header icon buttons (Copy, Edit, Delete); Copy shows "Copied" checkmark state
 - **Full-screen revision / explanation editor** (`#revision-editor-overlay`, `revision-editor-panel`, optional `revision-editor-panel--question-explanation`): Inner **`revision-editor-unified`** wraps **chrome** + **`revision-editor-body`** in **one** rounded card (no separate top/bottom card chrome). **Chrome**: `revision-editor-top-bar` (breadcrumb, theme, close), optional `revision-editor-title-hero` (revision sections / tips), optional explanation **`revision-editor-question-hero-wrap`** (`<details>` + `revision-editor-question-expand-body`), then `revision-editor-toolbar-row` (**Split | Source | Preview** | **Cancel/Save**). **Body**: `revision-editor-body` with `revision-editor-pane-source` (header + **?** + textarea) and preview (`renderNoteHtml` + MathJax). Layout classes: `revision-editor-layout-split` / `source-only` / `preview-only`.
 - `.sidebar-open-btn` / `.sidebar-close-btn`: Floating and inline toggle buttons for the sidebar with modern easing and shadow effects
@@ -425,7 +486,7 @@ For **each section file** and each year:
   - Context text: `1.0625rem` (desktop) → `1rem` (tablet) → `0.9375rem` (mobile)
   - Option items: `1.0625rem` (desktop) → `0.9rem` (tablet) → `0.9375rem` (mobile)
   - All font sizes use rem units for consistent scaling and accessibility
-- **Color Scheme**: **Dark theme** (default) — Obsidian-style near-black background (`#0a0a0e`), purple-glass card surfaces (`rgba(124,58,237,0.05)`), violet accent hierarchy (`#7c3aed` → `#a78bfa` → `#c4b5fd` → `#e0d7ff`), orchid/fuchsia option text (`#f0abfc` / `#d946ef`). **Light theme** — off-white background (`#f7f8fc`), equivalent purple accents, muted gray-purple for headings (`#4c4363`). Theme preference stored in `localStorage`; login page respects the same setting.
+- **Color scheme**: **Dark** (default) — `--charcoal-deep` background, frosted `--charcoal` glass, **bone** text. **Light** — `--bone` background, frosted elevated bone surfaces, **charcoal** text. Strict monochrome: all UI colors are `color-mix` derivatives of `#F1ECE3` and `#424242` only. Theme in `localStorage`; login page syncs. See `styles.css` (`:root`, `.light-theme`) and `fonts.css`.
 - **Browser Compatibility**: Works in all modern browsers that support ES6 and MathJax
 - **Loading Method**: Unified fetch/XMLHttpRequest approach works for both desktop and mobile without iframe isolation
 - **Animations**: CSS animations for button hover states, answer highlight transitions, and checkmark pop-in effect
@@ -487,7 +548,7 @@ For **each section file** and each year:
 ### Tables not displaying correctly?
 - Make sure tables are wrapped in `<div class="q-table">` (not on the `<table>` itself)
 - Check that table structure is valid HTML
-- Tables feature enhanced styling with teal headers (`#059669`), dark slate backgrounds, alternating row colors, and hover effects
+- Tables use `.q-table` styling: charcoal/bone gradient headers, alternating row warmth, and hover highlights (all from theme tokens in `styles.css`)
 
 ### Show Answer button not appearing?
 - Make sure `answers.js` is loaded (check browser console for 404 errors)
@@ -559,13 +620,13 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 - **Admin**: Only admins can update answers, use **Study chat** and **Ask AI**, and use other admin-only editing tools. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
 - **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link) and do not see the chat FAB, keyboard shortcut, or Ask AI button.
-- **Login page** (`/login` or `login.html`): Username/password form with theme toggle (dark/light). Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
+- **Login page** (`/login` or `login.html`): Username/password form with theme toggle (dark/light); **Login** submit button uses `--btn-primary-*` (same contrast as active mode pill). Contact email is shown for users who need credentials; if it contains `@`, it’s a clickable `mailto:` link.
 - **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
 ### Show Answer — How It Works:
 1. Answers are stored centrally in `answers.js` (no need to modify individual HTML files)
 2. A **Show Answer** eye-icon button appears in the action row at the bottom of each question card
-3. Clicking the button highlights the correct answer in **purple** (lavender text, near-black background) with an animated purple-gradient checkmark badge (✓) on the right side of the option
+3. Clicking the button highlights the correct option (tinted row), styles the **(a)–(d)** label and **✓** with the shared pill capsule (`--pill-active-bg` / `--pill-active-fg`)
 4. Clicking again hides the answer and removes the highlight
 
 ### Wrong Answer? — How It Works:
@@ -675,7 +736,15 @@ When updating or fixing questions:
 
 ---
 
-**Last Updated**: 2026 — **Papers III & IV Revision Notes — deep syllabus coverage added:**
+**Last Updated**: May 2026 — **Bone & Charcoal glass UI rebrand:**
+- Strict **monochrome** palette: **bone** `#F1ECE3`, **charcoal** `#424242` (plus `color-mix` only); semantic CSS tokens in `:root` / `.light-theme` (no legacy `--purple-*` names)
+- **Glassmorphism** + opaque segmented **Questions | Revision Notes** track
+- **Typography**: Atvik + Freight via `fonts.css` / optional Adobe Fonts Typekit
+- **Unified capsules**: `--pill-active-bg` / `--pill-active-fg` for mode toggle, FAB, KEY TOPICS, correct **(a)–(d)** label, and **✓** badge; `--btn-primary-*` for login, save, add-section, chat send
+- **Show Answer**: `--answer-highlight-*` row tint (readable text/MathJax); pill tokens on label + checkmark
+- `chat/chat.css`, chart `colVar()` in `main.html`, and `.load-error` aligned to theme tokens
+
+**Earlier 2026 — Papers III & IV Revision Notes — deep syllabus coverage added:**
 - **Paper IV — Demography & Vital Statistics (6 sections, ~5,300 words):** Sources of demographic data (Census, CRS, SRS, hospital records) + SRS dual-record design + Census 2011 profile · Complete life table (all 10 columns, Reed–Merrell, recursive relations, infant correction) + Makeham/Gompertz mortality laws · UN Coale–Demeny model life tables (4 families, West = default for India), abridged tables (Greville formula), stable and stationary populations, Euler–Lotka equation · All six fertility measures (CBR → GFR → ASFR → TFR → GRR → NRR) with formulas and India NFHS-5 data · Mortality (CDR, direct/indirect standardisation, SMR, IMR components, cause-specific rates) · Migration models (gravity, Stouffer, Lee), four projection methods (arithmetic, geometric, Pearl–Reed logistic), intercensal/postcensal estimates, Indian Census machinery. Each section has a real-life India example and ISS exam tips.
 - **Paper IV — Quality Control (6 sections, ~36,000 chars):** QC foundations (Juran/Crosby definitions, common vs assignable causes, 3σ theory, ARL₀ ≈ 370, rational subgrouping, 6 WECO rules) · Attribute charts — p, np (Binomial), c, u (Poisson) — full formulas, variable vs fixed n rules · Variable charts — complete constants table (n = 2–10), R-chart, (X̄,R) pair, (X̄,S) pair, I-MR chart, all derivations · OC curve formula (Φ(3−δ√n) − Φ(−3−δ√n)), ARL comparison table, process capability (Cp, Cpk, Cpm) with ppm table, control by gauging · MA chart, EWMA (Z_t = λX_t + (1−λ)Z_{t−1}, steady-state variance λσ²/(2−λ)), CUSUM — tabular (k, h) and V-mask (tan θ = k, d = h/k), Duncan economic design · Acceptance sampling — OC curve (Binomial/Poisson), AOQ/AOQL concept, ATI, single plan design, double sampling procedure + ASN formula, variables k-method.
 - **Split from 3 → 6 sections per paper** for both Demography and Quality Control, matching the granularity of Papers I & II (8–10 sections per topic cluster). Total sections: **77** across all four papers.
@@ -696,21 +765,6 @@ When updating or fixing questions:
 - **Icon-based actions**: Wrong Answer? (top-right of options grid), Edit Question (card header), Edit Explanation (explanation header); all with tooltips
 - **Collapsible Explanation**: Copy, **Edit** (opens full-screen markdown editor), expand/collapse chevron in header; Wrong Answer picker uses flex layout (align/justify end; column when open)
 - **Edit Question** and **question_edits.js** with Vercel `api/questions.js` for live updates
-- **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; Full **Obsidian Dark / Purple Theme** redesign:
-- **Sticky Header** with paper title, set indicator divider (`SET ◆ X`), and a unified meta-controls pill panel (Paper / Section / Year)
-- **Set Indicator**: Displays the exam set letter for each paper/year combination, rendered as a centred divider row with converging purple gradient lines
-- **Meta Controls**: Dashboard-style pill panel replacing individual badges — hidden `<select>` overlays, dim ALL-CAPS labels, bold lavender values, vertical hairline separators
-- **Question Cards**: Purple-tinted glass surface, depth shadow, smooth hover lift with purple ring; bottom padding reserved for the icon pair
-- **Question Numbers & Headers**: Purple accent (`#a78bfa`); q-header has a subtle purple gradient background, rounded corners, and white glow shadow
-- **Topic**: Italic orchid inline annotation (`#f0abfc`, weight 500) — no badge, no border
-- **Context Block**: Near-black background with a purple gradient left stripe; bold text in orchid (`#f0abfc`); MathJax expressions in lavender (`#c4b5fd`) consistent with question text; "CONTEXT" label removed
-- **Options**: Bare orchid text (`#f0abfc`) — no background, no border, no surface; option label is a small fuchsia (`#d946ef`) capsule
-- **Admin Login**: Login link below meta controls; logged-in state shows "Admin: [Name]"; admin-only Wrong Answer?, Add/Edit Explanation, Study chat, Ask AI
-- **Action Row / header actions**: Show Answer + Copy + Ask AI (admin) in card header; Wrong Answer? at top-right of options grid (admin); Edit Question in card header (admin); Edit Explanation in collapsible explanation header (admin)
-- **Revision Notes & explanations**: Same **full-screen** editor (unified card, Split/Source/Preview, **?** tooltip); notes add **title** row; explanations add **question context** strip (details + full stem clone); small **inline** modals keep collapsible Formatting help
-- **Theme Toggle**: Sun/moon icon in header; dark (default) and light themes; preference persisted in `localStorage`; login page supports both themes
-- **Sidebar & Floating Button**: Interactive navigation sidebar with Copy/Edit/Delete icon buttons per TOC item; Copy shows checkmark "Copied" state; state-persisted (localStorage) collapsible design; floating "Topics" button for mobile/collapsed viewing; **scroll-synced TOC highlighting** (active section updates on scroll for mobile and desktop); **outside click** closes sidebar; **topic headers** also have Copy/Edit/Delete icon buttons for quick access when scrolled
-- **Correct Answer Highlight**: Purple theme — lavender text, near-black bg, rounded corners, white glow shadow with glass-top highlight, animated purple-gradient `✓` badge
-- **Tables**: Purple → lavender gradient header, lavender first column, minimal hairline separators
-- **Unified loading** via fetch/XHR for both desktop and mobile; MathJax 3.x rendering; centralized answer keys in `answers.js`
+- **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; full UI redesign *(later superseded by Bone & Charcoal theme, May 2026)*:
+- Sticky header, set indicator, meta-controls pill panel, glass question cards, sidebar TOC with floating Topics/Questions button, correct-answer highlight, themed tables, unified loading, MathJax 3.x, centralized `answers.js`
 

@@ -1,256 +1,288 @@
-/* styles.css — Obsidian Dark Theme (default) + Light Theme */
-/*
-   Dark Theme Palette:
-   Background:  #0a0a0e  (near-black body + context + correct-answer bg)
-   Surface 1:   #111117  (sticky header)
-   Surface 2:   rgba(124,58,237,0.05)  (cards + meta-controls — purple-tinted glass)
-   Surface 3:   transparent  (option items — bare, no surface)
-   Border dim:  rgba(255,255,255,0.04)  (hairline separators)
-   Border mid:  rgba(167,139,250,0.1)   (q-header bottom rule)
-   Border hover:rgba(167,139,250,0.18)  (card hover ring)
-
-   Purple  (primary — h1, q-number, q-header, meta, set, buttons, answers, notes):
-           deep  #7c3aed  /  mid  #a78bfa  /  light  #c4b5fd  /  pale  #e0d7ff
-   Rose    (option text + opt-label):                  #fb7185 / #fda4af
-   Copy-success (accent):                              #7c3aed / #a78bfa
-   Text:   #f1f0f7 (primary)  /  #b0aac8 (context)  /  #5858a0 (topic / muted)
-*/
+/* styles.css — Bone & Charcoal glass theme (dark default + light)
+ *
+ * Rebrand: edit primitives + :root / .light-theme semantic blocks only.
+ * Components use --accent-*, --text-*, --pill-*, --answer-highlight-* (never --purple-*).
+ */
 
 :root {
-    /* Dark Theme (Default) */
-    --bg-color: #0a0a0e;
-    --surface-1: #111117;
-    --surface-2: rgba(124, 58, 237, 0.05);
+    --bone: #F1ECE3;
+    --charcoal: #424242;
+    --charcoal-deep: #2e2e2e;
+    --charcoal-elevated: #383838;
+    --bone-elevated: #faf8f4;
+    --bone-dim: #e3ddd2;
+
+    --font-serif: "freight-display-pro", "freight-big-pro", "freight-display", Georgia, "Times New Roman", serif;
+    --font-sans: "atvik", "Atvik", system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --glass-blur: 16px;
+    --glass-saturate: 1.2;
+    --glass-border: color-mix(in srgb, var(--bone) 14%, transparent);
+    --glass-highlight: inset 0 1px 0 color-mix(in srgb, var(--bone) 12%, transparent);
+
+    color-scheme: dark;
+
+    --bg-color: var(--charcoal-deep);
+    --surface-1: color-mix(in srgb, var(--charcoal) 78%, transparent);
+    --surface-2: color-mix(in srgb, var(--charcoal) 55%, transparent);
     --surface-3: transparent;
-    --border-dim: rgba(255, 255, 255, 0.04);
-    --border-mid: rgba(167, 139, 250, 0.1);
-    --border-hover: rgba(167, 139, 250, 0.18);
-    
-    --purple-deep: #7c3aed;
-    --purple-mid: #a78bfa;
-    --purple-light: #c4b5fd;
-    --purple-pale: #e0d7ff;
-    
-    --rose-text: #fb7185;
-    --rose-light: #fda4af;
-    
-    --text-primary: #f1f0f7;
-    --text-context: #b0aac8;
-    --text-muted: #5858a0;
-    --text-strong: #f0abfc;
-    
-    --shadow-main: 0 8px 18px -10px rgba(0, 0, 0, 0.5);
-    --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    --sidebar-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
-    --pill-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.12);
-    --glow-shadow: 0px 4px 10px rgba(255, 255, 255, 0.25);
-    
-    --modal-bg: rgba(0, 0, 0, 0.85);
-    --glass-bg: rgba(17, 17, 23, 0.8);
-    --selection-bg: rgba(124, 58, 237, 0.3);
-    --green-mid: #4ade80;
-    --green-deep: #22c55e;
-    --light-glow: rgba(255, 255, 255, 0.4);
+    --border-dim: color-mix(in srgb, var(--bone) 8%, transparent);
+    --border-mid: color-mix(in srgb, var(--bone) 14%, transparent);
+    --border-hover: color-mix(in srgb, var(--bone) 22%, transparent);
 
-    /* Note/panel semantics — each has light-theme equivalent */
-    --text-body: #d4d0e8;
-    --surface-panel: rgba(10, 10, 14, 0.98);
-    --surface-panel-alt: rgba(17, 17, 23, 0.98);
-    --panel-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    --notes-wrap-shadow: 0 4px 12px rgba(255, 255, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    --blockquote-accent: rgba(167, 139, 250, 0.08);
-    --blockquote-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(17, 17, 23, 0.98) 100%);
-    --blockquote-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, rgba(10, 10, 14, 0.98) 100%);
-    --blockquote-border: var(--purple-mid);
-    --blockquote-tip-border: var(--purple-deep);
-    --blockquote-text: var(--purple-pale);
-    --blockquote-strong-decoration: rgba(240, 171, 252, 0.3);
-    --callout-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.15) 0%, var(--surface-panel) 100%);
-    --callout-tip-accent: rgba(124, 58, 237, 0.06);
-    --option-text: var(--text-strong);
-    --option-hover: #f5c6fe;
-    --opt-label-bg: rgba(217, 70, 239, 0.1);
-    --opt-label-color: #d946ef;
-    --note-h3-border: rgba(240, 171, 252, 0.5);
-    --section-title-border: rgba(167, 139, 250, 0.15);
-    --note-h1-border: rgba(196, 181, 253, 0.25);
-    --inline-code-bg: linear-gradient(135deg, rgba(124, 58, 237, 0.28) 0%, rgba(167, 139, 250, 0.18) 100%);
-    --inline-code-border: rgba(167, 139, 250, 0.25);
-    --code-block-border: rgba(167, 139, 250, 0.3);
-    --code-block-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
-    --formula-bg: rgba(0, 0, 0, 0.28);
-    --formula-border: rgba(124, 58, 237, 0.15);
-    --formula-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
+    --accent-strong: var(--bone);
+    --accent-default: color-mix(in srgb, var(--bone) 88%, var(--charcoal));
+    --accent-soft: color-mix(in srgb, var(--bone) 72%, var(--charcoal));
+    --accent-muted: color-mix(in srgb, var(--bone) 58%, var(--charcoal));
 
-    /* Headings & MathJax */
-    --heading-1-color: #e0d7ff;
-    --heading-1-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
-    --heading-2-color: #a78bfa;
-    --heading-2-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
-    --mathjax-color: #c4b5fd;
+    --state-strong: var(--bone);
+    --state-soft: var(--accent-soft);
+    --state-success: color-mix(in srgb, var(--bone) 82%, var(--charcoal));
+    --state-danger: var(--bone);
 
-    /* Theme toggle icons (display) */
+    /* Pills & capsules (mode toggle, FAB, badges, correct-answer check) */
+    --pill-track-bg: var(--charcoal-elevated);
+    --pill-active-bg: linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-default) 100%);
+    --pill-active-fg: var(--charcoal-deep);
+    --btn-primary-bg: var(--pill-active-bg);
+    --btn-primary-fg: var(--pill-active-fg);
+    --answer-highlight-bg: color-mix(in srgb, var(--bone) 11%, transparent);
+    --answer-highlight-border: var(--border-hover);
+
+    --text-primary: var(--bone);
+    --text-context: color-mix(in srgb, var(--bone) 78%, var(--charcoal));
+    --text-muted: color-mix(in srgb, var(--bone) 52%, var(--charcoal));
+    --text-strong: var(--bone);
+    --text-body: color-mix(in srgb, var(--bone) 85%, var(--charcoal));
+
+    --shadow-main: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
+    --shadow-inner: var(--glass-highlight);
+    --card-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--glass-border);
+    --sidebar-shadow: 20px 0 60px rgba(0, 0, 0, 0.55);
+    --pill-shadow: inset 0 0 0 1px var(--border-mid);
+    --glow-shadow: 0 4px 20px color-mix(in srgb, var(--bone) 8%, transparent);
+
+    --modal-bg: color-mix(in srgb, var(--charcoal-deep) 72%, transparent);
+    --glass-bg: color-mix(in srgb, var(--charcoal) 70%, transparent);
+    --selection-bg: color-mix(in srgb, var(--bone) 28%, transparent);
+    --light-glow: color-mix(in srgb, var(--bone) 12%, transparent);
+
+    --surface-panel: color-mix(in srgb, var(--charcoal-elevated) 92%, transparent);
+    --surface-panel-alt: color-mix(in srgb, var(--charcoal) 88%, transparent);
+    --panel-shadow: var(--card-shadow);
+    --notes-wrap-shadow: var(--card-shadow);
+    --blockquote-accent: color-mix(in srgb, var(--bone) 6%, transparent);
+    --blockquote-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal) 90%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal-deep) 95%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-border: var(--accent-default);
+    --blockquote-tip-border: var(--accent-strong);
+    --blockquote-text: var(--text-primary);
+    --blockquote-strong-decoration: color-mix(in srgb, var(--bone) 35%, transparent);
+    --callout-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal) 85%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --callout-tip-accent: color-mix(in srgb, var(--bone) 5%, transparent);
+    --option-text: var(--text-primary);
+    --option-hover: var(--bone);
+    --opt-label-bg: color-mix(in srgb, var(--bone) 10%, transparent);
+    --opt-label-color: var(--accent-default);
+    --note-h3-border: color-mix(in srgb, var(--bone) 35%, transparent);
+    --section-title-border: var(--border-mid);
+    --note-h1-border: color-mix(in srgb, var(--bone) 20%, transparent);
+    --inline-code-bg: color-mix(in srgb, var(--charcoal) 70%, var(--bone));
+    --inline-code-border: var(--border-mid);
+    --code-block-border: var(--border-mid);
+    --code-block-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-dim);
+    --formula-bg: color-mix(in srgb, var(--charcoal-deep) 80%, transparent);
+    --formula-border: var(--border-dim);
+    --formula-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.4);
+
+    --heading-1-color: var(--bone);
+    --heading-1-shadow: none;
+    --heading-2-color: var(--accent-default);
+    --heading-2-shadow: none;
+    --mathjax-color: var(--accent-soft);
+
     --theme-icon-sun: none;
     --theme-icon-moon: block;
 
-    /* Table */
-    --table-header-text: var(--bg-color);
-    --table-header-bg: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.9));
-    --table-header-corner-bg: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.95));
-    --table-header-corner-text: #ffffff;
-    --table-header-border: rgba(255,255,255,0.04);
-    --table-first-col-bg: linear-gradient(180deg, rgba(167,139,250,0.04), rgba(124,58,237,0.03));
-    --table-cell-text: #e8e6f7;
-    --table-cell-border: rgba(255,255,255,0.03);
-    --table-alt-row-bg: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-    --table-hover-bg: linear-gradient(90deg, rgba(124,58,237,0.03), rgba(167,139,250,0.02));
+    --table-header-text: var(--charcoal-deep);
+    --table-header-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 95%, var(--bone)), color-mix(in srgb, var(--charcoal) 85%, var(--bone)));
+    --table-header-corner-bg: linear-gradient(90deg, var(--charcoal-deep), var(--charcoal));
+    --table-header-corner-text: var(--bone);
+    --table-header-border: var(--border-dim);
+    --table-first-col-bg: linear-gradient(180deg, color-mix(in srgb, var(--bone) 6%, transparent), transparent);
+    --table-cell-text: var(--text-primary);
+    --table-cell-border: var(--border-dim);
+    --table-alt-row-bg: linear-gradient(180deg, color-mix(in srgb, var(--bone) 3%, transparent), transparent);
+    --table-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 8%, transparent), transparent);
 
-    /* TOC items (notes sidebar) */
-    --toc-item-bg: rgba(0, 0, 0, 0.28);
-    --toc-item-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.45);
-    --toc-item-border: rgba(167, 139, 250, 0.1);
-    --toc-item-hover-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.18), rgba(167, 139, 250, 0.08));
-    --toc-item-hover-border: rgba(167, 139, 250, 0.4);
-    --toc-item-active-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.32), rgba(167, 139, 250, 0.18));
-    --toc-item-active-border: rgba(167, 139, 250, 0.55);
-    --toc-item-active-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    --toc-link-color: var(--purple-light);
-    --toc-link-hover-color: #ffffff;
-    --toc-link-active-color: #ffffff;
+    --toc-item-bg: color-mix(in srgb, var(--charcoal-deep) 75%, transparent);
+    --toc-item-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.35);
+    --toc-item-border: var(--border-dim);
+    --toc-item-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 12%, transparent), transparent);
+    --toc-item-hover-border: var(--border-hover);
+    --toc-item-active-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 18%, transparent), color-mix(in srgb, var(--bone) 8%, transparent));
+    --toc-item-active-border: var(--border-hover);
+    --toc-item-active-shadow: var(--card-shadow);
+    --toc-link-color: var(--accent-soft);
+    --toc-link-hover-color: var(--bone);
+    --toc-link-active-color: var(--bone);
 
-    /* Editor textareas (explanation + notes) */
-    --editor-textarea-bg: rgba(0, 0, 0, 0.35);
-    --editor-textarea-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-    --editor-textarea-focus-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1), inset 0 2px 10px rgba(0, 0, 0, 0.5);
+    --editor-textarea-bg: color-mix(in srgb, var(--charcoal-deep) 85%, transparent);
+    --editor-textarea-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+    --editor-textarea-focus-shadow: 0 0 0 2px color-mix(in srgb, var(--bone) 15%, transparent), inset 0 2px 10px rgba(0, 0, 0, 0.4);
 
-    /* Login page */
-    --login-card-bg: rgba(124, 58, 237, 0.04);
-    --login-card-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 32px rgba(0, 0, 0, 0.3);
-    --login-input-bg: rgba(17, 17, 23, 0.8);
-    --login-input-border: rgba(167, 139, 250, 0.2);
-    --login-contact-border: rgba(255, 255, 255, 0.06);
+    --login-card-bg: var(--glass-bg);
+    --login-card-shadow: var(--card-shadow);
+    --login-input-bg: color-mix(in srgb, var(--charcoal) 75%, transparent);
+    --login-input-border: var(--border-mid);
+    --login-contact-border: var(--border-dim);
 }
 
 .light-theme {
-    /* Light theme — exact equivalents for each dark variable (same semantic role) */
-    --bg-color: #f7f8fc;
-    --surface-1: #ffffff;
-    --surface-2: rgba(124, 58, 237, 0.04);
+    color-scheme: light;
+
+    --bg-color: var(--bone);
+    --surface-1: color-mix(in srgb, var(--bone-elevated) 88%, transparent);
+    --surface-2: color-mix(in srgb, var(--bone) 72%, transparent);
     --surface-3: transparent;
-    --border-dim: rgba(0, 0, 0, 0.06);
-    --border-mid: rgba(124, 58, 237, 0.15);
-    --border-hover: rgba(124, 58, 237, 0.25);
+    --border-dim: color-mix(in srgb, var(--charcoal) 8%, transparent);
+    --border-mid: color-mix(in srgb, var(--charcoal) 14%, transparent);
+    --border-hover: color-mix(in srgb, var(--charcoal) 22%, transparent);
 
-    --purple-deep: #6d28d9;
-    --purple-mid: #7c3aed;
-    --purple-light: #8b5cf6;
-    --purple-pale: #4c4363;
+    --accent-strong: var(--charcoal);
+    --accent-default: color-mix(in srgb, var(--charcoal) 88%, var(--bone));
+    --accent-soft: color-mix(in srgb, var(--charcoal) 72%, var(--bone));
+    --accent-muted: color-mix(in srgb, var(--charcoal) 58%, var(--bone));
 
-    --rose-text: #e11d48;
-    --rose-light: #f43f5e;
+    --state-strong: var(--charcoal-deep);
+    --state-soft: var(--accent-soft);
+    --state-success: color-mix(in srgb, var(--charcoal) 75%, var(--bone));
+    --state-danger: var(--charcoal-deep);
 
-    --text-primary: #1e1b4b;
-    --text-context: #475569;
-    --text-muted: #64748b;
-    --text-strong: #c026d3;
+    --pill-track-bg: var(--bone-dim);
+    --pill-active-bg: linear-gradient(135deg, var(--charcoal) 0%, color-mix(in srgb, var(--charcoal) 88%, var(--bone)) 100%);
+    --pill-active-fg: var(--bone);
+    --btn-primary-bg: var(--pill-active-bg);
+    --btn-primary-fg: var(--pill-active-fg);
+    --answer-highlight-bg: color-mix(in srgb, var(--charcoal) 9%, transparent);
+    --answer-highlight-border: var(--border-mid);
 
-    --shadow-main: 0 4px 15px -5px rgba(0, 0, 0, 0.08);
-    --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.04);
-    --sidebar-shadow: 10px 0 40px rgba(0, 0, 0, 0.06);
-    --pill-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 0 0 1px rgba(124, 58, 237, 0.1);
-    --glow-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --text-primary: var(--charcoal);
+    --text-context: color-mix(in srgb, var(--charcoal) 78%, var(--bone));
+    --text-muted: color-mix(in srgb, var(--charcoal) 52%, var(--bone));
+    --text-strong: var(--charcoal);
+    --text-body: color-mix(in srgb, var(--charcoal) 85%, var(--bone));
 
-    --modal-bg: rgba(15, 23, 42, 0.35);
-    --glass-bg: rgba(255, 255, 255, 0.96);
-    --selection-bg: rgba(124, 58, 237, 0.15);
-    --green-mid: #16a34a;
-    --green-deep: #15803d;
-    --light-glow: rgba(124, 58, 237, 0.08);
+    --shadow-main: 0 4px 24px -6px rgba(66, 66, 66, 0.12);
+    --shadow-inner: inset 0 1px 0 color-mix(in srgb, var(--bone-elevated) 90%, transparent);
+    --card-shadow: 0 12px 40px rgba(66, 66, 66, 0.08), 0 0 0 1px var(--glass-border);
+    --sidebar-shadow: 12px 0 48px rgba(66, 66, 66, 0.1);
+    --pill-shadow: inset 0 0 0 1px var(--border-mid);
+    --glow-shadow: 0 4px 16px color-mix(in srgb, var(--charcoal) 6%, transparent);
 
-    --text-body: #1e1b4b;
-    --surface-panel: rgba(255, 255, 255, 0.98);
-    --surface-panel-alt: rgba(255, 255, 255, 0.98);
-    --panel-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    --notes-wrap-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    --blockquote-accent: rgba(124, 58, 237, 0.12);
-    --blockquote-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.18) 0%, var(--surface-panel) 100%);
-    --blockquote-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.2) 0%, var(--surface-panel) 100%);
-    --blockquote-border: var(--purple-mid);
-    --blockquote-tip-border: var(--purple-deep);
-    --blockquote-text: var(--purple-pale);
-    --blockquote-strong-decoration: rgba(192, 38, 211, 0.4);
-    --callout-tip-bg: linear-gradient(165deg, rgba(124, 58, 237, 0.1) 0%, var(--surface-panel) 100%);
-    --callout-tip-accent: rgba(124, 58, 237, 0.1);
-    --option-text: var(--text-strong);
-    --option-hover: #e879f9;
-    --opt-label-bg: rgba(192, 38, 211, 0.12);
-    --opt-label-color: #c026d3;
-    --note-h3-border: rgba(192, 38, 211, 0.45);
-    --section-title-border: rgba(124, 58, 237, 0.2);
-    --note-h1-border: rgba(124, 58, 237, 0.25);
-    --inline-code-bg: rgba(124, 58, 237, 0.15);
-    --inline-code-border: rgba(124, 58, 237, 0.25);
-    --code-block-border: rgba(124, 58, 237, 0.25);
-    --code-block-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    --formula-bg: rgba(124, 58, 237, 0.1);
-    --formula-border: rgba(124, 58, 237, 0.2);
-    --formula-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --modal-bg: color-mix(in srgb, var(--charcoal) 28%, transparent);
+    --glass-bg: color-mix(in srgb, var(--bone-elevated) 82%, transparent);
+    --selection-bg: color-mix(in srgb, var(--charcoal) 14%, transparent);
+    --light-glow: color-mix(in srgb, var(--charcoal) 6%, transparent);
 
-    --heading-1-color: var(--purple-pale);
+    --surface-panel: color-mix(in srgb, var(--bone-elevated) 94%, transparent);
+    --surface-panel-alt: color-mix(in srgb, var(--bone) 90%, transparent);
+    --panel-shadow: var(--card-shadow);
+    --notes-wrap-shadow: var(--card-shadow);
+    --blockquote-accent: color-mix(in srgb, var(--charcoal) 6%, transparent);
+    --blockquote-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 80%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 90%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-border: var(--accent-default);
+    --blockquote-tip-border: var(--accent-strong);
+    --blockquote-text: var(--text-primary);
+    --blockquote-strong-decoration: color-mix(in srgb, var(--charcoal) 25%, transparent);
+    --callout-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 70%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --callout-tip-accent: color-mix(in srgb, var(--charcoal) 5%, transparent);
+    --option-text: var(--text-primary);
+    --option-hover: var(--charcoal);
+    --opt-label-bg: color-mix(in srgb, var(--charcoal) 8%, transparent);
+    --opt-label-color: var(--accent-default);
+    --note-h3-border: color-mix(in srgb, var(--charcoal) 28%, transparent);
+    --section-title-border: var(--border-mid);
+    --note-h1-border: color-mix(in srgb, var(--charcoal) 18%, transparent);
+    --inline-code-bg: color-mix(in srgb, var(--bone-dim) 65%, var(--bone));
+    --inline-code-border: var(--border-mid);
+    --code-block-border: var(--border-mid);
+    --code-block-shadow: 0 2px 8px rgba(66, 66, 66, 0.06), var(--shadow-inner);
+    --formula-bg: color-mix(in srgb, var(--bone-dim) 55%, var(--bone));
+    --formula-border: var(--border-mid);
+    --formula-shadow: 0 2px 8px rgba(66, 66, 66, 0.06);
+
+    --heading-1-color: var(--charcoal);
     --heading-1-shadow: none;
-    --heading-2-color: var(--purple-mid);
+    --heading-2-color: var(--accent-default);
     --heading-2-shadow: none;
-    --mathjax-color: var(--purple-light);
+    --mathjax-color: var(--accent-soft);
 
     --theme-icon-sun: block;
     --theme-icon-moon: none;
 
-    --table-header-text: #ffffff;
-    --table-header-bg: linear-gradient(90deg, rgba(124,58,237,0.92), rgba(167,139,250,0.88));
-    --table-header-corner-bg: linear-gradient(90deg, rgba(103,58,183,0.95), rgba(124,58,237,0.92));
-    --table-header-corner-text: #ffffff;
-    --table-header-border: rgba(255,255,255,0.2);
-    --table-first-col-bg: linear-gradient(180deg, rgba(124,58,237,0.06), rgba(167,139,250,0.04));
+    --table-header-text: var(--bone);
+    --table-header-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 92%, var(--bone)), color-mix(in srgb, var(--charcoal) 78%, var(--bone)));
+    --table-header-corner-bg: linear-gradient(90deg, var(--charcoal-deep), var(--charcoal));
+    --table-header-corner-text: var(--bone);
+    --table-header-border: color-mix(in srgb, var(--bone) 12%, transparent);
+    --table-first-col-bg: linear-gradient(180deg, color-mix(in srgb, var(--charcoal) 5%, transparent), transparent);
     --table-cell-text: var(--text-primary);
-    --table-cell-border: rgba(0,0,0,0.06);
-    --table-alt-row-bg: linear-gradient(180deg, rgba(124,58,237,0.02), transparent);
-    --table-hover-bg: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(167,139,250,0.04));
+    --table-cell-border: var(--border-dim);
+    --table-alt-row-bg: linear-gradient(180deg, color-mix(in srgb, var(--charcoal) 3%, transparent), transparent);
+    --table-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 6%, transparent), transparent);
 
-    /* TOC items (notes sidebar) — light equivalents */
-    --toc-item-bg: rgba(124, 58, 237, 0.06);
-    --toc-item-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
-    --toc-item-border: rgba(124, 58, 237, 0.15);
-    --toc-item-hover-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.12), rgba(167, 139, 250, 0.06));
-    --toc-item-hover-border: rgba(124, 58, 237, 0.35);
-    --toc-item-active-bg: linear-gradient(90deg, rgba(124, 58, 237, 0.2), rgba(167, 139, 250, 0.12));
-    --toc-item-active-border: rgba(124, 58, 237, 0.45);
-    --toc-item-active-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    --toc-link-color: var(--purple-mid);
-    --toc-link-hover-color: var(--purple-deep);
-    --toc-link-active-color: var(--purple-deep);
+    --toc-item-bg: color-mix(in srgb, var(--bone-dim) 50%, var(--bone));
+    --toc-item-shadow: inset 0 1px 4px rgba(66, 66, 66, 0.06);
+    --toc-item-border: var(--border-mid);
+    --toc-item-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 8%, transparent), transparent);
+    --toc-item-hover-border: var(--border-hover);
+    --toc-item-active-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 12%, transparent), color-mix(in srgb, var(--charcoal) 5%, transparent));
+    --toc-item-active-border: var(--border-hover);
+    --toc-item-active-shadow: var(--card-shadow);
+    --toc-link-color: var(--accent-soft);
+    --toc-link-hover-color: var(--charcoal);
+    --toc-link-active-color: var(--charcoal);
 
-    /* Editor textareas — light equivalents */
-    --editor-textarea-bg: rgba(255, 255, 255, 0.98);
-    --editor-textarea-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
-    --editor-textarea-focus-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15), inset 0 1px 4px rgba(0, 0, 0, 0.06);
+    --editor-textarea-bg: color-mix(in srgb, var(--bone-elevated) 95%, transparent);
+    --editor-textarea-shadow: inset 0 1px 4px rgba(66, 66, 66, 0.08);
+    --editor-textarea-focus-shadow: 0 0 0 2px color-mix(in srgb, var(--charcoal) 12%, transparent), inset 0 1px 4px rgba(66, 66, 66, 0.08);
 
-    /* Login page — light equivalents */
-    --login-card-bg: rgba(255, 255, 255, 0.98);
-    --login-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(124, 58, 237, 0.1);
-    --login-input-bg: rgba(255, 255, 255, 0.98);
-    --login-input-border: rgba(124, 58, 237, 0.2);
-    --login-contact-border: rgba(0, 0, 0, 0.08);
+    --login-card-bg: var(--glass-bg);
+    --login-card-shadow: var(--card-shadow);
+    --login-input-bg: color-mix(in srgb, var(--bone-elevated) 92%, transparent);
+    --login-input-border: var(--border-mid);
+    --login-contact-border: var(--border-dim);
+
+    --glass-border: color-mix(in srgb, var(--charcoal) 14%, transparent);
+    --glass-highlight: inset 0 1px 0 color-mix(in srgb, var(--bone-elevated) 85%, transparent);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    :root,
+    .light-theme {
+        --glass-blur: 0px;
+        --glass-saturate: 1;
+    }
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.6;
     color: var(--text-primary);
     padding: 20px;
     background-color: var(--bg-color);
+    background-image:
+        radial-gradient(ellipse 120% 80% at 50% -20%, color-mix(in srgb, var(--bone) 6%, transparent), transparent 55%);
     transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+}
+
+body.light-theme {
+    background-image:
+        radial-gradient(ellipse 100% 70% at 50% 0%, color-mix(in srgb, var(--charcoal) 4%, transparent), transparent 50%);
 }
 
 /* ===== Sticky Header ===== */
@@ -258,6 +290,8 @@ body {
     position: sticky;
     top: 0;
     background: var(--surface-1);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     z-index: 1000;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-dim);
@@ -282,7 +316,7 @@ body {
     transform: translateY(-50%);
     background: var(--surface-2);
     border: 1px solid var(--border-mid);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     width: 36px;
     height: 36px;
     border-radius: 10px;
@@ -316,6 +350,7 @@ body {
 
 /* ===== Headings ===== */
 h1 {
+    font-family: var(--font-serif);
     color: var(--heading-1-color);
     text-align: center;
     font-size: 2rem;
@@ -328,6 +363,7 @@ h1 {
 }
 
 h2 {
+    font-family: var(--font-serif);
     color: var(--heading-2-color);
     text-align: center;
     font-size: 1.5rem;
@@ -341,7 +377,7 @@ h2 {
 /* Year section headers inside question files */
 .year-section h2 {
     text-align: center;
-    color: var(--purple-light);
+    color: var(--accent-soft);
     border-bottom: none;
     padding-bottom: 12px;
     margin-bottom: 24px;
@@ -363,12 +399,12 @@ h2 {
 }
 
 .set-indicator-left {
-    background: linear-gradient(90deg, transparent 0%, var(--purple-deep) 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--accent-strong) 100%);
     opacity: 0.55;
 }
 
 .set-indicator-right {
-    background: linear-gradient(90deg, var(--purple-deep) 0%, transparent 100%);
+    background: linear-gradient(90deg, var(--accent-strong) 0%, transparent 100%);
     opacity: 0.55;
 }
 
@@ -388,7 +424,7 @@ h2 {
     gap: 8px;
     padding: 4px 0;
     text-decoration: none;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.82rem;
     transition: color 0.25s ease, text-decoration-color 0.25s ease;
     text-underline-offset: 4px;
@@ -400,8 +436,8 @@ h2 {
 }
 
 .auth-pill-login:hover {
-    color: var(--purple-light);
-    text-decoration-color: var(--purple-light);
+    color: var(--accent-soft);
+    text-decoration-color: var(--accent-soft);
 }
 
 .auth-pill .auth-icon {
@@ -439,7 +475,7 @@ h2 {
     align-items: center;
     gap: 8px;
     padding: 4px 0;
-    color: var(--purple-light);
+    color: var(--accent-soft);
     font-size: 0.82rem;
 }
 
@@ -461,14 +497,14 @@ h2 {
     margin-left: 4px;
     border: none;
     background: transparent;
-    color: var(--purple-light);
+    color: var(--accent-soft);
     cursor: pointer;
     border-radius: 4px;
     transition: color 0.2s, background 0.2s;
 }
 
 .auth-logout-btn:hover {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     background: var(--surface-2);
 }
 
@@ -481,14 +517,14 @@ h2 {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.22em;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
 }
 
 .set-dot {
-    color: var(--purple-deep);
+    color: var(--accent-strong);
     font-size: 0.5rem;
     vertical-align: middle;
     margin: 0 3px;
@@ -498,8 +534,8 @@ h2 {
 #set-letter {
     font-size: 0.8rem;
     font-weight: 800;
-    color: var(--purple-light);
-    text-shadow: 0 0 12px rgba(196, 181, 253, 0.55);
+    color: var(--accent-soft);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--bone) calc(0.55 * 70%), transparent);
     letter-spacing: 0.06em;
 }
 
@@ -511,6 +547,9 @@ h2 {
     max-width: 680px;
     border-radius: 12px;
     background: var(--surface-2);
+    backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+    border: 1px solid var(--glass-border);
     overflow: hidden;
     box-shadow: var(--pill-shadow), var(--card-shadow);
 }
@@ -535,7 +574,7 @@ h2 {
 .meta-section { flex: 2; }
 
 .meta-item:hover {
-    background: rgba(124, 58, 237, 0.11);
+    background: color-mix(in srgb, var(--bone) calc(0.11 * 100%), transparent);
 }
 
 /* Dim ALL-CAPS label */
@@ -553,8 +592,8 @@ h2 {
 .meta-value {
     font-size: 0.92rem;
     font-weight: 700;
-    color: var(--purple-light);
-    text-shadow: 0 0 8px rgba(196, 181, 253, 0.2);
+    color: var(--accent-soft);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--bone) calc(0.2 * 70%), transparent);
     user-select: none;
     text-align: center;
     white-space: nowrap;
@@ -569,8 +608,8 @@ h2 {
 }
 
 .meta-item:hover .meta-value {
-    color: var(--purple-pale);
-    text-shadow: 0 0 16px rgba(196, 181, 253, 0.6);
+    color: var(--accent-muted);
+    text-shadow: 0 0 16px color-mix(in srgb, var(--bone) calc(0.6 * 70%), transparent);
 }
 
 /* Hidden select overlay — covers the whole item zone */
@@ -599,10 +638,13 @@ h2 {
 
 /* ===== Question Card ===== */
 .question-card {
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 24px;
     margin-bottom: 28px;
     background-color: var(--surface-2);
+    backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
+    border: 1px solid var(--glass-border);
     transition: all 0.28s ease;
     position: relative;
     box-shadow: var(--card-shadow), var(--shadow-inner);
@@ -661,9 +703,9 @@ h2 {
 
 .q-number {
     font-weight: 700;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 1.1rem;
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.35);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--bone) calc(0.35 * 85%), transparent);
 }
 
 /* ===== Topic — inline annotation style ===== */
@@ -715,7 +757,7 @@ h2 {
     bottom: 0;
     width: 3px;
     border-radius: 3px;
-    background: linear-gradient(180deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
+    background: linear-gradient(180deg, var(--accent-default) 0%, var(--accent-strong) 100%);
 }
 
 .q-context strong {
@@ -762,7 +804,7 @@ h2 {
 .q-table td:first-child,
 .q-table th:first-child {
     background: var(--table-first-col-bg);
-    color: var(--purple-light);
+    color: var(--accent-soft);
     font-weight: 700;
     padding: 12px;
     text-align: left;
@@ -858,10 +900,10 @@ h2 {
         transform: none;
     }
     .meta-item:hover {
-        background: rgba(124, 58, 237, 0.08);
+        background: color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent);
     }
     .option-item {
-        -webkit-tap-highlight-color: rgba(217, 70, 239, 0.08);
+        -webkit-tap-highlight-color: color-mix(in srgb, var(--bone) calc(0.08 * 70%), transparent);
     }
     .option-item:hover {
         transform: none;
@@ -890,7 +932,7 @@ h2 {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 2px solid rgba(124, 58, 237, 0.12);
+    border: 2px solid color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent);
 }
 
 /* Mid glow ring — slow counter-rotation */
@@ -899,8 +941,8 @@ h2 {
     inset: 8px;
     border-radius: 50%;
     border: 2px solid transparent;
-    border-top-color: rgba(196, 181, 253, 0.25);
-    border-left-color: rgba(124, 58, 237, 0.15);
+    border-top-color: color-mix(in srgb, var(--bone) calc(0.25 * 70%), transparent);
+    border-left-color: color-mix(in srgb, var(--bone) calc(0.15 * 100%), transparent);
     animation: qb-spin-rev 2.4s linear infinite;
 }
 
@@ -910,9 +952,9 @@ h2 {
     inset: 0;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: var(--purple-mid);
-    border-right-color: var(--purple-deep);
-    box-shadow: 0 0 18px rgba(167, 139, 250, 0.25);
+    border-top-color: var(--accent-default);
+    border-right-color: var(--accent-strong);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
     animation: qb-spin 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
@@ -925,8 +967,8 @@ h2 {
     justify-content: center;
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--purple-mid);
-    text-shadow: 0 0 24px rgba(167, 139, 250, 0.7), 0 0 6px rgba(124, 58, 237, 0.4);
+    color: var(--accent-default);
+    text-shadow: 0 0 24px color-mix(in srgb, var(--bone) calc(0.7 * 85%), transparent), 0 0 6px color-mix(in srgb, var(--bone) calc(0.4 * 100%), transparent);
     animation: qb-symbol-pulse 1.3s ease-in-out infinite;
     user-select: none;
 }
@@ -946,15 +988,15 @@ h2 {
 }
 
 .qb-loader-dot:nth-child(1) {
-    background: var(--purple-deep);
+    background: var(--accent-strong);
     animation-delay: 0s;
 }
 .qb-loader-dot:nth-child(2) {
-    background: var(--purple-mid);
+    background: var(--accent-default);
     animation-delay: 0.18s;
 }
 .qb-loader-dot:nth-child(3) {
-    background: var(--purple-light);
+    background: var(--accent-soft);
     animation-delay: 0.36s;
 }
 
@@ -1023,7 +1065,7 @@ h2 {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.15) 15%, rgba(124, 58, 237, 0.25) 50%, rgba(167, 139, 250, 0.15) 85%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--bone) calc(0.15 * 85%), transparent) 15%, color-mix(in srgb, var(--bone) calc(0.25 * 100%), transparent) 50%, color-mix(in srgb, var(--bone) calc(0.15 * 85%), transparent) 85%, transparent 100%);
 }
 
 .q-actions-left {
@@ -1047,7 +1089,7 @@ h2 {
 .q-ask-ai-btn {
     position: relative;
     background: rgba(255,255,255,0.04);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -1056,7 +1098,7 @@ h2 {
     justify-content: center;
     padding: 6px;
     transition: all 0.2s ease;
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
 }
 
 .q-copy-btn::after,
@@ -1090,7 +1132,7 @@ h2 {
 .q-copy-btn:hover,
 .q-answer-btn:hover,
 .q-ask-ai-btn:hover {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     transform: scale(1.12);
 }
 
@@ -1116,12 +1158,12 @@ h2 {
 }
 
 .q-copy-btn.copied {
-    color: var(--purple-mid);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
+    color: var(--accent-default);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
 }
 
 .q-answer-btn:hover {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
 }
 
 .q-answer-btn svg {
@@ -1132,15 +1174,15 @@ h2 {
 
 .q-ask-ai-btn:hover {
     color: var(--text-strong);
-    box-shadow: 0 0 0 1px rgba(192, 38, 211, 0.35);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--charcoal) calc(0.35 * 60%), transparent);
 }
 
 /* ===== Collapsible explanation section (shown when answer visible) ===== */
 .explanation-collapsible {
     margin-top: 18px;
     border-radius: 12px;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.06) 0%, var(--surface-panel) 100%);
-    border: 1px solid rgba(167, 139, 250, 0.15);
+    background: linear-gradient(165deg, color-mix(in srgb, var(--bone) calc(0.06 * 100%), transparent) 0%, var(--surface-panel) 100%);
+    border: 1px solid var(--glass-border);
     overflow: hidden;
 }
 
@@ -1155,7 +1197,7 @@ h2 {
     padding: 0;
     background: transparent;
     border: none;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
@@ -1163,7 +1205,7 @@ h2 {
 }
 
 .explanation-toggle:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .explanation-toggle-label {
@@ -1179,15 +1221,15 @@ h2 {
 .explanation-header-right .q-header-action-btn {
     width: 28px;
     height: 28px;
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .explanation-header-right .q-header-action-btn:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .explanation-header-right .explanation-copy-btn.copied {
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .explanation-chevron-btn {
@@ -1197,13 +1239,13 @@ h2 {
     padding: 4px;
     background: transparent;
     border: none;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .explanation-chevron-btn:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .explanation-chevron {
@@ -1246,7 +1288,7 @@ h2 {
     padding: 0;
     border: none;
     background: transparent;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -1277,7 +1319,7 @@ h2 {
 }
 
 .q-header-action-btn:hover {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     transform: scale(1.12);
 }
 
@@ -1293,29 +1335,29 @@ h2 {
 
 /* Wrong Answer? — flag icon, rose accent */
 .wrong-answer-trigger.q-header-action-btn {
-    color: var(--rose-text);
+    color: var(--state-danger);
 }
 
 .wrong-answer-trigger.q-header-action-btn:hover {
-    color: #fda4af;
+    color: var(--state-soft);
 }
 
 /* Edit Explanation — document icon */
 .edit-explanation-trigger.q-header-action-btn {
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .edit-explanation-trigger.q-header-action-btn:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 /* Edit Question — pencil icon */
 .edit-question-trigger.q-header-action-btn {
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .edit-question-trigger.q-header-action-btn:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .explanation-body .notes-wrap {
@@ -1327,7 +1369,7 @@ h2 {
     margin-top: 18px;
     padding: 12px;
     border-radius: 14px;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.08) 0%, var(--surface-panel) 100%);
+    background: linear-gradient(165deg, color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent) 0%, var(--surface-panel) 100%);
     border: none;
     box-shadow: var(--notes-wrap-shadow);
     box-sizing: border-box;
@@ -1353,7 +1395,7 @@ h2 {
     font-weight: 800;
     letter-spacing: 0.2em;
     color: var(--text-strong); /* Orchid/Soft Purple for better alignment with theme */
-    text-shadow: 0 0 10px rgba(240, 171, 252, 0.35);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--bone) calc(0.35 * 80%), transparent);
     user-select: none;
     pointer-events: none;
     text-decoration: underline;
@@ -1368,7 +1410,7 @@ h2 {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, var(--text-strong) 0%, var(--purple-deep) 100%);
+    background: linear-gradient(180deg, var(--text-strong) 0%, var(--accent-strong) 100%);
     border-radius: 4px 0 0 4px;
 }
 
@@ -1400,7 +1442,7 @@ h2 {
 }
 
 .q-notes-rich strong {
-    color: var(--purple-light);
+    color: var(--accent-soft);
     font-weight: 700;
 }
 
@@ -1427,7 +1469,7 @@ h2 {
     min-height: 120px;
     padding: 12px;
     border-radius: 10px;
-    border: 1px solid rgba(167,139,250,0.12);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     background: var(--editor-textarea-bg);
     color: var(--text-primary);
     font-family: inherit;
@@ -1444,77 +1486,79 @@ h2 {
     font-weight: 700;
 }
 .note-save-btn {
-    background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-deep) 100%);
-    color: #fff;
-    border: 1px solid rgba(167,139,250,0.2);
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);
-    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-fg);
+    border: 1px solid transparent;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--pill-active-fg) 18%, transparent);
+    transition: box-shadow 0.18s ease, transform 0.12s ease;
 }
 .note-save-btn:hover {
-    background: linear-gradient(135deg, var(--purple-light) 0%, #8b5cf6 100%);
-    color: #fff;
     transform: translateY(-1px);
-    box-shadow: 0 8px 26px rgba(124,58,237,0.12);
-    border-color: rgba(139,92,246,0.22);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--pill-active-fg) 26%, transparent);
 }
 .note-save-btn:active {
     transform: translateY(0);
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
 }
 .note-save-btn:focus-visible {
-    outline: 3px solid rgba(124,58,237,0.14);
+    outline: 3px solid color-mix(in srgb, var(--bone) calc(0.14 * 100%), transparent);
     outline-offset: 2px;
-    border-color: rgba(124,58,237,0.28);
+    border-color: color-mix(in srgb, var(--bone) calc(0.28 * 100%), transparent);
 }
 .note-cancel-btn {
     /* Reddish secondary (cancel) button that fits the theme */
-    background: rgba(251, 113, 133, 0.06); /* soft rose surface */
-    color: var(--rose-text); /* rose text to indicate cancel/destructive intent */
-    border: 1px solid rgba(251, 113, 133, 0.14);
+    background: color-mix(in srgb, var(--bone) calc(0.06 * 90%), transparent); /* soft rose surface */
+    color: var(--state-danger); /* rose text to indicate cancel/destructive intent */
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.14 * 90%), transparent);
     transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12);
 }
 .note-cancel-btn:hover {
-    background: linear-gradient(135deg, rgba(251,113,133,0.14), rgba(245,46,117,0.08));
-    color: #fff;
-    border-color: rgba(245,46,117,0.28);
-    box-shadow: 0 6px 20px rgba(245,46,117,0.06);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--bone) calc(0.14 * 90%), transparent), color-mix(in srgb, var(--bone) calc(0.08 * 75%), transparent));
+    color: var(--bone);
+    border-color: color-mix(in srgb, var(--bone) calc(0.28 * 75%), transparent);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--bone) calc(0.06 * 75%), transparent);
 }
 .note-cancel-btn:focus-visible {
-    outline: 3px solid rgba(245,46,117,0.14);
+    outline: 3px solid color-mix(in srgb, var(--bone) calc(0.14 * 75%), transparent);
     outline-offset: 2px;
-    border-color: rgba(245,46,117,0.32);
+    border-color: color-mix(in srgb, var(--bone) calc(0.32 * 75%), transparent);
 }
 
 .q-answer-btn.hidden {
-    color: #3d3d55;
+    color: var(--text-muted);
     box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
 }
 
-/* Active state: showing the answer — glows purple */
+/* Active state: showing the answer */
 .q-answer-btn.showing {
-    color: var(--purple-light);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.4), 0 0 14px rgba(167, 139, 250, 0.15);
+    color: var(--accent-soft);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.4 * 85%), transparent), 0 0 14px color-mix(in srgb, var(--bone) calc(0.15 * 85%), transparent);
 }
 
-/* ===== Correct Answer Highlight — purple theme ===== */
+/* ===== Correct Answer Highlight ===== */
 .option-item.correct-answer {
-    color: var(--purple-pale);
+    color: var(--text-primary);
     position: relative;
-    padding-right: 36px;
-    background: var(--bg-color);
-    border-radius: 6px;
-    box-shadow: var(--glow-shadow), var(--shadow-inner);
+    padding: 8px 40px 8px 10px;
+    background: var(--answer-highlight-bg);
+    border: 1px solid var(--answer-highlight-border);
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.option-item.correct-answer mjx-container {
+    color: var(--mathjax-color) !important;
 }
 
 .option-item.correct-answer::after {
     content: '✓';
     position: absolute;
-    right: 4px;
+    right: 6px;
     top: 50%;
     transform: translateY(-50%);
-    background: linear-gradient(135deg, var(--purple-mid), var(--purple-deep));
-    color: #ffffff;
+    background: var(--pill-active-bg);
+    color: var(--pill-active-fg);
     width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -1525,7 +1569,9 @@ h2 {
     font-weight: 800;
     animation: popIn 0.3s ease;
     flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(167, 139, 250, 0.5);
+    z-index: 1;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--bone) 15%, transparent);
+    pointer-events: none;
 }
 
 @keyframes popIn {
@@ -1535,12 +1581,14 @@ h2 {
 }
 
 .option-item.correct-answer .opt-label {
-    background: rgba(167, 139, 250, 0.18);
-    color: var(--purple-light);
+    background: var(--pill-active-bg);
+    color: var(--pill-active-fg);
+    font-weight: 700;
+    box-shadow: 0 1px 4px color-mix(in srgb, var(--charcoal-deep) 18%, transparent);
 }
 
 .option-item.correct-answer:hover {
-    color: var(--purple-pale);
+    color: var(--text-primary);
 }
 
 /* ===== Wrong Answer? — consistent card-style picker ===== */
@@ -1560,8 +1608,8 @@ h2 {
     gap: 10px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: rgba(124, 58, 237, 0.06);
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    background: color-mix(in srgb, var(--bone) calc(0.06 * 100%), transparent);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
 }
 
 .wrong-answer-picker.open {
@@ -1583,7 +1631,7 @@ h2 {
 }
 
 .light-theme .wrong-answer-hint {
-    color: #475569;
+    color: var(--text-muted);
 }
 
 .wrong-answer-chips {
@@ -1598,7 +1646,7 @@ h2 {
     font-weight: 600;
     color: var(--text-context);
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(167, 139, 250, 0.25);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -1607,28 +1655,28 @@ h2 {
 .light-theme .wrong-answer-chip {
     background: rgba(255, 255, 255, 0.8);
     color: var(--text-primary);
-    border-color: rgba(124, 58, 237, 0.2);
+    border-color: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
 }
 
 .wrong-answer-chip:hover {
-    color: var(--purple-light);
-    border-color: rgba(167, 139, 250, 0.45);
+    color: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--bone) calc(0.45 * 85%), transparent);
 }
 
 .light-theme .wrong-answer-chip:hover {
-    border-color: rgba(124, 58, 237, 0.4);
+    border-color: color-mix(in srgb, var(--bone) calc(0.4 * 100%), transparent);
 }
 
 .wrong-answer-chip.selected {
-    color: var(--purple-pale);
-    background: rgba(124, 58, 237, 0.2);
-    border-color: rgba(167, 139, 250, 0.5);
+    color: var(--accent-muted);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    border-color: color-mix(in srgb, var(--bone) calc(0.5 * 85%), transparent);
 }
 
 .light-theme .wrong-answer-chip.selected {
-    background: rgba(124, 58, 237, 0.12);
-    color: var(--purple-deep);
-    border-color: rgba(124, 58, 237, 0.4);
+    background: color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent);
+    color: var(--accent-strong);
+    border-color: color-mix(in srgb, var(--bone) calc(0.4 * 100%), transparent);
 }
 
 .correction-toast {
@@ -1638,11 +1686,11 @@ h2 {
     transform: translateX(-50%) translateY(20px);
     padding: 12px 24px;
     background: var(--surface-1);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(167, 139, 250, 0.12);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     z-index: 9999;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1724,7 +1772,7 @@ h2 {
         align-items: flex-start;
         gap: 8px;
         padding: 10px 12px;
-        border-top: 1px solid rgba(167, 139, 250, 0.2);
+        border-top: 1px solid color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
     }
     .wrong-answer-chips {
         flex-wrap: wrap;
@@ -1799,7 +1847,7 @@ h2 {
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     text-decoration: underline;
     text-underline-offset: 3px;
     font-size: 0.9rem;
@@ -1827,14 +1875,14 @@ h2 {
     border: 1px solid var(--border-mid);
     border-radius: 10px;
     background: var(--surface-2);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .login-theme-toggle:hover {
     background: var(--border-hover);
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .login-theme-toggle .theme-icon-light { display: var(--theme-icon-sun); }
@@ -1846,11 +1894,11 @@ h2 {
 }
 
 .login-back-btn:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .login-back-btn:focus-visible {
-    outline: 2px solid var(--purple-mid);
+    outline: 2px solid var(--accent-default);
     outline-offset: 2px;
 }
 
@@ -1861,13 +1909,17 @@ h2 {
 
 .login-card {
     background: var(--login-card-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border: 1px solid var(--glass-border);
     border-radius: 16px;
     padding: clamp(24px, 6vw, 32px);
     box-shadow: var(--login-card-shadow);
 }
 
 .login-title {
-    color: var(--purple-pale);
+    font-family: var(--font-serif);
+    color: var(--heading-1-color);
     font-size: 1.5rem;
     text-align: center;
     margin-bottom: 4px;
@@ -1896,7 +1948,7 @@ h2 {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     text-transform: uppercase;
 }
 
@@ -1912,12 +1964,12 @@ h2 {
 
 .login-field input:focus {
     outline: none;
-    border-color: var(--purple-mid);
-    box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+    border-color: var(--accent-default);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
 }
 
 .login-error {
-    color: var(--rose-text);
+    color: var(--state-danger);
     font-size: 0.875rem;
     margin: 0;
     min-height: 1.6em;
@@ -1926,21 +1978,25 @@ h2 {
 .login-btn {
     padding: 12px 20px;
     border-radius: 10px;
-    border: none;
-    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
-    color: #fff;
+    border: 1px solid transparent;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-fg);
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--pill-active-fg) 20%, transparent);
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
 }
 
 .login-btn:hover {
-    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--pill-active-fg) 28%, transparent);
 }
 
 .login-btn:active {
     transform: scale(0.98);
+    box-shadow: 0 1px 6px color-mix(in srgb, var(--pill-active-fg) 15%, transparent);
 }
 
 .login-contact {
@@ -1963,7 +2019,7 @@ h2 {
 }
 
 .login-contact-link {
-    color: var(--purple-light);
+    color: var(--accent-soft);
     font-weight: 600;
     text-decoration: none;
     text-underline-offset: 3px;
@@ -1971,34 +2027,63 @@ h2 {
 }
 
 .login-contact-link:hover {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
 }
 
-/* --- Mode Toggle --- */
+/* --- Mode Toggle (segmented pills — matches topic-badge / sidebar-open-btn) --- */
 .mode-toggle-wrap {
-    display: flex;
+    display: inline-flex;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 0;
+    align-items: center;
+    gap: 4px;
+    margin: 10px auto;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--pill-track-bg);
+    border: 1px solid var(--border-mid);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bone) 6%, transparent);
 }
 
 .mode-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    color: var(--purple-mid);
-    padding: 6px 16px;
-    border-radius: 20px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    padding: 7px 18px;
+    border-radius: 999px;
     font-size: 0.8rem;
     font-weight: 600;
+    font-family: var(--font-sans);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: color 0.12s ease, box-shadow 0.12s ease, transform 0.1s ease;
+}
+
+.mode-btn:hover:not(.active) {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--bone) 6%, transparent);
+}
+
+.mode-btn:active {
+    transform: scale(0.98);
 }
 
 .mode-btn.active {
-    background: var(--purple-deep);
-    color: white;
-    box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-    border-color: var(--purple-mid);
+    background: var(--pill-active-bg);
+    color: var(--pill-active-fg);
+    border-color: transparent;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--bone) 18%, transparent);
+}
+
+.light-theme .mode-toggle-wrap {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bone-elevated) 90%, transparent);
+}
+
+.light-theme .mode-btn:hover:not(.active) {
+    color: var(--charcoal);
+    background: color-mix(in srgb, var(--charcoal) 6%, transparent);
+}
+
+.light-theme .mode-btn.active {
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--charcoal) 14%, transparent);
 }
 
 /* --- Notes Viewer --- */
@@ -2016,6 +2101,7 @@ h2 {
 
 .notes-header h1 {
     margin: 0;
+    font-family: var(--font-serif);
     font-size: 2.25rem;
     color: var(--heading-1-color);
     text-shadow: var(--heading-1-shadow);
@@ -2023,13 +2109,15 @@ h2 {
 }
 
 .topic-badge {
-    background: linear-gradient(90deg, var(--purple-deep), var(--purple-mid));
-    color: white;
+    background: var(--pill-active-bg);
+    color: var(--pill-active-fg);
     font-size: 0.65rem;
     font-weight: 800;
     padding: 4px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     letter-spacing: 0.1em;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 6px color-mix(in srgb, var(--bone) 12%, transparent);
 }
 
 /* --- Notes Layout & Sidebar --- */
@@ -2078,7 +2166,7 @@ h2 {
     display: flex;
     flex-direction: column;
     scrollbar-width: thin;
-    scrollbar-color: rgba(124, 58, 237, 0.2) transparent;
+    scrollbar-color: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent) transparent;
     box-sizing: border-box;
 }
 
@@ -2152,7 +2240,7 @@ h2 {
 .question-toc-num {
     flex-shrink: 0;
     font-weight: 700;
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .question-toc-text {
@@ -2166,7 +2254,7 @@ h2 {
 .question-toc-topic {
     font-weight: 600;
     font-size: 0.8rem;
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .question-toc-preview {
@@ -2184,7 +2272,7 @@ h2 {
 
 .question-toc-link:hover .question-toc-num,
 .question-toc-link.active .question-toc-num {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
 }
 
 .question-toc-actions {
@@ -2203,7 +2291,7 @@ h2 {
     padding: 0;
     border: none;
     background: transparent;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s;
@@ -2234,13 +2322,13 @@ h2 {
 }
 
 .question-toc-btn:hover {
-    background: rgba(124, 58, 237, 0.2);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    color: var(--accent-muted);
 }
 
 .question-toc-btn.copied {
-    color: var(--purple-mid);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
+    color: var(--accent-default);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
 }
 
 .question-toc-btn svg {
@@ -2264,7 +2352,7 @@ h2 {
     display: flex;
     flex-direction: column;
     scrollbar-width: thin;
-    scrollbar-color: rgba(124, 58, 237, 0.2) transparent;
+    scrollbar-color: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent) transparent;
     box-sizing: border-box;
 }
 
@@ -2294,17 +2382,21 @@ h2 {
     left: 24px;
     bottom: 30px;
     z-index: 1001;
-    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
-    color: white;
-    border: none;
+    background: var(--pill-active-bg);
+    color: var(--pill-active-fg);
+    border: 1px solid transparent;
     border-radius: 30px;
     padding: 12px 24px;
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: var(--font-sans);
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--bone) 22%, transparent);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.2s ease,
+        opacity 0.35s ease,
+        visibility 0.35s ease;
     opacity: 0;
     visibility: hidden;
     transform: translateY(40px);
@@ -2320,7 +2412,7 @@ h2 {
 
 .sidebar-open-btn:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 30px rgba(124, 58, 237, 0.6);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--bone) 28%, transparent);
 }
 
 .sidebar-close-btn {
@@ -2338,8 +2430,8 @@ h2 {
 
 .sidebar-close-btn:hover {
     color: var(--text-primary);
-    background: rgba(124, 58, 237, 0.2);
-    border-color: rgba(167, 139, 250, 0.3);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    border-color: color-mix(in srgb, var(--bone) calc(0.3 * 85%), transparent);
 }
 
 .sidebar-header {
@@ -2353,9 +2445,9 @@ h2 {
 
 .sidebar-add-btn {
     margin-top: 20px;
-    background: rgba(124, 58, 237, 0.08);
-    border: 1px dashed rgba(167, 139, 250, 0.25);
-    color: var(--purple-mid);
+    background: color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent);
+    border: 1px dashed color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
+    color: var(--accent-default);
     padding: 12px;
     border-radius: 10px;
     cursor: pointer;
@@ -2366,9 +2458,9 @@ h2 {
 }
 
 .sidebar-add-btn:hover {
-    background: rgba(124, 58, 237, 0.15);
-    border-color: rgba(167, 139, 250, 0.5);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.15 * 100%), transparent);
+    border-color: color-mix(in srgb, var(--bone) calc(0.5 * 85%), transparent);
+    color: var(--accent-muted);
 }
 
 /* Sidebar TOC links */
@@ -2428,25 +2520,25 @@ h2 {
     padding: 0;
     border: none;
     background: transparent;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .notes-sidebar .toc-action-btn:hover {
-    background: rgba(124, 58, 237, 0.2);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    color: var(--accent-muted);
 }
 
 .notes-sidebar .toc-action-btn.toc-delete-btn:hover {
     background: rgba(239, 68, 68, 0.15);
-    color: var(--rose-text);
+    color: var(--state-danger);
 }
 
 .notes-sidebar .toc-action-btn.copied {
-    color: var(--purple-mid);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
+    color: var(--accent-default);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
 }
 
 .notes-sidebar .toc-item .toc-link {
@@ -2482,7 +2574,7 @@ h2 {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--purple-deep);
+    background: var(--accent-strong);
     transform: scaleY(0);
     transition: transform 0.2s ease;
     border-radius: 0 3px 3px 0;
@@ -2494,7 +2586,7 @@ h2 {
 }
 
 .section-title {
-    color: var(--purple-light) !important;
+    color: var(--accent-soft) !important;
     font-size: 1.75rem !important;
     font-weight: 800 !important;
     margin: 40px 0 24px 0 !important;
@@ -2513,7 +2605,7 @@ h2 {
     left: 0;
     width: 60px;
     height: 2px;
-    background: var(--purple-deep);
+    background: var(--accent-strong);
     border-radius: 2px;
 }
 
@@ -2528,7 +2620,7 @@ h2 {
 
 /* h1 — pale lavender, full underline. Largest, rarely used inside sections. */
 .note-h1 {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     font-size: 1.5rem;
     margin: 0 0 18px 0;
     padding-bottom: 10px;
@@ -2536,13 +2628,13 @@ h2 {
     letter-spacing: -0.01em;
 }
 
-/* h2 — mid-purple, distinct from section-title (var(--purple-light)) and h3 (var(--text-strong)).
+/* h2 — mid-purple, distinct from section-title (var(--accent-soft)) and h3 (var(--text-strong)).
    Wide dash marker clearly wider than h3's left-bar to show rank. */
 .note-h2 {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 1.35rem;
     margin: 32px 0 12px 0;
-    text-shadow: 0 0 18px rgba(167, 139, 250, 0.2);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
 }
 
 .note-h2::before {
@@ -2550,7 +2642,7 @@ h2 {
     display: inline-block;
     width: 18px;
     height: 3px;
-    background: linear-gradient(90deg, var(--purple-mid), rgba(167, 139, 250, 0.5));
+    background: linear-gradient(90deg, var(--accent-default), color-mix(in srgb, var(--bone) calc(0.5 * 85%), transparent));
     border-radius: 2px;
     margin-right: 10px;
     vertical-align: middle;
@@ -2571,14 +2663,14 @@ h2 {
 
 /* h4 — mid-lavender, filled triangle. One step below h3. */
 .note-h4 {
-    color: var(--purple-light);
+    color: var(--accent-soft);
     font-size: 1.05rem;
     margin: 20px 0 8px 0;
 }
 
 .note-h4::before {
     content: '▸';
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.78em;
     margin-right: 7px;
     vertical-align: middle;
@@ -2586,7 +2678,7 @@ h2 {
 
 /* h5 — muted purple, ALL-CAPS label style. Clearly a sub-label, not a heading. */
 .note-h5 {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.8rem;
     font-weight: 700;
     margin: 16px 0 6px 0;
@@ -2619,7 +2711,7 @@ h2 {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--purple-deep), var(--purple-mid), rgba(167,139,250,0.3));
+    background: linear-gradient(90deg, var(--accent-strong), var(--accent-default), color-mix(in srgb, var(--bone) calc(0.3 * 85%), transparent));
     border-radius: 10px 10px 0 0;
 }
 .note-chart-svg {
@@ -2652,13 +2744,13 @@ h2 {
     letter-spacing: 0.01em;
 }
 .note-chart-error {
-    color: var(--rose-text);
+    color: var(--state-danger);
     font-size: 0.82rem;
     padding: 8px 12px;
-    border: 1px solid var(--rose-text);
+    border: 1px solid var(--state-danger);
     border-radius: 6px;
     margin: 8px 0;
-    background: rgba(251,113,133,0.07);
+    background: color-mix(in srgb, var(--bone) calc(0.07 * 90%), transparent);
 }
 @media (max-width: 600px) {
     .note-chart-wrap { padding: 12px 10px 8px; }
@@ -2668,7 +2760,7 @@ h2 {
 .note-hr {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent 5%, rgba(167, 139, 250, 0.4) 45%, rgba(167, 139, 250, 0.4) 55%, transparent 95%);
+    background: linear-gradient(90deg, transparent 5%, color-mix(in srgb, var(--bone) calc(0.4 * 85%), transparent) 45%, color-mix(in srgb, var(--bone) calc(0.4 * 85%), transparent) 55%, transparent 95%);
     margin: 24px 0;
 }
 
@@ -2730,14 +2822,14 @@ h2 {
 .q-notes-content strong, .note-section-content strong,
 .q-notes-content .note-p strong, .note-section-content .note-p strong,
 .note-list strong {
-    color: var(--text-strong); /* Orchid — distinguishable from MathJax var(--purple-light) */
+    color: var(--text-strong); /* Orchid — distinguishable from MathJax var(--accent-soft) */
     font-weight: 700;
 }
 
 .q-notes-content em, .note-section-content em,
 .q-notes-content .note-p em, .note-section-content .note-p em,
 .note-list em {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-style: italic;
 }
 
@@ -2758,7 +2850,7 @@ h2 {
 .note-code-block {
     margin: 18px 0;
     padding: 16px 18px;
-    background: linear-gradient(165deg, rgba(124, 58, 237, 0.12) 0%, var(--bg-color) 35%, var(--surface-panel) 100%);
+    background: linear-gradient(165deg, color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent) 0%, var(--bg-color) 35%, var(--surface-panel) 100%);
     border: 1px solid var(--code-block-border);
     border-radius: 8px;
     overflow-x: auto;
@@ -2771,7 +2863,7 @@ h2 {
 .note-code-block code {
     background: none;
     padding: 0;
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     border: none;
     box-shadow: none;
 }
@@ -2798,7 +2890,7 @@ h2 {
     content: '›';
     position: absolute;
     left: -18px;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-weight: 700;
     font-size: 1.1em;
     line-height: 1.75;
@@ -2810,7 +2902,7 @@ h2 {
 }
 
 .note-ol li::marker {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-weight: 700;
 }
 
@@ -2837,7 +2929,7 @@ h2 {
     padding: 18px 22px !important;
     border-radius: 8px !important;
     border: 1px solid var(--formula-border) !important;
-    border-left: 3px solid var(--purple-mid) !important;
+    border-left: 3px solid var(--accent-default) !important;
     margin: 18px 0 !important;
     box-shadow: var(--formula-shadow) !important;
     overflow-x: auto;
@@ -2848,7 +2940,7 @@ h2 {
 .note-callout.tip {
     margin: 32px 0 40px 0;
     padding: 24px 28px;
-    border-left: 5px solid var(--purple-deep);
+    border-left: 5px solid var(--accent-strong);
     background: var(--callout-tip-bg);
     border-radius: 0 16px 16px 0;
     display: flex;
@@ -2876,7 +2968,7 @@ h2 {
 .note-callout.tip .callout-icon {
     font-size: 1.75rem;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.35));
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--bone) calc(0.35 * 85%), transparent));
     z-index: 1;
 }
 
@@ -2884,14 +2976,14 @@ h2 {
     flex: 1;
     font-size: 1rem;
     line-height: 1.75;
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     min-width: 0;
     z-index: 1;
 }
 
 .note-callout.tip .tip-label {
     display: block;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-weight: 800;
     font-size: 1.15rem;
     margin-bottom: 12px;
@@ -2905,9 +2997,9 @@ h2 {
     align-items: center;
     gap: 6px;
     padding: 4px 10px;
-    background: rgba(124, 58, 237, 0.1);
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    color: var(--purple-mid);
+    background: color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
+    color: var(--accent-default);
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -2918,9 +3010,9 @@ h2 {
 
 .note-edit-btn:hover {
     opacity: 1;
-    background: rgba(124, 58, 237, 0.2);
-    border-color: rgba(167, 139, 250, 0.4);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    border-color: color-mix(in srgb, var(--bone) calc(0.4 * 85%), transparent);
+    color: var(--accent-muted);
 }
 
 .note-editor-wrap {
@@ -2937,7 +3029,7 @@ h2 {
     padding: 15px;
     background: var(--editor-textarea-bg);
     color: var(--text-primary);
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
     border-radius: 8px;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
     font-size: 0.95rem;
@@ -2948,7 +3040,7 @@ h2 {
 
 .note-editor-textarea:focus {
     outline: none;
-    border-color: var(--purple-deep);
+    border-color: var(--accent-strong);
     box-shadow: var(--editor-textarea-focus-shadow);
 }
 
@@ -2956,8 +3048,8 @@ h2 {
 .note-format-hint {
     margin: 0 0 12px 0;
     padding: 10px 14px;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(167, 139, 250, 0.04) 100%);
-    border: 1px solid rgba(167, 139, 250, 0.15);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent) 0%, color-mix(in srgb, var(--bone) calc(0.04 * 85%), transparent) 100%);
+    border: 1px solid var(--glass-border);
     border-radius: 10px;
     font-size: 0.8rem;
     color: var(--text-context);
@@ -2966,7 +3058,7 @@ h2 {
 .note-format-hint summary {
     cursor: pointer;
     font-weight: 600;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     user-select: none;
     list-style: none;
     display: flex;
@@ -2985,18 +3077,18 @@ h2 {
 .note-format-hint[open] summary::before { transform: rotate(90deg); }
 
 .note-format-hint summary:hover {
-    color: var(--purple-light);
+    color: var(--accent-soft);
 }
 
 .note-format-hint-body {
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid rgba(167, 139, 250, 0.12);
+    border-top: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     line-height: 1.85;
 }
 
 .note-format-hint code {
-    background: rgba(124, 58, 237, 0.15);
+    background: color-mix(in srgb, var(--bone) calc(0.15 * 100%), transparent);
     color: var(--text-strong);
     padding: 2px 6px;
     border-radius: 4px;
@@ -3026,7 +3118,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-overlay {
-    background: rgba(30, 41, 59, 0.22);
+    background: color-mix(in srgb, var(--charcoal) 22%, transparent);
     backdrop-filter: blur(12px);
 }
 
@@ -3058,7 +3150,7 @@ body.revision-editor-open {
     min-height: 0;
     min-width: 0;
     width: 100%;
-    border: 1px solid rgba(167, 139, 250, 0.15);
+    border: 1px solid var(--glass-border);
     border-radius: 14px;
     overflow: hidden;
     background: var(--surface-1);
@@ -3098,21 +3190,21 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-panel--question-explanation .revision-editor-question-hero-wrap {
-    border-top-color: rgba(124, 58, 237, 0.12);
+    border-top-color: color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent);
 }
 
 /* Header row reads as part of the unified chrome, not a separate mini-card */
 .revision-editor-panel--question-explanation .revision-editor-question-hero-summary-head .q-header {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.08) 0%, transparent 100%);
-    border: 1px solid rgba(167, 139, 250, 0.12);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent) 0%, transparent 100%);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     border-radius: 8px;
     box-shadow: none;
     padding: 8px 12px;
 }
 
 .light-theme .revision-editor-panel--question-explanation .revision-editor-question-hero-summary-head .q-header {
-    background: rgba(124, 58, 237, 0.05);
-    border-color: rgba(124, 58, 237, 0.1);
+    background: color-mix(in srgb, var(--bone) calc(0.05 * 100%), transparent);
+    border-color: color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
 }
 
 .revision-editor-question-hero-summary {
@@ -3196,8 +3288,8 @@ body.revision-editor-open {
     display: block;
     width: 7px;
     height: 7px;
-    border-right: 2px solid var(--purple-mid);
-    border-bottom: 2px solid var(--purple-mid);
+    border-right: 2px solid var(--accent-default);
+    border-bottom: 2px solid var(--accent-default);
     transform: rotate(45deg);
     margin-top: -3px;
     transition: transform 0.2s ease;
@@ -3273,7 +3365,7 @@ body.revision-editor-open {
     overflow: visible;
     position: relative;
     z-index: 2;
-    border-bottom: 1px solid rgba(167, 139, 250, 0.12);
+    border-bottom: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     min-width: 0;
     width: 100%;
     max-width: 100%;
@@ -3281,7 +3373,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-chrome {
-    border-bottom-color: rgba(124, 58, 237, 0.1);
+    border-bottom-color: color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
 }
 
 /* Top row: breadcrumb | theme + close */
@@ -3316,7 +3408,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-breadcrumb {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     opacity: 0.9;
 }
 
@@ -3361,7 +3453,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-toolbar-row {
-    border-top-color: rgba(124, 58, 237, 0.12);
+    border-top-color: color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent);
 }
 
 .revision-editor-toolbar-left {
@@ -3419,7 +3511,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-title-hero {
-    border-top-color: rgba(124, 58, 237, 0.12);
+    border-top-color: color-mix(in srgb, var(--bone) calc(0.12 * 100%), transparent);
 }
 
 .revision-editor-field-label {
@@ -3433,7 +3525,7 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-field-label {
-    color: var(--purple-mid);
+    color: var(--accent-default);
     opacity: 0.85;
 }
 
@@ -3447,7 +3539,7 @@ body.revision-editor-open {
     border-radius: 10px;
     border: 1px solid var(--border-mid);
     background: var(--surface-2);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
     box-shadow: var(--pill-shadow);
@@ -3455,21 +3547,21 @@ body.revision-editor-open {
 }
 
 .revision-editor-icon-btn:hover {
-    background: rgba(124, 58, 237, 0.14);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.14 * 100%), transparent);
+    color: var(--accent-muted);
     border-color: var(--border-hover);
     transform: translateY(-1px);
 }
 
 .light-theme .revision-editor-icon-btn:hover {
-    color: var(--purple-deep);
+    color: var(--accent-strong);
 }
 
 .revision-editor-format-tip-char {
     font-size: 1.05rem;
     font-weight: 800;
     line-height: 1;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-serif);
 }
 
 /* Compact ? in Markdown source header (corner) */
@@ -3500,7 +3592,7 @@ body.revision-editor-open {
     letter-spacing: -0.02em;
     line-height: 1.25;
     min-height: 44px;
-    color: var(--purple-light);
+    color: var(--accent-soft);
     background: var(--surface-2);
     border: 1px solid var(--border-mid);
     border-radius: 10px;
@@ -3517,7 +3609,7 @@ body.revision-editor-open {
 }
 
 .revision-editor-title-input:focus {
-    border-color: var(--purple-deep);
+    border-color: var(--accent-strong);
     box-shadow: 0 0 0 2px var(--selection-bg), var(--editor-textarea-shadow);
 }
 
@@ -3525,7 +3617,7 @@ body.revision-editor-open {
     margin: 0;
     font-size: 1.2rem;
     font-weight: 800;
-    color: var(--purple-light);
+    color: var(--accent-soft);
     letter-spacing: -0.02em;
     line-height: 1.25;
 }
@@ -3569,23 +3661,23 @@ body.revision-editor-open {
 }
 
 .revision-editor-layout-btn:hover {
-    color: var(--purple-pale);
-    background: rgba(124, 58, 237, 0.1);
+    color: var(--accent-muted);
+    background: color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
 }
 
 .light-theme .revision-editor-layout-btn:hover {
-    color: var(--purple-deep);
-    background: rgba(124, 58, 237, 0.08);
+    color: var(--accent-strong);
+    background: color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent);
 }
 
 .revision-editor-layout-btn.is-active {
-    background: rgba(124, 58, 237, 0.32);
-    color: var(--purple-pale);
+    background: color-mix(in srgb, var(--bone) calc(0.32 * 100%), transparent);
+    color: var(--accent-muted);
 }
 
 .light-theme .revision-editor-layout-btn.is-active {
-    background: rgba(124, 58, 237, 0.18);
-    color: var(--purple-deep);
+    background: color-mix(in srgb, var(--bone) calc(0.18 * 100%), transparent);
+    color: var(--accent-strong);
 }
 
 /* Hover / focus tooltip — readable contrast vs theme surfaces */
@@ -3623,14 +3715,14 @@ body.revision-editor-open {
 }
 
 .light-theme .revision-editor-format-tooltip.note-format-hint {
-    box-shadow: 0 14px 40px rgba(76, 29, 149, 0.14), 0 0 0 1px rgba(124, 58, 237, 0.1);
+    box-shadow: 0 14px 40px rgba(76, 29, 149, 0.14), 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
     background: linear-gradient(
         155deg,
-        #f4f0ff 0%,
-        #ebe4ff 38%,
-        #faf8ff 100%
+        color-mix(in srgb, var(--bone) 95%, var(--charcoal)) 0%,
+        color-mix(in srgb, var(--bone) 88%, var(--charcoal)) 38%,
+        var(--bone-elevated) 100%
     );
-    border: 1px solid rgba(124, 58, 237, 0.28);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.28 * 100%), transparent);
 }
 
 /* Corner placement: align to source header right edge */
@@ -3658,17 +3750,17 @@ body.revision-editor-open {
 .revision-editor-format-tooltip-title {
     display: block;
     font-weight: 600;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     font-size: 0.8rem;
     user-select: none;
 }
 
 body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revision-editor-format-tooltip-title {
-    color: var(--purple-pale);
+    color: var(--accent-muted);
 }
 
 .light-theme .revision-editor-format-tooltip-title {
-    color: var(--purple-deep);
+    color: var(--accent-strong);
 }
 
 .revision-editor-format-tooltip .note-format-hint-body {
@@ -3678,7 +3770,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 }
 
 .light-theme .revision-editor-format-tooltip .note-format-hint-body {
-    border-top-color: rgba(124, 58, 237, 0.18);
+    border-top-color: color-mix(in srgb, var(--bone) calc(0.18 * 100%), transparent);
 }
 
 .revision-editor-format-tip-wrap:hover,
@@ -3720,7 +3812,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     border-radius: 10px;
     border: 1px solid var(--border-mid);
     background: var(--surface-2);
-    color: var(--purple-mid);
+    color: var(--accent-default);
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
     box-shadow: var(--pill-shadow);
@@ -3729,7 +3821,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
 .revision-editor-close-btn:hover {
     background: rgba(239, 68, 68, 0.12);
-    color: var(--rose-text);
+    color: var(--state-danger);
     border-color: rgba(239, 68, 68, 0.28);
     transform: translateY(-1px);
 }
@@ -3775,7 +3867,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     flex-direction: column;
     min-height: 0;
     min-width: 0;
-    border-right: 1px solid rgba(167, 139, 250, 0.12);
+    border-right: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
 }
 
 .revision-editor-pane:last-child {
@@ -3789,8 +3881,8 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     gap: 10px;
     flex-shrink: 0;
     padding: 5.5px 14px;
-    background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%);
-    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent) 0%, transparent 100%);
+    border-bottom: 1px solid color-mix(in srgb, var(--bone) calc(0.1 * 85%), transparent);
 }
 
 .revision-editor-pane-title {
@@ -3798,7 +3890,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     min-width: 0;
 }
 
@@ -3808,10 +3900,10 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--purple-mid);
+    color: var(--accent-default);
     padding: 10px 14px;
-    background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%);
-    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent) 0%, transparent 100%);
+    border-bottom: 1px solid color-mix(in srgb, var(--bone) calc(0.1 * 85%), transparent);
 }
 
 .revision-editor-pane-inner {
@@ -3841,7 +3933,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
 .revision-editor-textarea:focus {
     outline: none;
-    box-shadow: inset 0 0 0 2px rgba(124, 58, 237, 0.35);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--bone) calc(0.35 * 100%), transparent);
 }
 
 .revision-editor-preview-scroll {
@@ -3866,7 +3958,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
     .revision-editor-pane {
         border-right: none;
-        border-bottom: 1px solid rgba(167, 139, 250, 0.12);
+        border-bottom: 1px solid color-mix(in srgb, var(--bone) calc(0.12 * 85%), transparent);
     }
 
     .revision-editor-pane:last-of-type {
@@ -3893,29 +3985,29 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     height: 32px;
     padding: 0;
     border: none;
-    background: rgba(124, 58, 237, 0.1);
-    color: var(--purple-mid);
+    background: color-mix(in srgb, var(--bone) calc(0.1 * 100%), transparent);
+    color: var(--accent-default);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
 }
 
 .note-section-action-btn:hover {
-    background: rgba(124, 58, 237, 0.2);
-    color: var(--purple-pale);
-    border-color: rgba(167, 139, 250, 0.4);
+    background: color-mix(in srgb, var(--bone) calc(0.2 * 100%), transparent);
+    color: var(--accent-muted);
+    border-color: color-mix(in srgb, var(--bone) calc(0.4 * 85%), transparent);
 }
 
 .note-section-action-btn.note-section-delete-btn:hover {
     background: rgba(239, 68, 68, 0.1);
-    color: var(--rose-text);
+    color: var(--state-danger);
     border-color: rgba(239, 68, 68, 0.2);
 }
 
 .note-section-action-btn.copied {
-    color: var(--purple-mid);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25);
+    color: var(--accent-default);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--bone) calc(0.25 * 85%), transparent);
 }
 
 .note-section-action-btn svg {
@@ -3950,7 +4042,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
 .note-modal-card h3 {
     margin: 0;
-    color: var(--purple-pale);
+    color: var(--accent-muted);
     font-size: 1.25rem;
     text-align: center;
 }
@@ -3966,7 +4058,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--purple-mid);
+    color: var(--accent-default);
 }
 
 .note-field input {
@@ -3980,7 +4072,7 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
 .note-field input:focus {
     outline: none;
-    border-color: var(--purple-deep);
+    border-color: var(--accent-strong);
     box-shadow: 0 0 0 2px var(--selection-bg);
 }
 
@@ -4017,20 +4109,20 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
-    color: white;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-fg);
     border: none;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--pill-active-fg) 22%, transparent);
 }
 
 .note-add-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--pill-active-fg) 30%, transparent);
 }
 
 @keyframes fadeIn {
@@ -4093,32 +4185,32 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
 
 /* No / Cancel — cross icon, rose */
 .note-confirm-btn-no {
-    background: rgba(251, 113, 133, 0.12);
-    color: var(--rose-text);
-    border: 1px solid rgba(251, 113, 133, 0.25);
+    background: color-mix(in srgb, var(--bone) calc(0.12 * 90%), transparent);
+    color: var(--state-danger);
+    border: 1px solid color-mix(in srgb, var(--bone) calc(0.25 * 90%), transparent);
 }
 
 .note-confirm-btn-no:hover {
-    background: rgba(251, 113, 133, 0.22);
-    color: #fff;
-    border-color: rgba(245, 46, 117, 0.4);
+    background: color-mix(in srgb, var(--bone) calc(0.22 * 90%), transparent);
+    color: var(--bone);
+    border-color: color-mix(in srgb, var(--bone) calc(0.4 * 75%), transparent);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(244, 63, 94, 0.2);
 }
 
 /* Yes / Confirm — check icon, green (distinct from No) */
 .note-confirm-btn-yes {
-    background: rgba(74, 222, 128, 0.15);
-    color: var(--green-mid);
-    border: 1px solid rgba(74, 222, 128, 0.35);
+    background: color-mix(in srgb, var(--bone) 12%, transparent);
+    color: var(--text-primary);
+    border: 1px solid var(--border-mid);
 }
 
 .note-confirm-btn-yes:hover {
-    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
-    color: #fff;
-    border-color: rgba(74, 222, 128, 0.5);
+    background: color-mix(in srgb, var(--bone) 22%, transparent);
+    color: var(--bone);
+    border-color: var(--border-hover);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+    box-shadow: var(--shadow-main);
 }
 
 /* Mobile adjustments for sidebar */
@@ -4149,4 +4241,69 @@ body:not(.light-theme) .revision-editor-format-tooltip.note-format-hint .revisio
     .section-title {
         font-size: 1.5rem !important;
     }
+}
+
+/* ===== Note section separator (revision notes) ===== */
+.note-sep {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 28px 0;
+    color: var(--accent-default);
+}
+
+.note-sep-line {
+    flex: 1;
+    height: 3px;
+    border-radius: 6px;
+    opacity: 0.9;
+}
+
+.note-sep-line--left {
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--charcoal) 55%, var(--bone)));
+}
+
+.note-sep-line--right {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 55%, var(--bone)), transparent);
+}
+
+.note-sep-glyph {
+    flex: 0 0 auto;
+    font-family: var(--font-serif);
+}
+
+/* ===== Load error panel ===== */
+.load-error {
+    text-align: center;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--state-danger);
+    font-family: var(--font-sans);
+}
+
+.load-error-title {
+    font-family: var(--font-serif);
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.load-error-callout {
+    font-size: 0.9em;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    text-align: left;
+}
+
+.load-error-meta {
+    font-size: 0.85em;
+    margin-top: 15px;
+    color: var(--text-muted);
 }

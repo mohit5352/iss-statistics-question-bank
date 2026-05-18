@@ -51,6 +51,9 @@
       ]
     }
     </script>
+    <!-- Adobe Fonts: replace YOUR_KIT_ID with your fonts.adobe.com Web Project kit id -->
+    <!-- <link rel="stylesheet" href="https://use.typekit.net/YOUR_KIT_ID.css"> -->
+    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
@@ -248,22 +251,16 @@
             const paperData = REVISION_NOTES[currentPaper] || {};
             const data = paperData[currentSection] || { title: currentSection, sections: [], tips: "" };
 
-            var sepHtml = `<div class="note-sep" style="display:flex;align-items:center;gap:2px;margin:28px 0;">
-                    <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg,transparent, rgba(124,58,237,0.95));opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
-                    <svg width="48" height="28" viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:0 0 auto;">
-                        <defs>
-                            <linearGradient id="sepGrad" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0" stop-color="#c4b5fd"/>
-                            <stop offset="1" stop-color="#7c3aed"/>
-                            </linearGradient>
-                        </defs>
-                        <text x="10" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">μ</text>
-                        <text x="24" y="19" text-anchor="middle" font-size="16" font-weight="700" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">Σ</text>
-                        <text x="38" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="url(#sepGrad)" style="font-family:system-ui, -apple-system, Segoe UI, sans-serif;">∫</text>
-                        <circle cx="16.5" cy="14" r="1.2" fill="url(#sepGrad)" opacity="0.7"/>
-                        <circle cx="31.5" cy="14" r="1.2" fill="url(#sepGrad)" opacity="0.7"/>
+            var sepHtml = `<div class="note-sep">
+                    <span class="note-sep-line note-sep-line--left"></span>
+                    <svg width="48" height="28" viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="note-sep-glyph">
+                        <text x="10" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">μ</text>
+                        <text x="24" y="19" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">Σ</text>
+                        <text x="38" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">∫</text>
+                        <circle cx="16.5" cy="14" r="1.2" fill="currentColor" opacity="0.7"/>
+                        <circle cx="31.5" cy="14" r="1.2" fill="currentColor" opacity="0.7"/>
                     </svg>
-                    <span style="flex:1;height:3px;border-radius:6px;background:linear-gradient(90deg, rgba(124,58,237,0.95),transparent);opacity:0.9;box-shadow:0 2px 8px rgba(124,58,237,0.08)"></span>
+                    <span class="note-sep-line note-sep-line--right"></span>
                 </div>`;
 
             // New Layout Structure: Sidebar + Main Content
@@ -1039,7 +1036,7 @@
             var originalHTML = button.innerHTML;
             button.classList.add('copied');
             // Same circular checkmark icon as show answer button, but green
-            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#7c3aed" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+            button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
             button.setAttribute('data-tooltip', 'Copied!');
             setTimeout(function() {
                 button.classList.remove('copied');
@@ -1289,27 +1286,9 @@
             function showError(error) {
                 console.error('Error loading file:', error);
                 var isFileProtocol = window.location.protocol === 'file:';
-                var errorMessage = isFileProtocol 
-                    ? '<div style="text-align:center; padding:40px; color:#d32f2f; max-width:600px; margin:0 auto;">' +
-                      '<p style="font-size:1.2em; font-weight:bold; margin-bottom:15px;">⚠️ Cannot Load Questions</p>' +
-                      '<p style="font-size:0.95em; margin-bottom:15px; color:#333;">' +
-                      'To load local files, use a local web server instead of opening directly.</p>' +
-                      '<p style="font-size:0.9em; margin-top:20px; padding:15px; background:#e3f2fd; border-radius:8px; color:#1976d2;">' +
-                      '<strong>✅ Solution: Use a Local Web Server</strong><br><br>' +
-                      '1. Open terminal in this folder<br>' +
-                      '2. Run: <code>python3 -m http.server 8000</code><br>' +
-                      '3. Go to: <code>http://localhost:8000/main.html</code><br><br>' +
-                      'Or double-click <code>start-server.sh</code> for easy setup!' +
-                      '</p>' +
-                      '<p style="font-size:0.85em; margin-top:15px; color:#666;">' +
-                      'File attempted: ' + filename + '</p>' +
-                      '</div>'
-                    : '<div style="text-align:center; padding:40px; color:#d32f2f;">' +
-                      '<p><strong>Error loading questions</strong></p>' +
-                      '<p style="font-size:0.9em; margin-top:10px;">File: ' + filename + '</p>' +
-                      '<p style="font-size:0.85em; margin-top:10px; color:#666;">' +
-                      'Make sure all HTML files are in the same folder.</p>' +
-                      '</div>';
+                var errorMessage = isFileProtocol
+                    ? '<div class="load-error"><p class="load-error-title">⚠️ Cannot Load Questions</p><p>To load local files, use a local web server instead of opening directly.</p><div class="load-error-callout"><strong>Solution: Use a Local Web Server</strong><br><br>1. Open terminal in this folder<br>2. Run: <code>python3 -m http.server 8000</code><br>3. Go to: <code>http://localhost:8000/main.html</code><br><br>Or double-click <code>start-server.sh</code> for easy setup!</div><p class="load-error-meta">File attempted: ' + filename + '</p></div>'
+                    : '<div class="load-error"><p class="load-error-title"><strong>Error loading questions</strong></p><p class="load-error-meta">File: ' + filename + '</p><p class="load-error-meta">Make sure all HTML files are in the same folder.</p></div>';
                 viewer.innerHTML = errorMessage;
             }
             
@@ -2127,10 +2106,10 @@
             }
             function colVar(name) {
                 switch (name) {
-                    case 'primary':   return 'var(--purple-mid)';
-                    case 'danger':    return 'var(--rose-text)';
-                    case 'success':   return 'var(--green-mid)';
-                    case 'accent':    return 'var(--purple-light)';
+                    case 'primary':   return 'var(--accent-default)';
+                    case 'danger':    return 'var(--state-danger)';
+                    case 'success':   return 'var(--state-success)';
+                    case 'accent':    return 'var(--accent-soft)';
                     case 'secondary': return 'var(--text-context)';
                     default:          return 'var(--text-muted)';
                 }

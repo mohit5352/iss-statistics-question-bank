@@ -8,6 +8,10 @@
 
 That's it! No setup required for desktop use.
 
+**UI:** Dark theme by default (charcoal + bone glass). Use the **sun/moon** icon to switch themes. **Questions** | **Revision Notes** uses segmented pills; login and primary buttons share the same capsule colors as **Show Answer** labels. Optional fonts: README / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
+
+**Changing the theme?** See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) (edit `styles.css` tokens only; verify dark + light).
+
 ---
 
 ## 📱 Mobile Usage
