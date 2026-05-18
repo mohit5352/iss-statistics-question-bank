@@ -8,7 +8,7 @@
 
 That's it! No setup required for desktop use.
 
-**UI:** **Sticky hero** (`top-hero-image-*.webp`) with title + controls on the photo (scroll to compact). **Page backdrop** (`page-hero-image-*.webp`) behind questions when `PHOTO_BACKDROP` is on — light theme uses transparent glass cards. **Admin login** (`login.html`): split hero + glass sign-in card. **Sun/moon** swaps dark/light **and** both image pairs. See [`assets/README.md`](assets/README.md) to replace photos. Optional fonts: [README](README.md) / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
+**UI:** **Sticky hero** (`top-hero-image-*.webp`) with title + controls on the photo (scroll to compact). **Page backdrop** (`page-hero-image-*.webp`) behind questions when `PHOTO_BACKDROP` is on — light theme uses transparent glass cards. **Admin login** (`login.html`): full-page photo + transparent glass sign-in card. **Sun/moon** swaps dark/light **and** both image pairs. See [`assets/README.md`](assets/README.md) to replace photos. Optional fonts: [README](README.md) / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
 
 **Changing the theme?** See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) (edit `styles.css` tokens only; verify dark + light).
 

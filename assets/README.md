@@ -13,7 +13,7 @@ Production UI uses **four** theme-specific WebP files. CSS swaps `--top-hero-ima
 
 **Export spec:** 21:9, **2560×1097**, sRGB, WebP q84–86 (typically 75–160 KB per file).
 
-**Generate / replace:** copy-paste prompts from [`IMAGE-PROMPTS.md`](IMAGE-PROMPTS.md).
+**Generate / replace:** copy-paste prompts from [`IMAGE-PROMPTS.md`](IMAGE-PROMPTS.md). **Light pair:** generate `page-hero-image-light.webp` first, then `top-hero-image-light.webp` with the same color grade (see matched-pair section). Optional tone fix: `python3 scripts/match-light-hero-to-page.py` (uses venv `.venv-img` + Pillow).
 
 Optional legacy copies `top-hero-image.webp` / `page-hero-image.webp` (dark duplicates) are not required by CSS. Older `hero-statistics*.webp` files are **not** wired in.
 
@@ -37,7 +37,8 @@ Optional legacy copies `top-hero-image.webp` / `page-hero-image.webp` (dark dupl
 
 ### Login (`login.html`)
 
-- Uses the same **`--top-hero-image`** pair as `main.html` (theme-aware).
+- Full-viewport **`--page-hero-image`** + `--page-backdrop-scrim` (same as main app page backdrop; theme-aware).
+- Sign-in column and **`.login-main`** are transparent; glass is only on **`.login-card`** (matches question cards on photo).
 
 ---
 
@@ -66,7 +67,8 @@ Test one file only:
 | `--header-glass-bg` | `.light-theme` | Q-header strip on photo (light) |
 | `--sidebar-glass-bg` | `.light-theme` | Questions/notes TOC on photo (light) |
 | `--page-hero-position` | `:root` | Desktop page crop (`center center`) |
-| `--page-hero-position-mobile` | `:root` | Mobile page crop (default `center 38%`; ≤480px uses `center 34%` in CSS) |
+| `--page-hero-position-mobile` | `:root` | Main app mobile page crop (default `center 38%`; ≤480px `center 34%`) |
+| `--login-page-hero-position-mobile` | `:root` | Login stacked layout crop (default `center 28%`; ≤480px `center 24%`) |
 
 **Light question cards on photo:** `body.app-photo-backdrop.light-theme .question-card` — transparent / ~5% charcoal + `backdrop-filter` (see `styles.css`).
 

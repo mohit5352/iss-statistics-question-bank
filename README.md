@@ -28,7 +28,7 @@ This repository contains a web-based archive of **objective MCQs** from UPSC ISS
 ```
 statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
-├── login.html                                     # Admin login — split hero image + glass sign-in panel
+├── login.html                                     # Admin login — full-page photo + transparent glass sign-in card
 ├── assets/
 │   ├── top-hero-image-dark.webp                   # Sticky hero — dark theme (--top-hero-image)
 │   ├── top-hero-image-light.webp                  # Sticky hero — light theme
@@ -129,8 +129,8 @@ The UI uses **four** production WebPs in `assets/` (green & gold editorial palet
 
 | Asset | Variable | Used for |
 |-------|----------|----------|
-| `top-hero-image-dark.webp` / `top-hero-image-light.webp` | `--top-hero-image` | Sticky hero + `login.html` hero panel |
-| `page-hero-image-dark.webp` / `page-hero-image-light.webp` | `--page-hero-image` | Full-page photo behind questions/notes (`PHOTO_BACKDROP` in `main.html`) |
+| `top-hero-image-dark.webp` / `top-hero-image-light.webp` | `--top-hero-image` | Sticky hero on `main.html` |
+| `page-hero-image-dark.webp` / `page-hero-image-light.webp` | `--page-hero-image` | Full-page backdrop — questions/notes viewer (`PHOTO_BACKDROP`) and **`login.html`** |
 
 **Behaviour:**
 
@@ -172,7 +172,7 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Mobile optimized**: Touch-friendly controls; window scroll + sticky hero; page backdrop cropped for portrait (`--page-hero-position-mobile`); light theme keeps glass cards transparent on photo (see [Hero & page backdrop images](#-hero--page-backdrop-images))
 - **Math Rendering**: MathJax with display-formula scroll boxes and width-aware inline overflow (`.math-wide` after typeset)
 - **Bone & Charcoal glass UI**: Strict **monochrome** palette — only **bone** (`#F1ECE3`) and **charcoal** (`#424242`), with steps derived via `color-mix` (no purple, green, or red accents). **Dark theme** (default): charcoal-deep page, frosted charcoal glass surfaces, bone text. **Light theme**: bone page, frosted bone glass, charcoal text. Highlights:
-  - **Hero & login layout**: Full-bleed `--top-hero-image` (separate dark/light files). **Sticky** `.site-hero` keeps the photo pinned; compact mode hides title/tagline but leaves **hero dock** on the image. `login.html`: split screen — hero panel + glass sign-in card. **Page backdrop**: `--page-hero-image` (dark/light) with glass viewer — light mode: transparent question cards, visible photo. Prompts: `assets/IMAGE-PROMPTS.md`.
+  - **Hero & login layout**: **Main** — sticky `--top-hero-image`; page `--page-hero-image` behind viewer (transparent glass cards in light). **Login** — full-viewport `--page-hero-image`; branding overlay + transparent **`.login-main`**; glass only on **`.login-card`**. Prompts: `assets/IMAGE-PROMPTS.md`.
   - **Typography**: **Atvik** (sans) for UI; **Freight Display Pro** / **Freight Big Pro** (serif) for headings — via Adobe Fonts (`fonts.css`; uncomment Typekit link in `main.html` / `login.html` after adding your Web Project kit ID)
   - **Glass**: `backdrop-filter` on question cards, login card, chat panel; hero dock / mode tabs on the photo stay transparent (photo-native controls, not a second glass bar on scroll)
   - **Paper Title (h1) / section titles**: Serif, bone (dark) or charcoal (light)
@@ -417,7 +417,7 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
 - `.site-hero`: Full-bleed sticky hero — `--top-hero-image`, overlay scrim, compact `.is-compact` (shorter strip, copy hidden)
 - `.site-hero__frame` / `.site-hero__copy`: Photo frame; centered title/tagline; theme toggle anchored top-right on the frame
 - `.hero-dock` / `.hero-dock__meta`: Bottom-left controls on the hero (mode tabs, Paper/Section/Year, Set, admin link) — transparent on photo, no separate glass bar when scrolled
-- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Split login layout — hero panel (same `--top-hero-image`), toolbar on photo, glass sign-in card in main column
+- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Full-page `--page-hero-image`; transparent main column; glass sign-in card only
 - `body.app-photo-backdrop`: Fixed `--page-hero-image` behind viewer; `.light-theme` transparent `.question-card` glass over visible photo
 - `.paper-container`: Content wrapper below hero — horizontal padding; transparent background
 - `.mode-toggle-wrap` / `.mode-btn` / `.mode-btn.active`: Segmented **Questions | Revision Notes** control; opaque `--pill-track-bg` track; active uses `--pill-active-bg` / `--pill-active-fg` (same as `.topic-badge`, `.sidebar-open-btn`)
@@ -659,7 +659,7 @@ The repository includes a **Show Answer** feature and a **Wrong Answer?** flow t
 
 - **Admin**: Only admins can update answers, use **Study chat** and **Ask AI**, and use other admin-only editing tools. Log in via the **Admin Login** link (below Paper/Section/Year controls). After login, you see "Admin: [Name]" with a logout icon.
 - **User**: Regular users can browse questions, show answers, and copy — but cannot update answers (no Wrong Answer? link) and do not see the chat FAB, keyboard shortcut, or Ask AI button.
-- **Login page** (`/login` or `login.html`): **Split-screen** — hero panel (same `--top-hero-image` as main, theme-aware) with **Back** + **theme** on the photo; **glass sign-in card** on the right. **Login** button uses `--btn-primary-*`. Contact email for credential requests (`mailto:` when it contains `@`).
+- **Login page** (`/login` or `login.html`): Full-page **`--page-hero-image`** (theme-aware); left branding overlay; **transparent** sign-in column with glass **`.login-card`** only; **Back** + **theme** on the photo. **Login** button uses `--btn-primary-*`. Contact email for credential requests (`mailto:` when it contains `@`).
 - **Env vars**: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `CONTACT_EMAIL`. See [DEPLOYMENT.md](DEPLOYMENT.md) or `.env.example`.
 
 ### Show Answer — How It Works:

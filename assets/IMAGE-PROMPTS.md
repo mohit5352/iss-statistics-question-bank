@@ -1,10 +1,10 @@
 # Image generation prompts
 
-Production app uses **four** theme-specific WebP files. CSS assigns them when the user toggles dark/light.
+Production app uses **four** theme-specific WebP files. CSS always uses **`--top-hero-image`** on the sticky hero and **`--page-hero-image`** on the full-page backdrop — never swap files in CSS.
 
 | File | CSS variable | Theme | Role |
 |------|----------------|-------|------|
-| `top-hero-image-dark.webp` | `--top-hero-image` in `:root` | Dark | Sticky header hero (`main.html`, `login.html`) |
+| `top-hero-image-dark.webp` | `--top-hero-image` in `:root` | Dark | Sticky header hero (`main.html`, `login.html` branding uses page plate) |
 | `top-hero-image-light.webp` | `--top-hero-image` in `.light-theme` | Light | Sticky header hero |
 | `page-hero-image-dark.webp` | `--page-hero-image` in `:root` | Dark | Full-page backdrop (`body.app-photo-backdrop`) |
 | `page-hero-image-light.webp` | `--page-hero-image` in `.light-theme` | Light | Full-page backdrop |
@@ -14,31 +14,52 @@ Production app uses **four** theme-specific WebP files. CSS assigns them when th
 **Theme anchors:** bone `#F1ECE3`, charcoal `#424242`, deep `#2E2E2E`.  
 **Default palette:** forest green, antique gold, burnt sienna, warm ivory.
 
-**UI pairing (important):** Photos are designed to work with CSS in `styles.css` — scrims on the image layer only, not white boxes on hero copy. Light mode question cards use **transparent glass** over the page plate; the light page image must retain **visible color and texture**.
+**UI pairing:** Scrims live in CSS only (`--hero-overlay-*`, `--page-backdrop-scrim`). Light question cards are transparent glass over the page plate — the **photo files** must carry color and texture, not flat white.
 
 ---
 
-## Design goals
+## Light theme: matched pair (read first)
+
+Generate **`page-hero-image-light.webp` first**, then **`top-hero-image-light.webp`** in the **same session** so both share one color grade.
+
+### Shared light color grade (copy into both prompts)
+
+```
+SAME EXPOSURE AND COLOR GRADE AS THE PAIRED IMAGE: warm ivory bone #F1ECE3 atmosphere, clearly visible forest green and antique gold chart tones, burnt sienna accents, soft film grain, gentle contrast, NOT overexposed, NOT a flat white or bleach wash. Mid-tones anchored around warm cream — hero and page must look like one continuous photo when stacked vertically in the app.
+```
+
+### Rules
+
+| | `page-hero-image-light` | `top-hero-image-light` |
+|--|-------------------------|-------------------------|
+| **Composition** | Full-screen defocused plate, even luminance | Hero banner: calm **left third** only, detail on **right two-thirds** |
+| **Brightness** | Reference grade for the pair | **Same** overall brightness as page plate — left third at most ~8% lighter than page average, never stark white |
+| **Avoid** | Flat ivory only, empty frame | Solid white left third, brighter than page plate, different color temperature |
+
+After export, check in the app: toggle light theme, scroll from hero into questions — no obvious white band on the hero strip.
+
+---
+
+## Design goals (all themes)
 
 ### Sticky hero (`top-hero-*`)
 
-- **Left third:** calm, low detail — headline + hero dock (text on photo, **no UI background boxes**).
+- **Left third:** calm, low detail — headline + hero dock.
 - **Right two-thirds:** desk props, charts, shallow DOF.
 - **Dark:** slightly darker left third; **bone** UI text.
-- **Light:** bright ivory left third; **charcoal** UI text.
+- **Light:** warm ivory left third (not white); **charcoal** UI text; **same color grade as page-light**.
 
 ### Page backdrop (`page-hero-*`)
 
-- Full-screen **plate**, not a marketing hero banner.
-- Even luminance; soft blur/bokeh; no strong single focal point.
-- **Dark:** visible green/gold/chart texture under charcoal scrim (~48–88% in CSS).
-- **Light:** same richness as dark but ~25% brighter; **not** a flat ivory/white wash; must read through light scrim (~12–38% on mobile) and transparent glass cards.
+- Full-screen plate, soft bokeh, no strong focal point.
+- **Dark:** visible green/gold under charcoal scrim.
+- **Light:** visible green/gold on bone atmosphere — same grade as top-light.
 
 ### Avoid (all four)
 
 - Neon, HDR clip, legible text on props, logos, faces, watermarks  
 - Busy left third on **top** heroes  
-- Light page: blank white frame, zero visible subject  
+- Light pair: mismatched exposure between top and page, flat white wash  
 
 ---
 
@@ -56,13 +77,17 @@ Cinematic ultra-wide 21:9 photograph, statistics and examination study desk hero
 
 ## Image 1b — `top-hero-image-light.webp`
 
+Generate **after** `page-hero-image-light.webp`. Paste the **shared light color grade** block above into this prompt.
+
 **Prompt:**
 
 ```
-Cinematic ultra-wide 21:9 photograph, statistics study desk hero for LIGHT MODE academic web app. Bright calm LEFT THIRD: warm ivory #F1ECE3, soft low detail, even luminance for dark charcoal #424242 UI text; visual interest on RIGHT TWO-THIRDS — normal curve on graph paper, scatter plot on tablet, compass, pencil, wood desk, shallow depth of field on props. Palette: forest green, antique gold, burnt sienna on warm ivory — bright airy editorial, soft upper-left daylight, balanced high-key mid-tones, not overexposed, not flat white. Photorealistic, tasteful. No people, faces, logos, readable text, watermark.
+Cinematic ultra-wide 21:9 photograph, statistics study desk HERO BANNER for LIGHT MODE academic web app (UPSC Indian Statistical Service). SAME EXPOSURE AND COLOR GRADE AS THE PAIRED PAGE PLATE: warm ivory bone #F1ECE3 atmosphere, clearly visible forest green and antique gold, burnt sienna accents, soft film grain, gentle contrast — NOT overexposed, NOT flat white, NOT cooler or warmer than the page backdrop file.
+
+Composition: calm LEFT THIRD with soft low detail for charcoal #424242 UI text — left third only slightly brighter than the overall frame (~8% max), still shows green/gold color, never a solid white slab. RIGHT TWO-THIRDS: normal curve on graph paper, scatter plot on tablet, compass, pencil, wood desk, shallow depth of field on props. Soft upper-left daylight, balanced high-key mid-tones matching the page plate. Photorealistic, tasteful. No people, faces, logos, readable text, watermark.
 ```
 
-**Negative:** dark moody left third, crushed blacks, flat solid white left third, neon, HDR clip, busy left third, legible text, cartoon, watermark
+**Negative:** solid white left third, brighter than paired page plate, cooler or warmer color cast than page plate, dark moody left third, crushed blacks, neon, HDR clip, busy left third, legible text, cartoon, watermark, bleach wash, blank ivory frame
 
 ---
 
@@ -78,15 +103,19 @@ Ultra-wide 21:9 atmospheric background plate for a statistics study web app (not
 
 ---
 
-## Image 2b — `page-hero-image-light.webp` *(regenerate this one most often if light glass looks flat)*
+## Image 2b — `page-hero-image-light.webp`
+
+Generate **first** in the light pair. Paste the **shared light color grade** block above.
 
 **Prompt:**
 
 ```
-Ultra-wide 21:9 atmospheric background plate for LIGHT MODE statistics study web app (full-screen backdrop, not a hero banner). Clearly visible forest green and antique gold throughout, soft graph paper texture, subtle normal curve, abstract chart bokeh, compass hints on warm ivory bone atmosphere — NOT a flat solid white or ivory wash. Same visible photographic detail and color richness as the dark page plate but ~25% brighter and airier. Even luminance, gentle defocus, soft film grain, low contrast. Must read well under light bone scrim, transparent glass question cards, and mobile portrait crop. Harmonized with bone #F1ECE3 and charcoal #424242. No people, faces, logos, readable text, watermark, pure blank white areas.
+Ultra-wide 21:9 atmospheric background plate for LIGHT MODE statistics study web app (full-screen backdrop, NOT a hero banner). SAME EXPOSURE AND COLOR GRADE FOR A PAIRED HERO FILE: warm ivory bone #F1ECE3 atmosphere, clearly visible forest green and antique gold throughout, burnt sienna accents, soft graph paper texture, subtle normal curve, abstract chart bokeh, compass hints — NOT a flat solid white or ivory wash.
+
+Even luminance across the frame, gentle defocus, soft film grain, low contrast, ~25% brighter than the dark page plate but with the SAME visible color richness as dark (green/gold must read clearly). Must work under light bone CSS scrim and transparent glass cards. Harmonized with bone #F1ECE3 and charcoal #424242. No people, faces, logos, readable text, watermark, pure blank white areas, no single dominant object.
 ```
 
-**Negative:** flat ivory only, no visible subject, empty white frame, high contrast, spotlight, neon, HDR, legible charts, text, faces, logo, harsh shadows, darker than dark plate, single dominant object
+**Negative:** flat ivory only, no visible green/gold, empty white frame, high contrast, spotlight, neon, HDR, legible charts, text, faces, logo, harsh shadows, darker than dark plate without added color, bleach wash
 
 ---
 
@@ -106,28 +135,26 @@ Ultra-wide 21:9 atmospheric background plate for LIGHT MODE statistics study web
 
 1. Save all four files in `assets/` with exact names.
 2. Hard refresh (**Cmd+Shift+R**).
-3. Test **dark + light** on **desktop and mobile** (see [`README.md` QA checklist](README.md#qa-checklist)).
+3. Test **dark + light** on **desktop and mobile** — hero strip must match page plate in light theme (see [`README.md` QA checklist](README.md#qa-checklist)).
 
-### CSS tuning (if photo or glass needs a nudge)
+### Optional tone match (macOS, if AI pair is still slightly off)
 
-| Token | Location | Purpose |
-|-------|----------|---------|
-| `--page-backdrop-scrim` | `:root` / `.light-theme` | Page photo visibility |
-| `--hero-overlay-*` | `:root` / `.light-theme` | Sticky hero tint (photo layer only) |
-| `--header-glass-bg` | `.light-theme` | Q-header on photo |
-| `--page-hero-position-mobile` | `:root` + `@media` in `styles.css` | Mobile crop of 21:9 plate |
+```bash
+cd assets
+python3 ../scripts/match-light-hero-to-page.py
+```
 
-**Mobile:** One WebP per theme; CSS `background-position` crops the plate (no separate mobile exports).
+Re-runs statistics match on `top-hero-image-light.webp` to `page-hero-image-light.webp` without changing CSS.
 
 ### Regenerate workflow (macOS)
 
 ```bash
 cd assets
-W=1536   # width of AI export before crop
+W=1536
 CH=$(( W * 9 / 21 ))
-sips -c "$CH" "$W" input.webp --out cropped.webp
+sips -c "$CH" "$W" input.png --out cropped.webp
 sips -z 1097 2560 cropped.webp --out final.webp
 cwebp -q 86 -m 6 final.webp -o page-hero-image-light.webp
 ```
 
-See also [`README.md`](README.md) for image ↔ UI mapping, CSS tuning tokens, and QA checklist.
+See also [`README.md`](README.md) for image ↔ UI mapping and QA checklist.
