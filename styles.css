@@ -129,13 +129,13 @@ html {
     --panel-shadow: var(--card-shadow);
     --notes-wrap-shadow: var(--card-shadow);
     --blockquote-accent: color-mix(in srgb, var(--bone) 6%, transparent);
-    --blockquote-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal) 90%, var(--bone)) 0%, var(--surface-panel) 100%);
-    --blockquote-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal-deep) 95%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-bg: transparent;
+    --blockquote-tip-bg: transparent;
     --blockquote-border: var(--accent-default);
     --blockquote-tip-border: var(--accent-strong);
     --blockquote-text: var(--text-primary);
     --blockquote-strong-decoration: color-mix(in srgb, var(--bone) 35%, transparent);
-    --callout-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--charcoal) 85%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --callout-tip-bg: transparent;
     --callout-tip-accent: color-mix(in srgb, var(--bone) 5%, transparent);
     --option-text: var(--text-primary);
     --option-hover: var(--bone);
@@ -172,12 +172,12 @@ html {
     --table-alt-row-bg: linear-gradient(180deg, color-mix(in srgb, var(--bone) 3%, transparent), transparent);
     --table-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 8%, transparent), transparent);
 
-    --toc-item-bg: color-mix(in srgb, var(--charcoal-deep) 75%, transparent);
-    --toc-item-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.35);
+    --toc-item-bg: transparent;
+    --toc-item-shadow: none;
     --toc-item-border: var(--border-dim);
-    --toc-item-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 12%, transparent), transparent);
+    --toc-item-hover-bg: transparent;
     --toc-item-hover-border: var(--border-hover);
-    --toc-item-active-bg: linear-gradient(90deg, color-mix(in srgb, var(--bone) 18%, transparent), color-mix(in srgb, var(--bone) 8%, transparent));
+    --toc-item-active-bg: transparent;
     --toc-item-active-border: var(--border-hover);
     --toc-item-active-shadow: var(--card-shadow);
     --toc-link-color: var(--accent-soft);
@@ -247,13 +247,13 @@ html {
     --panel-shadow: var(--card-shadow);
     --notes-wrap-shadow: var(--card-shadow);
     --blockquote-accent: color-mix(in srgb, var(--charcoal) 6%, transparent);
-    --blockquote-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 80%, var(--bone)) 0%, var(--surface-panel) 100%);
-    --blockquote-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 90%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --blockquote-bg: transparent;
+    --blockquote-tip-bg: transparent;
     --blockquote-border: var(--accent-default);
     --blockquote-tip-border: var(--accent-strong);
     --blockquote-text: var(--text-primary);
     --blockquote-strong-decoration: color-mix(in srgb, var(--charcoal) 25%, transparent);
-    --callout-tip-bg: linear-gradient(165deg, color-mix(in srgb, var(--bone-dim) 70%, var(--bone)) 0%, var(--surface-panel) 100%);
+    --callout-tip-bg: transparent;
     --callout-tip-accent: color-mix(in srgb, var(--charcoal) 5%, transparent);
     --option-text: var(--text-primary);
     --option-hover: var(--charcoal);
@@ -290,12 +290,12 @@ html {
     --table-alt-row-bg: linear-gradient(180deg, color-mix(in srgb, var(--charcoal) 3%, transparent), transparent);
     --table-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 6%, transparent), transparent);
 
-    --toc-item-bg: color-mix(in srgb, var(--bone-dim) 50%, var(--bone));
-    --toc-item-shadow: inset 0 1px 4px rgba(66, 66, 66, 0.06);
+    --toc-item-bg: transparent;
+    --toc-item-shadow: none;
     --toc-item-border: var(--border-mid);
-    --toc-item-hover-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 8%, transparent), transparent);
+    --toc-item-hover-bg: transparent;
     --toc-item-hover-border: var(--border-hover);
-    --toc-item-active-bg: linear-gradient(90deg, color-mix(in srgb, var(--charcoal) 12%, transparent), color-mix(in srgb, var(--charcoal) 5%, transparent));
+    --toc-item-active-bg: transparent;
     --toc-item-active-border: var(--border-hover);
     --toc-item-active-shadow: var(--card-shadow);
     --toc-link-color: var(--accent-soft);
@@ -1055,18 +1055,6 @@ body.app-photo-backdrop.light-theme .q-header {
     box-shadow: 0 0 0 1px var(--border-dim);
 }
 
-body.app-photo-backdrop .note-callout.tip {
-    background: color-mix(in srgb, var(--charcoal) 70%, transparent);
-    backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-    -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-}
-
-body.app-photo-backdrop.light-theme .note-callout.tip {
-    background: color-mix(in srgb, var(--charcoal) 8%, transparent);
-    backdrop-filter: blur(14px) saturate(var(--glass-saturate));
-    -webkit-backdrop-filter: blur(14px) saturate(var(--glass-saturate));
-}
-
 @media (prefers-reduced-transparency: reduce) {
     body.app-photo-backdrop .paper-container::before {
         display: none;
@@ -1579,7 +1567,7 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     contain: none;
 }
 
-/* Notes display formulas — full-width box; inner math scrolls when wide */
+/* Notes display formulas — bordered scroll frame (no fill); inner math scrolls when wide */
 .note-section-content mjx-container[display="true"],
 .callout-content mjx-container[display="true"] {
     display: block !important;
@@ -1589,7 +1577,6 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     box-sizing: border-box !important;
     margin: 18px 0 !important;
     padding: 18px 22px !important;
-    background: var(--formula-bg) !important;
     border-radius: 8px !important;
     border: 1px solid var(--formula-border) !important;
     border-left: 3px solid var(--accent-default) !important;
@@ -1719,7 +1706,8 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     margin: 18px 0;
     -webkit-overflow-scrolling: touch;
     border-radius: 10px;
-    box-shadow: var(--glow-shadow), var(--shadow-inner);
+    border: 1px solid var(--formula-border);
+    box-shadow: var(--formula-shadow);
 }
 
 .q-table table {
@@ -4149,28 +4137,27 @@ body.login-page-body.light-theme .login-card {
     margin: 24px 0;
 }
 
-/* Blockquote in notes — ISS tips. 
-   Using a brighter dark gradient that feels "deep" but readable.
-   Font styling improved for emphasis while preserving MathJax rendering. */
+/* Blockquote in notes — framed like tables/formulas (no fill); thick left accent */
 .note-blockquote {
     margin: 28px 0;
     padding: 22px 28px;
+    background: transparent;
+    border: 1px solid var(--formula-border);
     border-left: 5px solid var(--blockquote-border);
-    background: var(--blockquote-bg);
     border-radius: 0 16px 16px 0;
     color: var(--blockquote-text);
     font-style: italic; /* Keep normal on wrapper for MathJax */
     font-weight: 600;
     line-height: 1.8;
-    box-shadow: var(--panel-shadow);
+    box-shadow: var(--formula-shadow);
     position: relative;
     overflow: hidden;
 }
 
-/* Variant for "ISS tip" blockquotes — rose accent for differentiation */
+/* Variant for "ISS tip" blockquotes — stronger left accent */
 .note-blockquote.tip-style {
     border-left-color: var(--blockquote-tip-border);
-    background: var(--blockquote-tip-bg);
+    background: transparent;
 }
 
 /* Style the text inside for emphasis without affecting MathJax symbols */
@@ -4324,12 +4311,13 @@ body.login-page-body.light-theme .login-card {
 
 /* (Display formula blocks — see .note-section-content mjx-container[display="true"] above) */
 
-/* Tip Callout — Revision Priorities */
+/* Tip Callout — Revision Priorities (framed, no fill) */
 .note-callout.tip {
     margin: 32px 0 40px 0;
     padding: 24px 28px;
+    background: transparent;
+    border: 1px solid var(--formula-border);
     border-left: 5px solid var(--accent-strong);
-    background: var(--callout-tip-bg);
     border-radius: 0 16px 16px 0;
     display: flex;
     gap: 18px;
@@ -4338,7 +4326,7 @@ body.login-page-body.light-theme .login-card {
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    box-shadow: var(--panel-shadow);
+    box-shadow: var(--formula-shadow);
     position: relative;
     overflow-x: visible;
     overflow-y: visible;
