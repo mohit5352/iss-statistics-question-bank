@@ -181,6 +181,29 @@
             }
         })();
 
+        function getHeroScrollMargin() {
+            var hero = document.querySelector('.site-hero');
+            if (!hero) return 140;
+            return Math.ceil(hero.getBoundingClientRect().height) + 8;
+        }
+
+        function ensureContentViewerDocumentScroll() {
+            var viewer = document.getElementById('year-viewer');
+            if (!viewer) return;
+            viewer.style.overflow = 'visible';
+            viewer.style.maxHeight = 'none';
+            viewer.style.height = 'auto';
+            if (viewer.scrollTop) viewer.scrollTop = 0;
+        }
+
+        function scrollToWithHeroOffset(el, behavior) {
+            if (!el) return;
+            ensureContentViewerDocumentScroll();
+            var y = window.scrollY + el.getBoundingClientRect().top - getHeroScrollMargin();
+            window.scrollTo({ top: Math.max(0, y), behavior: behavior || 'smooth' });
+            if (window.syncHeroCompact) window.syncHeroCompact();
+        }
+
         (function initHeroSticky() {
             var hero = document.querySelector('.site-hero');
             if (!hero) return;
@@ -190,10 +213,16 @@
             var exitY = 16;
 
             function scrollTop() {
-                return window.scrollY
+                var y = window.scrollY
                     || document.documentElement.scrollTop
                     || document.body.scrollTop
                     || 0;
+                var viewer = document.getElementById('year-viewer');
+                if (viewer && viewer.scrollTop > 0) {
+                    var oy = window.getComputedStyle(viewer).overflowY;
+                    if (oy === 'auto' || oy === 'scroll') y += viewer.scrollTop;
+                }
+                return y;
             }
 
             function updateHeroCompact() {
@@ -202,6 +231,8 @@
                 else if (compact && y < exitY) compact = false;
                 hero.classList.toggle('is-compact', compact);
             }
+
+            window.syncHeroCompact = updateHeroCompact;
 
             var ticking = false;
             function onScroll() {
@@ -215,6 +246,9 @@
 
             updateHeroCompact();
             window.addEventListener('scroll', onScroll, { passive: true });
+            document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+            var viewer = document.getElementById('year-viewer');
+            if (viewer) viewer.addEventListener('scroll', onScroll, { passive: true });
             window.addEventListener('resize', updateHeroCompact);
         })();
 
@@ -271,6 +305,7 @@
             if (yearDot) yearDot.style.display = (mode === 'notes') ? 'none' : 'inline';
 
             updateControlsUI();
+            ensureContentViewerDocumentScroll();
             if (mode === 'questions') {
                 loadContent(); // Loads the HTML files
             } else {
@@ -402,6 +437,7 @@
 
             html += `</div></main></div>`;
             viewer.innerHTML = html;
+            ensureContentViewerDocumentScroll();
 
             // Initialize sidebar state from localStorage
             if (localStorage.getItem('iss_sidebar_collapsed') === 'true') {
@@ -416,6 +452,15 @@
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([viewer]);
             }
+
+            requestAnimationFrame(function() {
+                var hash = (location.hash || '').replace('#', '');
+                if (hash) {
+                    var el = document.getElementById(hash);
+                    if (el) scrollToWithHeroOffset(el, 'auto');
+                }
+                if (window.syncHeroCompact) window.syncHeroCompact();
+            });
         }
 
         function initNotesSidebar() {
@@ -535,7 +580,7 @@
             if (e && e.preventDefault) e.preventDefault();
             const target = document.getElementById(id);
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                scrollToWithHeroOffset(target, 'smooth');
                 setActiveToc(id);
                 try { history.replaceState(null, '', '#' + id); } catch (err) {}
             }
@@ -801,7 +846,7 @@
         function scrollToAndReveal(cardId, qNumber, openExpl) {
             var card = document.getElementById(cardId);
             if (!card) return;
-            card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            scrollToWithHeroOffset(card, 'smooth');
             var btn = card.querySelector('.q-answer-btn');
             if (btn && !btn.classList.contains('showing')) {
                 var secKey = sectionToAnswerKey[currentSection];
@@ -871,7 +916,7 @@
                     var id = (link.getAttribute('href') || '').replace('#', '');
                     var target = document.getElementById(id);
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        scrollToWithHeroOffset(target, 'smooth');
                         setActiveQuestionToc(id);
                         try { history.replaceState(null, '', '#' + id); } catch (err) {}
                     }
@@ -898,7 +943,7 @@
                 var hash = (location.hash || '').replace('#', '');
                 var el = hash ? document.getElementById(hash) : null;
                 if (el) {
-                    if (el.scrollIntoView) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    scrollToWithHeroOffset(el, 'auto');
                     setActiveQuestionToc(hash);
                 } else if (hash) {
                     var first = mainContent.querySelector('.question-card[id]');
@@ -1275,6 +1320,7 @@
                     '<main class="questions-main-content">' + bodyContent + '</main></div>';
 
                 viewer.innerHTML = layoutHtml;
+                ensureContentViewerDocumentScroll();
 
                 var mainContent = viewer.querySelector('.questions-main-content');
                 var container = mainContent || viewer;
@@ -3323,7 +3369,7 @@
             if (!section) return;
 
             var target = document.getElementById(sectionId);
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (target) scrollToWithHeroOffset(target, 'smooth');
 
             revisionFullEditor.type = 'section';
             revisionFullEditor.sectionId = sectionId;
@@ -3490,7 +3536,7 @@
         function showTipsEditor() {
             const data = REVISION_NOTES[currentPaper][currentSection];
             var tipsContainer = document.getElementById('note-tips-container');
-            if (tipsContainer) tipsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (tipsContainer) scrollToWithHeroOffset(tipsContainer, 'smooth');
 
             revisionFullEditor.type = 'tips';
             revisionFullEditor.sectionId = null;

@@ -27,11 +27,11 @@ html {
     --hero-compact-min-height: 148px;
     --hero-media-position: center;
     --hero-overlay-angle: 105deg;
-    /* Overlay on photo only (not UI). Left = headline side. */
-    --hero-overlay-text-side: 52%;
-    --hero-overlay-text-mid: 28%;
-    --hero-overlay-clear-at: 54%;
-    --hero-overlay-far-edge: 8%;
+    /* Overlay on photo only (not UI). Left = headline side (bone text). */
+    --hero-overlay-text-side: 68%;
+    --hero-overlay-text-mid: 40%;
+    --hero-overlay-clear-at: 58%;
+    --hero-overlay-far-edge: 10%;
     --hero-glass-bg: color-mix(in srgb, var(--charcoal) 42%, transparent);
     --hero-glass-bg-stuck: color-mix(in srgb, var(--charcoal-deep) 92%, transparent);
     --hero-chip-bg: color-mix(in srgb, var(--charcoal) 55%, transparent);
@@ -364,8 +364,9 @@ body.light-theme {
 
 .site-hero__scrim {
     background:
-        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 12%, transparent) 0%, transparent 28%),
-        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 50%, transparent) 0%, transparent 52%);
+        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 22%, transparent) 0%, transparent 30%),
+        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 62%, transparent) 0%, transparent 55%),
+        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 28%, transparent) 0%, transparent 42%);
 }
 
 .site-hero__frame {
@@ -700,8 +701,9 @@ body.light-theme .site-hero__media {
 
 body.light-theme .site-hero__scrim {
     background:
-        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 12%, transparent) 0%, transparent 28%),
-        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 50%, transparent) 0%, transparent 52%);
+        linear-gradient(180deg, color-mix(in srgb, var(--charcoal-deep) 22%, transparent) 0%, transparent 30%),
+        linear-gradient(0deg, color-mix(in srgb, var(--charcoal-deep) 62%, transparent) 0%, transparent 55%),
+        linear-gradient(90deg, color-mix(in srgb, var(--charcoal-deep) 28%, transparent) 0%, transparent 42%);
 }
 
 body.light-theme .site-hero .hero-dock__meta.meta-controls,
@@ -1464,12 +1466,20 @@ h2 {
     padding: 10px 0;
 }
 
-/* ===== Content Viewer ===== */
+/* ===== Content Viewer (window scroll — required for sticky hero) ===== */
+#year-viewer,
 .content-viewer {
     width: 100%;
-    min-height: 400px;
+    min-height: 0;
     overflow: visible;
-    scroll-padding-top: 40px;
+    max-height: none;
+    height: auto;
+    scroll-padding-top: calc(var(--hero-compact-min-height) + 16px);
+}
+
+.note-section[id],
+.question-card[id] {
+    scroll-margin-top: calc(var(--hero-compact-min-height) + 16px);
 }
 
 #iframe-viewer {
@@ -2205,9 +2215,11 @@ h2 {
 
     .year-section { padding: 5px 0; }
 
+    #year-viewer,
     .content-viewer {
-        min-height: 300px;
+        min-height: 0;
         overflow: visible;
+        max-height: none;
     }
     #iframe-viewer { min-height: 400px; }
 
@@ -2286,9 +2298,11 @@ h2 {
     .set-indicator-text { font-size: 0.65rem; letter-spacing: 0.18em; }
     #set-letter { font-size: 0.72rem; }
 
+    #year-viewer,
     .content-viewer {
-        min-height: 250px;
+        min-height: 0;
         overflow: visible;
+        max-height: none;
     }
     #iframe-viewer { min-height: 300px; }
 
@@ -2797,9 +2811,10 @@ body.login-page-body.light-theme .login-card {
 .notes-layout,
 .questions-layout {
     display: flex;
-    min-height: calc(100vh - 120px);
+    min-height: 0;
     position: relative;
     gap: 0;
+    overflow: visible;
 }
 
 .questions-sidebar .sidebar-header {
@@ -2849,6 +2864,8 @@ body.login-page-body.light-theme .login-card {
     margin-left: 300px;
     transition: all 0.4s ease;
     min-width: 0;
+    overflow: visible;
+    max-height: none;
 }
 
 .questions-layout.sidebar-collapsed .questions-sidebar {
@@ -3035,6 +3052,8 @@ body.login-page-body.light-theme .login-card {
     margin-left: 300px;
     transition: all 0.4s ease;
     min-width: 0;
+    overflow: auto;
+    max-height: none;
 }
 
 /* Collapsed state */
