@@ -32,4 +32,4 @@ echo ""
 
 # Start server (serves static files + writes corrections to answers.js)
 cd "$(dirname "$0")"
-python3 server.py 8000
+python3 server.py 8001

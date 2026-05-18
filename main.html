@@ -82,67 +82,81 @@
     </noscript>
 
     <div class="paper-container">
-        <!-- Sticky Header -->
-        <div class="sticky-header">
-            <div class="header-top-row">
-                <div class="mode-toggle-wrap">
-                    <button class="mode-btn active" id="mode-q" onclick="setAppMode('questions')">Questions</button>
-                    <button class="mode-btn" id="mode-n" onclick="setAppMode('notes')">Revision Notes</button>
+        <section class="site-hero" aria-label="UPSC ISS Statistics Question Bank">
+            <div class="site-hero__media" aria-hidden="true"></div>
+            <div class="site-hero__scrim" aria-hidden="true"></div>
+            <div class="site-hero__frame">
+                <div class="site-hero__head">
+                    <div class="site-hero__copy">
+                        <p class="site-hero__eyebrow">UPSC Indian Statistical Service</p>
+                        <h1 class="site-hero__title" id="paper-title">ISS Statistics Paper I</h1>
+                        <p class="site-hero__tagline">Objective MCQs · Revision notes · MathJax · 2017–2025</p>
+                    </div>
+                    <button type="button" id="theme-toggle" class="site-hero__theme theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+                        <span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>
+                        <span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg></span>
+                    </button>
                 </div>
-                <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                    <span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>
-                    <span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg></span>
-                </button>
-            </div>
-            <h1 id="paper-title">ISS Statistics Paper I</h1>
-            <div class="set-indicator-wrap">
-                <span class="set-indicator-line set-indicator-left"></span>
-                <span class="set-indicator-text">Set <span class="set-dot">◆</span> <span id="set-letter">A</span></span>
-                <span class="set-indicator-line set-indicator-right"></span>
-            </div>
-            <div class="meta-controls">
-                <div class="meta-item meta-paper">
-                    <span class="meta-label">Paper</span>
-                    <span class="meta-value" id="paper-value">Paper I</span>
-                    <select id="paper-select" onchange="setPaper(this.value)">
-                        <option value="paper1">Paper I</option>
-                        <option value="paper2">Paper II</option>
-                        <option value="paper3">Paper III</option>
-                        <option value="paper4">Paper IV</option>
-                    </select>
+
+                <div class="site-hero__dock-wrap">
+                    <header class="hero-dock sticky-header" id="app-toolbar">
+                    <div class="hero-dock__primary">
+                        <div class="mode-toggle-wrap mode-toggle-wrap--hero">
+                            <button class="mode-btn active" id="mode-q" onclick="setAppMode('questions')">Questions</button>
+                            <button class="mode-btn" id="mode-n" onclick="setAppMode('notes')">Revision Notes</button>
+                        </div>
+                        <div class="meta-controls hero-dock__meta">
+                            <div class="meta-item meta-paper">
+                                <span class="meta-label">Paper</span>
+                                <span class="meta-value" id="paper-value">Paper I</span>
+                                <select id="paper-select" onchange="setPaper(this.value)">
+                                    <option value="paper1">Paper I</option>
+                                    <option value="paper2">Paper II</option>
+                                    <option value="paper3">Paper III</option>
+                                    <option value="paper4">Paper IV</option>
+                                </select>
+                            </div>
+                            <span class="hero-dock__dot" aria-hidden="true">·</span>
+                            <div class="meta-item meta-section">
+                                <span class="meta-label">Section</span>
+                                <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
+                                <select id="section-select" onchange="setSection(this.value)">
+                                    <option value="prob">Probability &amp; Statistics</option>
+                                    <option value="num">Numerical Analysis</option>
+                                    <option value="comp">Computer Section</option>
+                                </select>
+                            </div>
+                            <span class="hero-dock__dot hero-dock__dot--year" aria-hidden="true">·</span>
+                            <div class="meta-item meta-year">
+                                <span class="meta-label">Year</span>
+                                <span class="meta-value" id="year-value">2025</span>
+                                <select id="year-select" onchange="loadYear(this.value)">
+                                    <option value="2025">2025</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-dock__secondary">
+                        <div class="set-indicator-wrap toolbar-set-wrap">
+                            <span class="set-indicator-text hero-dock__text">Set <span class="set-dot">◆</span> <span id="set-letter">A</span></span>
+                        </div>
+                        <span class="hero-dock__dot" aria-hidden="true">·</span>
+                        <div class="auth-wrap hero-dock__auth" id="auth-wrap"></div>
+                    </div>
+                    </header>
                 </div>
-                <div class="meta-sep-line"></div>
-                <div class="meta-item meta-section">
-                    <span class="meta-label">Section</span>
-                    <span class="meta-value" id="section-value">Probability &amp; Statistics</span>
-                    <select id="section-select" onchange="setSection(this.value)">
-                        <option value="prob">Probability &amp; Statistics</option>
-                        <option value="num">Numerical Analysis</option>
-                        <option value="comp">Computer Section</option>
-                    </select>
-                </div>
-                <div class="meta-sep-line"></div>
-                <div class="meta-item meta-year">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value" id="year-value">2025</span>
-                    <select id="year-select" onchange="loadYear(this.value)">
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
-                    </select>
-                </div>
+
             </div>
-            <div class="auth-row">
-                <div class="auth-wrap" id="auth-wrap"></div>
-            </div>
-        </div>
-    
+        </section>
+
         <!-- Content viewer -->
         <div id="year-viewer" class="content-viewer"></div>
     </div>
@@ -165,6 +179,43 @@
             if (savedTheme === 'light') {
                 document.body.classList.add('light-theme');
             }
+        })();
+
+        (function initHeroSticky() {
+            var hero = document.querySelector('.site-hero');
+            if (!hero) return;
+
+            var compact = false;
+            var enterY = 72;
+            var exitY = 16;
+
+            function scrollTop() {
+                return window.scrollY
+                    || document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || 0;
+            }
+
+            function updateHeroCompact() {
+                var y = scrollTop();
+                if (!compact && y > enterY) compact = true;
+                else if (compact && y < exitY) compact = false;
+                hero.classList.toggle('is-compact', compact);
+            }
+
+            var ticking = false;
+            function onScroll() {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function() {
+                    updateHeroCompact();
+                    ticking = false;
+                });
+            }
+
+            updateHeroCompact();
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', updateHeroCompact);
         })();
 
         // Admin role: only admin sees Wrong Answer?, Study chat, Ask AI, etc. (sessionStorage.iss_admin)
@@ -213,11 +264,11 @@
             // Hide/Show year selector and set indicator based on mode
             var yearMeta = document.querySelector('.meta-year');
             var setIndicator = document.querySelector('.set-indicator-wrap');
-            var lastSep = document.querySelector('.meta-sep-line:last-of-type');
+            var yearDot = document.querySelector('.hero-dock__dot--year');
             
             if (yearMeta) yearMeta.style.display = (mode === 'notes') ? 'none' : 'flex';
             if (setIndicator) setIndicator.style.display = (mode === 'notes') ? 'none' : 'flex';
-            if (lastSep) lastSep.style.display = (mode === 'notes') ? 'none' : 'block';
+            if (yearDot) yearDot.style.display = (mode === 'notes') ? 'none' : 'inline';
 
             updateControlsUI();
             if (mode === 'questions') {

@@ -201,7 +201,7 @@ The UI uses **Atvik** (sans) and **Freight Display Pro** / **Freight Big Pro** (
    ```
 4. Redeploy to Vercel (or refresh locally). No build step required — static CSS/HTML only.
 
-Theme colors are defined in `styles.css` (`:root` = dark, `.light-theme` = light). Edit only primitives (`--bone`, `--charcoal`, …) and semantic tokens in those two blocks. Components reference `--accent-*`, `--pill-active-*`, `--btn-primary-*` (alias of pill active), `--answer-highlight-*`, etc. — not hex in class rules. See README **Bone & Charcoal glass UI** and the CSS Classes token table.
+Theme colors are defined in `styles.css` (`:root` = dark + hero tokens, `.light-theme` = light page chrome). Hero image/overlay (`--hero-image`, `--hero-overlay-*`) lives in `:root` and is shared by `main.html` and `login.html`. Edit primitives (`--bone`, `--charcoal`, …) and semantic tokens in `:root` / `.light-theme`; swap hero via `--hero-image` only. See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) and **Bone & Charcoal glass UI**.
 
 ---
 

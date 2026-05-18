@@ -8,7 +8,7 @@
 
 That's it! No setup required for desktop use.
 
-**UI:** Dark theme by default (charcoal + bone glass). Use the **sun/moon** icon to switch themes. **Questions** | **Revision Notes** uses segmented pills; login and primary buttons share the same capsule colors as **Show Answer** labels. Optional fonts: README / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
+**UI:** Full-bleed **sticky hero** photo with title + controls on the image (scroll to compact). **Admin login** (`login.html`): split hero + glass sign-in card. Dark theme by default (charcoal + bone glass); **sun/moon** on the hero switches page theme (photo styling stays the same). **Questions** | **Revision Notes** uses segmented pills on the hero; primary buttons match **Show Answer** capsule colors. Optional fonts: README / [DEPLOYMENT.md](DEPLOYMENT.md) (Adobe Fonts).
 
 **Changing the theme?** See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) (edit `styles.css` tokens only; verify dark + light).
 

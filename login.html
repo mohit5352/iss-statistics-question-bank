@@ -11,43 +11,56 @@
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="login-page-body">
     <script>
         (function(){ if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-theme'); })();
     </script>
+
     <div class="login-page">
-        <div class="login-header-row">
-            <a href="main.html" class="login-back-btn" aria-label="Back to question bank">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-            <span>Back</span>
-        </a>
-            <button type="button" class="login-theme-toggle" onclick="toggleLoginTheme()" aria-label="Toggle theme">
-                <span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>
-                <span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg></span>
-            </button>
-        </div>
-        <div class="login-card">
-            <h1 class="login-title">ISS Statistics Question Bank</h1>
-            <p class="login-subtitle">Admin login — answers, notes, explanations, and Study chat (Ollama)</p>
-
-            <form id="login-form" class="login-form">
-                <div class="login-field">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required autocomplete="username">
-                </div>
-                <div class="login-field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required autocomplete="current-password">
-                </div>
-                <p id="login-error" class="login-error" aria-live="polite"></p>
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-
-            <div class="login-contact">
-                <p class="login-contact-line1">Don't have access?</p>
-                <p class="login-contact-line2">Contact <span id="contact-details">Loading…</span> for credentials</p>
+        <aside class="login-hero-panel" aria-label="UPSC ISS Statistics Question Bank">
+            <div class="login-hero-panel__media" aria-hidden="true"></div>
+            <div class="login-hero-panel__scrim" aria-hidden="true"></div>
+            <div class="login-hero-panel__toolbar">
+                <a href="main.html" class="login-back-btn" aria-label="Back to question bank">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                    <span>Back</span>
+                </a>
+                <button type="button" class="login-theme-toggle" onclick="toggleLoginTheme()" aria-label="Toggle theme">
+                    <span class="theme-icon-dark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>
+                    <span class="theme-icon-light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg></span>
+                </button>
             </div>
-        </div>
+            <div class="login-hero-panel__content">
+                <p class="login-hero-panel__eyebrow">UPSC Indian Statistical Service</p>
+                <h2 class="login-hero-panel__title">Statistics Question Bank</h2>
+                <p class="login-hero-panel__tagline">Paper I &amp; II · MCQs · Revision notes · 2017–2025</p>
+            </div>
+        </aside>
+
+        <main class="login-main">
+            <div class="login-card">
+                <h1 class="login-title">Admin sign in</h1>
+                <p class="login-subtitle">Answers, notes, explanations, and Study chat (Ollama)</p>
+
+                <form id="login-form" class="login-form">
+                    <div class="login-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required autocomplete="username">
+                    </div>
+                    <div class="login-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required autocomplete="current-password">
+                    </div>
+                    <p id="login-error" class="login-error" aria-live="polite"></p>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+
+                <div class="login-contact">
+                    <p class="login-contact-line1">Don't have access?</p>
+                    <p class="login-contact-line2">Contact <span id="contact-details">Loading…</span> for credentials</p>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
@@ -55,7 +68,6 @@
             window.location.href = 'main.html';
         }
 
-        // Load contact email from API (env: CONTACT_EMAIL)
         (function() {
             var el = document.getElementById('contact-details');
             var origin = window.location.origin;
