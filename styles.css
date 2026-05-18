@@ -36,7 +36,7 @@ html {
     --login-page-hero-position-mobile-sm: center 24%;
     --login-page-hero-position-mobile-landscape: center 38%;
     --hero-min-height: clamp(300px, 44vw, 400px);
-    --hero-compact-min-height: 148px;
+    --hero-compact-min-height: 168px;
     --hero-overlay-angle: 105deg;
     /* Overlay on photo only (not UI). Left = headline side (bone text). */
     --hero-overlay-text-side: 80%;
@@ -98,6 +98,8 @@ html {
     --state-danger: var(--bone);
 
     /* Pills & capsules (mode toggle, FAB, badges, correct-answer check) */
+    --fab-bg: color-mix(in srgb, var(--charcoal-deep) 86%, transparent);
+    --fab-bg-hover: color-mix(in srgb, var(--charcoal) 92%, transparent);
     --pill-track-bg: var(--charcoal-elevated);
     --pill-active-bg: linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-default) 100%);
     --pill-active-fg: var(--charcoal-deep);
@@ -190,7 +192,7 @@ html {
 
     --login-card-bg: var(--glass-bg);
     --login-card-shadow: var(--card-shadow);
-    --login-input-bg: color-mix(in srgb, var(--charcoal) 75%, transparent);
+    --login-input-bg: transparent;
     --login-input-border: var(--border-mid);
     --login-contact-border: var(--border-dim);
 }
@@ -216,6 +218,8 @@ html {
     --state-success: color-mix(in srgb, var(--charcoal) 75%, var(--bone));
     --state-danger: var(--charcoal-deep);
 
+    --fab-bg: color-mix(in srgb, var(--bone-elevated) 90%, transparent);
+    --fab-bg-hover: color-mix(in srgb, var(--bone) 96%, transparent);
     --pill-track-bg: var(--bone-dim);
     --pill-active-bg: linear-gradient(135deg, var(--charcoal) 0%, color-mix(in srgb, var(--charcoal) 88%, var(--bone)) 100%);
     --pill-active-fg: var(--bone);
@@ -308,7 +312,7 @@ html {
 
     --login-card-bg: var(--glass-bg);
     --login-card-shadow: var(--card-shadow);
-    --login-input-bg: color-mix(in srgb, var(--bone-elevated) 92%, transparent);
+    --login-input-bg: transparent;
     --login-input-border: var(--border-mid);
     --login-contact-border: var(--border-dim);
 
@@ -394,6 +398,7 @@ body.light-theme {
 .site-hero.is-compact {
     min-height: var(--hero-compact-min-height);
     margin-bottom: 8px;
+    --hero-compact-bar-top: 10px;
 }
 
 .site-hero__media,
@@ -433,18 +438,7 @@ body.light-theme {
     padding: clamp(20px, 4vw, 32px) clamp(16px, 3vw, 28px) clamp(14px, 2.5vw, 20px);
 }
 
-.site-hero.is-compact .site-hero__frame {
-    grid-template-rows: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.site-hero.is-compact .site-hero__theme.theme-toggle-btn {
-    top: 10px;
-    right: max(clamp(16px, 3vw, 28px), env(safe-area-inset-right, 0px));
-}
-
-.site-hero.is-compact .site-hero__copy {
+.site-hero.is-compact .site-hero__center {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -456,9 +450,20 @@ body.light-theme {
     border: 0;
 }
 
+/* Unwrap head so theme toggle (absolute) anchors to .site-hero__frame, not a zero box */
 .site-hero.is-compact .site-hero__head {
-    min-height: 0;
-    padding-bottom: 0;
+    display: contents;
+}
+
+.site-hero.is-compact .site-hero__wordmark {
+    top: var(--hero-compact-bar-top);
+}
+
+.site-hero.is-compact .site-hero__theme.theme-toggle-btn {
+    top: var(--hero-compact-bar-top);
+    right: max(clamp(16px, 3vw, 28px), env(safe-area-inset-right, 0px));
+    z-index: 6;
+    pointer-events: auto;
 }
 
 .site-hero__dock-wrap {
@@ -472,25 +477,74 @@ body.light-theme {
 
 .site-hero__head {
     grid-row: 1;
-    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: 0;
     padding-right: 48px;
     padding-bottom: 4px;
 }
 
-.site-hero__copy {
-    min-width: 0;
+.site-hero__center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    max-width: 100%;
+    max-width: 36rem;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.site-hero__eyebrow {
-    margin: 0 0 0.35rem;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--hero-fg-subtle);
-    text-shadow: var(--hero-text-shadow);
+/* Shared brand wordmark (assets/upsc-iss-wordmark.svg) — hero pins top-left; visible when .is-compact */
+.brand-wordmark {
+    display: block;
+    width: min(11.5rem, 44vw);
+    height: auto;
+    color: var(--hero-fg);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.75)) drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
+}
+
+/* Light hero: solid charcoal wordmark — no dark drop-shadow (blurs small subtitle lines) */
+body.light-theme .brand-wordmark {
+    filter: none;
+}
+
+.site-hero__wordmark {
+    position: absolute;
+    top: clamp(20px, 4vw, 32px);
+    left: clamp(16px, 3vw, 28px);
+    z-index: 4;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+}
+
+/* Compact: wordmark stays pinned top-left (same as expanded); dock stacks below */
+.site-hero.is-compact .site-hero__wordmark .brand-wordmark {
+    width: min(10.75rem, 38vw);
+}
+
+.site-hero.is-compact .site-hero__dock-wrap {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+}
+
+@media (max-width: 520px) {
+    .site-hero.is-compact .site-hero__wordmark .brand-wordmark {
+        width: min(10.5rem, 72vw);
+    }
+
+    .site-hero.is-compact {
+        min-height: max(168px, var(--hero-compact-min-height));
+    }
 }
 
 .site-hero__title {
@@ -1082,6 +1136,12 @@ body.app-photo-backdrop.light-theme .q-header {
         background: var(--bg-color);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
+    }
+
+    .sidebar-open-btn {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--surface-1);
     }
 }
 
@@ -2692,12 +2752,16 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
 
     .site-hero {
         margin-bottom: 12px;
-        --hero-compact-min-height: 132px;
+        --hero-compact-min-height: 168px;
     }
 
     .site-hero__frame {
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .site-hero__wordmark {
+        left: 12px;
     }
 
     .site-hero__head {
@@ -2710,7 +2774,6 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     }
 
     .site-hero.is-compact .site-hero__theme.theme-toggle-btn {
-        top: 10px;
         right: max(12px, env(safe-area-inset-right, 0px));
     }
 
@@ -2839,7 +2902,7 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
 
     .site-hero {
         margin-bottom: 10px;
-        --hero-compact-min-height: 124px;
+        --hero-compact-min-height: 168px;
     }
 
     .site-hero .mode-toggle-wrap--hero .mode-btn {
@@ -3030,14 +3093,12 @@ body.login-page-body.light-theme .login-hero-panel__scrim {
     padding-bottom: clamp(32px, 6vw, 56px);
 }
 
-.login-hero-panel__eyebrow {
-    margin: 0 0 0.5rem;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--hero-fg-subtle);
-    text-shadow: var(--hero-text-shadow);
+.login-hero-panel__wordmark {
+    margin: 0 0 0.75rem;
+}
+
+.login-hero-panel__wordmark .brand-wordmark {
+    width: min(11.5rem, 72vw);
 }
 
 .login-hero-panel__title {
@@ -3087,15 +3148,16 @@ body.login-page-body.light-theme .login-hero-panel__scrim {
     font-weight: 500;
     text-shadow: var(--hero-text-shadow);
     border-radius: 10px;
-    border: 1px solid color-mix(in srgb, var(--bone) 14%, transparent);
-    background: color-mix(in srgb, var(--charcoal) 72%, transparent);
-    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    box-shadow: var(--formula-shadow);
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .login-hero-panel .login-back-btn:hover {
     color: var(--hero-fg);
-    background: color-mix(in srgb, var(--hero-chip-bg) 85%, var(--bone) 15%);
-    border-color: color-mix(in srgb, var(--bone) 22%, transparent);
+    background: transparent;
+    border-color: var(--border-hover);
 }
 
 .login-hero-panel .login-back-btn:focus-visible {
@@ -3113,16 +3175,14 @@ body.login-page-body.light-theme .login-hero-panel__scrim {
 body.login-page-body.light-theme .login-hero-panel .login-back-btn {
     color: var(--hero-fg-muted);
     border-color: var(--glass-border);
-    background: color-mix(in srgb, var(--bone-elevated) 88%, transparent);
+    background: transparent;
     text-shadow: var(--hero-text-shadow);
-    box-shadow:
-        var(--shadow-inner),
-        0 4px 16px color-mix(in srgb, var(--charcoal) 10%, transparent);
+    box-shadow: var(--formula-shadow);
 }
 
 body.login-page-body.light-theme .login-hero-panel .login-back-btn:hover {
     color: var(--hero-fg);
-    background: color-mix(in srgb, var(--bone) 92%, var(--charcoal) 8%);
+    background: transparent;
     border-color: var(--border-hover);
 }
 
@@ -3132,15 +3192,13 @@ body.login-page-body.light-theme .login-hero-panel .login-back-btn:focus-visible
 
 body.login-page-body.light-theme .login-hero-panel .login-theme-toggle {
     border-color: var(--glass-border);
-    background: color-mix(in srgb, var(--bone-elevated) 88%, transparent);
+    background: transparent;
     color: var(--charcoal-deep);
-    box-shadow:
-        var(--shadow-inner),
-        0 4px 16px color-mix(in srgb, var(--charcoal) 10%, transparent);
+    box-shadow: var(--formula-shadow);
 }
 
 body.login-page-body.light-theme .login-hero-panel .login-theme-toggle:hover {
-    background: color-mix(in srgb, var(--bone) 92%, var(--charcoal) 8%);
+    background: transparent;
     border-color: var(--border-hover);
     color: var(--charcoal-deep);
 }
@@ -3152,22 +3210,20 @@ body.login-page-body.light-theme .login-hero-panel .login-theme-toggle:hover {
     width: 40px;
     height: 40px;
     padding: 0;
-    border: 1px solid color-mix(in srgb, var(--bone) 14%, transparent);
+    border: 1px solid var(--glass-border);
     border-radius: 10px;
-    background: color-mix(in srgb, var(--charcoal) 72%, transparent);
+    background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     color: var(--bone);
     cursor: pointer;
-    box-shadow:
-        inset 0 1px 0 color-mix(in srgb, var(--bone) 12%, transparent),
-        0 4px 18px color-mix(in srgb, var(--charcoal-deep) 32%, transparent);
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    box-shadow: var(--formula-shadow);
+    transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .login-hero-panel .login-theme-toggle:hover {
-    background: color-mix(in srgb, var(--hero-chip-bg) 85%, var(--bone) 15%);
-    border-color: color-mix(in srgb, var(--bone) 22%, transparent);
+    background: transparent;
+    border-color: var(--border-hover);
     color: var(--bone);
 }
 
@@ -3217,11 +3273,11 @@ body.login-page-body.light-theme .login-card {
     .login-theme-toggle {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-    }
+}
 
-    .login-card {
-        background: var(--login-card-bg);
-        box-shadow: var(--login-card-shadow);
+.login-card {
+    background: var(--login-card-bg);
+    box-shadow: var(--login-card-shadow);
     }
 }
 
@@ -3315,16 +3371,16 @@ body.login-page-body.light-theme .login-card {
     padding: 12px 14px;
     border-radius: 10px;
     border: 1px solid var(--login-input-border);
-    background: var(--login-input-bg);
+    background: transparent;
     color: var(--text-primary);
     font-size: 1rem;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-field input:focus {
     outline: none;
     border-color: var(--accent-default);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--bone) calc(0.2 * 85%), transparent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-default) 22%, transparent);
 }
 
 .login-error {
@@ -3337,25 +3393,27 @@ body.login-page-body.light-theme .login-card {
 .login-btn {
     padding: 12px 20px;
     border-radius: 10px;
-    border: 1px solid transparent;
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-fg);
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--accent-default);
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 10px color-mix(in srgb, var(--pill-active-fg) 20%, transparent);
-    transition: transform 0.1s ease, box-shadow 0.15s ease;
+    box-shadow: var(--formula-shadow);
+    transition: transform 0.1s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .login-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--pill-active-fg) 28%, transparent);
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    box-shadow: var(--formula-shadow);
 }
 
 .login-btn:active {
     transform: scale(0.98);
-    box-shadow: 0 1px 6px color-mix(in srgb, var(--pill-active-fg) 15%, transparent);
 }
 
 .login-contact {
@@ -3755,9 +3813,11 @@ body.login-page-body.light-theme .login-card {
     left: 24px;
     bottom: 30px;
     z-index: 1001;
-    background: var(--pill-active-bg);
-    color: var(--pill-active-fg);
-    border: 1px solid transparent;
+    background: var(--fab-bg);
+    backdrop-filter: blur(14px) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(14px) saturate(var(--glass-saturate));
+    color: var(--accent-default);
+    border: 1px solid var(--glass-border);
     border-radius: 30px;
     padding: 12px 24px;
     display: flex;
@@ -3765,8 +3825,11 @@ body.login-page-body.light-theme .login-card {
     gap: 10px;
     cursor: pointer;
     font-family: var(--font-sans);
-    box-shadow: 0 8px 28px color-mix(in srgb, var(--bone) 22%, transparent);
+    box-shadow: var(--formula-shadow), var(--glass-highlight);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
         box-shadow 0.2s ease,
         opacity 0.35s ease,
         visibility 0.35s ease;
@@ -3785,7 +3848,10 @@ body.login-page-body.light-theme .login-card {
 
 .sidebar-open-btn:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--bone) 28%, transparent);
+    background: var(--fab-bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    box-shadow: var(--formula-shadow), var(--glass-highlight);
 }
 
 .sidebar-close-btn {

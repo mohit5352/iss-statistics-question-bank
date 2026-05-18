@@ -137,15 +137,6 @@ Even luminance across the frame, gentle defocus, soft film grain, low contrast, 
 2. Hard refresh (**Cmd+Shift+R**).
 3. Test **dark + light** on **desktop and mobile** — hero strip must match page plate in light theme (see [`README.md` QA checklist](README.md#qa-checklist)).
 
-### Optional tone match (macOS, if AI pair is still slightly off)
-
-```bash
-cd assets
-python3 ../scripts/match-light-hero-to-page.py
-```
-
-Re-runs statistics match on `top-hero-image-light.webp` to `page-hero-image-light.webp` without changing CSS.
-
 ### Regenerate workflow (macOS)
 
 ```bash

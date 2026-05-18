@@ -28,7 +28,7 @@ This repository contains a web-based archive of **objective MCQs** from UPSC ISS
 ```
 statistics_question_bank/
 ├── main.html                                      # Main navigation interface (paper + section + year switcher)
-├── login.html                                     # Admin login — full-page photo + transparent glass sign-in card
+├── login.html                                     # Admin login — full-page photo; glass sign-in card; transparent hero chips + form fields
 ├── assets/
 │   ├── top-hero-image-dark.webp                   # Sticky hero — dark theme (--top-hero-image)
 │   ├── top-hero-image-light.webp                  # Sticky hero — light theme
@@ -134,7 +134,7 @@ The UI uses **four** production WebPs in `assets/` (green & gold editorial palet
 
 **Behaviour:**
 
-- **Sticky hero:** Photo stays pinned while scrolling; title compacts; mode/Paper/Year controls stay on the image (no separate solid toolbar). Theme toggle uses a **glass chip** (both themes).
+- **Sticky hero:** Photo stays pinned while scrolling; title compacts; mode/Paper/Year controls stay on the image (no separate solid toolbar). Theme toggle is a **bordered chip** on the photo (both themes).
 - **Page backdrop:** When `body.app-photo-backdrop` is set, the page plate shows behind the viewer. **Dark:** frosted charcoal glass cards. **Light:** **transparent** question cards (blur + border) so the photo shows through; light page image must have visible texture (not flat white).
 - **Mobile:** Same four files; CSS crops the 21:9 page plate via `--page-hero-position-mobile` (no separate mobile exports). Light mobile uses a transparent `body` over the photo so nothing paints solid bone between cards.
 
@@ -160,25 +160,28 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
 - **Copy Button**: Each question has a copy button (📋) to easily copy the question text, topic, and options. Tables (`.q-table`) are emitted as **GitHub-flavored Markdown pipe tables** (with LaTeX in cells preserved when pre-MathJax capture ran) so paste and chat rendering stay structured.
 - **Ask AI** (admin only): Sparkle icon next to Copy — same visibility as **Edit Question**. Opens **Study chat**, prefills the textarea with the current paper/section/year line plus the same text as Copy. Does not auto-send; edit and press **Send** when ready. Requires admin session, **Ollama**, and same-origin proxy (`server.py` locally, or Vercel + `OLLAMA_HOST`); see [DEPLOYMENT.md](DEPLOYMENT.md).
 - **Study chat** (admin only): After **Admin Login**, `chat/chat.css` and `chat/bootstrap.js` load; floating **Chat** button and **⌘J** / **Ctrl+J** appear. Streams replies from **Ollama** through `/api/ollama/chat` (avoids browser CORS to `localhost:11434`). Loads `syllabus.md` into the system prompt. Default model is configurable in `chat/config.js` and in the UI (saved in `localStorage`). **Stop** aborts generation; **Clear** resets the thread. User and assistant bubbles use markdown + MathJax-safe LaTeX. **Not** official UPSC advice — verify facts on official sites.
-- **Show Answer Button**: Eye icon (👁) that reveals the correct answer: a subtle tinted row (`--answer-highlight-*`), **(a)–(d)** label in the same **pill capsule** as the ✓ badge, and an animated checkmark on the right (matches mode toggle / FAB / login button styling)
+- **Show Answer Button**: Eye icon (👁) that reveals the correct answer: a subtle tinted row (`--answer-highlight-*`), **(a)–(d)** label in the same **pill capsule** as the ✓ badge, and an animated checkmark on the right (matches mode toggle active segment / **KEY TOPICS** badge)
 - **Admin Login**: An **Admin Login** link appears below the Paper/Section/Year controls. Only admins (logged in) can update answers, use **Study chat** / **Ask AI**, and other admin-only tools. See [Admin Login & Roles](#admin-login--roles).
 - **Wrong Answer? / Correct Answer**: When logged in as admin and the answer is visible, a **Wrong Answer?** icon (⚠) appears at the top-right of the options grid. Click it to expand inline option chips (a)(b)(c)(d) — select the correct one to update `answers.js`. Corrections are **batched** (15s debounce) to minimize GitHub commits when deployed on Vercel. See [Answer Correction Scenarios](#-answer-correction-scenarios) for how updates work in different deployments.
 - **Add/Edit Explanation**: When logged in as admin and the answer is visible, **Edit Explanation** opens the **same full-screen markdown editor** as Revision Notes (unified **`.revision-editor-unified`** card, **Split | Source | Preview**, **Cancel/Save**, live preview + MathJax, **?** tooltip on the source pane). The **question** strip uses **`<details>`**: summary = cloned **`.q-header`** (number + topic) + chevron on small screens (collapsed by default ≤720px); expanded body clones the **full stem** in DOM order — preceding **context-only** sibling cards, then **`q-context`**, **`q-text`**, **`q-table`**, **options** — aligned with **Copy / Ask AI** (`buildExplanationQuestionExpandBodyDom` in `main.html`). **MathJax** typesets the hero after open. Data: **`explanations.js`** / **`POST /api/explanations`** (same deployment pattern as answers).
 - **Edit Question**: When logged in as admin, an **Edit Question** icon appears in the card header. Click it to edit the question text, topic, and options (supports LaTeX). Edits are stored in `question_edits.js` and follow the same deployment pattern as answers and explanations.
 - **Revision Notes**: Mode toggle (**Questions** | **Revision Notes**) switches between the question bank and a revision notes viewer. Notes are organised by paper and section (e.g. Probability & Statistics, Linear Models). Features a **collapsible sidebar** for quick navigation between key topics. Each section has multiple subsections with titles and content. **Copy**, **Edit**, and **Delete** (admin) icon buttons appear in both the sidebar and each topic header. Add, edit, or delete sections; edit tips per topic. **Markdown** and **LaTeX** supported in notes. **Full-screen edit** (section content or topic tips) uses the **same shell** as explanation editing: **`.revision-editor-unified`** — one bordered surface with **breadcrumb** + **theme/close**, optional **title** row (notes only), **toolbar** (**Split** / **Source** / **Preview** | **Cancel** / **Save**), then the **split panes**. A compact **?** in the **Markdown source** header shows formatting tips in a **tooltip** (hover/focus). **Inline** “add section” flows still use a collapsible **Formatting help** (`<details class="note-format-hint">`) above a small textarea.
-- **Questions Sidebar**: In Questions mode, a collapsible sidebar shows a Table of Contents with topic + question preview (ellipsis). Hover for full question text. **Hash routing** and **scroll sync** keep the active question highlighted as you scroll. **Outside click** closes the sidebar. On mobile, a floating **Questions** button opens the slide-out drawer.
-- **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical bone/charcoal accent indicator, and bordered rows (no fill). **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button.
-- **Theme Toggle**: Sun/moon on the **hero photo** (glass chip, top-right). Switches **dark/light** page chrome and swaps **`--top-hero-image`** / **`--page-hero-image`** to the matching WebP pair. Hero text: bone (dark) or charcoal (light). Preference in `localStorage`; login syncs with main.
+- **Questions Sidebar**: In Questions mode, a collapsible sidebar shows a Table of Contents with topic + question preview (ellipsis). Hover for full question text. **Hash routing** and **scroll sync** keep the active question highlighted as you scroll. **Outside click** closes the sidebar. On mobile, a floating **Questions** button (sticky glass FAB) opens the slide-out drawer.
+- **Sidebar Navigation (Revision Notes)**: In Revision Notes mode, a sleek, collapsible sidebar provides an interactive Table of Contents. Each TOC item has **Copy**, **Edit**, and **Delete** (admin) icon buttons — Copy shows a checkmark "Copied" state like the question copy button. **Revision Tips** appears as the last TOC item when tips exist. The **active section is highlighted** as you scroll (works on both mobile and desktop). Links feature smooth hover transitions, a vertical bone/charcoal accent indicator, and bordered TOC rows (no fill). **Outside click** closes the sidebar. On mobile, the sidebar becomes a slide-out drawer accessible via a floating **Topics** button (same glass FAB as Questions).
+- **Theme Toggle**: Sun/moon on the **hero photo** (bordered chip, top-right). Switches **dark/light** page chrome and swaps **`--top-hero-image`** / **`--page-hero-image`** to the matching WebP pair. Hero text: bone (dark) or charcoal (light). Preference in `localStorage`; `login.html` uses the same chip style on the hero panel.
 - **Mobile optimized**: Touch-friendly controls; window scroll + sticky hero; page backdrop cropped for portrait (`--page-hero-position-mobile`); light theme keeps glass cards transparent on photo (see [Hero & page backdrop images](#-hero--page-backdrop-images))
 - **Math Rendering**: MathJax with horizontal scroll for block formulas; in **Revision Notes** and callouts, `\[ ... \]` uses a bordered frame with accent stripe (no background fill); width-aware inline overflow (`.math-wide` after typeset)
 - **Bone & Charcoal glass UI**: Strict **monochrome** palette — only **bone** (`#F1ECE3`) and **charcoal** (`#424242`), with steps derived via `color-mix` (no purple, green, or red accents). **Dark theme** (default): charcoal-deep page, frosted charcoal glass surfaces, bone text. **Light theme**: bone page, frosted bone glass, charcoal text. Highlights:
-  - **Hero & login layout**: **Main** — sticky `--top-hero-image`; page `--page-hero-image` behind viewer (transparent glass cards in light). **Login** — full-viewport `--page-hero-image`; branding overlay + transparent **`.login-main`**; glass only on **`.login-card`**. Prompts: `assets/IMAGE-PROMPTS.md`.
+  - **Hero & login layout**: **Main** — sticky `--top-hero-image`; page `--page-hero-image` behind viewer (transparent glass cards in light). **Login** — full-viewport `--page-hero-image`; branding overlay + transparent **`.login-main`**; frosted glass only on **`.login-card`**; **Back**, theme toggle, inputs, and **Login** use transparent bordered controls (no fill). Prompts: `assets/IMAGE-PROMPTS.md`.
   - **Typography**: **Atvik** (sans) for UI; **Freight Display Pro** / **Freight Big Pro** (serif) for headings — via Adobe Fonts (`fonts.css`; uncomment Typekit link in `main.html` / `login.html` after adding your Web Project kit ID)
   - **Glass**: `backdrop-filter` on question cards, login card, chat panel; hero dock / mode tabs on the photo stay transparent (photo-native controls, not a second glass bar on scroll)
+  - **Sticky FAB** (Questions | Topics): Frosted pill — `--fab-bg` / `--fab-bg-hover`, `--glass-border`, `backdrop-filter`, `--formula-shadow`; accent text (not filled `--pill-active-bg`)
+  - **Bordered (no fill)**: Login hero chips + form fields, sidebar TOC rows, blockquotes, tip callouts, display math, and `.q-table` frames share `--glass-border` / `--formula-border` + `--formula-shadow` without background fills
   - **Paper Title (h1) / section titles**: Serif, bone (dark) or charcoal (light)
   - **Set Indicator**: Converging charcoal/bone gradient divider lines; `SET ◆ X` in accent tone
   - **Meta Controls**: Frosted pill panel; ALL-CAPS muted labels; bold accent values; hidden `<select>` overlay per zone
-  - **Mode toggle** (Questions | Revision Notes): Segmented capsules — active segment uses `--pill-active-bg` / `--pill-active-fg` (same as **KEY TOPICS** badge and floating **Questions** / **Topics** buttons)
+  - **Mode toggle** (Questions | Revision Notes): Segmented capsules — active segment uses `--pill-active-bg` / `--pill-active-fg` (same as **KEY TOPICS** badge and correct-answer ✓ / option labels)
+  - **Floating FAB** (Questions | Topics): Glass pill (`--fab-bg`, blur + border + shadow); accent text (not filled `--pill-active-bg`)
   - **Question Cards**: On photo backdrop — dark: charcoal-tinted glass; light: **transparent** card (blur + border, no white fill) over `--page-hero-image`. Off backdrop: frosted `--surface-2` glass
   - **Question Number / header band**: Accent default tone; subtle glass header row
   - **Question Topic**: Italic primary text — inline annotation, no badge
@@ -186,8 +189,9 @@ To deploy so that **answer corrections**, **explanation edits**, and **Revision 
   - **Context Block**: Muted context text; charcoal/bone gradient left stripe only — no label
   - **Options**: Primary text; `(a)`–`(d)` labels in small monochrome capsules (`--opt-label-bg` / `--opt-label-color`)
   - **Correct Answer Highlight**: Light tint row + border (`--answer-highlight-*`); **(a)–(d)** and **✓** both use `--pill-active-bg` / `--pill-active-fg` (dark: bone capsule + charcoal text; light: charcoal capsule + bone text)
-  - **Primary actions**: Login, Save, Add section, chat Send — `--btn-primary-bg` / `--btn-primary-fg` (aliases of pill active tokens)
+  - **Primary actions**: **Save**, Add section, chat **Send** — filled `--btn-primary-bg` / `--btn-primary-fg`. **Login** submit on `login.html` — transparent bordered button (accent text). **Login** inputs — transparent with `--login-input-border`
   - **Tables**: Charcoal gradient header row (bone text), subtle first-column panel, minimal hairline separators; outer `.q-table` frame uses `--formula-border` / `--formula-shadow` (both themes)
+  - **Blockquotes & tip callouts**: `--formula-border` frame + thick left accent; no gradient fill
   - **Charts** (inline SVG in notes): Series colors map to `--accent-*` / `--state-*` tokens (monochrome only)
 - **Collapsible Explanation**: When the answer is revealed, a collapsible **Explanation** section appears with **Copy** and **Edit** (admin) icons in the header, plus an expand/collapse chevron. **Edit** opens the **full-screen markdown editor** (same as Revision Notes). Stored explanations support **Markdown**, **LaTeX**, and MathJax in preview.
 - **Action Row**: Single row at bottom of each card — `[Show Answer]` and `[Copy]` icons on the right; subtle gradient separator above; copy uses accent highlight on success; answer button glows while active. **Card header actions**: **Copy**, **Ask AI** (admin), optional **Show Answer**, **Edit Question** (admin). **Wrong Answer?** icon (admin) appears at top-right of options grid; **Edit Explanation** icon (admin) in explanation section header.
@@ -381,11 +385,11 @@ Change primitives first for a full rebrand; swap images via `assets/IMAGE-PROMPT
 
 1. Open `main.html` (and `login.html` if you touched auth styles).
 2. Toggle **sun/moon** on the hero — preference is stored in `localStorage`.
-3. Spot-check: sticky hero (scroll — image stays pinned, title compacts), hero dock tabs + meta, **dark + light** page photo behind cards, one question card (light = glass not white panel), **Show Answer**, `login.html`, revision **Save**, admin chat (if applicable). **Mobile:** repeat light theme — page visible between cards.
+3. Spot-check: sticky hero (scroll — image stays pinned, title compacts), hero dock tabs + meta, **dark + light** page photo behind cards, one question card (light = glass not white panel), **Questions** / **Topics** FAB (frosted `--fab-bg` on photo), **Show Answer**, `login.html` (transparent back/theme/inputs/login button inside glass card), revision **Save**, admin chat (if applicable). **Mobile:** repeat light theme — page visible between cards.
 
 **Step 3 — Keep colors out of components**
 
-- **CSS:** New or updated rules should use `var(--…)` only — no new `#hex` or `rgb()` in class selectors. Copy an existing pattern (e.g. `.login-btn` → `--btn-primary-*`, `.mode-btn.active` → `--pill-active-*`).
+- **CSS:** New or updated rules should use `var(--…)` only — no new `#hex` or `rgb()` in class selectors. Copy an existing pattern (e.g. `.sidebar-open-btn` → `--fab-bg` + blur + `--glass-border`; `.login-btn` → transparent + `--glass-border` + `--formula-shadow`; `.note-save-btn` → `--btn-primary-*`; `.mode-btn.active` → `--pill-active-*`).
 - **Other stylesheets:** `chat/chat.css` uses the same semantic tokens; load order is `fonts.css` → `styles.css` → `chat/chat.css`.
 - **JavaScript / inline SVG:** Use `getComputedStyle(document.documentElement).getPropertyValue('--accent-default')` (see `colVar()` in `main.html` for chart series) — do not hardcode colors in JS.
 - **Sanity check** (optional) — find stray color literals in theme files:
@@ -394,7 +398,7 @@ Change primitives first for a full rebrand; swap images via `assets/IMAGE-PROMPT
   grep -E '#[0-9a-fA-F]{3,8}|rgb\(' styles.css chat/chat.css main.html
   ```
 
-**Adding a new UI control?** Pick the closest token group from the table below (text → `--text-*`, filled button → `--btn-primary-*`, selected capsule → `--pill-active-*`, subtle row highlight → `--answer-highlight-*`). If nothing fits, add a **new semantic variable** in `:root` and `.light-theme`, then reference it from your class — do not hardcode hex on the component.
+**Adding a new UI control?** Pick the closest token group from the table below (text → `--text-*`, filled button → `--btn-primary-*`, transparent framed control → `--glass-border` + `--formula-shadow`, selected capsule → `--pill-active-*`, subtle row highlight → `--answer-highlight-*`). If nothing fits, add a **new semantic variable** in `:root` and `.light-theme`, then reference it from your class — do not hardcode hex on the component.
 
 ---
 
@@ -409,18 +413,21 @@ Theme tokens live in `:root` (dark) and `.light-theme` in `styles.css`. **Change
 | Text | `--text-primary`, `--text-context`, `--text-muted`, `--text-strong`, `--text-body` | Typography |
 | Accent | `--accent-strong` … `--accent-muted` | Links, numbers, icons |
 | State | `--state-success`, `--state-danger`, `--state-soft` | Monochrome emphasis |
-| Pills & CTAs | `--pill-track-bg`, `--pill-active-bg`, `--pill-active-fg`, `--btn-primary-bg`, `--btn-primary-fg` | Mode toggle, FAB, KEY TOPICS, login, save, chat send |
+| Pills & filled CTAs | `--pill-track-bg`, `--pill-active-bg`, `--pill-active-fg`, `--btn-primary-bg`, `--btn-primary-fg` | Mode toggle active, KEY TOPICS, save, chat send, correct-answer badges |
+| Sticky FAB | `--fab-bg`, `--fab-bg-hover`, `--glass-border`, `--formula-shadow` | Questions / Topics bottom CTA (`.sidebar-open-btn`) |
+| Bordered (no fill) | `--glass-border`, `--formula-border`, `--formula-shadow` | Login hero chips + form, TOC rows, blockquotes, callouts, display math, tables |
 | Answer reveal | `--answer-highlight-bg`, `--answer-highlight-border` | Correct option row (subtle tint; labels use pill tokens) |
 
 All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--green-*). To rebrand: edit primitives and the `:root` / `.light-theme` blocks in `styles.css` — not individual class rules.
 
 - `.site-hero`: Full-bleed sticky hero — `--top-hero-image`, overlay scrim, compact `.is-compact` (shorter strip, copy hidden)
-- `.site-hero__frame` / `.site-hero__copy`: Photo frame; centered title/tagline; theme toggle anchored top-right on the frame
+- `.site-hero__frame` / `.brand-wordmark` / `.site-hero__center`: Photo frame; SVG wordmark (`assets/upsc-iss-wordmark.svg`) pinned top-left in expanded **and** `.is-compact` (dock stacks below); light theme = no drop-shadow on wordmark; title + tagline centered; theme toggle top-right
 - `.hero-dock` / `.hero-dock__meta`: Bottom-left controls on the hero (mode tabs, Paper/Section/Year, Set, admin link) — transparent on photo, no separate glass bar when scrolled
-- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Full-page `--page-hero-image`; transparent main column; glass sign-in card only
+- `.login-page` / `.login-hero-panel` / `.login-main` / `.login-card`: Full-page `--page-hero-image`; transparent main column; frosted glass **`.login-card`** only; **`.login-back-btn`** / **`.login-theme-toggle`** on hero = transparent bordered chips
+- `.login-field input` / `.login-btn`: Transparent inside card — `--login-input-border` / `--glass-border` + `--formula-shadow` (login button is not filled `--btn-primary-*`)
 - `body.app-photo-backdrop`: Fixed `--page-hero-image` behind viewer; `.light-theme` transparent `.question-card` glass over visible photo
 - `.paper-container`: Content wrapper below hero — horizontal padding; transparent background
-- `.mode-toggle-wrap` / `.mode-btn` / `.mode-btn.active`: Segmented **Questions | Revision Notes** control; opaque `--pill-track-bg` track; active uses `--pill-active-bg` / `--pill-active-fg` (same as `.topic-badge`, `.sidebar-open-btn`)
+- `.mode-toggle-wrap` / `.mode-btn` / `.mode-btn.active`: Segmented **Questions | Revision Notes** control; opaque `--pill-track-bg` track; active uses `--pill-active-bg` / `--pill-active-fg` (same as `.topic-badge`)
 - `.set-indicator-wrap`: Flex row containing two converging gradient lines and the `SET ◆ X` text; sits between `h1` and the meta panel
 - `.set-indicator-text` / `#set-letter`: Uppercase set label in `--accent-default` / `--accent-soft`
 - `.auth-row` / `.auth-wrap` / `.auth-pill`: Admin Login link (or "Admin: [Name]" when logged in) below meta controls
@@ -452,8 +459,9 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
 - `.correct-answer`: Correct option — `--answer-highlight-bg` tint + border; text stays `--text-primary`; MathJax uses `--mathjax-color`
 - `.correct-answer .opt-label`: `(a)`–`(d)` capsule uses `--pill-active-bg` / `--pill-active-fg` (same as ✓ badge)
 - `.correct-answer::after`: **✓** badge — `--pill-active-bg` / `--pill-active-fg`
-- `.topic-badge` / `.sidebar-open-btn` / `.mode-btn.active`: Active capsule — `--pill-active-*`
-- `.login-btn` / `.note-save-btn` / `.note-add-btn`: Primary buttons — `--btn-primary-bg` / `--btn-primary-fg`
+- `.topic-badge` / `.mode-btn.active`: Filled capsule — `--pill-active-*`
+- `.sidebar-open-btn`: Floating **Questions** / **Topics** FAB — `--fab-bg`, blur, `--glass-border`, `--formula-shadow`, accent text
+- `.login-btn`: Login submit — transparent bordered (not `--btn-primary-*`); `.note-save-btn` / `.note-add-btn`: filled `--btn-primary-*`
 - `.chat-btn-primary` (`chat/chat.css`): Chat **Send** — same primary tokens
 - `.note-sep` / `.note-sep-line` / `.note-sep-glyph`: Revision-notes section divider (μ Σ ∫ glyph, theme `currentColor`)
 - `.load-error` / `.load-error-callout`: Themed error panel when HTML fetch fails (replaces inline Material colors)
@@ -464,7 +472,7 @@ All component CSS uses semantic names only (no `--purple-*`, `--rose-*`, or `--g
 - `.toc-link` / `.toc-link.active`: Sidebar navigation links with hover states and vertical accent indicators; `.active` highlights the current section based on scroll position
 - `.note-section-actions` / `.note-section-action-btn`: Topic header icon buttons (Copy, Edit, Delete); Copy shows "Copied" checkmark state
 - **Full-screen revision / explanation editor** (`#revision-editor-overlay`, `revision-editor-panel`, optional `revision-editor-panel--question-explanation`): Inner **`revision-editor-unified`** wraps **chrome** + **`revision-editor-body`** in **one** rounded card (no separate top/bottom card chrome). **Chrome**: `revision-editor-top-bar` (breadcrumb, theme, close), optional `revision-editor-title-hero` (revision sections / tips), optional explanation **`revision-editor-question-hero-wrap`** (`<details>` + `revision-editor-question-expand-body`), then `revision-editor-toolbar-row` (**Split | Source | Preview** | **Cancel/Save**). **Body**: `revision-editor-body` with `revision-editor-pane-source` (header + **?** + textarea) and preview (`renderNoteHtml` + MathJax). Layout classes: `revision-editor-layout-split` / `source-only` / `preview-only`.
-- `.sidebar-open-btn` / `.sidebar-close-btn`: Floating and inline toggle buttons for the sidebar with modern easing and shadow effects
+- `.sidebar-open-btn` / `.sidebar-close-btn`: Glass FAB opens drawer; close button in sidebar header
 - `.year-section`: Wrapper for all questions of a year inside a loaded HTML file
 
 ## 📝 Checklist for Adding a New Year
@@ -781,7 +789,9 @@ When updating or fixing questions:
 - Strict **monochrome** palette: **bone** `#F1ECE3`, **charcoal** `#424242` (plus `color-mix` only); semantic CSS tokens in `:root` / `.light-theme` (no legacy `--purple-*` names)
 - **Glassmorphism** + opaque segmented **Questions | Revision Notes** track
 - **Typography**: Atvik + Freight via `fonts.css` / optional Adobe Fonts Typekit
-- **Unified capsules**: `--pill-active-bg` / `--pill-active-fg` for mode toggle, FAB, KEY TOPICS, correct **(a)–(d)** label, and **✓** badge; `--btn-primary-*` for login, save, add-section, chat send
+- **Filled capsules**: `--pill-active-bg` / `--pill-active-fg` for mode toggle active, KEY TOPICS, correct **(a)–(d)** label, and **✓** badge; `--btn-primary-*` for save, add-section, chat send
+- **Sticky FAB**: Questions / Topics CTA — `--fab-bg` + blur + border (readable on page photo)
+- **Bordered (no fill)**: Login hero chips + form, sidebar TOC rows, blockquotes, callouts, display math, `.q-table` — `--glass-border` / `--formula-border` + `--formula-shadow`
 - **Show Answer**: `--answer-highlight-*` row tint (readable text/MathJax); pill tokens on label + checkmark
 - `chat/chat.css`, chart `colVar()` in `main.html`, and `.load-error` aligned to theme tokens
 
@@ -807,5 +817,5 @@ When updating or fixing questions:
 - **Collapsible Explanation**: Copy, **Edit** (opens full-screen markdown editor), expand/collapse chevron in header; Wrong Answer picker uses flex layout (align/justify end; column when open)
 - **Edit Question** and **question_edits.js** with Vercel `api/questions.js` for live updates
 - **Theme toggle** (dark/light), **Revision Notes** mode, markdown formatting, Vercel `api/notes.js`; full UI redesign *(later superseded by Bone & Charcoal theme, May 2026)*:
-- Sticky header, set indicator, meta-controls pill panel, glass question cards, sidebar TOC with floating Topics/Questions button, correct-answer highlight, themed tables, unified loading, MathJax 3.x, centralized `answers.js`
+- Sticky header, set indicator, meta-controls pill panel, glass question cards, sidebar TOC with floating Topics/Questions FAB (frosted glass), correct-answer highlight, themed tables, unified loading, MathJax 3.x, centralized `answers.js`
 

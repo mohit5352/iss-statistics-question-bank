@@ -201,7 +201,7 @@ The UI uses **Atvik** (sans) and **Freight Display Pro** / **Freight Big Pro** (
    ```
 4. Redeploy to Vercel (or refresh locally). No build step required — static CSS/HTML only.
 
-Theme colors are defined in `styles.css` (`:root` = dark, `.light-theme` = light). Hero photos: `--top-hero-image` and `--page-hero-image` (four WebPs in `assets/` — see [`assets/README.md`](assets/README.md)). Overlays: `--hero-overlay-*`, `--page-backdrop-scrim`. Shared by `main.html` and `login.html`. Edit primitives (`--bone`, `--charcoal`, …) and semantic tokens in `:root` / `.light-theme`; swap images via `assets/IMAGE-PROMPTS.md`. See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) and **Bone & Charcoal glass UI**.
+Theme colors are defined in `styles.css` (`:root` = dark, `.light-theme` = light). Hero photos: `--top-hero-image` and `--page-hero-image` (four WebPs in `assets/` — see [`assets/README.md`](assets/README.md)). Overlays: `--hero-overlay-*`, `--page-backdrop-scrim`. Shared by `main.html` and `login.html`. **Questions** / **Topics** sticky FAB use **`--fab-bg`** + blur on the page photo; login hero chips and form fields stay **transparent bordered** (`--glass-border`, `--formula-shadow`). Filled pills remain for mode-toggle active, save, and correct-answer badges. **Wordmark** (`assets/upsc-iss-wordmark.svg`): drop-shadow on dark hero only (`body.light-theme .brand-wordmark { filter: none; }`). Edit primitives (`--bone`, `--charcoal`, …) and semantic tokens in `:root` / `.light-theme`; swap images via `assets/IMAGE-PROMPTS.md`. See README → [Theme changes in 3 steps](README.md#theme-changes-in-3-steps) and **Bone & Charcoal glass UI**.
 
 ---
 

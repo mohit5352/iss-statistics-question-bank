@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="upsc-iss-wordmark" viewBox="0 0 140 52" text-rendering="geometricPrecision">
+    <text
+      x="0"
+      y="15.5"
+      fill="currentColor"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="17"
+      font-weight="700"
+      letter-spacing="0.32em">UPSC</text>
+    <line
+      x1="0"
+      y1="22"
+      x2="136"
+      y2="22"
+      stroke="currentColor"
+      stroke-opacity="0.38"
+      stroke-width="1"
+      vector-effect="non-scaling-stroke"/>
+    <text
+      x="0"
+      y="34.5"
+      fill="currentColor"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="10"
+      font-weight="600"
+      letter-spacing="0.13em">INDIAN STATISTICAL</text>
+    <text
+      x="0"
+      y="47"
+      fill="currentColor"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="10"
+      font-weight="600"
+      letter-spacing="0.13em">SERVICE</text>
+  </symbol>
+</svg>

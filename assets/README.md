@@ -10,10 +10,11 @@ Production UI uses **four** theme-specific WebP files. CSS swaps `--top-hero-ima
 | `top-hero-image-light.webp` | Light | `.light-theme` | Sticky hero + login hero panel |
 | `page-hero-image-dark.webp` | Dark | `:root` | Full-page backdrop behind questions/notes |
 | `page-hero-image-light.webp` | Light | `.light-theme` | Full-page backdrop (visible texture for glass UI) |
+| `upsc-iss-wordmark.svg` | Both | — | Brand wordmark sprite (`#upsc-iss-wordmark`); `<svg><use href="…"></use></svg>` on main + login. Subtitle lines use solid `currentColor` (no `fill-opacity`); dark theme adds `.brand-wordmark` drop-shadow in CSS, light theme does not |
 
 **Export spec:** 21:9, **2560×1097**, sRGB, WebP q84–86 (typically 75–160 KB per file).
 
-**Generate / replace:** copy-paste prompts from [`IMAGE-PROMPTS.md`](IMAGE-PROMPTS.md). **Light pair:** generate `page-hero-image-light.webp` first, then `top-hero-image-light.webp` with the same color grade (see matched-pair section). Optional tone fix: `python3 scripts/match-light-hero-to-page.py` (uses venv `.venv-img` + Pillow).
+**Generate / replace:** copy-paste prompts from [`IMAGE-PROMPTS.md`](IMAGE-PROMPTS.md). **Light pair:** generate `page-hero-image-light.webp` first, then `top-hero-image-light.webp` with the same color grade (see matched-pair section in prompts).
 
 Optional legacy copies `top-hero-image.webp` / `page-hero-image.webp` (dark duplicates) are not required by CSS. Older `hero-statistics*.webp` files are **not** wired in.
 
@@ -38,7 +39,8 @@ Optional legacy copies `top-hero-image.webp` / `page-hero-image.webp` (dark dupl
 ### Login (`login.html`)
 
 - Full-viewport **`--page-hero-image`** + `--page-backdrop-scrim` (same as main app page backdrop; theme-aware).
-- Sign-in column and **`.login-main`** are transparent; glass is only on **`.login-card`** (matches question cards on photo).
+- Sign-in column and **`.login-main`** are transparent; frosted glass is only on **`.login-card`** (matches question cards on photo).
+- **Back**, theme toggle (on hero panel), username/password inputs, and **Login** button use **transparent** backgrounds with `--glass-border` / `--formula-shadow`. **Questions** / **Topics** sticky FAB on `main.html` use **`--fab-bg`** + blur (readable on the page photo).
 
 ---
 
@@ -83,7 +85,9 @@ Test one file only:
 - [ ] **Dark mobile:** same; page crop acceptable at 768px / 480px  
 - [ ] **Light mobile:** transparent glass cards; no solid bone body covering the photo between cards  
 - [ ] Theme toggle swaps both image pairs instantly  
-- [ ] `login.html` hero matches main  
+- [ ] `login.html` hero matches main (photo + transparent back/theme chips; bordered inputs/button inside glass card)  
+- [ ] **Questions** / **Topics** FAB on `main.html`: frosted `--fab-bg`, readable on page photo (dark + light)  
+- [ ] **Light theme:** wordmark subtitle (“INDIAN STATISTICAL / SERVICE”) crisp on hero + login (no muddy shadow)  
 
 ---
 
