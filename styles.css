@@ -1173,7 +1173,6 @@ h2 {
 
 /* Year section headers inside question files */
 .year-section h2 {
-    text-align: center;
     color: var(--accent-soft);
     border-bottom: none;
     padding-bottom: 12px;
@@ -2400,15 +2399,9 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     width: 100%;
     margin-top: 18px;
     padding: 12px;
-    border-radius: 14px;
-    background: linear-gradient(165deg, color-mix(in srgb, var(--bone) calc(0.08 * 100%), transparent) 0%, var(--surface-panel) 100%);
-    border: none;
-    box-shadow: var(--notes-wrap-shadow);
     box-sizing: border-box;
-    overflow: hidden;
-    position: relative;
     animation: slideUp 0.3s ease-out;
-    text-align: center;
+    text-align: start;
 }
 
 @keyframes slideUp {
@@ -2432,18 +2425,6 @@ body.app-photo-backdrop.light-theme .explanation-collapsible {
     pointer-events: none;
     text-decoration: underline;
     text-underline-offset: 4px;
-}
-
-/* Left accent stripe for visual continuity with context blocks */
-.notes-wrap::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, var(--text-strong) 0%, var(--accent-strong) 100%);
-    border-radius: 4px 0 0 4px;
 }
 
 .q-notes-content {
